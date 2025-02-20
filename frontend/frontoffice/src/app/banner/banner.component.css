@@ -1,0 +1,8 @@
+.owl-carousel .owl-item img {
+  width: 100%; /* Assure que l'image prend toute la largeur */
+  height: auto;
+}
+
+.owl-carousel {
+  display: block !important; /* Forcer l'affichage */
+}
