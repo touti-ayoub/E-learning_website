@@ -4,12 +4,11 @@ package tn.esprit.microservice2.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.microservice2.Model.Subscription;
-import tn.esprit.microservice2.Model.SubscriptionPlan;
-import tn.esprit.microservice2.Model.User;
-import tn.esprit.microservice2.repo.ISubscriptionPlanRepository;
+import tn.esprit.microservice2.Model.*;
+import tn.esprit.microservice2.repo.ICourseRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
 import tn.esprit.microservice2.repo.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import java.time.LocalDateTime;
@@ -23,20 +22,20 @@ public class SubscriptionService {
     private ISubscriptionRepository subscriptionRepository;
 
     @Autowired
-    private ISubscriptionPlanRepository subscriptionPlanRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private PaymentService paymentService;
+
+    @Autowired
+    private ICourseRepository courseRepository;
 
     // Create
     public Subscription createSubscription(Long userId, Long planId, Subscription subscription) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-        SubscriptionPlan plan = subscriptionPlanRepository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("SubscriptionPlan not found with id: " + planId));
 
         subscription.setUser(user);
-        subscription.setPlan(plan);
         subscription.setCreatedAt(LocalDateTime.now());
         subscription.setUpdatedAt(LocalDateTime.now());
         return subscriptionRepository.save(subscription);
@@ -69,5 +68,51 @@ public class SubscriptionService {
     // Delete
     public void deleteSubscription(Long id) {
         subscriptionRepository.deleteById(id);
+    }
+
+
+    // Créer un abonnement
+    @Transactional
+    public Subscription createSubscription(Long userId, Long courseId, PaymentType paymentType) {
+        User user = userRepository.findById(userId).get();
+        Course course = courseRepository.findById(courseId).get();
+
+        // Rechercher l'utilisateur et le cours
+        Subscription subscription = new Subscription();
+        subscription.setUser(user);  // Lien avec User
+        subscription.setCourse(course);  // Lien avec Course
+        subscription.setPaymentType(paymentType);
+        subscription.setStatus(SubscriptionStatus.ACTIVE);  // Abonnement par défaut actif
+
+        subscription = subscriptionRepository.save(subscription);
+
+        // Créer un paiement en fonction du type
+        paymentService.createPayment(subscription.getId(), paymentType);
+        return subscription;
+    }
+
+    // Mettre à jour l'abonnement (par exemple, renouvellement)
+    @Transactional
+    public Subscription updateSubscription(Long subscriptionId, SubscriptionStatus status) {
+        Optional<Subscription> subscriptionOpt = subscriptionRepository.findById(subscriptionId);
+        if (subscriptionOpt.isPresent()) {
+            Subscription subscription = subscriptionOpt.get();
+            subscription.setStatus(status);
+            return subscriptionRepository.save(subscription);
+        }
+        throw new RuntimeException("Subscription not found");
+    }
+
+    // Annuler un abonnement
+    @Transactional
+    public void cancelSubscription(Long subscriptionId) {
+        Optional<Subscription> subscriptionOpt = subscriptionRepository.findById(subscriptionId);
+        if (subscriptionOpt.isPresent()) {
+            Subscription subscription = subscriptionOpt.get();
+            subscription.setStatus(SubscriptionStatus.CANCELED);
+            subscriptionRepository.save(subscription);
+        } else {
+            throw new RuntimeException("Subscription not found");
+        }
     }
 }

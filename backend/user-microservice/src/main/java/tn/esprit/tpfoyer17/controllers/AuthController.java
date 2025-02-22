@@ -1,41 +1,63 @@
 package tn.esprit.tpfoyer17.controllers;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
         import org.springframework.web.bind.annotation.*;
 import tn.esprit.tpfoyer17.entities.User;
+import tn.esprit.tpfoyer17.entities.UserDTO;
 import tn.esprit.tpfoyer17.repositories.UserRepository;
+import tn.esprit.tpfoyer17.services.auth.CustomUserDetailsService;
 import tn.esprit.tpfoyer17.services.auth.JwtUtils;
 
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    private final UserRepository userRepository;
+    private CustomUserDetailsService userService;
+    private AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
-    public AuthController(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
+    @Autowired
+    public AuthController(PasswordEncoder passwordEncoder, UserRepository userRepository,AuthenticationManager authenticationManager) {
         this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.authenticationManager = authenticationManager;
     }
-
     @PostMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String password, @RequestParam String role) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRole(role);
+    public ResponseEntity<String> register(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return "User registered successfully";
+        return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password) {
-        User user = userRepository.findByUsername(username);
-        if (user == null || !passwordEncoder.matches(password, user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
-        return JwtUtils.generateToken(user.getUsername());
+    public ResponseEntity<UserDTO> authenticate(@RequestBody User user) {
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+        String token = JwtUtils.generateToken(user.getUsername());
+        UserDTO userDTO = new UserDTO();
+        userDTO.setUsername(user.getUsername());
+        userDTO.setToken(token);
+        userDTO.setRole(user.getRole());
+        return ResponseEntity.ok(userDTO);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDetails> getCurrentUser() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        UserDetails user = userService.loadUserByUsername(username);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return "message from backend successfully";
     }
 }
 

@@ -19,15 +19,19 @@ public class Facture {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "paiement_id")
+    @OneToOne
+    @JoinColumn(name = "payment_id", nullable = false)
     private Payment payment;
 
-    private String invoiceNumber;       // Numéro de facture
-    private String pdfUrl;              // URL du PDF de la facture
-    private LocalDate issueDate;        // Date d'émission
-    private LocalDate dueDate;          // Date d'échéance
-    private Double totalAmount;         // Montant total
-    private Double taxAmount;           // Montant des taxes
-    private LocalDateTime createdAt;    // Date de création
+    private String invoiceNumber;
+    private String pdfUrl;
+    private LocalDate issueDate;
+    private LocalDate dueDate;
+    private Double totalAmount;
+    private Double taxAmount;
+
+    @Enumerated(EnumType.STRING)
+    private InvoiceStatus status;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
 }
