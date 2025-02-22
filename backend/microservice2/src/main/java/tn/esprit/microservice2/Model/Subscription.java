@@ -2,74 +2,52 @@ package tn.esprit.microservice2.Model;
 
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class Subscription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public SubscriptionPlan getPlan() {
-        return plan;
+    @ManyToOne
+    @JoinColumn(name = "course_id", nullable = false)
+    private Course course;
+
+    @OneToMany(mappedBy = "subscription", cascade = CascadeType.ALL)
+    private List<Payment> payments;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType; // FULL ou INSTALLMENTS
+
+    private LocalDate startDate;
+    private LocalDate endDate;
+
+    @Enumerated(EnumType.STRING)
+    private SubscriptionStatus status;
+
+    private boolean autoRenew = false;
+
+    private LocalDateTime createdAt = LocalDateTime.now();
+    private LocalDateTime updatedAt = LocalDateTime.now();
+
+    public Long getId() {
+        return id;
     }
 
-    public void setPlan(SubscriptionPlan plan) {
-        this.plan = plan;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public boolean isAutoRenew() {
-        return autoRenew;
-    }
-
-    public void setAutoRenew(boolean autoRenew) {
-        this.autoRenew = autoRenew;
-    }
-
-    public SubscriptionStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(SubscriptionStatus status) {
-        this.status = status;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(LocalDate startDate) {
-        this.startDate = startDate;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getUser() {
@@ -80,28 +58,79 @@ public class Subscription {
         this.user = user;
     }
 
-    public Long getId() {
-        return id;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "plan_id")
-    private SubscriptionPlan plan;
+    public List<Payment> getPayments() {
+        return payments;
+    }
 
-    private LocalDate startDate;
+    public void setPayments(List<Payment> payments) {
+        this.payments = payments;
+    }
 
-    private LocalDate endDate;
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
 
-    @Enumerated(EnumType.STRING)
-    private SubscriptionStatus status;
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
+    }
 
-    private boolean autoRenew = true;
+    public LocalDate getStartDate() {
+        return startDate;
+    }
 
-    private LocalDateTime createdAt = LocalDateTime.now();
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
+    }
 
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    public LocalDate getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(LocalDate endDate) {
+        this.endDate = endDate;
+    }
+
+    public SubscriptionStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(SubscriptionStatus status) {
+        this.status = status;
+    }
+
+    public boolean isAutoRenew() {
+        return autoRenew;
+    }
+
+    public void setAutoRenew(boolean autoRenew) {
+        this.autoRenew = autoRenew;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+
+
+
 }

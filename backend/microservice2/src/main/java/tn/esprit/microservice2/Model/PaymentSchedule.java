@@ -1,18 +1,14 @@
 package tn.esprit.microservice2.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
-@Getter
-@Setter
+
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentSchedule {
@@ -20,25 +16,82 @@ public class PaymentSchedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "subscription_id")
-    private Subscription subscription;
-
     private Integer installmentNumber;
-
     private LocalDate dueDate;
-
-    private BigDecimal amountDue;
+    private double amount;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private PaymentScheduleStatus status;
 
     @ManyToOne
-    @JoinColumn(name = "payment_id")
+    @JoinColumn(name = "payment_id", nullable = false)
     private Payment payment;
 
-    private BigDecimal penaltyAmount = BigDecimal.ZERO;
-
+    private double penaltyAmount;;
     private LocalDateTime createdAt = LocalDateTime.now();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Integer getInstallmentNumber() {
+        return installmentNumber;
+    }
+
+    public void setInstallmentNumber(Integer installmentNumber) {
+        this.installmentNumber = installmentNumber;
+    }
+
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public PaymentScheduleStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(PaymentScheduleStatus status) {
+        this.status = status;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public double getPenaltyAmount() {
+        return penaltyAmount;
+    }
+
+    public void setPenaltyAmount(double penaltyAmount) {
+        this.penaltyAmount = penaltyAmount;
+    }
 }

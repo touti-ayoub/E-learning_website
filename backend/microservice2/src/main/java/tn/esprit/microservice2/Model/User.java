@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -20,5 +22,7 @@ public class User {
     private String username;
     private String password;
     private String role; // Exemple : "USER" ou "ADMIN"
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Subscription> subscriptions;
 // Getters et Setters
 }

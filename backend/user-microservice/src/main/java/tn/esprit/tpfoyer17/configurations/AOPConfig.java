@@ -17,11 +17,7 @@ import java.util.Date;
 @Slf4j
 public class AOPConfig {
 
-	
-
-
-
-		@AfterThrowing(pointcut = "execution(* tn.esprit..*.*(..))", throwing = "ex")
+	    @AfterThrowing(pointcut = "execution(* tn.esprit..*.*(..))", throwing = "ex")
 		public void handleExceptions(Exception ex) {
 			logErrorBasedOnExceptionType(ex);
 		}

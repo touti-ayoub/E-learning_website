@@ -1,0 +1,10 @@
+GET http://localhost:8082/mic2/subscription
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2025-02-21T234843.200.json
+
+###
+
