@@ -31,7 +31,7 @@ public class PaymentService {
 
     // Créer un paiement pour un abonnement
     @Transactional
-    public Payment createPayment(Long subscriptionId, PaymentType paymentType) {
+    public Payment createPayment(Long subscriptionId, PaymentType paymentType,int insattlement) {
         Optional<Subscription> subscriptionOpt = subscriptionRepository.findById(subscriptionId);
         if (subscriptionOpt.isPresent()) {
             Subscription subscription = subscriptionOpt.get();
@@ -49,7 +49,7 @@ public class PaymentService {
 
             // Créer les échéances si paiement par échelonnement
             if (paymentType == PaymentType.INSTALLMENTS) {
-                createInstallments(payment);
+                createInstallments(payment,insattlement);
             }
 
             return payment;
@@ -58,10 +58,10 @@ public class PaymentService {
     }
 
     // Créer des échéances pour le paiement par échelonnement
-    private void createInstallments(Payment payment) {
+    private void createInstallments(Payment payment,int insattlement) {
         Subscription subscription = payment.getSubscription();
         double totalAmount = subscription.getCourse().getPrice();
-        int numInstallments = 3; // Exemple, le nombre d'échéances peut être dynamique
+        int numInstallments = insattlement; // Exemple, le nombre d'échéances peut être dynamique
 
         double installmentAmount = totalAmount / numInstallments;
         LocalDate currentDate = LocalDate.now();

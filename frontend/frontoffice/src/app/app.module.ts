@@ -18,6 +18,7 @@ import {HttpClientModule} from "@angular/common/http";
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import {FormsModule} from "@angular/forms";
+import { SubscriptionComponent } from './mic2/subscription/subscription.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import {FormsModule} from "@angular/forms";
     NotfoundComponent,
     ContactComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    SubscriptionComponent
   ],
   imports: [
     BrowserModule,

@@ -2,9 +2,7 @@ package tn.esprit.microservice2.Rest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.microservice2.Model.PaymentType;
-import tn.esprit.microservice2.Model.Subscription;
-import tn.esprit.microservice2.Model.SubscriptionStatus;
+import tn.esprit.microservice2.Model.*;
 import tn.esprit.microservice2.service.SubscriptionService;
 
 import java.util.List;
@@ -53,8 +51,8 @@ public class SubscriptionController {
 
     // Créer un abonnement
     @PostMapping("/create")
-    public Subscription createSubscription(@RequestParam Long userId, @RequestParam Long courseId, @RequestBody PaymentType paymentType) {
-        return subscriptionService.createSubscription(userId, courseId, paymentType);
+    public Subscription createSubscription(@RequestParam Long userId, @RequestParam Long courseId, @RequestBody PaymentType paymentType,int insattlement) {
+        return subscriptionService.createSubscription(userId, courseId, paymentType,insattlement);
     }
 
     // Annuler un abonnement

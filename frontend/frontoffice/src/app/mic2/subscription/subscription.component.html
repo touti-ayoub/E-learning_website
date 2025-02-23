@@ -1,0 +1,26 @@
+<br><br><br>
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-3xl">
+  <h2 class="text-2xl font-bold text-center text-blue-600">Class Details</h2>
+
+  <div class="p-4 space-y-4">
+    <div class="bg-gray-100 p-3 rounded-md">
+      <strong>📘 Title:</strong> {{ course?.title }}
+    </div>
+
+    <div class="bg-green-100 p-3 rounded-md">
+      <strong>👨‍🏫 Instructor:</strong> {{ course?.instructor }}
+    </div>
+
+    <div class="bg-purple-100 p-3 rounded-md">
+      <strong>💰 Price:</strong> ${{ course?.price }}
+    </div>
+
+    <div class="text-center">
+      <button
+        class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-800 transition"
+        (click)="proceedToPayment()">
+        Proceed to Payment
+      </button>
+    </div>
+  </div>
+</div>
