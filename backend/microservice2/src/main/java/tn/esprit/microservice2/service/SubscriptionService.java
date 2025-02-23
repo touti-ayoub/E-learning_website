@@ -73,7 +73,7 @@ public class SubscriptionService {
 
     // Créer un abonnement
     @Transactional
-    public Subscription createSubscription(Long userId, Long courseId, PaymentType paymentType) {
+    public Subscription createSubscription(Long userId, Long courseId, PaymentType paymentType,int insattlement) {
         User user = userRepository.findById(userId).get();
         Course course = courseRepository.findById(courseId).get();
 
@@ -87,7 +87,7 @@ public class SubscriptionService {
         subscription = subscriptionRepository.save(subscription);
 
         // Créer un paiement en fonction du type
-        paymentService.createPayment(subscription.getId(), paymentType);
+        paymentService.createPayment(subscription.getId(), paymentType,insattlement);
         return subscription;
     }
 

@@ -17,8 +17,8 @@ public class PaymentController {
 
     // Créer un paiement pour un abonnement
     @PostMapping("/create/{subscriptionId}")
-    public Payment createPayment(@PathVariable Long subscriptionId, @RequestBody PaymentType paymentType) {
-        return paymentService.createPayment(subscriptionId, paymentType);
+    public Payment createPayment(@PathVariable Long subscriptionId,@PathVariable int insattlement, @RequestBody PaymentType paymentType) {
+        return paymentService.createPayment(subscriptionId, paymentType,insattlement);
     }
 
     // Mettre à jour l'état du paiement
