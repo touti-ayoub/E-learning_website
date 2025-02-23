@@ -1,6 +1,5 @@
 package tn.esprit.microservice2.service;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,10 +10,12 @@ import tn.esprit.microservice2.repo.IPaymentScheduleRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class PaymentService {
 
     @Autowired
@@ -29,80 +30,244 @@ public class PaymentService {
     @Autowired
     private IFactureRepository invoiceRepository;
 
-    // Créer un paiement pour un abonnement
+    // Create initial payment for a new subscription
     @Transactional
-    public Payment createPayment(Long subscriptionId, PaymentType paymentType,int insattlement) {
-        Optional<Subscription> subscriptionOpt = subscriptionRepository.findById(subscriptionId);
-        if (subscriptionOpt.isPresent()) {
-            Subscription subscription = subscriptionOpt.get();
+    public Payment createInitialPayment(Subscription subscription) {
+        LocalDateTime now = LocalDateTime.now();
 
-            // Créer le paiement (full ou échelonné)
-            Payment payment = new Payment();
-            payment.setSubscription(subscription);
-            payment.setAmount(subscription.getCourse().getPrice());
-            payment.setCurrency("EUR");
-            payment.setPaymentMethod("Credit Card");  // Exemple
-            payment.setStatus(PaymentStatus.PENDING);
-            payment.setPaymentDate(LocalDate.now().atStartOfDay());
-            payment.setDueDate(subscription.getEndDate());
-            payment = paymentRepository.save(payment);
+        Payment payment = new Payment();
+        payment.setSubscription(subscription);
+        payment.setAmount(subscription.getCourse().getPrice());
+        payment.setCurrency("EUR");
+        payment.setPaymentMethod("Credit Card");
+        payment.setStatus(PaymentStatus.PENDING);
+        payment.setPaymentDate(now);
+        payment.setDueDate(subscription.getEndDate());
+        payment.setCreatedAt(now);
 
-            // Créer les échéances si paiement par échelonnement
-            if (paymentType == PaymentType.INSTALLMENTS) {
-                createInstallments(payment,insattlement);
-            }
+        payment = paymentRepository.save(payment);
 
-            return payment;
+        if (PaymentType.INSTALLMENTS.equals(subscription.getPaymentType())) {
+            createInstallments(payment, 3);
         }
-        throw new RuntimeException("Subscription not found");
+
+        createInvoice(payment);
+
+        return payment;
     }
 
-    // Créer des échéances pour le paiement par échelonnement
-    private void createInstallments(Payment payment,int insattlement) {
+    // Create payment with specific installments
+    @Transactional
+    public Payment createPayment(Long subscriptionId, int installments) {
+        Subscription subscription = subscriptionRepository.findById(subscriptionId)
+                .orElseThrow(() -> new RuntimeException("Subscription not found with id: " + subscriptionId));
+
+        // Validate subscription status
+        if (subscription.getStatus() != SubscriptionStatus.PENDING
+                && subscription.getStatus() != SubscriptionStatus.ACTIVE) {
+            throw new RuntimeException("Cannot create payment for subscription with status: " + subscription.getStatus());
+        }
+
+        // Check if payment already exists
+        if (!paymentRepository.findBySubscriptionId(subscriptionId).isEmpty()) {
+            throw new RuntimeException("Payment already exists for this subscription");
+        }
+
+        Payment payment = new Payment();
+        payment.setSubscription(subscription);
+        payment.setAmount(subscription.getCourse().getPrice());
+        payment.setCurrency("EUR");
+        payment.setPaymentMethod("Credit Card");
+        payment.setStatus(PaymentStatus.PENDING);
+        payment.setPaymentDate(LocalDateTime.now());
+        payment.setDueDate(subscription.getEndDate());
+
+        payment = paymentRepository.save(payment);
+
+        // Create installments if applicable
+        if (PaymentType.INSTALLMENTS.equals(subscription.getPaymentType())) {
+            createInstallments(payment, installments);
+        }
+
+        // Create invoice
+        createInvoice(payment);
+
+        return payment;
+    }
+
+    // Create installments for payment
+    private void createInstallments(Payment payment, int numInstallments) {
+        if (numInstallments < 1) {
+            throw new IllegalArgumentException("Number of installments must be at least 1");
+        }
+
         Subscription subscription = payment.getSubscription();
         double totalAmount = subscription.getCourse().getPrice();
-        int numInstallments = insattlement; // Exemple, le nombre d'échéances peut être dynamique
+        double installmentAmount = Math.round((totalAmount / numInstallments) * 100.0) / 100.0;
+        double remainingAmount = totalAmount - (installmentAmount * (numInstallments - 1));
 
-        double installmentAmount = totalAmount / numInstallments;
         LocalDate currentDate = LocalDate.now();
 
         for (int i = 1; i <= numInstallments; i++) {
             PaymentSchedule schedule = new PaymentSchedule();
             schedule.setPayment(payment);
             schedule.setInstallmentNumber(i);
-            schedule.setAmount(installmentAmount);
+            // Last installment gets the remaining amount to avoid rounding issues
+            schedule.setAmount(i == numInstallments ? remainingAmount : installmentAmount);
             schedule.setDueDate(currentDate.plusMonths(i));
             schedule.setStatus(PaymentScheduleStatus.PENDING);
             paymentScheduleRepository.save(schedule);
         }
     }
 
-    // Mettre à jour l'état de paiement (par exemple, quand le paiement est effectué)
+    // Create invoice for payment
+    private void createInvoice(Payment payment) {
+        LocalDateTime now = LocalDateTime.now();
+
+        Invoice invoice = new Invoice();
+        invoice.setPayment(payment);
+        invoice.setInvoiceNumber(generateInvoiceNumber());
+        invoice.setTotalAmount(payment.getAmount());
+        invoice.setIssuedDate(now);
+        invoice.setDueDate(payment.getDueDate());
+        invoice.setStatus(InvoiceStatus.UNPAID);
+        invoice.setCreatedAt(now);
+
+        invoiceRepository.save(invoice);
+    }
+
+    // Generate unique invoice number
+    private String generateInvoiceNumber() {
+        return "INV-" + System.currentTimeMillis();
+    }
+
+    // Update payment status
     @Transactional
     public Payment updatePaymentStatus(Long paymentId, PaymentStatus status) {
-        Optional<Payment> paymentOpt = paymentRepository.findById(paymentId);
-        if (paymentOpt.isPresent()) {
-            Payment payment = paymentOpt.get();
-            payment.setStatus(status);
-            return paymentRepository.save(payment);
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("Payment not found with id: " + paymentId));
+
+        payment.setStatus(status);
+
+        // Update subscription status if payment is completed
+        if (status == PaymentStatus.SUCCESS) {
+            Subscription subscription = payment.getSubscription();
+            subscription.setStatus(SubscriptionStatus.ACTIVE);
+            subscriptionRepository.save(subscription);
         }
-        throw new RuntimeException("Payment not found");
+
+        return paymentRepository.save(payment);
     }
 
-    // Mettre à jour l'état d'une échéance (ex : payé ou en retard)
+    // Update installment status
     @Transactional
-    public PaymentSchedule updatePaymentScheduleStatus(Long scheduleId, PaymentScheduleStatus status) {
-        Optional<PaymentSchedule> scheduleOpt = paymentScheduleRepository.findById(scheduleId);
-        if (scheduleOpt.isPresent()) {
-            PaymentSchedule schedule = scheduleOpt.get();
-            schedule.setStatus(status);
-            return paymentScheduleRepository.save(schedule);
+    public PaymentSchedule updateInstallmentStatus(Long scheduleId, PaymentScheduleStatus status) {
+        PaymentSchedule schedule = paymentScheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new RuntimeException("Payment schedule not found with id: " + scheduleId));
+
+        schedule.setStatus(status);
+        schedule = paymentScheduleRepository.save(schedule);
+
+        // Check if all installments are completed
+        if (status == PaymentScheduleStatus.PAID) {
+            checkAndUpdatePaymentStatus(schedule.getPayment());
         }
-        throw new RuntimeException("Payment schedule not found");
+
+        return schedule;
     }
 
-    // Récupérer les paiements d'un abonnement
+    // Check and update overall payment status
+    private void checkAndUpdatePaymentStatus(Payment payment) {
+        List<PaymentSchedule> schedules = paymentScheduleRepository.findByPayment(payment);
+        boolean allPaid = schedules.stream()
+                .allMatch(s -> s.getStatus() == PaymentScheduleStatus.PAID);
+
+        if (allPaid) {
+            payment.setStatus(PaymentStatus.SUCCESS);
+            paymentRepository.save(payment);
+
+            // Update subscription status
+            Subscription subscription = payment.getSubscription();
+            subscription.setStatus(SubscriptionStatus.ACTIVE);
+            subscriptionRepository.save(subscription);
+        }
+    }
+
+    // Get payments by subscription
     public List<Payment> getPaymentsBySubscription(Long subscriptionId) {
         return paymentRepository.findBySubscriptionId(subscriptionId);
+    }
+
+    // Get payment schedules by payment
+    public List<PaymentSchedule> getPaymentSchedules(Long paymentId) {
+        return paymentScheduleRepository.findByPaymentId(paymentId);
+    }
+
+    // Get invoice by payment
+    public Invoice getInvoice(Long paymentId) {
+        return invoiceRepository.findByPaymentId(paymentId)
+                .orElseThrow(() -> new RuntimeException("Invoice not found for payment id: " + paymentId));
+    }
+
+    // Check if payment is overdue
+    // Check if payment is overdue with timezone handling
+    public boolean isPaymentOverdue(Long paymentId) {
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("Payment not found with id: " + paymentId));
+
+        // Get current time in UTC
+        LocalDateTime now = LocalDateTime.now();
+
+        // Check if payment is overdue and not successful
+        return payment.getDueDate().isBefore(now)
+                && payment.getStatus() != PaymentStatus.SUCCESS
+                && payment.getStatus() != PaymentStatus.REFUNDED;
+    }
+    // Get number of days payment is overdue
+    public long getDaysOverdue(Long paymentId) {
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("Payment not found with id: " + paymentId));
+
+        if (!isPaymentOverdue(paymentId)) {
+            return 0;
+        }
+
+        LocalDateTime now = LocalDateTime.now();
+        return java.time.Duration.between(payment.getDueDate(), now).toDays();
+    }
+    @Transactional
+    public void handleOverduePayment(Long paymentId) {
+        Payment payment = paymentRepository.findById(paymentId)
+                .orElseThrow(() -> new RuntimeException("Payment not found with id: " + paymentId));
+
+        if (isPaymentOverdue(paymentId)) {
+            // If it's an installment payment, update the schedule status
+            if (PaymentType.INSTALLMENTS.equals(payment.getSubscription().getPaymentType())) {
+                List<PaymentSchedule> overdueSchedules = paymentScheduleRepository.findByPaymentAndDueDateBefore(
+                        payment, LocalDateTime.now());
+
+                for (PaymentSchedule schedule : overdueSchedules) {
+                    if (schedule.getStatus() == PaymentScheduleStatus.PENDING) {
+                        schedule.setStatus(PaymentScheduleStatus.OVERDUE);
+                        // Calculate penalty if needed
+                        double penaltyAmount = calculatePenaltyAmount(schedule);
+                        schedule.setPenaltyAmount(penaltyAmount);
+                        paymentScheduleRepository.save(schedule);
+                    }
+                }
+            }
+
+            // Update subscription status if needed
+            Subscription subscription = payment.getSubscription();
+            if (subscription.getStatus() == SubscriptionStatus.ACTIVE) {
+                subscription.setStatus(SubscriptionStatus.SUSPENDED);
+                subscriptionRepository.save(subscription);
+            }
+        }
+    }
+
+    private double calculatePenaltyAmount(PaymentSchedule schedule) {
+        // Example penalty calculation (e.g., 5% of the original amount)
+        return schedule.getAmount() * 0.05;
     }
 }

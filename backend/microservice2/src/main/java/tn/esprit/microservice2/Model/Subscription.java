@@ -1,15 +1,18 @@
 package tn.esprit.microservice2.Model;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Subscription {
@@ -17,31 +20,115 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore // Use JsonIgnore instead of JsonBackReference for better control
     private User user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
+    @JsonIgnore // Use JsonIgnore instead of JsonBackReference for better control
     private Course course;
 
     @OneToMany(mappedBy = "subscription", cascade = CascadeType.ALL)
-    private List<Payment> payments;
+    @JsonIgnore
+    private List<Payment> payments = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    private PaymentType paymentType; // FULL ou INSTALLMENTS
+    @Column(nullable = false)
+    private PaymentType paymentType;
 
-    private LocalDate startDate;
-    private LocalDate endDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime startDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime endDate;
 
     @Enumerated(EnumType.STRING)
-    private SubscriptionStatus status;
+    @Column(nullable = false)
+    private SubscriptionStatus status = SubscriptionStatus.PENDING;
 
     private boolean autoRenew = false;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-    private LocalDateTime updatedAt = LocalDateTime.now();
+    @Column(updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    protected void onCreate() {
+        LocalDateTime now = LocalDateTime.now();
+        if (createdAt == null) {
+            createdAt = now;
+        }
+        if (updatedAt == null) {
+            updatedAt = now;
+        }
+        if (startDate == null) {
+            startDate = now;
+        }
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDateTime.now();
+    }
+
+    // Add helper methods for managing relationships
+    public void addPayment(Payment payment) {
+        payments.add(payment);
+        payment.setSubscription(this);
+    }
+
+    public void removePayment(Payment payment) {
+        payments.remove(payment);
+        payment.setSubscription(null);
+    }
+
+    // Add business logic methods
+    public boolean isActive() {
+        return status == SubscriptionStatus.ACTIVE &&
+                LocalDateTime.now().isBefore(endDate);
+    }
+
+    public boolean isExpired() {
+        return LocalDateTime.now().isAfter(endDate);
+    }
+
+    public boolean isPending() {
+        return status == SubscriptionStatus.PENDING;
+    }
+
+    public boolean isCanceled() {
+        return status == SubscriptionStatus.CANCELED;
+    }
+
+    // Add validation method
+    public void validate() {
+        if (user == null) {
+            throw new IllegalStateException("User is required");
+        }
+        if (course == null) {
+            throw new IllegalStateException("Course is required");
+        }
+        if (paymentType == null) {
+            throw new IllegalStateException("Payment type is required");
+        }
+        if (status == null) {
+            throw new IllegalStateException("Status is required");
+        }
+        if (startDate == null) {
+            throw new IllegalStateException("Start date is required");
+        }
+        if (endDate == null) {
+            throw new IllegalStateException("End date is required");
+        }
+        if (endDate.isBefore(startDate)) {
+            throw new IllegalStateException("End date cannot be before start date");
+        }
+    }
     public Long getId() {
         return id;
     }
@@ -82,19 +169,19 @@ public class Subscription {
         this.paymentType = paymentType;
     }
 
-    public LocalDate getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDate getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 
@@ -129,8 +216,4 @@ public class Subscription {
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
-
-
-
-
 }

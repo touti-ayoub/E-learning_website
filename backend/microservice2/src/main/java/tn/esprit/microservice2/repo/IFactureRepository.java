@@ -1,7 +1,12 @@
 package tn.esprit.microservice2.repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tn.esprit.microservice2.Model.Facture;
+import tn.esprit.microservice2.Model.Invoice;
 
-public interface IFactureRepository extends JpaRepository<Facture, Long> {
+import java.util.Optional;
+
+public interface IFactureRepository extends JpaRepository<Invoice, Long> {
+    Optional<Invoice> findByPaymentId(Long paymentId);
+
+
 }
