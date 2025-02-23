@@ -1,15 +1,16 @@
 package tn.esprit.microservice2.Model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Payment {
@@ -17,27 +18,33 @@ public class Payment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subscription_id", nullable = false)
     private Subscription subscription;
 
-    @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL)
-    private Facture facture;
+    @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Invoice invoice;
 
-    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL)
-    private List<PaymentSchedule> paymentSchedules;
+    @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PaymentSchedule> paymentSchedules = new ArrayList<>();
 
     private double amount;
+
+    @Column(length = 3)
     private String currency;
+
     private String paymentMethod;
+
+    @Column(unique = true)
     private String transactionId;
 
     @Enumerated(EnumType.STRING)
-    private PaymentStatus status;
+    private PaymentStatus status = PaymentStatus.PENDING;
 
     private LocalDateTime paymentDate;
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
 
+    @Column(updatable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public Long getId() {
@@ -56,12 +63,12 @@ public class Payment {
         this.subscription = subscription;
     }
 
-    public Facture getFacture() {
-        return facture;
+    public Invoice getInvoice() {
+        return invoice;
     }
 
-    public void setFacture(Facture facture) {
-        this.facture = facture;
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
     }
 
     public List<PaymentSchedule> getPaymentSchedules() {
@@ -120,11 +127,11 @@ public class Payment {
         this.paymentDate = paymentDate;
     }
 
-    public LocalDate getDueDate() {
+    public LocalDateTime getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
     }
 
