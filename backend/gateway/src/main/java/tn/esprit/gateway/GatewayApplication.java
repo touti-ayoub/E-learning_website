@@ -17,7 +17,10 @@ public class GatewayApplication {
 	@Bean
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()
-				.route("microservice1", r-> r.path("/candidat/**").uri("lb://microservice1")).
+				.route("microservice1", r-> r.path("/candidat/**").uri("lb://microservice1"))
+				.route("microservice2", r-> r.path("/mic2/**").uri("lb://microservice2"))
+				.route("user-microservice", r-> r.path("/auth/**").uri("lb://user-microservice")).
+
 				build();
 	}
 }
