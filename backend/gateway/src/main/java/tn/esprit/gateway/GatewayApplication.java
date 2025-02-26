@@ -18,8 +18,8 @@ public class GatewayApplication {
 	public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
 		return builder.routes()
 				.route("microservice1", r-> r.path("/candidat/**").uri("lb://microservice1"))
-				.route("microservice4", r-> r.path("/api/**").uri("lb://microservice4")).
-				.route("microservice2", r-> r.path("/mic2/**").uri("lb://microservice2")).
+				.route("microservice2", r-> r.path("/mic2/**").uri("lb://microservice2"))
+				.route("user-microservice", r-> r.path("/auth/**").uri("lb://user-microservice")).
 
 				build();
 	}

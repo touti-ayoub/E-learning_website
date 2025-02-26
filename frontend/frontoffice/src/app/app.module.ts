@@ -14,6 +14,11 @@ import { OurTeamComponent } from './our-team/our-team.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ContactComponent } from './contact/contact.component';
+import {HttpClientModule} from "@angular/common/http";
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import {FormsModule} from "@angular/forms";
+import { SubscriptionComponent } from './mic2/subscription/subscription.component';
 
 @NgModule({
   declarations: [
@@ -27,12 +32,18 @@ import { ContactComponent } from './contact/contact.component';
     OurTeamComponent,
     TestimonialComponent,
     NotfoundComponent,
-    ContactComponent
+    ContactComponent,
+    RegisterComponent,
+    LoginComponent,
+    SubscriptionComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    HttpClientModule, // Add this line
+    FormsModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
