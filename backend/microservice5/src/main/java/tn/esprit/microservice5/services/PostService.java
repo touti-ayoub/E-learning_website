@@ -13,6 +13,10 @@ import java.util.List;
 public class PostService {
     private final PostRepo postRepo;
 
+    public List<Post> getAllPosts() {
+        return postRepo.findAll();
+    }
+
     public void deletePostById(Integer postId) {
         postRepo.deleteById(postId);
     }

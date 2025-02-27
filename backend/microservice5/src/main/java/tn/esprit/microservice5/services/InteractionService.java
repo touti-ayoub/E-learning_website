@@ -5,10 +5,16 @@ import org.springframework.stereotype.Service;
 import tn.esprit.microservice5.entities.Interaction;
 import tn.esprit.microservice5.repositories.InteractionRepo;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class InteractionService {
     private final InteractionRepo interactionRepo;
+
+    public List<Interaction> getAllInteractions() {
+        return interactionRepo.findAll();
+    }
 
     public Interaction createInteraction(Interaction interaction) {
         return interactionRepo.save(interaction);

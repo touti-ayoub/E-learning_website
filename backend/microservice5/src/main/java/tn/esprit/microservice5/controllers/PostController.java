@@ -14,6 +14,11 @@ import java.util.List;
 public class PostController {
     private final PostService postService;
 
+    @GetMapping("/all")
+    public List<Post> getAllPosts() {
+        return postService.getAllPosts();
+    }
+
     @PostMapping("/create")
     public Post createPost(@RequestBody Post post) {
         return postService.createPost(post);
