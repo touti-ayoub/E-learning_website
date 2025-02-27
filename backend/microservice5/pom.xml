@@ -72,6 +72,10 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+		</dependency>
 		<!-- Spring Security -->
 		<!--		<dependency>-->
 		<!--			<groupId>org.springframework.boot</groupId>-->

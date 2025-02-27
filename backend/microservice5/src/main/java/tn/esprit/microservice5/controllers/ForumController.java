@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.microservice5.entities.Forum;
 import tn.esprit.microservice5.services.ForumService;
 
+import jakarta.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,12 +21,12 @@ public class ForumController {
     }
 
     @PostMapping("/create")
-    public Forum createForum(@RequestBody Forum forum) {
+    public Forum createForum(@Valid @RequestBody Forum forum) {
         return forumService.createForum(forum);
     }
 
     @PutMapping("/update/{idForum}")
-    public Forum updateForum(@PathVariable int idForum, @RequestBody Forum forum) {
+    public Forum updateForum(@PathVariable int idForum, @Valid @RequestBody Forum forum) {
         return forumService.updateForum(idForum, forum);
     }
 

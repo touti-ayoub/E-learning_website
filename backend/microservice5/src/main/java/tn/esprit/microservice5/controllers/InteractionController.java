@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.microservice5.entities.Interaction;
 import tn.esprit.microservice5.services.InteractionService;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,12 +20,12 @@ public class InteractionController {
     }
 
     @PostMapping("/create")
-    public Interaction createInteraction(@RequestBody Interaction interaction) {
+    public Interaction createInteraction(@Valid @RequestBody Interaction interaction) {
         return interactionService.createInteraction(interaction);
     }
 
     @PutMapping("/update/{idInteraction}")
-    public Interaction updateInteraction(@PathVariable int idInteraction, @RequestBody Interaction interaction) {
+    public Interaction updateInteraction(@PathVariable int idInteraction, @Valid @RequestBody Interaction interaction) {
         return interactionService.updateInteraction(idInteraction, interaction);
     }
 
