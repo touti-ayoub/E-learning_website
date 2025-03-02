@@ -72,10 +72,7 @@ public class SubscriptionController {
     }
 }*/
 
-        @GetMapping("/health")
-        public ResponseEntity<String> healthCheck() {
-            return ResponseEntity.ok("Subscription Service is running");
-        }
+
 
     @PostMapping
     public ResponseEntity<SubscriptionDTO> createSubscription(@RequestBody SubCreatingRequest request) {
@@ -103,7 +100,7 @@ public class SubscriptionController {
         return ResponseEntity.ok(subscriptions);
     }
 
-        @GetMapping("/user/{userId}")
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<SubscriptionDTO>> getUserSubscriptions(@PathVariable Long userId) {
         try {
             List<SubscriptionDTO> subscriptions = subscriptionService.getUserSubscriptions(userId);
@@ -146,7 +143,7 @@ public class SubscriptionController {
     }
 
     @GetMapping("/getUserByUN/{un}")
-    public ResponseEntity <User> getSubscription(@PathVariable String un) {
+    public ResponseEntity<User> getSubscription(@PathVariable String un) {
         try {
             User user = subscriptionService.getUserByUsername(un);
             return ResponseEntity.ok(user);

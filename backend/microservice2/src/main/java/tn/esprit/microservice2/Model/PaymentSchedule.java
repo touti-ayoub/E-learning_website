@@ -1,5 +1,6 @@
 package tn.esprit.microservice2.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,6 +26,7 @@ public class PaymentSchedule {
 
     @ManyToOne
     @JoinColumn(name = "payment_id", nullable = false)
+    @JsonIgnoreProperties({"schedules", "subscription"}) // This prevents circular references
     private Payment payment;
 
     private double penaltyAmount;;
@@ -78,6 +80,13 @@ public class PaymentSchedule {
         this.payment = payment;
     }
 
+    public double getPenaltyAmount() {
+        return penaltyAmount;
+    }
+
+    public void setPenaltyAmount(double penaltyAmount) {
+        this.penaltyAmount = penaltyAmount;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -85,13 +94,5 @@ public class PaymentSchedule {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    public double getPenaltyAmount() {
-        return penaltyAmount;
-    }
-
-    public void setPenaltyAmount(double penaltyAmount) {
-        this.penaltyAmount = penaltyAmount;
     }
 }

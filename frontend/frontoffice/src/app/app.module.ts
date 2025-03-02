@@ -17,8 +17,14 @@ import { ContactComponent } from './contact/contact.component';
 import {HttpClientModule} from "@angular/common/http";
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { SubscriptionComponent } from './mic2/subscription/subscription.component';
+import { PaymentComponent } from './mic2/payment/payment.component';
+import { PricingComponent } from './mic2/pricing/pricing.component';
+import { SubscriptionPlanComponent } from './mic2/subscription-plan/subscription-plan.component';
+import { PaymentSuccessComponent } from './mic2/payment-success/payment-success.component';
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { PaymentHistComponent } from './mic2/payment-hist/payment-hist.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +41,12 @@ import { SubscriptionComponent } from './mic2/subscription/subscription.componen
     ContactComponent,
     RegisterComponent,
     LoginComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    PaymentComponent,
+    PricingComponent,
+    SubscriptionPlanComponent,
+    PaymentSuccessComponent,
+    PaymentHistComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +54,7 @@ import { SubscriptionComponent } from './mic2/subscription/subscription.componen
     NgOptimizedImage,
     HttpClientModule, // Add this line
     FormsModule,
-
+    BrowserAnimationsModule,ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

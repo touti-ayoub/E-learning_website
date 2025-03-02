@@ -5,7 +5,7 @@ import tn.esprit.microservice2.Model.Invoice;
 
 import java.util.Optional;
 
-public interface IFactureRepository extends JpaRepository<Invoice, Long> {
+public interface IInvoiceRepository extends JpaRepository<Invoice, Long> {
     Optional<Invoice> findByPaymentId(Long paymentId);
 
 
