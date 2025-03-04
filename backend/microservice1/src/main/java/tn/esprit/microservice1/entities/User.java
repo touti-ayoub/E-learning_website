@@ -1,4 +1,3 @@
-// Source code is decompiled from a .class file using FernFlower decompiler.
 package tn.esprit.microservice1.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -13,73 +12,77 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Generated;
 
 @Entity
+@Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
+
     private String email;
+
+    @Column(name = "full_name")
     private String fullName;
-    private String profilePicture;
+
     private String bio;
+
+    @Column(name = "profile_picture")
+    private String profilePicture;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
-    private String preferredLanguage;
-    private String learningStyle;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String interests;
+
+    @Column(name = "expertise_level")
     private String expertiseLevel;
-    @Column(
-            columnDefinition = "TEXT"
-    )
+
+    @Column(name = "preferred_language")
+    private String preferredLanguage;
+
+    @Column(columnDefinition = "TEXT")
+    private String interests;
+
+    @Column(name = "learning_style")
+    private String learningStyle;
+
+    @Column(name = "learning_behavior_pattern", columnDefinition = "TEXT")
     private String learningBehaviorPattern;
+
+    @Column(name = "overall_performance")
     private Double overallPerformance;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String recommendedTopics;
-    @Column(
-            columnDefinition = "TEXT"
-    )
+
+    @Column(name = "personalized_learning_path", columnDefinition = "TEXT")
     private String personalizedLearningPath;
-    @Column(
-            name = "created_at"
-    )
-    private LocalDateTime createdAt;
-    @Column(
-            name = "last_login"
-    )
+
+    @Column(name = "recommended_topics", columnDefinition = "TEXT")
+    private String recommendedTopics;
+
+    @Column(name = "last_login")
     private LocalDateTime lastLogin;
-    @JsonIgnore
-    @OneToMany(
-            mappedBy = "instructor"
-    )
-    private Set<Course> createdCourses = new HashSet();
-    @JsonIgnore
-    @ManyToMany(
-            mappedBy = "enrolledUsers"
-    )
-    private Set<Course> enrolledCourses = new HashSet();
-    @OneToMany(
-            mappedBy = "user",
-            cascade = {CascadeType.ALL}
-    )
-    private Set<CourseProgress> courseProgresses = new HashSet();
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @ManyToMany(mappedBy = "enrolledUsers")
+    private Set<Course> enrolledCourses = new HashSet<>();
+
+    @OneToMany(mappedBy = "instructor")
+    private Set<Course> instructedCourses = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CourseProgress> courseProgress = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.lastLogin = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+        lastLogin = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -114,20 +117,20 @@ public class User {
         this.fullName = fullName;
     }
 
-    public String getProfilePicture() {
-        return this.profilePicture;
-    }
-
-    public void setProfilePicture(String profilePicture) {
-        this.profilePicture = profilePicture;
-    }
-
     public String getBio() {
         return this.bio;
     }
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public String getProfilePicture() {
+        return this.profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 
     public UserRole getRole() {
@@ -138,20 +141,20 @@ public class User {
         this.role = role;
     }
 
+    public String getExpertiseLevel() {
+        return this.expertiseLevel;
+    }
+
+    public void setExpertiseLevel(String expertiseLevel) {
+        this.expertiseLevel = expertiseLevel;
+    }
+
     public String getPreferredLanguage() {
         return this.preferredLanguage;
     }
 
     public void setPreferredLanguage(String preferredLanguage) {
         this.preferredLanguage = preferredLanguage;
-    }
-
-    public String getLearningStyle() {
-        return this.learningStyle;
-    }
-
-    public void setLearningStyle(String learningStyle) {
-        this.learningStyle = learningStyle;
     }
 
     public String getInterests() {
@@ -162,12 +165,12 @@ public class User {
         this.interests = interests;
     }
 
-    public String getExpertiseLevel() {
-        return this.expertiseLevel;
+    public String getLearningStyle() {
+        return this.learningStyle;
     }
 
-    public void setExpertiseLevel(String expertiseLevel) {
-        this.expertiseLevel = expertiseLevel;
+    public void setLearningStyle(String learningStyle) {
+        this.learningStyle = learningStyle;
     }
 
     public String getLearningBehaviorPattern() {
@@ -186,20 +189,20 @@ public class User {
         this.overallPerformance = overallPerformance;
     }
 
-    public String getRecommendedTopics() {
-        return this.recommendedTopics;
-    }
-
-    public void setRecommendedTopics(String recommendedTopics) {
-        this.recommendedTopics = recommendedTopics;
-    }
-
     public String getPersonalizedLearningPath() {
         return this.personalizedLearningPath;
     }
 
     public void setPersonalizedLearningPath(String personalizedLearningPath) {
         this.personalizedLearningPath = personalizedLearningPath;
+    }
+
+    public String getRecommendedTopics() {
+        return this.recommendedTopics;
+    }
+
+    public void setRecommendedTopics(String recommendedTopics) {
+        this.recommendedTopics = recommendedTopics;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -218,22 +221,16 @@ public class User {
         this.lastLogin = lastLogin;
     }
 
-    public Set<Course> getCreatedCourses() {
-        return this.createdCourses;
-    }
-
     public Set<Course> getEnrolledCourses() {
         return this.enrolledCourses;
     }
 
-    public Set<CourseProgress> getCourseProgresses() {
-        return this.courseProgresses;
+    public Set<Course> getInstructedCourses() {
+        return this.instructedCourses;
     }
 
-    @JsonIgnore
-    @Generated
-    public void setCreatedCourses(final Set<Course> createdCourses) {
-        this.createdCourses = createdCourses;
+    public Set<CourseProgress> getCourseProgress() {
+        return this.courseProgress;
     }
 
     @JsonIgnore
@@ -242,9 +239,15 @@ public class User {
         this.enrolledCourses = enrolledCourses;
     }
 
+    @JsonIgnore
     @Generated
-    public void setCourseProgresses(final Set<CourseProgress> courseProgresses) {
-        this.courseProgresses = courseProgresses;
+    public void setInstructedCourses(final Set<Course> instructedCourses) {
+        this.instructedCourses = instructedCourses;
+    }
+
+    @Generated
+    public void setCourseProgress(final Set<CourseProgress> courseProgress) {
+        this.courseProgress = courseProgress;
     }
 
     @Generated

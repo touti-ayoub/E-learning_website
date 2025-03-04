@@ -6,7 +6,96 @@
   <component name="ChangeListManager">
     <list default="true" id="149cce8b-9610-4df7-850b-3304dbb26e1e" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/microservice2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice2/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/controllers/CourseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/controllers/CourseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/Course.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/CourseModule.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/CourseModule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/CourseProgress.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/CourseProgress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/Lesson.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/Lesson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/LessonType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/LessonType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/ModuleType.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/ModuleType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/ProgressStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/ProgressStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/repositories/CourseRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/repositories/CourseRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/services/CourseService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/services/CourseService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/services/impl/CourseServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/src/main/java/tn/esprit/microservice1/services/impl/CourseServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/Microservice1Application.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/Microservice1Application.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/controllers/CourseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/controllers/CourseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/controllers/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/controllers/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/AutomatedFeatures.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/AutomatedFeatures.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/Course.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/Course.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/CourseModule.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/CourseModule.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/CourseProgress.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/CourseProgress.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/CourseStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/CourseStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/CourseType.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/CourseType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/Lesson.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/Lesson.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/LessonType.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/LessonType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/ModuleType.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/ModuleType.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/ProgressStatus.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/ProgressStatus.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/UserRole.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/entities/UserRole.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/CourseModuleRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/CourseModuleRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/CourseProgressRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/CourseProgressRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/CourseRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/CourseRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/LessonRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/LessonRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/repositories/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/services/CourseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/services/CourseService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/services/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/services/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/services/impl/CourseServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/services/impl/CourseServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/services/impl/UserServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice1/target/classes/tn/esprit/microservice1/services/impl/UserServiceImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice1/target/test-classes/tn/esprit/microservice1/Microservice1ApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/microservice2/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Microservice2Application.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/Course.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/Facture.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/InvoiceStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/Payment.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/PaymentSchedule.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/PaymentScheduleStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/PaymentStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/PaymentType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/Subscription.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/SubscriptionStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Model/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Rest/PaymentController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/Rest/SubscriptionController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/controllers/CourseController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/controllers/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/AutomatedFeatures.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/Course.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/CourseModule.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/CourseProgress.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/CourseStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/CourseType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/Lesson.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/LessonType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/ModuleType.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/ProgressStatus.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/User.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/entities/UserRole.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repo/ICourseRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repo/IFactureRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repo/IPaymentRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repo/IPaymentScheduleRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repo/ISubscriptionRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repo/UserRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repositories/CourseModuleRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repositories/CourseProgressRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repositories/CourseRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repositories/LessonRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/repositories/UserRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/service/PaymentService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/service/SubscriptionService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/services/CourseService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/services/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/services/impl/CourseServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/classes/tn/esprit/microservice2/services/impl/UserServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/microservice2/target/test-classes/tn/esprit/microservice2/Microservice2ApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/backoffice/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/backoffice/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/backoffice/src/app/app.routing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/backoffice/src/app/app.routing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/backoffice/src/app/components/sidebar/sidebar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/backoffice/src/app/components/sidebar/sidebar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/backoffice/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/backoffice/src/environments/environment.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,8 +133,9 @@
     &quot;Spring Boot.Microservice1Application.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.Microservice2Application.executor&quot;: &quot;Run&quot;,
     &quot;com.codeium.enabled&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;CourseManagement&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/tahan/OneDrive/Bureau/PI-DEV/E-learning_website&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -73,7 +163,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.Microservice2Application">
+  <component name="RunManager" selected="Spring Boot.Microservice1Application">
     <configuration name="EurekaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="eureka" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="esprit.eureka.EurekaApplication" />
@@ -165,6 +255,14 @@
       <workItem from="1739993975229" duration="39000" />
       <workItem from="1739995573767" duration="3372000" />
       <workItem from="1739999658899" duration="1240000" />
+      <workItem from="1740409204452" duration="31000" />
+      <workItem from="1740492811371" duration="608000" />
+      <workItem from="1740494480569" duration="451000" />
+      <workItem from="1740494968485" duration="39000" />
+      <workItem from="1740495047462" duration="66000" />
+      <workItem from="1740495638543" duration="27000" />
+      <workItem from="1741010593244" duration="146000" />
+      <workItem from="1741010766754" duration="52000" />
     </task>
     <servers />
   </component>

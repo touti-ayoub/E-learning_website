@@ -5,18 +5,25 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 
-const routes: Routes =[
+const routes: Routes = [
   {
     path: '',
-    redirectTo: 'dashboard',
+    redirectTo: 'courses',
     pathMatch: 'full',
-  }, {
+  },
+  {
     path: '',
     component: AdminLayoutComponent,
-    children: [{
-      path: '',
-      loadChildren: () => import('./layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
-    }]
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./layouts/admin-layout/admin-layout.module').then(m => m.AdminLayoutModule)
+      },
+      {
+        path: 'courses',
+        loadChildren: () => import('./course-management/course-management.module').then(m => m.CourseManagementModule)
+      }
+    ]
   }
 ];
 
@@ -24,11 +31,10 @@ const routes: Routes =[
   imports: [
     CommonModule,
     BrowserModule,
-    RouterModule.forRoot(routes,{
-       useHash: true
+    RouterModule.forRoot(routes, {
+      useHash: true
     })
   ],
-  exports: [
-  ],
+  exports: [RouterModule],
 })
 export class AppRoutingModule { }

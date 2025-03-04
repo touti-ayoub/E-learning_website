@@ -1,0 +1,10 @@
+<div class="container-xxl py-5">
+  <div class="container">
+    <h1>{{ course?.title }}</h1>
+    <p><strong>Description:</strong> {{ course?.description }}</p>
+    <p><strong>Price:</strong> {{ course?.price }}</p>
+    <p><strong>Duration:</strong> {{ course?.duration }}</p>
+    <p><strong>Instructor:</strong> {{ course?.instructor }}</p>
+    <button class="btn btn-primary" (click)="enroll(course.id)">Enroll</button>
+  </div>
+</div>

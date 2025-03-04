@@ -1,102 +1,133 @@
 package tn.esprit.microservice1.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Entity
+@Table(name = "course")
 public class Course {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(length = 2000)
     private String description;
+
+    @Column(name = "cover_image")
     private String coverImage;
+
+    @Column(nullable = false)
     private String category;
+
     @Enumerated(EnumType.STRING)
-    private CourseStatus status;
+    private CourseStatus status = CourseStatus.DRAFT;
+
     @Enumerated(EnumType.STRING)
     private CourseType type;
+
+    @Column(nullable = false)
     private Double price;
+
     private Integer duration;
+
+    @Column(nullable = false)
     private String language;
+
     private String level;
+
+    @Column(name = "estimated_completion_time")
     private Integer estimatedCompletionTime;
-    private String prerequisites;
-    private String learningObjectives;
+
+    @Column(name = "target_audience", length = 1000)
     private String targetAudience;
-    private boolean isAutomated;
+
+    @Column(name = "is_automated")
+    private boolean isAutomated = false;
+
     @Embedded
     private AutomatedFeatures automatedFeatures;
+
+    @Column(name = "difficulty_score")
     private Double difficultyScore;
+
+    @Column(name = "engagement_score")
     private Double engagementScore;
+
+    @Column(name = "completion_rate")
     private Double completionRate;
+
+    @Column(name = "recommendation_tags", length = 1000)
     private String recommendationTags;
-    @Column(
-            name = "created_at"
-    )
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @Column(
-            name = "updated_at"
-    )
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
     @ManyToOne
-    @JoinColumn(
-            name = "instructor_id"
-    )
+    @JoinColumn(name = "instructor_id")
     private User instructor;
-    @OneToMany(
-            mappedBy = "course",
-            cascade = {CascadeType.ALL}
-    )
-    private Set<CourseModule> modules = new HashSet();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CourseModule> modules = new HashSet<>();
+
     @ManyToMany
     @JoinTable(
-            name = "enrollments",
-            joinColumns = {@JoinColumn(
-                    name = "course_id"
-            )},
-            inverseJoinColumns = {@JoinColumn(
-                    name = "user_id"
-            )}
+        name = "enrollments",
+        joinColumns = @JoinColumn(name = "course_id"),
+        inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> enrolledUsers = new HashSet();
-    @OneToMany(
-            mappedBy = "course",
-            cascade = {CascadeType.ALL}
-    )
-    private Set<CourseProgress> userProgress = new HashSet();
+    private Set<User> enrolledUsers = new HashSet<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CourseProgress> userProgress = new HashSet<>();
+
+    @ElementCollection
+    @CollectionTable(name = "course_ai_generated_tags")
+    @Column(name = "tag")
+    private List<String> aiGeneratedTags = new ArrayList<>();
+
+    @Column(name = "ai_generated_summary", length = 2000)
+    private String aiGeneratedSummary;
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<LearningObjective> learningObjectives = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PrerequisiteSkill> prerequisites = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name = "course_skill_weights")
+    @MapKeyColumn(name = "skill_name")
+    @Column(name = "weight")
+    private Map<String, Double> skillWeights = new HashMap<>();
 
     public Course() {
     }
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
+        if (status == null) {
+            status = CourseStatus.DRAFT;
+        }
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -187,22 +218,6 @@ public class Course {
         this.estimatedCompletionTime = estimatedCompletionTime;
     }
 
-    public String getPrerequisites() {
-        return this.prerequisites;
-    }
-
-    public void setPrerequisites(String prerequisites) {
-        this.prerequisites = prerequisites;
-    }
-
-    public String getLearningObjectives() {
-        return this.learningObjectives;
-    }
-
-    public void setLearningObjectives(String learningObjectives) {
-        this.learningObjectives = learningObjectives;
-    }
-
     public String getTargetAudience() {
         return this.targetAudience;
     }
@@ -220,7 +235,7 @@ public class Course {
     }
 
     public Double getDifficultyScore() {
-        return this.difficultyScore;
+        return difficultyScore;
     }
 
     public void setDifficultyScore(Double difficultyScore) {
@@ -301,5 +316,45 @@ public class Course {
 
     public void setAutomatedFeatures(AutomatedFeatures automatedFeatures) {
         this.automatedFeatures = automatedFeatures;
+    }
+
+    public List<String> getAiGeneratedTags() {
+        return aiGeneratedTags;
+    }
+
+    public void setAiGeneratedTags(List<String> aiGeneratedTags) {
+        this.aiGeneratedTags = aiGeneratedTags;
+    }
+
+    public String getAiGeneratedSummary() {
+        return aiGeneratedSummary;
+    }
+
+    public void setAiGeneratedSummary(String aiGeneratedSummary) {
+        this.aiGeneratedSummary = aiGeneratedSummary;
+    }
+
+    public List<LearningObjective> getLearningObjectives() {
+        return learningObjectives;
+    }
+
+    public void setLearningObjectives(List<LearningObjective> learningObjectives) {
+        this.learningObjectives = learningObjectives;
+    }
+
+    public List<PrerequisiteSkill> getPrerequisites() {
+        return prerequisites;
+    }
+
+    public void setPrerequisites(List<PrerequisiteSkill> prerequisites) {
+        this.prerequisites = prerequisites;
+    }
+
+    public Map<String, Double> getSkillWeights() {
+        return skillWeights;
+    }
+
+    public void setSkillWeights(Map<String, Double> skillWeights) {
+        this.skillWeights = skillWeights;
     }
 }

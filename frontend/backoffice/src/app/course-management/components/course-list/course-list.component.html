@@ -1,0 +1,147 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <div class="row align-items-center">
+              <div class="col-md-8">
+                <h4 class="card-title">Courses Management</h4>
+                <p class="card-category">Manage and monitor your e-learning courses</p>
+              </div>
+              <div class="col-md-4 text-right">
+                <button class="btn btn-primary btn-round" (click)="createNewCourse()">
+                  <i class="material-icons">add</i> New Course
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group form-search">
+                  <input type="text" class="form-control" placeholder="Search courses..." 
+                         (keyup)="applyFilter($event)" #input>
+                  <span class="material-icons">search</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="text-primary">
+                  <tr>
+                    <th>Title</th>
+                    <th>Category</th>
+                    <th>Instructor</th>
+                    <th>Status</th>
+                    <th>Price</th>
+                    <th>Enrolled</th>
+                    <th>Completion</th>
+                    <th class="text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let course of dataSource?.data">
+                    <td>
+                      <div class="d-flex align-items-center">
+                        <div class="course-thumbnail mr-3">
+                          <img [src]="course.coverImage || 'assets/img/default-course.jpg'" 
+                               [alt]="course.title">
+                        </div>
+                        <span>{{course.title}}</span>
+                      </div>
+                    </td>
+                    <td>{{course.category}}</td>
+                    <td>{{course.instructor?.name}}</td>
+                    <td>
+                      <span class="badge badge-pill" 
+                            [ngClass]="{
+                              'badge-success': course.status === 'PUBLISHED',
+                              'badge-warning': course.status === 'DRAFT',
+                              'badge-danger': course.status === 'ARCHIVED'
+                            }">
+                        {{course.status}}
+                      </span>
+                    </td>
+                    <td>{{course.price | currency}}</td>
+                    <td>{{course.enrolledUsers?.length || 0}}</td>
+                    <td>
+                      <div class="progress-container">
+                        <span class="progress-badge">{{(course.completionRate * 100).toFixed(1)}}%</span>
+                        <div class="progress">
+                          <div class="progress-bar" role="progressbar"
+                               [ngStyle]="{'width': (course.completionRate * 100) + '%'}"
+                               [ngClass]="{
+                                 'progress-bar-success': course.completionRate >= 0.7,
+                                 'progress-bar-warning': course.completionRate >= 0.4 && course.completionRate < 0.7,
+                                 'progress-bar-danger': course.completionRate < 0.4
+                               }">
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button type="button" rel="tooltip" class="btn btn-info btn-link"
+                              (click)="viewCourse(course.id)" data-original-title="View">
+                        <i class="material-icons">visibility</i>
+                      </button>
+                      <button type="button" rel="tooltip" class="btn btn-success btn-link"
+                              (click)="editCourse(course.id)" data-original-title="Edit">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button type="button" rel="tooltip" class="btn btn-danger btn-link"
+                              (click)="deleteCourse(course.id)" data-original-title="Delete">
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <!-- Empty State -->
+              <div *ngIf="!dataSource?.data?.length" class="text-center py-5">
+                <i class="material-icons text-muted" style="font-size: 48px;">school</i>
+                <p class="text-muted mt-2">No courses found</p>
+                <button mat-raised-button color="primary" class="btn btn-primary btn-round" (click)="createNewCourse()">
+                  <i class="material-icons">add</i> Create Your First Course
+                </button>
+              </div>
+
+              <!-- Pagination -->
+              <div class="row">
+                <div class="col-sm-12 col-md-5">
+                  <div class="dataTables_info" role="status" aria-live="polite">
+                    Showing {{ (dataSource.paginator?.pageIndex || 0) * (dataSource.paginator?.pageSize || 10) + 1 }} to 
+                    {{ Math.min(((dataSource.paginator?.pageIndex || 0) + 1) * (dataSource.paginator?.pageSize || 10), dataSource.data.length) }} 
+                    of {{ dataSource.data.length }} entries
+                  </div>
+                </div>
+                <div class="col-sm-12 col-md-7">
+                  <div class="dataTables_paginate">
+                    <ul class="pagination justify-content-end">
+                      <li class="paginate_button page-item" 
+                          [class.disabled]="!dataSource.paginator || dataSource.paginator.pageIndex === 0">
+                        <a class="page-link" href="javascript:void(0)" 
+                           (click)="previousPage()">
+                          Previous
+                        </a>
+                      </li>
+                      <li class="paginate_button page-item" 
+                          [class.disabled]="!dataSource.paginator || !hasNextPage()">
+                        <a class="page-link" href="javascript:void(0)" 
+                           (click)="nextPage()">
+                          Next
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

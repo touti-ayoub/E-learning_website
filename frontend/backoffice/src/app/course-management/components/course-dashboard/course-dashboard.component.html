@@ -1,0 +1,286 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <!-- Loading Spinner -->
+    <div *ngIf="isLoading" class="text-center py-5">
+      <mat-spinner diameter="50" class="mx-auto"></mat-spinner>
+      <p class="mt-3">Loading dashboard data...</p>
+    </div>
+
+    <div *ngIf="!isLoading">
+      <!-- Overview Stats -->
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-warning card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">school</i>
+              </div>
+              <p class="card-category">Total Courses</p>
+              <h3 class="card-title">{{ totalCourses }}</h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">update</i> Just Updated
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-success card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">people</i>
+              </div>
+              <p class="card-category">Total Students</p>
+              <h3 class="card-title">{{ totalStudents }}</h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">date_range</i> Last 24 Hours
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-info card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">done_all</i>
+              </div>
+              <p class="card-category">Completion Rate</p>
+              <h3 class="card-title">
+                {{ formatPercentage(averageCompletionRate) }}
+              </h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">trending_up</i> Average across all
+                courses
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div class="card card-stats">
+            <div class="card-header card-header-primary card-header-icon">
+              <div class="card-icon">
+                <i class="material-icons">trending_up</i>
+              </div>
+              <p class="card-category">Engagement Score</p>
+              <h3 class="card-title">
+                {{ averageEngagementScore.toFixed(1) }}
+              </h3>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">info_outline</i> Out of 5.0
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Charts Row -->
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card card-chart">
+            <div class="card-header card-header-success">
+              <div #enrollmentTrendChart class="ct-chart"></div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Student Enrollment Trend</h4>
+              <p class="card-category">
+                <span class="text-success">
+                  <i class="material-icons">arrow_upward</i> 15%
+                </span>
+                increase in enrollments.
+              </p>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">access_time</i> updated 4 minutes ago
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card card-chart">
+            <div class="card-header card-header-warning">
+              <div #categoryDistributionChart class="ct-chart"></div>
+            </div>
+            <div class="card-body">
+              <h4 class="card-title">Course Category Distribution</h4>
+              <p class="card-category">Most popular categories</p>
+            </div>
+            <div class="card-footer">
+              <div class="stats">
+                <i class="material-icons">access_time</i> data retrieved just
+                now
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent and Top Performing Courses -->
+      <div class="row">
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-warning">
+              <h4 class="card-title">Recent Courses</h4>
+              <p class="card-category">Latest added courses</p>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-warning">
+                  <tr>
+                    <th>Title</th>
+                    <th>Instructor</th>
+                    <th>Status</th>
+                    <th>Added</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let course of recentCourses">
+                    <td>{{ course.title }}</td>
+                    <td>{{ course.instructor?.name }}</td>
+                    <td>
+                      <span
+                        class="badge"
+                        [ngClass]="'badge-' + course.status.toLowerCase()"
+                      >
+                        {{ course.status }}
+                      </span>
+                    </td>
+                    <td>{{ course.createdAt | date : "shortDate" }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+          <div class="card">
+            <div class="card-header card-header-success">
+              <h4 class="card-title">Top Performing Courses</h4>
+              <p class="card-category">Based on completion and engagement</p>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table table-hover">
+                <thead class="text-success">
+                  <tr>
+                    <th>Title</th>
+                    <th>Students</th>
+                    <th>Completion</th>
+                    <th>Rating</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let course of topPerformingCourses">
+                    <td>{{ course.title }}</td>
+                    <td>{{ course.enrolledUsers?.length }}</td>
+                    <td>
+                      <div class="progress">
+                        <div
+                          class="progress-bar"
+                          role="progressbar"
+                          [style.width]="
+                            formatPercentage(course.completionRate)
+                          "
+                          [ngClass]="
+                            'bg-' +
+                            getCompletionRateColor(course.completionRate)
+                          "
+                        >
+                          {{ formatPercentage(course.completionRate) }}
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span
+                        class="text-{{
+                          getEngagementScoreColor(course.engagementScore)
+                        }}"
+                      >
+                        {{ course.engagementScore.toFixed(1) }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- AI Insights -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header card-header-primary">
+              <h4 class="card-title">AI-Powered Insights</h4>
+              <p class="card-category">
+                Intelligent analysis of course performance
+              </p>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div
+                  class="col-md-4"
+                  *ngFor="let insight of courseAnalytics.insights"
+                >
+                  <mat-card>
+                    <mat-card-header>
+                      <mat-card-title>{{ insight.title }}</mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                      <p>{{ insight.description }}</p>
+                      <div *ngIf="insight.trend" class="trend-indicator">
+                        <i
+                          class="material-icons"
+                          [ngClass]="
+                            insight.trend > 0 ? 'text-success' : 'text-danger'
+                          "
+                        >
+                          {{
+                            insight.trend > 0 ? "trending_up" : "trending_down"
+                          }}
+                        </i>
+                        <span>{{ insight.trendValue }}%</span>
+                      </div>
+                    </mat-card-content>
+                  </mat-card>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form (ngSubmit)="onSubmit()">
+  <input
+    type="text"
+    placeholder="Course Title"
+    [(ngModel)]="course.title"
+    name="title"
+    required
+  />
+  <textarea
+    placeholder="Course Description"
+    [(ngModel)]="course.description"
+    name="description"
+    required
+  ></textarea>
+  <input
+    type="number"
+    placeholder="Price"
+    [(ngModel)]="course.price"
+    name="price"
+    required
+  />
+  <input type="file" (change)="onFileChange($event)" required />
+  <button type="submit">Create Course</button>
+</form>

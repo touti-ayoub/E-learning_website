@@ -9,62 +9,98 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Generated;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "course_progress")
 public class CourseProgress {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
-    @JoinColumn(
-            name = "user_id"
-    )
-    private User user;
-    @ManyToOne
-    @JoinColumn(
-            name = "course_id"
-    )
+    @JoinColumn(name = "course_id")
     private Course course;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Column(name = "progress_percentage")
     private Double progressPercentage;
-    private String currentModuleId;
-    private String currentLessonId;
-    private LocalDateTime lastAccessDate;
+
+    private Double score;
+
+    @Column(name = "time_spent_minutes")
     private Integer timeSpentMinutes;
-    private Double engagementScore;
-    private Double performanceScore;
-    private String learningStyle;
-    private String strengthAreas;
-    private String weaknessAreas;
-    private String personalizedRecommendations;
+
+    @Column(name = "current_module_id")
+    private String currentModuleId;
+
+    @Column(name = "current_lesson_id")
+    private String currentLessonId;
+
+    @Column(name = "started_at")
+    private LocalDateTime startedAt;
+
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
+
+    @Column(name = "last_access_date")
+    private LocalDateTime lastAccessDate;
+
+    @Column(name = "is_completed")
+    private Boolean isCompleted;
+
     @Enumerated(EnumType.STRING)
     private ProgressStatus status;
-    @Column(
-            name = "started_at"
+
+    @Column(name = "learning_style")
+    private String learningStyle;
+
+    @Column(name = "engagement_score")
+    private Double engagementScore;
+
+    @Column(name = "performance_score")
+    private Double performanceScore;
+
+    @Column(name = "strength_areas")
+    private String strengthAreas;
+
+    @Column(name = "weakness_areas")
+    private String weaknessAreas;
+
+    @Column(name = "personalized_recommendations")
+    private String personalizedRecommendations;
+
+    @ManyToMany
+    @JoinTable(
+        name = "completed_modules",
+        joinColumns = @JoinColumn(name = "progress_id"),
+        inverseJoinColumns = @JoinColumn(name = "module_id")
     )
-    private LocalDateTime startedAt;
-    @Column(
-            name = "completed_at"
-    )
-    private LocalDateTime completedAt;
+    private Set<CourseModule> completedModules = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
-        this.startedAt = LocalDateTime.now();
-        this.lastAccessDate = LocalDateTime.now();
-        this.status = ProgressStatus.IN_PROGRESS;
-        this.progressPercentage = 0.0;
-        this.timeSpentMinutes = 0;
+        startedAt = LocalDateTime.now();
+        lastAccessDate = LocalDateTime.now();
+        progressPercentage = 0.0;
+        isCompleted = false;
+        status = ProgressStatus.NOT_STARTED;
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.lastAccessDate = LocalDateTime.now();
+        lastAccessDate = LocalDateTime.now();
     }
 
     public Long getId() {
@@ -89,6 +125,14 @@ public class CourseProgress {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public Set<CourseModule> getCompletedModules() {
+        return this.completedModules;
+    }
+
+    public void setCompletedModules(Set<CourseModule> completedModules) {
+        this.completedModules = completedModules;
     }
 
     public Double getProgressPercentage() {
@@ -201,6 +245,22 @@ public class CourseProgress {
 
     public void setCompletedAt(LocalDateTime completedAt) {
         this.completedAt = completedAt;
+    }
+
+    public Double getScore() {
+        return this.score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+
+    public Boolean getIsCompleted() {
+        return this.isCompleted;
+    }
+
+    public void setIsCompleted(Boolean completed) {
+        this.isCompleted = completed;
     }
 
     @Generated

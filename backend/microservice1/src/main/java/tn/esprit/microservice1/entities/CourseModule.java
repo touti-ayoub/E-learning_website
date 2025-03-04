@@ -15,61 +15,74 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import lombok.Generated;
+import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "course_module")
 public class CourseModule {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
+
     private String description;
+
+    @Column(name = "order_index")
     private Integer orderIndex;
+
     private Integer duration;
-    @Column(
-            columnDefinition = "TEXT"
-    )
+
+    @Column(name = "completion_rate")
+    private Double completionRate;
+
+    @Column(name = "difficulty_level")
+    private Double difficultyLevel;
+
+    @Column(name = "learning_objectives", columnDefinition = "TEXT")
     private String learningObjectives;
+
+    @Column(columnDefinition = "TEXT")
+    private String prerequisites;
+
+    @Column(name = "recommended_path", columnDefinition = "TEXT")
+    private String recommendedPath;
+
     @Enumerated(EnumType.STRING)
     private ModuleType type;
-    private Double difficultyLevel;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String prerequisites;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String recommendedPath;
-    private Double completionRate;
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
     @ManyToOne
-    @JoinColumn(
-            name = "course_id"
-    )
-    @JsonIgnore
+    @JoinColumn(name = "course_id")
     private Course course;
-    @OneToMany(
-            mappedBy = "module",
-            cascade = {CascadeType.ALL},
-            orphanRemoval = true
-    )
-    private Set<Lesson> lessons = new HashSet();
+
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Lesson> lessons = new ArrayList<>();
+
+    @ManyToMany(mappedBy = "completedModules")
+    private Set<CourseProgress> completedByStudents = new HashSet<>();
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @Generated
@@ -143,7 +156,7 @@ public class CourseModule {
     }
 
     @Generated
-    public Set<Lesson> getLessons() {
+    public List<Lesson> getLessons() {
         return this.lessons;
     }
 
@@ -219,7 +232,7 @@ public class CourseModule {
     }
 
     @Generated
-    public void setLessons(final Set<Lesson> lessons) {
+    public void setLessons(final List<Lesson> lessons) {
         this.lessons = lessons;
     }
 

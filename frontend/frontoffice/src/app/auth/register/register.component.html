@@ -1,0 +1,90 @@
+<div class="auth-wrapper">
+  <div class="auth-illustration">
+    <img src="assets/img/about.jpg" alt="Join Learning Community">
+    <div class="illustration-text">
+      <h1>Start Your Journey</h1>
+      <p>Access 5000+ courses from industry experts</p>
+    </div>
+  </div>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="brand-logo">
+        <img src="assets/img/about.jpg" alt="E-Learning Platform">
+      </div>
+      <h2>Get Started 🚀</h2>
+      <p class="auth-subtext">Create your free account</p>
+
+      <form (ngSubmit)="onSubmit()" class="auth-form">
+        <!-- Username Input -->
+        <div class="form-group with-icon">
+          <input
+            type="text"
+            id="username"
+            [(ngModel)]="user.username"
+            name="username"
+            placeholder=" "
+            required
+          >
+          <label for="username">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Choose Username</label>
+          <i class="icon fas fa-user-tag"></i>
+        </div>
+
+        <!-- Password Input with Strength Meter -->
+        <div class="form-group with-icon">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            [(ngModel)]="user.password"
+            name="password"
+            placeholder=" "
+            required
+            (input)="checkPasswordStrength()"
+          >
+          <label for="password">&nbsp;&nbsp;&nbsp;Create Password</label>
+          <i class="icon fas fa-lock"></i>
+          <i
+            class="password-toggle fas"
+            [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+            (click)="showPassword = !showPassword"
+          ></i>
+          <div class="password-strength">
+            <div class="strength-bar" [ngClass]="passwordStrength"></div>
+            <span>{{ passwordStrengthText }}</span>
+          </div>
+        </div>
+
+        <!-- Role Selection Cards -->
+        <div class="role-selection">
+          <div
+            class="role-card"
+            [ngClass]="{ 'selected': user.role === 'student' }"
+            (click)="user.role = 'student'"
+          >
+            <i class="fas fa-graduation-cap"></i>
+            <h3>Student</h3>
+            <p>Access courses and track progress</p>
+          </div>
+          <div
+            class="role-card"
+            [ngClass]="{ 'selected': user.role === 'instructor' }"
+            (click)="user.role = 'instructor'"
+          >
+            <i class="fas fa-chalkboard-teacher"></i>
+            <h3>Instructor</h3>
+            <p>Create and manage courses</p>
+          </div>
+        </div>
+
+        <button type="submit" class="auth-button">
+          <span *ngIf="!loading">Create Account</span>
+          <div *ngIf="loading" class="spinner"></div>
+        </button>
+      </form>
+
+      <p class="auth-footer">
+        Already have an account? <a routerLink="/login">Sign in here</a>
+      </p>
+    </div>
+  </div>
+</div>

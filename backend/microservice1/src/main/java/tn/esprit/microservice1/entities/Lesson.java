@@ -14,83 +14,83 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import java.time.LocalDateTime;
 import lombok.Generated;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "lesson")
 public class Lesson {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String title;
+
     private String description;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String content;
-    private String videoUrl;
+
+    @Column(name = "order_index")
     private Integer orderIndex;
+
     private Integer duration;
+
+    @Column(name = "video_url")
+    private String videoUrl;
+
+    @Column(columnDefinition = "TEXT")
+    private String content;
+
+    @Column(columnDefinition = "TEXT")
+    private String objectives;
+
+    @Column(columnDefinition = "TEXT")
+    private String prerequisites;
+
+    @Column(columnDefinition = "TEXT")
+    private String resources;
+
+    @Column(columnDefinition = "TEXT")
+    private String exercises;
+
+    @Column(columnDefinition = "TEXT")
+    private String quizzes;
+
+    @Column(columnDefinition = "TEXT")
+    private String assignments;
+
+    @Column(name = "adaptive_path", columnDefinition = "TEXT")
+    private String adaptivePath;
+
+    @Column(name = "recommended_preparation", columnDefinition = "TEXT")
+    private String recommendedPreparation;
+
+    @Column(name = "average_completion_time")
+    private Double averageCompletionTime;
+
+    @Column(name = "difficulty_score")
+    private Double difficultyScore;
+
     @Enumerated(EnumType.STRING)
     private LessonType type;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String objectives;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String resources;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String assignments;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String quizzes;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String exercises;
-    private Double difficultyScore;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String prerequisites;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String recommendedPreparation;
-    private Double averageCompletionTime;
-    @Column(
-            columnDefinition = "TEXT"
-    )
-    private String adaptivePath;
-    @Column(
-            name = "created_at"
-    )
+
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @Column(
-            name = "updated_at"
-    )
+
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
     @ManyToOne
-    @JoinColumn(
-            name = "module_id"
-    )
-    @JsonIgnore
+    @JoinColumn(name = "module_id")
     private CourseModule module;
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 
     @Generated
@@ -109,16 +109,6 @@ public class Lesson {
     }
 
     @Generated
-    public String getContent() {
-        return this.content;
-    }
-
-    @Generated
-    public String getVideoUrl() {
-        return this.videoUrl;
-    }
-
-    @Generated
     public Integer getOrderIndex() {
         return this.orderIndex;
     }
@@ -129,8 +119,13 @@ public class Lesson {
     }
 
     @Generated
-    public LessonType getType() {
-        return this.type;
+    public String getVideoUrl() {
+        return this.videoUrl;
+    }
+
+    @Generated
+    public String getContent() {
+        return this.content;
     }
 
     @Generated
@@ -139,18 +134,13 @@ public class Lesson {
     }
 
     @Generated
+    public String getPrerequisites() {
+        return this.prerequisites;
+    }
+
+    @Generated
     public String getResources() {
         return this.resources;
-    }
-
-    @Generated
-    public String getAssignments() {
-        return this.assignments;
-    }
-
-    @Generated
-    public String getQuizzes() {
-        return this.quizzes;
     }
 
     @Generated
@@ -159,13 +149,18 @@ public class Lesson {
     }
 
     @Generated
-    public Double getDifficultyScore() {
-        return this.difficultyScore;
+    public String getQuizzes() {
+        return this.quizzes;
     }
 
     @Generated
-    public String getPrerequisites() {
-        return this.prerequisites;
+    public String getAssignments() {
+        return this.assignments;
+    }
+
+    @Generated
+    public String getAdaptivePath() {
+        return this.adaptivePath;
     }
 
     @Generated
@@ -179,8 +174,13 @@ public class Lesson {
     }
 
     @Generated
-    public String getAdaptivePath() {
-        return this.adaptivePath;
+    public Double getDifficultyScore() {
+        return this.difficultyScore;
+    }
+
+    @Generated
+    public LessonType getType() {
+        return this.type;
     }
 
     @Generated
@@ -214,16 +214,6 @@ public class Lesson {
     }
 
     @Generated
-    public void setContent(final String content) {
-        this.content = content;
-    }
-
-    @Generated
-    public void setVideoUrl(final String videoUrl) {
-        this.videoUrl = videoUrl;
-    }
-
-    @Generated
     public void setOrderIndex(final Integer orderIndex) {
         this.orderIndex = orderIndex;
     }
@@ -234,8 +224,13 @@ public class Lesson {
     }
 
     @Generated
-    public void setType(final LessonType type) {
-        this.type = type;
+    public void setVideoUrl(final String videoUrl) {
+        this.videoUrl = videoUrl;
+    }
+
+    @Generated
+    public void setContent(final String content) {
+        this.content = content;
     }
 
     @Generated
@@ -244,18 +239,13 @@ public class Lesson {
     }
 
     @Generated
+    public void setPrerequisites(final String prerequisites) {
+        this.prerequisites = prerequisites;
+    }
+
+    @Generated
     public void setResources(final String resources) {
         this.resources = resources;
-    }
-
-    @Generated
-    public void setAssignments(final String assignments) {
-        this.assignments = assignments;
-    }
-
-    @Generated
-    public void setQuizzes(final String quizzes) {
-        this.quizzes = quizzes;
     }
 
     @Generated
@@ -264,13 +254,18 @@ public class Lesson {
     }
 
     @Generated
-    public void setDifficultyScore(final Double difficultyScore) {
-        this.difficultyScore = difficultyScore;
+    public void setQuizzes(final String quizzes) {
+        this.quizzes = quizzes;
     }
 
     @Generated
-    public void setPrerequisites(final String prerequisites) {
-        this.prerequisites = prerequisites;
+    public void setAssignments(final String assignments) {
+        this.assignments = assignments;
+    }
+
+    @Generated
+    public void setAdaptivePath(final String adaptivePath) {
+        this.adaptivePath = adaptivePath;
     }
 
     @Generated
@@ -284,8 +279,13 @@ public class Lesson {
     }
 
     @Generated
-    public void setAdaptivePath(final String adaptivePath) {
-        this.adaptivePath = adaptivePath;
+    public void setDifficultyScore(final Double difficultyScore) {
+        this.difficultyScore = difficultyScore;
+    }
+
+    @Generated
+    public void setType(final LessonType type) {
+        this.type = type;
     }
 
     @Generated

@@ -1,0 +1,293 @@
+.form-group {
+  margin-bottom: 25px;
+
+  label {
+    color: #aaa;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0;
+    transition: 0.3s ease all;
+  }
+
+  .form-control {
+    border: none;
+    border-bottom: 1px solid #d2d2d2;
+    border-radius: 0;
+    padding: 7px 0;
+    background-image: linear-gradient(
+        to top,
+        #9c27b0 2px,
+        rgba(156, 39, 176, 0) 2px
+      ),
+      linear-gradient(to top, #d2d2d2 1px, rgba(210, 210, 210, 0) 1px);
+    background-size: 0 100%, 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center bottom, center calc(100% - 1px);
+    background-color: transparent;
+    transition: background 0s ease-out;
+    float: none;
+    box-shadow: none;
+    border-radius: 0;
+
+    &:focus {
+      outline: none;
+      background-size: 100% 100%, 100% 100%;
+      transition-duration: 0.3s;
+      box-shadow: none;
+    }
+  }
+
+  textarea.form-control {
+    min-height: 100px;
+    padding: 10px 0;
+    resize: vertical;
+  }
+
+  select.form-control {
+    height: 36px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+    background-size: 16px;
+    padding-right: 24px;
+  }
+}
+
+.text-danger {
+  position: absolute;
+  font-size: 12px;
+  margin-top: 3px;
+}
+
+.card-header-primary {
+  background: linear-gradient(60deg, #ab47bc, #8e24aa);
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14),
+    0 7px 10px -5px rgba(156, 39, 176, 0.4);
+
+  .card-title {
+    color: #fff;
+    margin-top: 0;
+    margin-bottom: 5px;
+  }
+
+  .card-category {
+    color: rgba(255, 255, 255, 0.62);
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+.card {
+  margin-bottom: 30px;
+  margin-top: 30px;
+  border-radius: 6px;
+  color: #333;
+  background: #fff;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.btn {
+  position: relative;
+  padding: 12px 30px;
+  margin: 0.3125rem 1px;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.428571;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  border: 0;
+  border-radius: 3px;
+  outline: 0;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1),
+    background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: box-shadow, transform;
+
+  &.btn-primary {
+    color: #fff;
+    background-color: #9c27b0;
+    border-color: #9c27b0;
+    box-shadow: 0 2px 2px 0 rgba(156, 39, 176, 0.14),
+      0 3px 1px -2px rgba(156, 39, 176, 0.2),
+      0 1px 5px 0 rgba(156, 39, 176, 0.12);
+
+    &:hover {
+      background-color: #9124a3;
+      border-color: #701c7e;
+      box-shadow: 0 14px 26px -12px rgba(156, 39, 176, 0.42),
+        0 4px 23px 0 rgba(0, 0, 0, 0.12),
+        0 8px 10px -5px rgba(156, 39, 176, 0.2);
+    }
+
+    &:disabled {
+      background-color: rgba(156, 39, 176, 0.5);
+      border-color: transparent;
+      box-shadow: none;
+    }
+  }
+
+  &.btn-default {
+    color: #333;
+    background-color: #fff;
+    border: 1px solid #ccc;
+
+    &:hover {
+      background-color: #f5f5f5;
+      border-color: #adadad;
+    }
+
+    &:disabled {
+      background-color: #e6e6e6;
+      border-color: #adadad;
+      opacity: 0.65;
+    }
+  }
+}
+
+.course-form {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-row {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+
+.mat-form-field {
+  flex: 1;
+  width: 100%;
+}
+
+.array-item {
+  background-color: #f8f9fa;
+  padding: 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+
+  .form-row {
+    margin-bottom: 0;
+  }
+
+  button[color="warn"] {
+    flex: 0 0 auto;
+  }
+}
+
+.module-item {
+  margin-bottom: 16px;
+
+  mat-expansion-panel {
+    background-color: #fff;
+    margin-bottom: 8px;
+
+    .module-actions {
+      margin-top: 16px;
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
+
+  .lesson-item {
+    margin-left: 24px;
+    margin-bottom: 8px;
+
+    mat-expansion-panel {
+      background-color: #f8f9fa;
+    }
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+
+  button {
+    min-width: 120px;
+  }
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+mat-progress-spinner {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+}
+
+// Material Design Overrides
+::ng-deep {
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+
+  .mat-form-field-subscript-wrapper {
+    margin-top: 0.5em;
+  }
+
+  .mat-form-field-label {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .mat-form-field-appearance-fill .mat-form-field-underline::before {
+    background-color: rgba(0, 0, 0, 0.12);
+  }
+
+  .mat-form-field.mat-focused {
+    .mat-form-field-label {
+      color: #9c27b0;
+    }
+
+    .mat-form-field-ripple {
+      background-color: #9c27b0;
+    }
+  }
+}
+
+// Button styles
+button[mat-raised-button] {
+  margin-left: 8px;
+  text-transform: uppercase;
+
+  &.mat-primary {
+    background-color: #9c27b0;
+
+    &:hover {
+      background-color: #7b1fa2;
+    }
+  }
+
+  i {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+}
+
+// Form sections spacing
+.mt-4 {
+  margin-top: 2rem;
+}
+
+// Error messages
+mat-error {
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+// Hints
+mat-hint {
+  color: rgba(0, 0, 0, 0.6);
+}

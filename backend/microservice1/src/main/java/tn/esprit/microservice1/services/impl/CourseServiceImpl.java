@@ -3,19 +3,12 @@ package tn.esprit.microservice1.services.impl;
 
 import jakarta.persistence.EntityNotFoundException;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import tn.esprit.microservice1.entities.Course;
-import tn.esprit.microservice1.entities.CourseProgress;
-import tn.esprit.microservice1.entities.CourseStatus;
-import tn.esprit.microservice1.entities.ProgressStatus;
-import tn.esprit.microservice1.entities.User;
-import tn.esprit.microservice1.entities.UserRole;
+import tn.esprit.microservice1.entities.*;
 import tn.esprit.microservice1.repositories.CourseProgressRepository;
 import tn.esprit.microservice1.repositories.CourseRepository;
 import tn.esprit.microservice1.repositories.UserRepository;
@@ -35,248 +28,283 @@ public class CourseServiceImpl implements CourseService {
         this.progressRepository = progressRepository;
     }
 
-    @Transactional(
-            readOnly = true
-    )
-    public List<Course> getAllCourses() {
-        return this.courseRepository.findAll();
+    @Override
+    @Transactional(readOnly = true)
+    public List<Course> findAll() {
+        return courseRepository.findAll();
     }
 
-    @Transactional(
-            readOnly = true
-    )
-    public Course getCourseById(Long id) {
+    @Override
+    @Transactional(readOnly = true)
+    public Course findById(Long id) {
         Objects.requireNonNull(id, "Course ID cannot be null");
-        return (Course)this.courseRepository.findById(id).orElseThrow(() -> {
-            return new EntityNotFoundException("Course not found with id: " + id);
-        });
+        return courseRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Course not found with id: " + id));
     }
 
+    @Override
+    public Course save(Course course) {
+        Objects.requireNonNull(course, "Course cannot be null");
+        course.setCreatedAt(LocalDateTime.now());
+        course.setUpdatedAt(LocalDateTime.now());
+        return courseRepository.save(course);
+    }
+
+    @Override
+    public Course update(Course course) {
+        Objects.requireNonNull(course, "Course cannot be null");
+        Objects.requireNonNull(course.getId(), "Course ID cannot be null");
+        
+        if (!courseRepository.existsById(course.getId())) {
+            throw new EntityNotFoundException("Course not found with id: " + course.getId());
+        }
+        Course existingCourse = findById(course.getId());
+        course.setCreatedAt(existingCourse.getCreatedAt());
+        course.setUpdatedAt(LocalDateTime.now());
+        return courseRepository.save(course);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        Objects.requireNonNull(id, "Course ID cannot be null");
+        if (!courseRepository.existsById(id)) {
+            throw new EntityNotFoundException("Course not found with id: " + id);
+        }
+        Course course = findById(id);
+        courseRepository.delete(course);
+    }
+
+    @Override
+    public Course createAutomatedCourse(Course course) {
+        Objects.requireNonNull(course, "Course cannot be null");
+        course.setAutomated(true);
+        course.setStatus(CourseStatus.DRAFT);
+        
+        // Initialize automated features
+        AutomatedFeatures features = new AutomatedFeatures();
+        features.setHasAutoGrading(true);
+        features.setHasAdaptiveLearning(true);
+        features.setHasPeerReview(false);
+        course.setAutomatedFeatures(features);
+        
+        return save(course);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Course> getCoursesByInstructor(Long instructorId) {
+        Objects.requireNonNull(instructorId, "Instructor ID cannot be null");
+        User instructor = userRepository.findById(instructorId)
+            .orElseThrow(() -> new EntityNotFoundException("Instructor not found with id: " + instructorId));
+        if (instructor.getRole() != UserRole.INSTRUCTOR) {
+            throw new IllegalStateException("User is not an instructor");
+        }
+        return courseRepository.findByInstructor(instructor);
+    }
+
+    @Override
     public Course createCourse(Course course, Long instructorId) {
         Objects.requireNonNull(course, "Course cannot be null");
         Objects.requireNonNull(instructorId, "Instructor ID cannot be null");
-        User instructor = (User)this.userRepository.findById(instructorId).orElseThrow(() -> {
-            return new EntityNotFoundException("Instructor not found with id: " + instructorId);
-        });
+        
+        User instructor = userRepository.findById(instructorId)
+            .orElseThrow(() -> new EntityNotFoundException("Instructor not found with id: " + instructorId));
+        
         if (instructor.getRole() != UserRole.INSTRUCTOR) {
             throw new IllegalStateException("User is not an instructor");
-        } else {
-            course.setInstructor(instructor);
-            course.setStatus(CourseStatus.DRAFT);
-            course.setCreatedAt(LocalDateTime.now());
-            course.setUpdatedAt(LocalDateTime.now());
-            course.setDifficultyScore(0.0);
-            course.setEngagementScore(0.0);
-            course.setCompletionRate(0.0);
-            return (Course)this.courseRepository.save(course);
         }
-    }
-
-    public Course createAutomatedCourse(Course course) {
-        Objects.requireNonNull(course, "Course cannot be null");
-        if (!course.isAutomated()) {
-            throw new IllegalArgumentException("Course must be marked as automated");
-        } else if (course.getAutomatedFeatures() == null) {
-            throw new IllegalArgumentException("Automated features must be specified for automated courses");
-        } else {
-            course.setInstructor((User)null);
-            course.setStatus(CourseStatus.DRAFT);
-            course.setCreatedAt(LocalDateTime.now());
-            course.setUpdatedAt(LocalDateTime.now());
-            course.setDifficultyScore(0.0);
-            course.setEngagementScore(0.0);
-            course.setCompletionRate(0.0);
-            return (Course)this.courseRepository.save(course);
-        }
-    }
-
-    public Course updateCourse(Long id, Course courseDetails) {
-        Objects.requireNonNull(id, "Course ID cannot be null");
-        Objects.requireNonNull(courseDetails, "Course details cannot be null");
-        Course course = this.getCourseById(id);
-        if (courseDetails.getTitle() != null) {
-            course.setTitle(courseDetails.getTitle());
-        }
-
-        if (courseDetails.getDescription() != null) {
-            course.setDescription(courseDetails.getDescription());
-        }
-
-        if (courseDetails.getCoverImage() != null) {
-            course.setCoverImage(courseDetails.getCoverImage());
-        }
-
-        if (courseDetails.getCategory() != null) {
-            course.setCategory(courseDetails.getCategory());
-        }
-
-        if (courseDetails.getPrice() != null) {
-            course.setPrice(courseDetails.getPrice());
-        }
-
-        if (courseDetails.getDuration() != null) {
-            course.setDuration(courseDetails.getDuration());
-        }
-
-        if (courseDetails.getLanguage() != null) {
-            course.setLanguage(courseDetails.getLanguage());
-        }
-
-        if (courseDetails.getLevel() != null) {
-            course.setLevel(courseDetails.getLevel());
-        }
-
-        if (courseDetails.getEstimatedCompletionTime() != null) {
-            course.setEstimatedCompletionTime(courseDetails.getEstimatedCompletionTime());
-        }
-
-        if (courseDetails.getPrerequisites() != null) {
-            course.setPrerequisites(courseDetails.getPrerequisites());
-        }
-
-        if (courseDetails.getLearningObjectives() != null) {
-            course.setLearningObjectives(courseDetails.getLearningObjectives());
-        }
-
-        if (courseDetails.getTargetAudience() != null) {
-            course.setTargetAudience(courseDetails.getTargetAudience());
-        }
-
-        if (courseDetails.getRecommendationTags() != null) {
-            course.setRecommendationTags(courseDetails.getRecommendationTags());
-        }
-
-        if (courseDetails.getType() != null) {
-            course.setType(courseDetails.getType());
-        }
-
+        
+        course.setInstructor(instructor);
+        course.setStatus(CourseStatus.DRAFT);
+        course.setCreatedAt(LocalDateTime.now());
         course.setUpdatedAt(LocalDateTime.now());
-        return (Course)this.courseRepository.save(course);
+        return courseRepository.save(course);
     }
 
-    public void deleteCourse(Long id) {
-        Objects.requireNonNull(id, "Course ID cannot be null");
-        if (!this.courseRepository.existsById(id)) {
-            throw new EntityNotFoundException("Course not found with id: " + id);
-        } else {
-            this.courseRepository.deleteById(id);
+    @Override
+    @Transactional(readOnly = true)
+    public List<Course> getRecommendedCourses(Long userId) {
+        Objects.requireNonNull(userId, "User ID cannot be null");
+        if (!userRepository.existsById(userId)) {
+            throw new EntityNotFoundException("User not found with id: " + userId);
         }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        
+        // Get user's enrolled courses
+        Set<Course> enrolledCourses = user.getEnrolledCourses();
+        
+        // Get user's completed courses categories
+        Set<String> userCategories = enrolledCourses.stream()
+                .map(Course::getCategory)
+                .collect(Collectors.toSet());
+        
+        // Find similar courses in the same categories
+        return courseRepository.findAll().stream()
+                .filter(course -> !enrolledCourses.contains(course))
+                .filter(course -> userCategories.contains(course.getCategory()))
+                .sorted(Comparator.comparing(Course::getEngagementScore).reversed())
+                .limit(5)
+                .collect(Collectors.toList());
     }
 
+    @Override
     public Course publishCourse(Long id) {
         Objects.requireNonNull(id, "Course ID cannot be null");
-        Course course = this.getCourseById(id);
-        if (course.getModules() != null && !course.getModules().isEmpty()) {
-            course.setStatus(CourseStatus.PUBLISHED);
-            course.setUpdatedAt(LocalDateTime.now());
-            return (Course)this.courseRepository.save(course);
-        } else {
+        Course course = findById(id);
+        
+        if (course.getModules() == null || course.getModules().isEmpty()) {
             throw new IllegalStateException("Cannot publish course without modules");
         }
+        
+        course.setStatus(CourseStatus.PUBLISHED);
+        course.setUpdatedAt(LocalDateTime.now());
+        return courseRepository.save(course);
     }
 
+    @Override
     public Course enrollUser(Long courseId, Long userId) {
         Objects.requireNonNull(courseId, "Course ID cannot be null");
         Objects.requireNonNull(userId, "User ID cannot be null");
-        Course course = this.getCourseById(courseId);
-        User user = (User)this.userRepository.findById(userId).orElseThrow(() -> {
-            return new EntityNotFoundException("User not found with id: " + userId);
-        });
+        
+        Course course = findById(courseId);
+        User user = userRepository.findById(userId)
+            .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        
         if (course.getStatus() != CourseStatus.PUBLISHED) {
             throw new IllegalStateException("Cannot enroll in unpublished course");
-        } else if (course.getUserProgress().stream().anyMatch((p) -> {
-            return p.getUser().getId().equals(userId);
-        })) {
-            throw new IllegalStateException("User is already enrolled in this course");
-        } else {
-            CourseProgress progress = new CourseProgress();
-            progress.setUser(user);
-            progress.setCourse(course);
-            progress.setStatus(ProgressStatus.NOT_STARTED);
-            progress.setProgressPercentage(0.0);
-            progress.setEngagementScore(0.0);
-            progress.setPerformanceScore(0.0);
-            progress.setTimeSpentMinutes(0);
-            progress.setLastAccessDate(LocalDateTime.now());
-            progress = (CourseProgress)this.progressRepository.save(progress);
-            course.getUserProgress().add(progress);
-            user.getCourseProgresses().add(progress);
-            return (Course)this.courseRepository.save(course);
         }
+        
+        if (course.getUserProgress().stream().anyMatch(p -> p.getUser().getId().equals(userId))) {
+            throw new IllegalStateException("User is already enrolled in this course");
+        }
+        
+        CourseProgress progress = new CourseProgress();
+        progress.setUser(user);
+        progress.setCourse(course);
+        progress.setStartedAt(LocalDateTime.now());
+        progress.setProgressPercentage(0.0);
+        progress.setStatus(ProgressStatus.IN_PROGRESS);
+        
+        progressRepository.save(progress);
+        
+        course.getEnrolledUsers().add(user);
+        return courseRepository.save(course);
     }
 
-    @Transactional(
-            readOnly = true
-    )
+    @Override
+    @Transactional(readOnly = true)
     public Set<User> getEnrolledUsers(Long courseId) {
         Objects.requireNonNull(courseId, "Course ID cannot be null");
-        Course course = this.getCourseById(courseId);
-        return course.getEnrolledUsers() != null ? course.getEnrolledUsers() : Collections.emptySet();
+        Course course = findById(courseId);
+        return course.getEnrolledUsers();
     }
 
+    @Override
     public void updateCourseMetrics(Long id) {
         Objects.requireNonNull(id, "Course ID cannot be null");
-        Course course = this.getCourseById(id);
-        double completionRate = this.calculateCompletionRate(course);
-        double engagementScore = this.calculateEngagementScore(course);
-        double difficultyScore = this.calculateDifficultyScore(course);
+        Course course = findById(id);
+        
+        double completionRate = calculateCompletionRate(course);
+        double engagementScore = calculateEngagementScore(course);
+        double difficultyScore = calculateDifficultyScore(course);
+        
         course.setCompletionRate(completionRate);
         course.setEngagementScore(engagementScore);
         course.setDifficultyScore(difficultyScore);
         course.setUpdatedAt(LocalDateTime.now());
-        this.courseRepository.save(course);
+        
+        courseRepository.save(course);
     }
 
-    @Transactional(
-            readOnly = true
-    )
-    public List<Course> getRecommendedCourses(Long userId) {
-        Objects.requireNonNull(userId, "User ID cannot be null");
-        if (!this.userRepository.existsById(userId)) {
-            throw new EntityNotFoundException("User not found with id: " + userId);
-        } else {
-            List<Course> allCourses = this.courseRepository.findAll();
-            return allCourses.isEmpty() ? Collections.emptyList() : (allCourses.size() > 5 ? allCourses.subList(0, 5) : allCourses);
-        }
+    @Override
+    public Map<String, Object> getOverviewStats() {
+        List<Course> allCourses = findAll();
+        
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("totalCourses", allCourses.size());
+        stats.put("totalStudents", allCourses.stream()
+                .mapToInt(c -> c.getEnrolledUsers().size())
+                .sum());
+        stats.put("averageCompletionRate", allCourses.stream()
+                .mapToDouble(Course::getCompletionRate)
+                .average()
+                .orElse(0.0));
+        stats.put("averageEngagementScore", allCourses.stream()
+                .mapToDouble(Course::getEngagementScore)
+                .average()
+                .orElse(0.0));
+        
+        return stats;
     }
 
-    @Transactional(
-            readOnly = true
-    )
-    public List<Course> getCoursesByInstructor(Long instructorId) {
-        Objects.requireNonNull(instructorId, "Instructor ID cannot be null");
-        User instructor = (User)this.userRepository.findById(instructorId).orElseThrow(() -> {
-            return new EntityNotFoundException("Instructor not found with id: " + instructorId);
-        });
-        if (instructor.getRole() != UserRole.INSTRUCTOR) {
-            throw new IllegalStateException("User is not an instructor");
-        } else {
-            return this.courseRepository.findByInstructor(instructor);
-        }
+    @Override
+    public List<Map<String, Object>> getCoursesByCategory() {
+        Map<String, Long> categoryCounts = findAll().stream()
+                .collect(Collectors.groupingBy(
+                        Course::getCategory,
+                        Collectors.counting()
+                ));
+        
+        return categoryCounts.entrySet().stream()
+                .map(entry -> {
+                    Map<String, Object> categoryStats = new HashMap<>();
+                    categoryStats.put("category", entry.getKey());
+                    categoryStats.put("count", entry.getValue());
+                    return categoryStats;
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Course> getRecentCourses(int limit) {
+        return courseRepository.findAllByOrderByCreatedAtDesc()
+                .stream()
+                .limit(limit)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Course> getTopPerformingCourses(int limit) {
+        return findAll().stream()
+                .sorted(Comparator.comparing(Course::getEngagementScore).reversed())
+                .limit(limit)
+                .collect(Collectors.toList());
     }
 
     private double calculateCompletionRate(Course course) {
         Objects.requireNonNull(course, "Course cannot be null");
         Set<CourseProgress> progresses = course.getUserProgress();
         if (progresses != null && !progresses.isEmpty()) {
-            long completedCount = progresses.stream().filter((p) -> {
-                return p.getStatus() == ProgressStatus.COMPLETED;
-            }).count();
-            return (double)completedCount / (double)progresses.size() * 100.0;
-        } else {
-            return 0.0;
+            long completedCount = progresses.stream()
+                .filter(p -> p.getStatus() == ProgressStatus.COMPLETED)
+                .count();
+            return (double) completedCount / progresses.size() * 100.0;
         }
+        return 0.0;
     }
 
     private double calculateEngagementScore(Course course) {
         Objects.requireNonNull(course, "Course cannot be null");
         Set<CourseProgress> progresses = course.getUserProgress();
-        return progresses != null && !progresses.isEmpty() ? progresses.stream().mapToDouble(CourseProgress::getEngagementScore).average().orElse(0.0) : 0.0;
+        if (progresses != null && !progresses.isEmpty()) {
+            return progresses.stream()
+                .mapToDouble(CourseProgress::getEngagementScore)
+                .average()
+                .orElse(0.0);
+        }
+        return 0.0;
     }
 
     private double calculateDifficultyScore(Course course) {
         Objects.requireNonNull(course, "Course cannot be null");
         Set<CourseProgress> progresses = course.getUserProgress();
-        return progresses != null && !progresses.isEmpty() ? progresses.stream().mapToDouble(CourseProgress::getPerformanceScore).average().orElse(0.0) : 0.0;
+        if (progresses != null && !progresses.isEmpty()) {
+            return progresses.stream()
+                .mapToDouble(CourseProgress::getPerformanceScore)
+                .average()
+                .orElse(0.0);
+        }
+        return 0.0;
     }
 }

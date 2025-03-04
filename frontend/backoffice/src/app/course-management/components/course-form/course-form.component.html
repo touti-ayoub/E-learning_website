@@ -1,0 +1,665 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">
+              {{ isEditMode ? "Edit Course" : "Create New Course" }}
+            </h4>
+            <p class="card-category">
+              {{
+                isEditMode
+                  ? "Update course information"
+                  : "Fill in the course details"
+              }}
+            </p>
+          </div>
+          <div class="card-body">
+            <form
+              [formGroup]="courseForm"
+              (ngSubmit)="onSubmit()"
+              class="course-form"
+            >
+              <!-- Basic Information -->
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>info</mat-icon>
+                    Basic Information
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Course Title*</mat-label>
+                      <mat-icon matPrefix>title</mat-icon>
+                      <input
+                        matInput
+                        formControlName="title"
+                        placeholder="Enter course title"
+                      />
+                      <mat-error
+                        *ngIf="courseForm.get('title')?.hasError('required')"
+                        >Title is required</mat-error
+                      >
+                      <mat-error
+                        *ngIf="courseForm.get('title')?.hasError('minlength')"
+                        >Title must be at least 3 characters</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Description*</mat-label>
+                      <mat-icon matPrefix>description</mat-icon>
+                      <textarea
+                        matInput
+                        formControlName="description"
+                        rows="4"
+                        placeholder="Enter course description"
+                      ></textarea>
+                      <mat-error
+                        *ngIf="
+                          courseForm.get('description')?.hasError('required')
+                        "
+                        >Description is required</mat-error
+                      >
+                      <mat-error
+                        *ngIf="
+                          courseForm.get('description')?.hasError('minlength')
+                        "
+                        >Description must be at least 10 characters</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Category*</mat-label>
+                      <mat-icon matPrefix>category</mat-icon>
+                      <input
+                        matInput
+                        formControlName="category"
+                        placeholder="Enter course category"
+                      />
+                      <mat-error
+                        *ngIf="courseForm.get('category')?.hasError('required')"
+                        >Category is required</mat-error
+                      >
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Price*</mat-label>
+                      <mat-icon matPrefix>attach_money</mat-icon>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="price"
+                        min="0"
+                      />
+                      <mat-error
+                        *ngIf="courseForm.get('price')?.hasError('required')"
+                        >Price is required</mat-error
+                      >
+                      <mat-error
+                        *ngIf="courseForm.get('price')?.hasError('min')"
+                        >Price cannot be negative</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Language*</mat-label>
+                      <mat-icon matPrefix>language</mat-icon>
+                      <input
+                        matInput
+                        formControlName="language"
+                        placeholder="Enter course language"
+                      />
+                      <mat-error
+                        *ngIf="courseForm.get('language')?.hasError('required')"
+                        >Language is required</mat-error
+                      >
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Level*</mat-label>
+                      <mat-icon matPrefix>star</mat-icon>
+                      <input
+                        matInput
+                        formControlName="level"
+                        placeholder="Enter course level"
+                      />
+                      <mat-error
+                        *ngIf="courseForm.get('level')?.hasError('required')"
+                        >Level is required</mat-error
+                      >
+                    </mat-form-field>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Course Settings -->
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>settings</mat-icon>
+                    Course Settings
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Status</mat-label>
+                      <mat-icon matPrefix>check_circle</mat-icon>
+                      <mat-select formControlName="status">
+                        <mat-option
+                          *ngFor="let status of courseStatuses"
+                          [value]="status"
+                        >
+                          {{ status }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Course Type</mat-label>
+                      <mat-icon matPrefix>class</mat-icon>
+                      <mat-select formControlName="type">
+                        <mat-option
+                          *ngFor="let type of courseTypes"
+                          [value]="type"
+                        >
+                          {{ type }}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+
+                    <div class="form-row">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Estimated Completion Time(hours)</mat-label>
+                        <mat-icon matPrefix>timer</mat-icon>
+                        <input
+                          matInput
+                          type="number"
+                          formControlName="estimatedCompletionTime"
+                          min="1"
+                        />
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div class="form-row" style="display: flex; align-items: center;">
+                    <mat-slide-toggle formControlName="isAutomated" color="primary">
+                      Enable Automated Features
+                    </mat-slide-toggle>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Cover Image URL</mat-label>
+                      <mat-icon matPrefix>image</mat-icon>
+                      <input
+                        matInput
+                        formControlName="coverImage"
+                        placeholder="Enter cover image URL"
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Target Audience</mat-label>
+                      <mat-icon matPrefix>group</mat-icon>
+                      <textarea
+                        matInput
+                        formControlName="targetAudience"
+                        rows="3"
+                        placeholder="Describe the target audience"
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Learning Objectives -->
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>school</mat-icon>
+                    Learning Objectives
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div formArrayName="learningObjectives">
+                    <div
+                      *ngFor="
+                        let objective of getFormArray('learningObjectives')
+                          .controls;
+                        let i = index
+                      "
+                      [formGroupName]="i"
+                      class="array-item"
+                    >
+                      <div class="form-row">
+                        <mat-form-field appearance="outline" class="flex-grow">
+                          <mat-label>Objective</mat-label>
+                          <mat-icon matPrefix>star</mat-icon>
+                          <input
+                            matInput
+                            formControlName="objective"
+                            placeholder="Enter learning objective"
+                          />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label>Difficulty Level</mat-label>
+                          <mat-icon matPrefix>star_rate</mat-icon>
+                          <input
+                            matInput
+                            type="number"
+                            formControlName="difficultyLevel"
+                            min="1"
+                            max="5"
+                          />
+                        </mat-form-field>
+                        <button
+                          type="button"
+                          mat-icon-button
+                          color="warn"
+                          (click)="removeItem('learningObjectives', i)"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      mat-stroked-button
+                      color="primary"
+                      (click)="addLearningObjective()"
+                    >
+                      <mat-icon>add</mat-icon> Add Learning Objective
+                    </button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Prerequisites -->
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>list</mat-icon>
+                    Prerequisites
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div formArrayName="prerequisites">
+                    <div
+                      *ngFor="
+                        let prerequisite of getFormArray('prerequisites')
+                          .controls;
+                        let i = index
+                      "
+                      [formGroupName]="i"
+                      class="array-item"
+                    >
+                      <div class="form-row">
+                        <mat-form-field appearance="outline" class="flex-grow">
+                          <mat-label>Skill Name</mat-label>
+                          <mat-icon matPrefix>check_circle</mat-icon>
+                          <input
+                            matInput
+                            formControlName="skillName"
+                            placeholder="Enter prerequisite skill"
+                          />
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                          <mat-label>Proficiency Level</mat-label>
+                          <mat-icon matPrefix>star_rate</mat-icon>
+                          <input
+                            matInput
+                            type="number"
+                            formControlName="proficiencyLevel"
+                            min="1"
+                            max="5"
+                          />
+                        </mat-form-field>
+                        <mat-slide-toggle formControlName="isRequired"
+                          >Required</mat-slide-toggle
+                        >
+                        <button
+                          type="button"
+                          mat-icon-button
+                          color="warn"
+                          (click)="removeItem('prerequisites', i)"
+                        >
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      mat-stroked-button
+                      color="primary"
+                      (click)="addPrerequisite()"
+                    >
+                      <mat-icon>add</mat-icon> Add Prerequisite
+                    </button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Modules -->
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>view_module</mat-icon>
+                    Course Modules
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div formArrayName="modules">
+                    <div
+                      *ngFor="
+                        let module of getFormArray('modules').controls;
+                        let i = index
+                      "
+                      [formGroupName]="i"
+                      class="module-item"
+                    >
+                      <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                          <mat-panel-title>
+                            Module {{ i + 1 }}:
+                            {{ module.get("title")?.value || "New Module" }}
+                          </mat-panel-title>
+                        </mat-expansion-panel-header>
+
+                        <div class="form-row">
+                          <mat-form-field
+                            appearance="outline"
+                            class="flex-grow"
+                          >
+                            <mat-label>Module Title</mat-label>
+                            <mat-icon matPrefix>title</mat-icon>
+                            <input
+                              matInput
+                              formControlName="title"
+                              placeholder="Enter module title"
+                            />
+                          </mat-form-field>
+                          <mat-form-field appearance="outline">
+                            <mat-label>Type</mat-label>
+                            <mat-select formControlName="type">
+                              <mat-option
+                                *ngFor="let type of moduleTypes"
+                                [value]="type"
+                              >
+                                {{ type }}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+
+                        <div class="form-row">
+                          <mat-form-field
+                            appearance="outline"
+                            class="full-width"
+                          >
+                            <mat-label>Description</mat-label>
+                            <mat-icon matPrefix>description</mat-icon>
+                            <textarea
+                              matInput
+                              formControlName="description"
+                              rows="3"
+                            ></textarea>
+                          </mat-form-field>
+                        </div>
+
+                        <!-- Lessons -->
+                        <div formArrayName="lessons">
+                          <h4>Lessons</h4>
+                          <div
+                            *ngFor="
+                              let lesson of module.get('lessons')?.controls;
+                              let j = index
+                            "
+                            [formGroupName]="j"
+                            class="lesson-item"
+                          >
+                            <mat-expansion-panel>
+                              <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                  Lesson {{ j + 1 }}:
+                                  {{
+                                    lesson.get("title")?.value || "New Lesson"
+                                  }}
+                                </mat-panel-title>
+                              </mat-expansion-panel-header>
+
+                              <div class="form-row">
+                                <mat-form-field
+                                  appearance="outline"
+                                  class="flex-grow"
+                                >
+                                  <mat-label>Lesson Title</mat-label>
+                                  <mat-icon matPrefix>title</mat-icon>
+                                  <input
+                                    matInput
+                                    formControlName="title"
+                                    placeholder="Enter lesson title"
+                                  />
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Type</mat-label>
+                                  <mat-select formControlName="type">
+                                    <mat-option
+                                      *ngFor="let type of lessonTypes"
+                                      [value]="type"
+                                    >
+                                      {{ type }}
+                                    </mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+
+                              <div class="form-row">
+                                <mat-form-field
+                                  appearance="outline"
+                                  class="full-width"
+                                >
+                                  <mat-label>Content</mat-label>
+                                  <mat-icon matPrefix>description</mat-icon>
+                                  <textarea
+                                    matInput
+                                    formControlName="content"
+                                    rows="3"
+                                  ></textarea>
+                                </mat-form-field>
+                              </div>
+
+                              <div class="form-row">
+                                <mat-form-field
+                                  appearance="outline"
+                                  class="flex-grow"
+                                >
+                                  <mat-label>Video URL</mat-label>
+                                  <mat-icon matPrefix>video_library</mat-icon>
+                                  <input matInput formControlName="videoUrl" />
+                                </mat-form-field>
+                                <mat-form-field appearance="outline">
+                                  <mat-label>Duration (minutes)</mat-label>
+                                  <mat-icon matPrefix>access_time</mat-icon>
+                                  <input
+                                    matInput
+                                    type="number"
+                                    formControlName="duration"
+                                  />
+                                </mat-form-field>
+                              </div>
+
+                              <button
+                                type="button"
+                                mat-stroked-button
+                                color="warn"
+                                (click)="removeItem('lessons', j)"
+                              >
+                                <mat-icon>delete</mat-icon> Remove Lesson
+                              </button>
+                            </mat-expansion-panel>
+                          </div>
+                          <button
+                            type="button"
+                            mat-stroked-button
+                            color="primary"
+                            (click)="addLesson(module.get('lessons'))"
+                          >
+                            <mat-icon>add</mat-icon> Add Lesson
+                          </button>
+                        </div>
+
+                        <div class="module-actions">
+                          <button
+                            type="button"
+                            mat-stroked-button
+                            color="warn"
+                            (click)="removeItem('modules', i)"
+                          >
+                            <mat-icon>delete</mat-icon> Remove Module
+                          </button>
+                        </div>
+                      </mat-expansion-panel>
+                    </div>
+                    <button
+                      type="button"
+                      mat-stroked-button
+                      color="primary"
+                      (click)="addModule()"
+                    >
+                      <mat-icon>add</mat-icon> Add Module
+                    </button>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Additional Course Metrics -->
+              <mat-card>
+                <mat-card-header>
+                  <mat-card-title>
+                    <mat-icon>assessment</mat-icon>
+                    Additional Course Metrics
+                  </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Difficulty Score</mat-label>
+                      <mat-icon matPrefix>star</mat-icon>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="difficultyScore"
+                        min="0"
+                        step="0.1"
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Engagement Score</mat-label>
+                      <mat-icon matPrefix>star</mat-icon>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="engagementScore"
+                        min="0"
+                        step="0.1"
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline">
+                      <mat-label>Completion Rate</mat-label>
+                      <mat-icon matPrefix>check_circle</mat-icon>
+                      <input
+                        matInput
+                        type="number"
+                        formControlName="completionRate"
+                        min="0"
+                        max="100"
+                        step="0.1"
+                      />
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Recommendation Tags</mat-label>
+                      <mat-icon matPrefix>tag</mat-icon>
+                      <input
+                        matInput
+                        formControlName="recommendationTags"
+                        placeholder="Enter tags separated by commas"
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>AI Generated Tags</mat-label>
+                      <mat-icon matPrefix>tag</mat-icon>
+                      <input
+                        matInput
+                        formControlName="aiGeneratedTags"
+                        placeholder="Enter tags separated by commas"
+                      />
+                    </mat-form-field>
+                  </div>
+
+                  <div class="form-row">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>AI Generated Summary</mat-label>
+                      <mat-icon matPrefix>description</mat-icon>
+                      <textarea
+                        matInput
+                        formControlName="aiGeneratedSummary"
+                        rows="3"
+                        placeholder="Enter AI generated summary"
+                      ></textarea>
+                    </mat-form-field>
+                  </div>
+                </mat-card-content>
+              </mat-card>
+
+              <!-- Form Actions -->
+              <div class="form-actions">
+                <button
+                  type="button"
+                  mat-stroked-button
+                  [routerLink]="['/courses']"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  mat-raised-button
+                  color="primary"
+                  [disabled]="courseForm.invalid || isLoading"
+                >
+                  <mat-icon>save</mat-icon>
+                  {{ isEditMode ? "Update" : "Create" }} Course
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<mat-progress-spinner
+  *ngIf="isLoading"
+  mode="indeterminate"
+></mat-progress-spinner>
