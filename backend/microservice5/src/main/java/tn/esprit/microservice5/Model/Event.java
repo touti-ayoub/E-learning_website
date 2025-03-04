@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long eventId;
@@ -47,5 +48,18 @@ public class Event {
     @NotBlank(message = "Place is required")
     @Size(min = 2, max = 200, message = "Place must be between 2 and 200 characters")
     private String place;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Event type is required")
+    private EventType eventType;
+
+    public enum EventType {
+        CONFERENCE,
+        WORKSHOP,
+        WEBINAR,
+        HACKATHON,
+        SEMINAR,
+        COURSE_SUPPLEMENT
+    }
 
 }

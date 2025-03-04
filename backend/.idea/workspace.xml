@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="setting up event class">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Event.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +22,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -38,7 +38,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/touti-ayoub/E-learning_website.git&quot;,
-    &quot;accountId&quot;: &quot;99960faa-173e-4a98-8292-19f4149adc12&quot;
+    &quot;accountId&quot;: &quot;54f640ae-01bc-4061-837f-520686531603&quot;
   }
 }</component>
   <component name="ProjectColorInfo">{
@@ -64,6 +64,8 @@
     "Maven.microservice2 [install].executor": "Run",
     "Maven.microservice5 [clean].executor": "Run",
     "Maven.microservice5 [install].executor": "Run",
+    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
+    "Notification.DoNotAsk-Database detector": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -76,7 +78,7 @@
     "Spring Boot.Microservice2Application.executor": "Run",
     "Spring Boot.Microservice5Application.executor": "Run",
     "Spring Boot.TpFoyer17Application.executor": "Run",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "events",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -199,11 +201,25 @@
       <workItem from="1740324713561" duration="2090000" />
       <workItem from="1741015896530" duration="1025000" />
       <workItem from="1741018774772" duration="88000" />
-      <workItem from="1741044535547" duration="3515000" />
+      <workItem from="1741044535547" duration="4834000" />
+      <workItem from="1741129198607" duration="321000" />
     </task>
+    <task id="LOCAL-00001" summary="setting up event class">
+      <option name="closed" value="true" />
+      <created>1741048261489</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741048261489</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="setting up event class" />
+    <option name="LAST_COMMIT_MESSAGE" value="setting up event class" />
   </component>
 </project>
