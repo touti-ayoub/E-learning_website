@@ -2,7 +2,6 @@ package tn.esprit.microservice4.entities;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
-
 @Entity
 @Table(name = "points")
 public class Point {
@@ -11,9 +10,16 @@ public class Point {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPoint;
 
-    private Long userId;  // Stocke l'ID de l'utilisateur du DTO
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    private int pointWins;
+    @ManyToOne
+    @JoinColumn(name = "challenge_id", nullable = false)
+    private Challenge challenge;
+
+    private int pointWins; // Champ qui représente les points attribués
+
     private String typeActivity;
     private LocalDate dateObtenu;
 
@@ -21,8 +27,9 @@ public class Point {
     public Point() {}
 
     // Constructeur avec paramètres
-    public Point(Long userId, int pointWins, String typeActivity, LocalDate dateObtenu) {
-        this.userId = userId;
+    public Point(User user, Challenge challenge, int pointWins, String typeActivity, LocalDate dateObtenu) {
+        this.user = user;
+        this.challenge = challenge;
         this.pointWins = pointWins;
         this.typeActivity = typeActivity;
         this.dateObtenu = dateObtenu;
@@ -37,12 +44,20 @@ public class Point {
         this.idPoint = idPoint;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Challenge getChallenge() {
+        return challenge;
+    }
+
+    public void setChallenge(Challenge challenge) {
+        this.challenge = challenge;
     }
 
     public int getPointWins() {
@@ -50,7 +65,7 @@ public class Point {
     }
 
     public void setPointWins(int pointWins) {
-        this.pointWins = pointWins;
+        this.pointWins = pointWins; // Assurez-vous d'utiliser la méthode setPointWins
     }
 
     public String getTypeActivity() {
@@ -69,19 +84,18 @@ public class Point {
         this.dateObtenu = dateObtenu;
     }
 
-    // Méthode toString
     @Override
     public String toString() {
         return "Point{" +
                 "idPoint=" + idPoint +
-                ", userId=" + userId +
+                ", user=" + user +
+                ", challenge=" + challenge +
                 ", pointWins=" + pointWins +
                 ", typeActivity='" + typeActivity + '\'' +
                 ", dateObtenu=" + dateObtenu +
                 '}';
     }
 
-    // Méthode equals & hashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

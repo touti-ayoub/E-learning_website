@@ -1,9 +1,11 @@
 package tn.esprit.microservice4.controllers;
 
 import tn.esprit.microservice4.entities.Challenge;
+import tn.esprit.microservice4.services.ChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.microservice4.repositories.ChallengeRepository;
 
 import java.util.List;
 
@@ -12,31 +14,40 @@ import java.util.List;
 public class ChallengeController {
 
     @Autowired
-    private ChallengeRepository challengeRepository;
+    private ChallengeService challengeService;
 
+    // Récupérer tous les challenges
     @GetMapping
-    public List<Challenge> getAllChallenges() {
-        return challengeRepository.findAll();
+    public ResponseEntity<List<Challenge>> getAllChallenges() {
+        List<Challenge> challenges = challengeService.getAllChallenges();
+        return new ResponseEntity<>(challenges, HttpStatus.OK);
     }
 
+    // Récupérer un challenge par son ID
     @GetMapping("/{id}")
-    public Challenge getChallengeById(@PathVariable Long id) {
-        return challengeRepository.findById(id).orElseThrow(() -> new RuntimeException("Challenge not found"));
+    public ResponseEntity<Challenge> getChallengeById(@PathVariable Long id) {
+        Challenge challenge = challengeService.getChallengeById(id);
+        return new ResponseEntity<>(challenge, HttpStatus.OK);
     }
 
+    // Créer un nouveau challenge
     @PostMapping
-    public Challenge createChallenge(@RequestBody Challenge challenge) {
-        return challengeRepository.save(challenge);
+    public ResponseEntity<Challenge> createChallenge(@RequestBody Challenge challenge) {
+        Challenge createdChallenge = challengeService.createChallenge(challenge);
+        return new ResponseEntity<>(createdChallenge, HttpStatus.CREATED);
     }
 
+    // Mettre à jour un challenge
     @PutMapping("/{id}")
-    public Challenge updateChallenge(@PathVariable Long id, @RequestBody Challenge challenge) {
-        challenge.setIdChallenge(id);
-        return challengeRepository.save(challenge);
+    public ResponseEntity<Challenge> updateChallenge(@PathVariable Long id, @RequestBody Challenge challengeDetails) {
+        Challenge updatedChallenge = challengeService.updateChallenge(id, challengeDetails);
+        return new ResponseEntity<>(updatedChallenge, HttpStatus.OK);
     }
 
+    // Supprimer un challenge
     @DeleteMapping("/{id}")
-    public void deleteChallenge(@PathVariable Long id) {
-        challengeRepository.deleteById(id);
+    public ResponseEntity<Void> deleteChallenge(@PathVariable Long id) {
+        challengeService.deleteChallenge(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

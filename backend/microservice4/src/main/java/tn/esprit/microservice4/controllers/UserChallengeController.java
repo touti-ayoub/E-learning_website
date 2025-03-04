@@ -1,42 +1,48 @@
 package tn.esprit.microservice4.controllers;
 
 import tn.esprit.microservice4.entities.UserChallenge;
+import tn.esprit.microservice4.entities.User;
+import tn.esprit.microservice4.entities.Challenge;
+import tn.esprit.microservice4.services.UserChallengeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.microservice4.repositories.UserChallengeRepository;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/backoffice/user-challenges")
+@RequestMapping("/api/userChallenges")
 public class UserChallengeController {
 
     @Autowired
-    private UserChallengeRepository userChallengeRepository;
+    private UserChallengeService userChallengeService;
 
-    @GetMapping
-    public List<UserChallenge> getAllUserChallenges() {
-        return userChallengeRepository.findAll();
+    // Rejoindre un challenge
+    @PostMapping("/join")
+    public ResponseEntity<UserChallenge> joinChallenge(@RequestParam Long userId, @RequestParam Long challengeId) {
+        UserChallenge userChallenge = userChallengeService.joinChallenge(userId, challengeId);
+        return new ResponseEntity<>(userChallenge, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}")
-    public UserChallenge getUserChallengeById(@PathVariable Long id) {
-        return userChallengeRepository.findById(id).orElseThrow(() -> new RuntimeException("UserChallenge not found"));
+    // Compléter un challenge
+    @PostMapping("/complete")
+    public ResponseEntity<Void> completeChallenge(@RequestParam Long userChallengeId) {
+        userChallengeService.completeChallenge(userChallengeId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping
-    public UserChallenge createUserChallenge(@RequestBody UserChallenge userChallenge) {
-        return userChallengeRepository.save(userChallenge);
+    // Voir les challenges complétés par un utilisateur
+    @GetMapping("/completed/{userId}")
+    public ResponseEntity<List<UserChallenge>> getCompletedChallenges(@PathVariable Long userId) {
+        List<UserChallenge> completedChallenges = userChallengeService.getCompletedChallenges(userId);
+        return new ResponseEntity<>(completedChallenges, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public UserChallenge updateUserChallenge(@PathVariable Long id, @RequestBody UserChallenge userChallenge) {
-        userChallenge.setId(id);
-        return userChallengeRepository.save(userChallenge);
-    }
-
-    @DeleteMapping("/{id}")
-    public void deleteUserChallenge(@PathVariable Long id) {
-        userChallengeRepository.deleteById(id);
+    // Voir les challenges en cours pour un utilisateur
+    @GetMapping("/ongoing/{userId}")
+    public ResponseEntity<List<UserChallenge>> getOngoingChallenges(@PathVariable Long userId) {
+        List<UserChallenge> ongoingChallenges = userChallengeService.getOngoingChallenges(userId);
+        return new ResponseEntity<>(ongoingChallenges, HttpStatus.OK);
     }
 }

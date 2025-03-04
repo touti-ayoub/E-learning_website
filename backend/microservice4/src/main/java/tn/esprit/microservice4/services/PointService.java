@@ -1,8 +1,11 @@
 package tn.esprit.microservice4.services;
 
 import tn.esprit.microservice4.entities.Point;
+import tn.esprit.microservice4.entities.User;
+import tn.esprit.microservice4.entities.Challenge;
 import tn.esprit.microservice4.repositories.PointRepository;
-import jakarta.persistence.EntityNotFoundException;
+import tn.esprit.microservice4.repositories.UserRepository;
+import tn.esprit.microservice4.repositories.ChallengeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,36 +18,44 @@ public class PointService {
     @Autowired
     private PointRepository pointRepository;
 
-    public List<Point> getAllPoints() {
-        return pointRepository.findAll();
-    }
+    @Autowired
+    private UserRepository userRepository;
 
-    public Point getPointById(Long id) {
-        return pointRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Point not found with ID: " + id));
-    }
+    @Autowired
+    private ChallengeRepository challengeRepository;
 
+    // Ajouter des points à un utilisateur
     @Transactional
-    public Point createPoint(Point point) {
-        if (point.getPointWins() <= 0) {
-            throw new IllegalArgumentException("Point wins must be greater than zero");
-        }
+    public Point addPointsToUser(Long userId, Long challengeId) {
+        // Vérifier si l'utilisateur et le défi existent
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " does not exist"));
+
+        Challenge challenge = challengeRepository.findById(challengeId)
+                .orElseThrow(() -> new IllegalArgumentException("Challenge with ID " + challengeId + " does not exist"));
+
+        // Créer un nouveau point pour l'utilisateur
+        Point point = new Point();
+        point.setUser(user);  // Lier l'utilisateur à ce point
+        point.setChallenge(challenge);
+        point.setPointWins(challenge.getRewardPoints());  // Utiliser les points de récompense du défi
+
+        // Sauvegarder l'attribution des points dans la base de données
         return pointRepository.save(point);
     }
 
-    @Transactional
-    public Point updatePoint(Long id, Point point) {
-        if (!pointRepository.existsById(id)) {
-            throw new EntityNotFoundException("Point not found with ID: " + id);
-        }
-        point.setIdPoint(id);
-        return pointRepository.save(point);
+    // Récupérer les points d'un utilisateur par son ID
+    public List<Point> getUserPointsById(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User with ID " + userId + " does not exist"));
+        return pointRepository.findByUser(user);
     }
 
+    // Supprimer des points par ID
     @Transactional
-    public void deletePoint(Long id) {
+    public void deletePoints(Long id) {
         if (!pointRepository.existsById(id)) {
-            throw new EntityNotFoundException("Point not found with ID: " + id);
+            throw new IllegalArgumentException("Point with ID " + id + " does not exist");
         }
         pointRepository.deleteById(id);
     }
