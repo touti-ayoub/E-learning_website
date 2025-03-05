@@ -1,0 +1,63 @@
+<div class="container">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>Gestion des Badges</mat-card-title>
+        <mat-card-subtitle>
+          Utilisateur connecté: {{currentUser}} | Date: {{currentDate}}
+        </mat-card-subtitle>
+      </mat-card-header>
+  
+      <mat-card-content>
+        <div class="actions-row">
+          <button mat-raised-button color="primary" (click)="createBadge()">
+            <mat-icon>add</mat-icon>
+            Nouveau Badge
+          </button>
+        </div>
+  
+        <table mat-table [dataSource]="badges" class="mat-elevation-z8">
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let badge"> {{badge.idBadge}} </td>
+          </ng-container>
+  
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Nom </th>
+            <td mat-cell *matCellDef="let badge"> {{badge.name}} </td>
+          </ng-container>
+  
+          <!-- Description Column -->
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef> Description </th>
+            <td mat-cell *matCellDef="let badge"> {{badge.description}} </td>
+          </ng-container>
+  
+          <!-- Icon Column -->
+          <ng-container matColumnDef="iconUrl">
+            <th mat-header-cell *matHeaderCellDef> Icône </th>
+            <td mat-cell *matCellDef="let badge">
+              <img [src]="badge.iconUrl" alt="badge icon" class="badge-icon">
+            </td>
+          </ng-container>
+  
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef> Actions </th>
+            <td mat-cell *matCellDef="let badge">
+              <button mat-icon-button color="primary" (click)="editBadge(badge)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteBadge(badge.idBadge)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </mat-card-content>
+    </mat-card>
+  </div>

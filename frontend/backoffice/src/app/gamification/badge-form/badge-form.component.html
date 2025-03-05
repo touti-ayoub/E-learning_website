@@ -1,0 +1,52 @@
+<div class="dialog-container">
+    <h2 mat-dialog-title>{{isEdit ? 'Modifier' : 'Créer'}} un Badge</h2>
+    
+    <form [formGroup]="badgeForm" (ngSubmit)="onSubmit()">
+      <mat-dialog-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nom</mat-label>
+          <input matInput formControlName="name" placeholder="Nom du badge">
+          <mat-error *ngIf="badgeForm.get('name')?.hasError('required')">
+            Le nom est requis
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="3"
+                    placeholder="Description du badge"></textarea>
+          <mat-error *ngIf="badgeForm.get('description')?.hasError('required')">
+            La description est requise
+          </mat-error>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>URL de l'icône</mat-label>
+          <input matInput formControlName="iconUrl" placeholder="URL de l'icône">
+          <mat-error *ngIf="badgeForm.get('iconUrl')?.hasError('required')">
+            L'URL de l'icône est requise
+          </mat-error>
+        </mat-form-field>
+  
+        <div class="preview-container" *ngIf="badgeForm.get('iconUrl')?.value">
+          <img [src]="badgeForm.get('iconUrl')?.value" 
+               alt="Aperçu de l'icône" 
+               class="icon-preview">
+        </div>
+  
+        <div class="info-container">
+          <p>Date de création: {{currentDate}}</p>
+          <p>Créé par: {{currentUser}}</p>
+        </div>
+      </mat-dialog-content>
+  
+      <mat-dialog-actions align="end">
+        <button mat-button type="button" (click)="onCancel()">Annuler</button>
+        <button mat-raised-button color="primary" 
+                type="submit" 
+                [disabled]="badgeForm.invalid">
+          {{isEdit ? 'Modifier' : 'Créer'}}
+        </button>
+      </mat-dialog-actions>
+    </form>
+  </div>

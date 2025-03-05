@@ -19,6 +19,10 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import {FormsModule} from "@angular/forms";
 import { SubscriptionComponent } from './mic2/subscription/subscription.component';
+import { BadgeComponent } from './gamification/badge/badge.component';
+import { ChallengeComponent } from './gamification/challenge/challenge.component';
+import { PointComponent } from './gamification/point/point.component';
+import { UserChallengeComponent } from './gamification/user-challenge/user-challenge.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,11 @@ import { SubscriptionComponent } from './mic2/subscription/subscription.componen
     ContactComponent,
     RegisterComponent,
     LoginComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    BadgeComponent,
+    ChallengeComponent,
+    PointComponent,
+    UserChallengeComponent
   ],
   imports: [
     BrowserModule,

@@ -11,12 +11,17 @@ import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./auth/register/register.component";
 import {SubscriptionComponent} from "./mic2/subscription/subscription.component";
 import {AuthGuard} from "../services/auth/auth.guard";
+import { BadgeComponent } from './gamification/badge/badge.component';
+import { ChallengeComponent } from './gamification/challenge/challenge.component';
 
 // Declare routes outside the class
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'courses', component: CoursesComponent },
+  { path: 'badges', component: BadgeComponent },
+  { path: 'challenges', component: ChallengeComponent },
+
   { path: 'team', component: OurTeamComponent },
   { path: 'testemonial', component: TestimonialComponent },
   { path: 'aboutus', component: AboutUsComponent },

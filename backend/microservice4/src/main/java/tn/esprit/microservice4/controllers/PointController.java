@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/points")
+@RequestMapping("/mic4/points")
 public class PointController {
 
     @Autowired

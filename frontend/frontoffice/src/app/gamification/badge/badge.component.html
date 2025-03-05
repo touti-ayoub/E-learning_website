@@ -1,0 +1,14 @@
+<div class="container">
+    <h2>Badges Disponibles</h2>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let badge of badges">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ badge.name }}</h5>
+            <p class="card-text">{{ badge.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/userChallenges")
+@RequestMapping("/mic4/userChallenges")
 public class UserChallengeController {
 
     @Autowired
