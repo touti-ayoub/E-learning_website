@@ -1,38 +1,38 @@
 export enum CourseType {
-  STATIC = 'STATIC',
-  DYNAMIC = 'DYNAMIC',
-  HYBRID = 'HYBRID'
+  STATIC = "STATIC",
+  DYNAMIC = "DYNAMIC",
+  HYBRID = "HYBRID",
 }
 
 export enum CourseStatus {
-  DRAFT = 'DRAFT',
-  PUBLISHED = 'PUBLISHED',
-  ARCHIVED = 'ARCHIVED'
+  DRAFT = "DRAFT",
+  PUBLISHED = "PUBLISHED",
+  ARCHIVED = "ARCHIVED",
 }
 
 export enum ModuleType {
-  THEORY = 'THEORY',
-  PRACTICE = 'PRACTICE',
-  ASSESSMENT = 'ASSESSMENT',
-  PROJECT = 'PROJECT',
-  INTERACTIVE = 'INTERACTIVE'
+  THEORY = "THEORY",
+  PRACTICE = "PRACTICE",
+  ASSESSMENT = "ASSESSMENT",
+  PROJECT = "PROJECT",
+  INTERACTIVE = "INTERACTIVE",
 }
 
 export enum LessonType {
-  VIDEO = 'VIDEO',
-  TEXT = 'TEXT',
-  QUIZ = 'QUIZ',
-  ASSIGNMENT = 'ASSIGNMENT',
-  PROJECT = 'PROJECT',
-  DISCUSSION = 'DISCUSSION',
-  INTERACTIVE = 'INTERACTIVE'
+  VIDEO = "VIDEO",
+  TEXT = "TEXT",
+  QUIZ = "QUIZ",
+  ASSIGNMENT = "ASSIGNMENT",
+  PROJECT = "PROJECT",
+  DISCUSSION = "DISCUSSION",
+  INTERACTIVE = "INTERACTIVE",
 }
 
 export enum ProgressStatus {
-  NOT_STARTED = 'NOT_STARTED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  PAUSED = 'PAUSED',
-  COMPLETED = 'COMPLETED'
+  NOT_STARTED = "NOT_STARTED",
+  IN_PROGRESS = "IN_PROGRESS",
+  PAUSED = "PAUSED",
+  COMPLETED = "COMPLETED",
 }
 
 export interface LearningObjective {
@@ -136,6 +136,7 @@ export interface Course {
   recommendationTags?: string;
   aiGeneratedTags?: string[];
   aiGeneratedSummary?: string;
+  rating?: number;
   instructor?: {
     id: number;
     username: string;
@@ -150,4 +151,4 @@ export interface Course {
   skillWeights?: { [key: string]: number };
   createdAt?: Date;
   updatedAt?: Date;
-} 
+}

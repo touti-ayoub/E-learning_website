@@ -22,6 +22,7 @@ export class CourseFormComponent implements OnInit {
   isLoading = false;
   courseId: number | null = null;
   selectedFile: File;
+  selectedInstructorId: number | null = null;
 
   courseTypes = Object.values(CourseType);
   courseStatuses = Object.values(CourseStatus);
@@ -48,6 +49,7 @@ export class CourseFormComponent implements OnInit {
   }
 
   private initForm() {
+    console.log("Initializing form...");
     this.courseForm = this.fb.group({
       title: ["", [Validators.required, Validators.minLength(3)]],
       description: ["", [Validators.required, Validators.minLength(10)]],
@@ -70,15 +72,20 @@ export class CourseFormComponent implements OnInit {
       aiGeneratedSummary: [""],
       learningObjectives: this.fb.array([]),
       prerequisites: this.fb.array([]),
-      skillWeights: this.fb.array([]),
+      skillWeights: {},
       modules: this.fb.array([]),
+      // ✅ Default rating to 0.0 so it doesn't become null
+      rating: [0.0, [Validators.min(0), Validators.max(5)]],
     });
+    console.log("Form initialized:", this.courseForm.value);
   }
 
   private loadCourse(id: number) {
+    console.log(`Loading course with ID: ${id}`);
     this.isLoading = true;
     this.courseService.getCourseById(id).subscribe({
       next: (course) => {
+        console.log("Course data loaded:", course);
         this.patchFormWithCourse(course);
         this.isLoading = false;
       },
@@ -109,6 +116,8 @@ export class CourseFormComponent implements OnInit {
       estimatedCompletionTime: course.estimatedCompletionTime,
       targetAudience: course.targetAudience,
       isAutomated: course.isAutomated,
+      // If course.rating is null, default to 0.0
+      rating: course.rating != null ? course.rating : 0.0,
     });
 
     // Clear and rebuild form arrays
@@ -238,35 +247,70 @@ export class CourseFormComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.courseForm.valid) {
-      this.isLoading = true;
-      const courseData = this.prepareCourseData();
+    if (!this.courseForm.valid) {
+      this.notificationService.showNotification(
+        "Please fill in all required fields.",
+        "danger"
+      );
+      return;
+    }
 
-      const request =
-        this.isEditMode && this.courseId
-          ? this.courseService.updateCourse(this.courseId, courseData)
-          : this.courseService.createCourse(courseData, 1); // Assuming instructor ID is 1
+    const courseData = this.prepareCourseData();
+    console.log("Course data before submission:", courseData);
 
-      request.subscribe({
-        next: (course) => {
+    // Check if the automated feature is enabled
+    if (this.courseForm.value.isAutomated) {
+      // Automated course creation
+      this.courseService.generateAutomatedCourse(courseData).subscribe({
+        next: () => {
           this.notificationService.showNotification(
-            "Course updated successfully",
+            "Automated course saved successfully.",
             "success"
           );
           this.router.navigate(["/courses"]);
         },
-        error: (error) => {
-          console.error("Error saving course:", error);
+        error: (err) => {
+          this.isLoading = false;
           this.notificationService.showNotification(
-            "Error saving course",
+            `Error saving automated course: ${err.message}`,
             "danger"
           );
         },
       });
+    } else if (this.selectedInstructorId === null) {
+      this.notificationService.showNotification(
+        "Please select an instructor before submitting.",
+        "danger"
+      );
+      return;
+    } else {
+      // Regular course creation with selected instructor ID
+      this.courseService
+        .createCourse(courseData, this.selectedInstructorId)
+        .subscribe({
+          next: () => {
+            this.notificationService.showNotification(
+              "Course saved successfully.",
+              "success"
+            );
+            this.router.navigate(["/courses"]);
+          },
+          error: (err) => {
+            this.isLoading = false;
+            this.notificationService.showNotification(
+              `Error saving course: ${err.message}`,
+              "danger"
+            );
+          },
+        });
     }
   }
 
   private prepareCourseData(): Course {
+    // If rating is somehow null, default to 0.0
+    const ratingValue =
+      this.courseForm.value.rating == null ? 0.0 : this.courseForm.value.rating;
+
     return {
       title: this.courseForm.value.title,
       description: this.courseForm.value.description,
@@ -285,11 +329,16 @@ export class CourseFormComponent implements OnInit {
       engagementScore: this.courseForm.value.engagementScore,
       completionRate: this.courseForm.value.completionRate,
       recommendationTags: this.courseForm.value.recommendationTags,
-      aiGeneratedTags: this.courseForm.value.aiGeneratedTags,
+      // If the user typed something like "tag1, tag2", we transform it into an array
+      aiGeneratedTags: this.courseForm.value.aiGeneratedTags
+        .split(",")
+        .map((tag) => tag.trim()),
       aiGeneratedSummary: this.courseForm.value.aiGeneratedSummary,
       learningObjectives: this.courseForm.value.learningObjectives,
       prerequisites: this.courseForm.value.prerequisites,
       skillWeights: this.courseForm.value.skillWeights,
+      // ✅ Use the sanitized ratingValue
+      rating: ratingValue,
     };
   }
 
@@ -306,9 +355,7 @@ export class CourseFormComponent implements OnInit {
     if (file) {
       const reader = new FileReader();
       reader.onload = () => {
-        this.courseForm.patchValue({
-          coverImage: reader.result, // This will be the base64 string of the image
-        });
+        this.courseForm.patchValue({ coverImage: reader.result });
       };
       reader.readAsDataURL(file);
     }

@@ -162,8 +162,18 @@
 }
 
 .mat-form-field {
-  flex: 1;
   width: 100%;
+  min-height: 56px;
+  flex: 1;
+}
+
+.mat-input-element {
+  font-size: 16px;
+  padding: 12px;
+}
+
+.mat-select {
+  min-height: 56px;
 }
 
 .array-item {

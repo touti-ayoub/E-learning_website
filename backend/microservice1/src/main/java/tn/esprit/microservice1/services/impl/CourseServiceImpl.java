@@ -1,4 +1,3 @@
-// Source code is decompiled from a .class file using FernFlower decompiler.
 package tn.esprit.microservice1.services.impl;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -86,7 +85,12 @@ public class CourseServiceImpl implements CourseService {
         features.setHasAdaptiveLearning(true);
         features.setHasPeerReview(false);
         course.setAutomatedFeatures(features);
-        
+        System.out.println("Course details before saving: " +
+        "Title: " + course.getTitle() +
+        ", Description: " + course.getDescription() +
+        ", Rating: " + course.getRating() + // Add this line
+        ", Duration: " + course.getDuration() +
+        ", ..."); // Include other relevant fields
         return save(course);
     }
 
@@ -105,16 +109,17 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course createCourse(Course course, Long instructorId) {
         Objects.requireNonNull(course, "Course cannot be null");
-        Objects.requireNonNull(instructorId, "Instructor ID cannot be null");
-        
-        User instructor = userRepository.findById(instructorId)
-            .orElseThrow(() -> new EntityNotFoundException("Instructor not found with id: " + instructorId));
-        
-        if (instructor.getRole() != UserRole.INSTRUCTOR) {
-            throw new IllegalStateException("User is not an instructor");
+
+        if (course.isAutomated()) {
+            // Skip instructor validation if automated
+            course.setInstructor(null); // or handle as needed
+        } else {
+            Objects.requireNonNull(instructorId, "Instructor ID cannot be null");
+            User instructor = userRepository.findById(instructorId)
+                .orElseThrow(() -> new EntityNotFoundException("Instructor not found with id: " + instructorId));
+            course.setInstructor(instructor);
         }
-        
-        course.setInstructor(instructor);
+
         course.setStatus(CourseStatus.DRAFT);
         course.setCreatedAt(LocalDateTime.now());
         course.setUpdatedAt(LocalDateTime.now());

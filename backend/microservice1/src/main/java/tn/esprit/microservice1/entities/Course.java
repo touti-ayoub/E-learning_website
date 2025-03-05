@@ -1,6 +1,9 @@
 package tn.esprit.microservice1.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import java.util.Base64;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -24,7 +27,11 @@ public class Course {
     private String description;
 
     @Column(name = "cover_image")
-    private String coverImage;
+    @JsonIgnore
+    private byte[] coverImage;
+    @Transient
+    @JsonProperty("coverImage") // We use the same JSON property name as in the frontend
+    private String coverImageBase64;
 
     @Column(nullable = false)
     private String category;
@@ -51,8 +58,15 @@ public class Course {
     @Column(name = "target_audience", length = 1000)
     private String targetAudience;
 
+
     @Column(name = "is_automated")
     private boolean isAutomated = false;
+
+    @Column(name = "preferences", length = 1000) 
+    private String preferences;
+
+    @Column(nullable = true)
+    private Double rating ;
 
     @Embedded
     private AutomatedFeatures automatedFeatures;
@@ -153,12 +167,26 @@ public class Course {
     public void setDescription(String description) {
         this.description = description;
     }
+    public String getPreferences() {
+        return preferences;
+    }
 
-    public String getCoverImage() {
+    public void setPreferences(String preferences) {
+        this.preferences = preferences;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
+    }
+    public byte[] getCoverImage() {
         return this.coverImage;
     }
 
-    public void setCoverImage(String coverImage) {
+    public void setCoverImage(byte[] coverImage) {
         this.coverImage = coverImage;
     }
 
@@ -357,4 +385,41 @@ public class Course {
     public void setSkillWeights(Map<String, Double> skillWeights) {
         this.skillWeights = skillWeights;
     }
+
+
+
+    public String getCoverImageBase64() {
+        // Optional: re-inject "data:image/jpeg;base64," if you want:
+        if (coverImage != null && coverImage.length > 0) {
+            return "data:image/jpeg;base64," + Base64.getEncoder().encodeToString(coverImage);
+        }
+        return null;
+    }
+    public void setCoverImageBase64(String coverImageBase64) {
+        this.coverImageBase64 = coverImageBase64;
+        if (coverImageBase64 != null && coverImageBase64.startsWith("data:image")) {
+            try {
+                // Remove data:image/...;base64, prefix
+                String base64Only = coverImageBase64.replaceFirst("^data:image/[^;]+;base64,", "");
+                byte[] decoded = Base64.getDecoder().decode(base64Only);
+
+                // If your DB column is small, you can truncate:
+                int limit = 1000; // or 255, etc.
+                if (decoded.length > limit) {
+                    byte[] truncated = new byte[limit];
+                    System.arraycopy(decoded, 0, truncated, 0, limit);
+                    this.coverImage = truncated;
+                } else {
+                    this.coverImage = decoded;
+                }
+            } catch (IllegalArgumentException e) {
+                // Invalid base64 data
+                this.coverImage = null;
+            }
+        } else {
+            // If no valid data, set to null
+            this.coverImage = null;
+        }
+    }
+
 }

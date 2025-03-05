@@ -1,5 +1,6 @@
 package tn.esprit.microservice1.controllers;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,23 +23,30 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.FileOutputStream;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/courses")
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:4200") // Allow requests from this origin
 public class CourseController {
     private final CourseService courseService;
+    private static final Logger logger = LoggerFactory.getLogger(CourseController.class);
 
     @Autowired
     public CourseController(CourseService courseService) {
         this.courseService = courseService;
     }
 
-    @PostMapping({"/type/automated"})
+    @PostMapping("/automated")
     public ResponseEntity<Course> createAutomatedCourse(@RequestBody Course course) {
-        course.setAutomated(true);
-        return new ResponseEntity(this.courseService.createAutomatedCourse(course), HttpStatus.CREATED);
+        Course saved = courseService.save(course);
+        return ResponseEntity.ok(saved);
     }
+
+
 
     @GetMapping({"/instructor/{instructorId}"})
     public ResponseEntity<List<Course>> getCoursesByInstructor(@PathVariable Long instructorId) {
@@ -68,12 +76,9 @@ public class CourseController {
 
     @PostMapping
     public ResponseEntity<Course> createCourse(
-        @RequestParam("file") MultipartFile file,
+        @RequestParam("file") byte[] file,
         @RequestParam("course") Course course) {
-        // Logic to save the file
-        String filePath = saveFile(file); // Implement this method to save the file and return the path
-        course.setCoverImage(filePath); // Assuming there's a field for the image path in the Course entity
-
+        course.setCoverImage(file);
         return ResponseEntity.ok(this.courseService.save(course));
     }
 
@@ -130,22 +135,22 @@ public class CourseController {
         return ResponseEntity.ok(this.courseService.getTopPerformingCourses(limit));
     }
 
-    private String saveFile(MultipartFile file) {
-        String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+    private String saveFile(byte[] file) {
+        String fileName = System.currentTimeMillis() + "_cover_image";
         String uploadDir = "/actual/path/to/upload/directory"; // Update this path to your desired upload directory
-
         try {
             File uploadDirFile = new File(uploadDir);
             if (!uploadDirFile.exists()) {
                 uploadDirFile.mkdirs(); // Create the directory if it doesn't exist
             }
             File destinationFile = new File(uploadDir, fileName);
-            file.transferTo(destinationFile); // Save the file
+            FileOutputStream fos = new FileOutputStream(destinationFile);
+            fos.write(file);
+            fos.close();
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to store file: " + e.getMessage());
         }
-
         return fileName; // Return the file name or path as needed
     }
 }
