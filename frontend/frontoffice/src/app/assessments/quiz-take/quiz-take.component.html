@@ -1,17 +1,28 @@
-<div *ngIf="quiz">
-    <h2>{{ quiz.title }}</h2>
+<div *ngIf="quiz" class="quiz-take-container">
+    <h1>{{ quiz.title }}</h1>
     <p>{{ quiz.description }}</p>
-    <div *ngFor="let quizQuestion of quiz?.quizQuestions">
-      <h3>{{ quizQuestion?.text }}</h3>
-      <div *ngFor="let quizResult of quizQuestion?.quizResults">
-        <label>
-          <input type="radio" 
-                 [name]="'quizQuestion-' + quizQuestion?.id" 
-                 [value]="quizResult?.id" 
-                 (change)="onAnswerSelected(quizQuestion?.id, quizResult?.id)">
-          {{ quizResult?.text }}
-        </label>
+  
+    <form (ngSubmit)="submitQuiz()" class="quiz-form">
+      <div *ngFor="let question of quiz.questions" class="question-group">
+        <h3>{{ question.text }}</h3>
+  
+        <div *ngFor="let answer of question.answers" class="answer-group">
+          <label>
+            <input
+              type="radio"
+              [name]="'question-' + question.id"
+              [value]="answer.id"
+              (change)="onAnswerSelected(question.id, answer.id)"
+            >
+            {{ answer.text }}
+          </label>
+        </div>
       </div>
-    </div>
-    <button (click)="submitQuiz()">Submit Quiz</button>
+  
+      <button type="submit" class="submit-button">Submit Quiz</button>
+    </form>
+  </div>
+  
+  <div *ngIf="!quiz" class="loading-message">
+    Loading quiz...
   </div>

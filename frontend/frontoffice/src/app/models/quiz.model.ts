@@ -1,18 +1,18 @@
 export interface Quiz {
-  id?: number;
+  id: number;
   title: string;
   description: string;
-  quizQuestions: QuizQuestion[];
+  questions: QuizQuestion[];
 }
 
 export interface QuizQuestion {
-  id?: number;
+  id: number;
   text: string;
-  quizResults: QuizResult[];
+  answers: QuizResult[];
 }
 
 export interface QuizResult {
-  id?: number;
+  id: number;
   text: string;
-  isCorrect?: boolean;
+  isCorrect: boolean;
 }

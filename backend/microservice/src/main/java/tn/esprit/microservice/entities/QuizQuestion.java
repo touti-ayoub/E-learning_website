@@ -1,5 +1,7 @@
 package tn.esprit.microservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,8 +19,10 @@ public class QuizQuestion {
 
     @ManyToOne
     @JoinColumn(name = "quiz_id")
+    @JsonBackReference
     private Quiz quiz;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<QuizResult> answers = new ArrayList<>();
 }

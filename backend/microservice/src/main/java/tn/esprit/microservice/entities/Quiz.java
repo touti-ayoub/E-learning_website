@@ -1,6 +1,7 @@
 package tn.esprit.microservice.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.aspectj.weaver.patterns.TypePatternQuestions;
@@ -19,5 +20,6 @@ public class Quiz {
     private String description;
 
     @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<QuizQuestion> questions = new ArrayList<>();
 }

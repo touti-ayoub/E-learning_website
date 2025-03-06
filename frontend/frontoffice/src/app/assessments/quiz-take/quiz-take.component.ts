@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
-import { Quiz, QuizQuestion } from '../../models/quiz.model';
+import { Quiz, QuizQuestion, QuizResult } from '../../models/quiz.model';
 
 @Component({
   selector: 'app-quiz-take',
@@ -9,16 +9,16 @@ import { Quiz, QuizQuestion } from '../../models/quiz.model';
   styleUrls: ['./quiz-take.component.css']
 })
 export class QuizTakeComponent implements OnInit {
-  quiz: Quiz | null = null; // Initialize quiz as null
+  quiz: Quiz | null = null;
   userAnswers: Map<number, number> = new Map();
 
   constructor(
     private route: ActivatedRoute,
-    private quizService: QuizService,
-    private router: Router // Inject Router for navigation
+    private router: Router,
+    private quizService: QuizService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     const quizId = this.route.snapshot.paramMap.get('id');
 
     // Check if quizId is null
@@ -32,6 +32,9 @@ export class QuizTakeComponent implements OnInit {
     this.quizService.getQuizById(+quizId).subscribe(
       (quiz) => {
         this.quiz = quiz;
+        if (!this.quiz.questions || this.quiz.questions.length === 0) {
+          console.error('No questions found for this quiz');
+        }
       },
       (error) => {
         console.error('Error fetching quiz:', error);
@@ -40,33 +43,40 @@ export class QuizTakeComponent implements OnInit {
     );
   }
 
-  submitQuiz() {
+  onAnswerSelected(questionId: number | undefined, answerId: number | undefined): void {
+    if (questionId !== undefined && answerId !== undefined) {
+      this.userAnswers.set(questionId, answerId);
+    } else {
+      console.error('Question ID or Answer ID is undefined');
+    }
+  }
+
+  submitQuiz(): void {
     if (!this.quiz) {
       console.error('Quiz is not loaded');
       return;
     }
-  
+
     const quizId = this.quiz.id;
     if (quizId === undefined) {
       console.error('Quiz ID is undefined');
       return;
     }
-  
-    this.quizService.evaluateQuiz(quizId, this.userAnswers).subscribe(
+
+    // Convert Map to an object
+    const userAnswersObject = Object.fromEntries(this.userAnswers);
+    console.log('Submitting quiz with answers:', userAnswersObject);
+
+    this.quizService.evaluateQuiz(quizId, userAnswersObject).subscribe(
       (score) => {
-        alert(`Your score: ${score}/${this.quiz!.quizQuestions.length}`);
+        alert(`Your score: ${score}/${this.quiz!.questions.length}`);
         // Navigate to the quiz result page
-        this.router.navigate(['/quiz-result', score, this.quiz!.quizQuestions.length]);
+        this.router.navigate(['/quiz-result', score, this.quiz!.questions.length]);
       },
       (error) => {
         console.error('Error evaluating quiz:', error);
         alert('Error evaluating quiz. Please try again.');
       }
     );
-  }
-  onAnswerSelected(questionId: number | undefined, answerId: number | undefined) {
-    if (questionId !== undefined && answerId !== undefined) {
-      this.userAnswers.set(questionId, answerId);
-    }
   }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Quiz, QuizQuestion, QuizResult } from '../models/quiz.model';
+import { Quiz } from '../models/quiz.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +27,7 @@ export class QuizService {
   }
 
   // Evaluate a quiz
-  evaluateQuiz(quizId: number, answers: Map<number, number>): Observable<number> {
-    const answersObject = Object.fromEntries(answers); // Convert Map to plain object
-    return this.http.post<number>(`${this.apiUrl}/quizzes/${quizId}/evaluate`, answersObject);
+  evaluateQuiz(quizId: number, answers: { [key: number]: number }): Observable<number> {
+    return this.http.post<number>(`${this.apiUrl}/quizzes/${quizId}/evaluate`, answers);
   }
 }

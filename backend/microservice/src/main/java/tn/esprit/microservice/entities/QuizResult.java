@@ -1,5 +1,6 @@
 package tn.esprit.microservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,5 +17,6 @@ public class QuizResult {
 
     @ManyToOne
     @JoinColumn(name = "question_id") // This links Answer to Question
+    @JsonBackReference
     private QuizQuestion question; // Ensure this is the correct entity type
 }
