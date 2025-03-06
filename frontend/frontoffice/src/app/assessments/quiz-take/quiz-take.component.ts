@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
-import { Quiz, QuizQuestion, QuizResult } from '../../models/quiz.model';
+import { Quiz } from '../../models/quiz.model';
 
 @Component({
   selector: 'app-quiz-take',
   templateUrl: './quiz-take.component.html',
   styleUrls: ['./quiz-take.component.css']
 })
-export class QuizTakeComponent implements OnInit {
+export class QuizTakeComponent implements OnInit, OnDestroy {
   quiz: Quiz | null = null;
   userAnswers: Map<number, number> = new Map();
+  timeLeft: number = 5; // 5 minutes in seconds
+  interval: any;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,26 +23,54 @@ export class QuizTakeComponent implements OnInit {
   ngOnInit(): void {
     const quizId = this.route.snapshot.paramMap.get('id');
 
-    // Check if quizId is null
     if (quizId === null) {
       console.error('Quiz ID is missing from the URL');
-      this.router.navigate(['/quizzes/list']); // Redirect to quiz list
+      this.router.navigate(['/quizzes/list']);
       return;
     }
 
-    // Fetch the quiz by ID
     this.quizService.getQuizById(+quizId).subscribe(
       (quiz) => {
         this.quiz = quiz;
         if (!this.quiz.questions || this.quiz.questions.length === 0) {
           console.error('No questions found for this quiz');
         }
+        this.startTimer();
       },
       (error) => {
         console.error('Error fetching quiz:', error);
-        this.router.navigate(['/quizzes/list']); // Redirect to quiz list on error
+        this.router.navigate(['/quizzes/list']);
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
+  }
+
+  startTimer(): void {
+    console.log('Starting timer with timeLeft:', this.timeLeft);
+    this.interval = setInterval(() => {
+      if (this.timeLeft > 0) {
+        this.timeLeft--;
+        console.log('Time left:', this.timeLeft);
+      } else {
+        console.log('Time is up, submitting quiz');
+        this.submitQuiz();
+      }
+    }, 1000);
+  }
+
+  formatTime(seconds: number): string {
+    const minutes: number = Math.floor(seconds / 60);
+    const remainingSeconds: number = seconds % 60;
+    return `${this.pad(minutes)}:${this.pad(remainingSeconds)}`;
+  }
+
+  pad(num: number): string {
+    return num < 10 ? '0' + num : num.toString();
   }
 
   onAnswerSelected(questionId: number | undefined, answerId: number | undefined): void {

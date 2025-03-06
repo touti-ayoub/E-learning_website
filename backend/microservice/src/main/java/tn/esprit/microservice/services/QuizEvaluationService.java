@@ -17,6 +17,13 @@ public class QuizEvaluationService {
     // Evaluate a quiz and return the score
     public int evaluateQuiz(Long quizId, Map<Long, Long> userAnswers) {
         Quiz quiz = quizService.getQuizById(quizId);
+        if (quiz == null) {
+            throw new IllegalArgumentException("Quiz not found with ID: " + quizId);
+        }
+
+        System.out.println("Evaluating quiz with ID: " + quizId);
+        System.out.println("User answers: " + userAnswers);
+
         int score = 0;
 
         for (QuizQuestion question : quiz.getQuestions()) {
@@ -26,11 +33,13 @@ public class QuizEvaluationService {
                     .findFirst()
                     .orElseThrow(() -> new RuntimeException("No correct answer found for question: " + question.getId()));
 
-            if (userAnswers.get(question.getId()).equals(correctAnswerId)) {
+            Long userAnswerId = userAnswers.get(question.getId());
+            if (userAnswerId != null && userAnswerId.equals(correctAnswerId)) {
                 score++;
             }
         }
 
+        System.out.println("Calculated score: " + score);
         return score;
     }
 }
