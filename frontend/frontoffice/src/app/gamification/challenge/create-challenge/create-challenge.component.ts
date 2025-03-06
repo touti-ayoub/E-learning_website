@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ChallengeService } from 'src/app/services/gamification/challenge/challenge-service.service';
+import { Badge, Challenge } from 'src/models/Challenge.model';
 
 @Component({
   selector: 'app-create-challenge',
@@ -10,56 +11,60 @@ import { ChallengeService } from 'src/app/services/gamification/challenge/challe
   styleUrls: ['./create-challenge.component.css']
 })
 export class CreateChallengeComponent implements OnInit {
-  challengeForm: FormGroup;
+  // Initialisation définitive du FormGroup
+  challengeForm: FormGroup = this.initForm();
   loading = false;
-  currentDate = '2025-03-06 04:29:57';
+  currentDate = '2025-03-06'; // Format YYYY-MM-DD uniquement
   currentUser = 'nessimayadi12';
-
-  difficultyLevels = [
-    { value: 'EASY', label: 'Facile' },
-    { value: 'MEDIUM', label: 'Moyen' },
-    { value: 'HARD', label: 'Difficile' }
-  ];
+  badges: Badge[] = [];
 
   constructor(
     private fb: FormBuilder,
     private challengeService: ChallengeService,
     private snackBar: MatSnackBar,
     private router: Router
-  ) {
-    this.challengeForm = this.fb.group({
+  ) {}
+
+  private initForm(): FormGroup {
+    return this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: ['', [Validators.required, Validators.minLength(10)]],
-      difficulty: ['MEDIUM', Validators.required],
-      rewardPoints: ['', [Validators.required, Validators.min(1)]],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      maxParticipants: ['', [Validators.required, Validators.min(1)]],
-      badgeId: [''],
-      requirements: ['', Validators.required]
+      rewardPoints: [0, [Validators.required, Validators.min(1)]],
+      badge: [null]
     });
   }
 
   ngOnInit(): void {
-    // Initialiser les dates avec la date courante
-    const today = new Date();
-    this.challengeForm.patchValue({
-      startDate: today.toISOString().split('T')[0],
-      endDate: new Date(today.setDate(today.getDate() + 30)).toISOString().split('T')[0]
+    this.loadBadges();
+  }
+
+  private loadBadges(): void {
+    this.challengeService.getBadges().subscribe({
+      next: (badges) => {
+        this.badges = badges;
+      },
+      error: (error) => {
+        this.snackBar.open('Erreur lors du chargement des badges', 'Fermer', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
     });
   }
 
   onSubmit(): void {
     if (this.challengeForm.valid) {
       this.loading = true;
-      const challengeData = {
-        ...this.challengeForm.value,
+
+      const challenge: Omit<Challenge, 'idChallenge'> = {
+        name: this.challengeForm.value.name,
+        description: this.challengeForm.value.description,
         createdAt: this.currentDate,
-        createdBy: this.currentUser,
-        status: 'ACTIVE'
+        rewardPoints: this.challengeForm.value.rewardPoints,
+        badge: this.challengeForm.value.badge
       };
 
-      this.challengeService.createChallenge(challengeData).subscribe({
+      this.challengeService.createChallenge(challenge).subscribe({
         next: (response) => {
           this.snackBar.open('Challenge créé avec succès!', 'Fermer', {
             duration: 3000,
@@ -69,10 +74,14 @@ export class CreateChallengeComponent implements OnInit {
         },
         error: (error) => {
           this.loading = false;
-          this.snackBar.open(`Erreur lors de la création: ${error.message}`, 'Fermer', {
-            duration: 5000,
-            panelClass: ['error-snackbar']
-          });
+          this.snackBar.open(
+            `Erreur lors de la création: ${error.message}`, 
+            'Fermer', 
+            {
+              duration: 5000,
+              panelClass: ['error-snackbar']
+            }
+          );
         },
         complete: () => {
           this.loading = false;
@@ -83,7 +92,7 @@ export class CreateChallengeComponent implements OnInit {
     }
   }
 
-  private markFormGroupTouched(formGroup: FormGroup) {
+  private markFormGroupTouched(formGroup: FormGroup): void {
     Object.values(formGroup.controls).forEach(control => {
       control.markAsTouched();
       if (control instanceof FormGroup) {

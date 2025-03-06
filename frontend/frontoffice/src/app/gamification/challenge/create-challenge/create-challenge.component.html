@@ -1,113 +1,69 @@
 <div class="create-challenge-container">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>Créer un nouveau Challenge</mat-card-title>
-        <mat-card-subtitle>
-          {{currentUser}} | {{currentDate}}
-        </mat-card-subtitle>
-      </mat-card-header>
-  
-      <mat-card-content>
-        <form [formGroup]="challengeForm" (ngSubmit)="onSubmit()" class="challenge-form">
-          <!-- Nom du challenge -->
-          <mat-form-field appearance="outline">
-            <mat-label>Nom du challenge</mat-label>
-            <input matInput formControlName="name" placeholder="Entrez le nom du challenge">
-            <mat-error *ngIf="challengeForm.get('name')?.invalid">
-              {{getErrorMessage('name')}}
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Description -->
-          <mat-form-field appearance="outline">
-            <mat-label>Description</mat-label>
-            <textarea matInput formControlName="description" rows="4" 
-                      placeholder="Décrivez le challenge"></textarea>
-            <mat-error *ngIf="challengeForm.get('description')?.invalid">
-              {{getErrorMessage('description')}}
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Difficulté -->
-          <mat-form-field appearance="outline">
-            <mat-label>Niveau de difficulté</mat-label>
-            <mat-select formControlName="difficulty">
-              <mat-option *ngFor="let level of difficultyLevels" [value]="level.value">
-                {{level.label}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-  
-          <!-- Points de récompense -->
-          <mat-form-field appearance="outline">
-            <mat-label>Points de récompense</mat-label>
-            <input matInput type="number" formControlName="rewardPoints" 
-                   placeholder="Nombre de points">
-            <mat-error *ngIf="challengeForm.get('rewardPoints')?.invalid">
-              {{getErrorMessage('rewardPoints')}}
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Date de début -->
-          <mat-form-field appearance="outline">
-            <mat-label>Date de début</mat-label>
-            <input matInput [matDatepicker]="startPicker" formControlName="startDate">
-            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-            <mat-datepicker #startPicker></mat-datepicker>
-            <mat-error *ngIf="challengeForm.get('startDate')?.invalid">
-              {{getErrorMessage('startDate')}}
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Date de fin -->
-          <mat-form-field appearance="outline">
-            <mat-label>Date de fin</mat-label>
-            <input matInput [matDatepicker]="endPicker" formControlName="endDate">
-            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-            <mat-datepicker #endPicker></mat-datepicker>
-            <mat-error *ngIf="challengeForm.get('endDate')?.invalid">
-              {{getErrorMessage('endDate')}}
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Nombre maximum de participants -->
-          <mat-form-field appearance="outline">
-            <mat-label>Nombre maximum de participants</mat-label>
-            <input matInput type="number" formControlName="maxParticipants" 
-                   placeholder="Nombre max de participants">
-            <mat-error *ngIf="challengeForm.get('maxParticipants')?.invalid">
-              {{getErrorMessage('maxParticipants')}}
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Badge ID (optionnel) -->
-          <mat-form-field appearance="outline">
-            <mat-label>Badge associé (optionnel)</mat-label>
-            <input matInput formControlName="badgeId" placeholder="ID du badge">
-          </mat-form-field>
-  
-          <!-- Prérequis -->
-          <mat-form-field appearance="outline">
-            <mat-label>Prérequis</mat-label>
-            <textarea matInput formControlName="requirements" rows="3" 
-                      placeholder="Listez les prérequis"></textarea>
-            <mat-error *ngIf="challengeForm.get('requirements')?.invalid">
-              {{getErrorMessage('requirements')}}
-            </mat-error>
-          </mat-form-field>
-  
-          <!-- Boutons -->
-          <div class="form-actions">
-            <button mat-button type="button" routerLink="/gamification/challenges">
-              Annuler
-            </button>
-            <button mat-raised-button color="primary" type="submit" 
-                    [disabled]="challengeForm.invalid || loading">
-              <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
-              <span *ngIf="!loading">Créer le challenge</span>
-            </button>
-          </div>
-        </form>
-      </mat-card-content>
-    </mat-card>
-  </div>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Créer un nouveau Challenge</mat-card-title>
+      <mat-card-subtitle>
+        {{currentUser}} | {{currentDate}}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form [formGroup]="challengeForm" (ngSubmit)="onSubmit()" class="challenge-form">
+        <!-- Nom du challenge -->
+        <mat-form-field appearance="outline">
+          <mat-label>Nom du challenge</mat-label>
+          <input matInput formControlName="name" placeholder="Entrez le nom du challenge">
+          <mat-error *ngIf="challengeForm.get('name')?.invalid">
+            {{getErrorMessage('name')}}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Description -->
+        <mat-form-field appearance="outline">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" rows="4" 
+                    placeholder="Décrivez le challenge"></textarea>
+          <mat-error *ngIf="challengeForm.get('description')?.invalid">
+            {{getErrorMessage('description')}}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Points de récompense -->
+        <mat-form-field appearance="outline">
+          <mat-label>Points de récompense</mat-label>
+          <input matInput type="number" formControlName="rewardPoints" 
+                 placeholder="Nombre de points">
+          <mat-error *ngIf="challengeForm.get('rewardPoints')?.invalid">
+            {{getErrorMessage('rewardPoints')}}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Badge -->
+        <mat-form-field appearance="outline">
+          <mat-label>Badge (optionnel)</mat-label>
+          <mat-select formControlName="badge">
+            <mat-option>Aucun</mat-option>
+            <mat-option *ngFor="let badge of badges" [value]="badge">
+              <div class="badge-option">
+                <img [src]="badge.iconUrl" [alt]="badge.name" class="badge-icon">
+                {{badge.name}}
+              </div>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Boutons -->
+        <div class="form-actions">
+          <button mat-button type="button" routerLink="/gamification/challenges">
+            Annuler
+          </button>
+          <button mat-raised-button color="primary" type="submit" 
+                  [disabled]="challengeForm.invalid || loading">
+            <mat-spinner diameter="20" *ngIf="loading"></mat-spinner>
+            <span *ngIf="!loading">Créer le challenge</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
