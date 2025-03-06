@@ -1,0 +1,209 @@
+<div class="payment-container">
+  <!-- Header with current info -->
+  <div class="user-info-bar">
+    <div class="user-info">
+      <i class="fas fa-user-circle"></i>
+      <span>{{currentUser}}</span>
+    </div>
+    <div class="date-info">
+      <i class="fas fa-clock"></i>
+      <span>{{currentDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+    </div>
+  </div>
+
+  <div class="payment-content">
+    <h1 class="payment-title">
+      <span class="highlight-text">Complete</span> Your Payment
+      <div class="title-underline"></div>
+    </h1>
+
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="loader"></div>
+      <p>Loading payment information...</p>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="error && !loading" class="error-message">
+      <div class="message-icon">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <p>{{error}}</p>
+    </div>
+
+    <!-- Success message -->
+    <div *ngIf="success && !loading" class="success-message">
+      <div class="success-checkmark">
+        <div class="check-icon">
+          <span class="icon-line line-tip"></span>
+          <span class="icon-line line-long"></span>
+        </div>
+      </div>
+      <p class="success-title">Payment successful!</p>
+      <p class="success-subtitle">Redirecting to payment confirmation...</p>
+    </div>
+
+    <!-- Payment Form -->
+    <div *ngIf="!loading && !success && payment" class="payment-form-container">
+      <!-- Payment Summary -->
+      <div class="payment-summary">
+        <div class="summary-header">
+          <h2>{{getCourseTitle()}}</h2>
+          <span class="payment-badge">{{getPaymentDescription()}}</span>
+        </div>
+        <div class="summary-amount">{{getDisplayAmount()}}</div>
+      </div>
+
+      <!-- Credit Card Form -->
+      <div class="card-form-container">
+        <!-- Virtual Credit Card Display -->
+        <div class="credit-card">
+          <div class="card-chip"></div>
+          <div class="card-number">{{cardDetails.number || '•••• •••• •••• ••••'}}</div>
+          <div class="card-details">
+            <div class="card-holder">
+              <span class="detail-label">Card Holder</span>
+              <span class="detail-value">{{cardDetails.holder || 'YOUR NAME'}}</span>
+            </div>
+            <div class="card-expiry">
+              <span class="detail-label">Expires</span>
+              <span class="detail-value">{{cardDetails.expiry || 'MM/YY'}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actual Form -->
+        <div class="form-fields">
+          <!-- Card Number -->
+          <div class="form-group" [ngClass]="{'has-error': cardNumberInvalid && cardNumberTouched}">
+            <label>Card Number</label>
+            <div class="input-icon-wrapper">
+              <i class="far fa-credit-card"></i>
+              <input
+                type="text"
+                name="cardNumber"
+                [(ngModel)]="cardDetails.number"
+                placeholder="1234 5678 9012 3456"
+                (input)="formatCardNumber($event)"
+                required
+                pattern="[0-9\s]{16,19}"
+                autocomplete="cc-number"
+              >
+            </div>
+            <p class="error-hint" *ngIf="cardNumberInvalid && cardNumberTouched">
+              Please enter a valid 16-digit card number.
+            </p>
+          </div>
+
+          <!-- Card Holder Name -->
+          <div class="form-group" [ngClass]="{'has-error': cardHolderInvalid && cardHolderTouched}">
+            <label>Card Holder Name</label>
+            <div class="input-icon-wrapper">
+              <i class="far fa-user"></i>
+              <input
+                type="text"
+                name="cardHolder"
+                [(ngModel)]="cardDetails.holder"
+                placeholder="John Doe"
+                required
+                autocomplete="cc-name"
+              >
+            </div>
+            <p class="error-hint" *ngIf="cardHolderInvalid && cardHolderTouched">
+              Please enter the cardholder name.
+            </p>
+          </div>
+
+          <div class="form-row">
+            <!-- Expiry Date -->
+            <div class="form-group" [ngClass]="{'has-error': expiryInvalid && expiryTouched}">
+              <label>Expiry Date</label>
+              <div class="input-icon-wrapper">
+                <i class="far fa-calendar-alt"></i>
+                <input
+                  type="text"
+                  name="expiryDate"
+                  [(ngModel)]="cardDetails.expiry"
+                  placeholder="MM/YY"
+                  (input)="formatExpiryDate($event)"
+                  required
+                  pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$"
+                  autocomplete="cc-exp"
+                >
+              </div>
+              <p class="error-hint" *ngIf="expiryInvalid && expiryTouched">
+                Please enter a valid expiry date (MM/YY).
+              </p>
+            </div>
+
+            <!-- CVV -->
+            <div class="form-group" [ngClass]="{'has-error': cvvInvalid && cvvTouched}">
+              <label>CVV</label>
+              <div class="input-icon-wrapper">
+                <i class="fas fa-lock"></i>
+                <input
+                  type="password"
+                  name="cvv"
+                  [(ngModel)]="cardDetails.cvv"
+                  placeholder="123"
+                  (input)="restrictCVVInput($event)"
+                  required
+                  pattern="[0-9]{3,4}"
+                  maxlength="4"
+                  autocomplete="cc-csc"
+                >
+              </div>
+              <p class="error-hint" *ngIf="cvvInvalid && cvvTouched">
+                Please enter a valid CVV code.
+              </p>
+            </div>
+          </div>
+
+          <!-- Security Notice -->
+          <div class="security-notice">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+              <span class="notice-title">Secure Payment</span>
+              <p>Your payment information is encrypted and secure. We do not store your card details.</p>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn-cancel"
+              (click)="goBack()">
+              <i class="fas fa-arrow-left"></i>
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              class="btn-submit"
+              [disabled]="processing"
+              (click)="onSubmit()">
+              <span class="btn-text">{{processing ? 'Processing...' : 'Complete Payment'}}</span>
+              <div *ngIf="processing" class="spinner"></div>
+              <i *ngIf="!processing" class="fas fa-lock"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No payment data state -->
+    <div *ngIf="!loading && !payment && !success" class="empty-state">
+      <div class="empty-icon">
+        <i class="far fa-question-circle"></i>
+      </div>
+      <p>No payment information available.</p>
+      <button
+        (click)="goBack()"
+        class="btn-return">
+        <i class="fas fa-home"></i>
+        Return to Dashboard
+      </button>
+    </div>
+  </div>
+</div>

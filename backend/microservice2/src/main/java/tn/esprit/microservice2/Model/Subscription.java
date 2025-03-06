@@ -22,12 +22,12 @@ public class Subscription {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore // Use JsonIgnore instead of JsonBackReference for better control
+    @JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = false)
-    @JsonIgnore // Use JsonIgnore instead of JsonBackReference for better control
+    @JsonIgnore
     private Course course;
 
     @OneToMany(mappedBy = "subscription", cascade = CascadeType.ALL)

@@ -11,7 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular-devkit/build-angular": "^16.2.16",
-    "@angular/animations": "^16.2.0",
+    "@angular/animations": "^16.2.12",
     "@angular/common": "^16.2.0",
     "@angular/compiler": "^16.2.0",
     "@angular/core": "^16.2.0",
@@ -20,7 +20,9 @@
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
     "bootstrap": "^5.3.3",
+    "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
+    "jspdf": "^3.0.0",
     "owl.carousel": "^2.3.4",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.17.2",
