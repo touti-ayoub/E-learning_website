@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import {AuthService} from "../../../services/auth/auth.service";
-import {SubscriptionService} from "../../../services/mic2/subscription.service";
+import {AuthService} from "../../services/auth/auth.service";
+import {SubscriptionService} from "../../services/mic2/subscription.service";
 
 
 

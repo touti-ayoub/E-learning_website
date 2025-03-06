@@ -1,0 +1,93 @@
+<div class="challenges-container">
+    <mat-toolbar color="primary">
+      <span>Défis</span>
+      <span class="spacer"></span>
+      <span class="user-info">
+        {{currentUser}} | {{currentDate}}
+      </span>
+    </mat-toolbar>
+  
+    <div class="content-container">
+      <!-- Défis disponibles -->
+      <mat-card class="section-card">
+        <mat-card-header>
+          <mat-card-title>Défis Disponibles</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="challenges-grid">
+            <mat-card *ngFor="let challenge of allChallenges" 
+                      class="challenge-card"
+                      [ngClass]="getChallengeStatus(challenge)">
+              <mat-card-header>
+                <mat-card-title>{{challenge.name}}</mat-card-title>
+                <mat-card-subtitle>{{challenge.rewardPoints}} points</mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content>
+                <p>{{challenge.description}}</p>
+                <div *ngIf="challenge.badge" class="badge-info">
+                  <img [src]="challenge.badge.iconUrl" [alt]="challenge.badge.name">
+                  <span>Badge: {{challenge.badge.name}}</span>
+                </div>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-raised-button color="primary" 
+                        (click)="joinChallenge(challenge.idChallenge)"
+                        [disabled]="isJoined(challenge)">
+                  {{isJoined(challenge) ? 'En cours' : 'Participer'}}
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+  
+      <!-- Défis en cours -->
+      <mat-card class="section-card">
+        <mat-card-header>
+          <mat-card-title>Défis en Cours</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="challenges-grid">
+            <mat-card *ngFor="let userChallenge of ongoingChallenges" class="challenge-card">
+              <mat-card-header>
+                <mat-card-title>{{userChallenge.challenge.name}}</mat-card-title>
+              </mat-card-header>
+              <mat-card-content>
+                <p>{{userChallenge.challenge.description}}</p>
+              </mat-card-content>
+              <mat-card-actions>
+                <button mat-raised-button color="accent" 
+                        (click)="completeChallenge(userChallenge.id)">
+                  Terminer le défi
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+  
+      <!-- Défis complétés -->
+      <mat-card class="section-card">
+        <mat-card-header>
+          <mat-card-title>Défis Complétés</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="challenges-grid">
+            <mat-card *ngFor="let userChallenge of completedChallenges" class="challenge-card completed">
+              <mat-card-header>
+                <mat-card-title>{{userChallenge.challenge.name}}</mat-card-title>
+                <mat-icon class="completion-icon">check_circle</mat-icon>
+              </mat-card-header>
+              <mat-card-content>
+                <p>{{userChallenge.challenge.description}}</p>
+                <div *ngIf="userChallenge.challenge.badge" class="badge-earned">
+                  <img [src]="userChallenge.challenge.badge.iconUrl" 
+                       [alt]="userChallenge.challenge.badge.name">
+                </div>
+              </mat-card-content>
+            </mat-card>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

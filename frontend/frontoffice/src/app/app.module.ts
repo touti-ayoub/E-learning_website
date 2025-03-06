@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import {NgOptimizedImage} from "@angular/common";
+import { NgOptimizedImage } from "@angular/common";
 import { BannerComponent } from './banner/banner.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { CoursesComponent } from './courses/courses.component';
@@ -14,15 +14,18 @@ import { OurTeamComponent } from './our-team/our-team.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ContactComponent } from './contact/contact.component';
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
-import {FormsModule} from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SubscriptionComponent } from './mic2/subscription/subscription.component';
-import { BadgeComponent } from './gamification/badge/badge.component';
-import { ChallengeComponent } from './gamification/challenge/challenge.component';
-import { PointComponent } from './gamification/point/point.component';
-import { UserChallengeComponent } from './gamification/user-challenge/user-challenge.component';
+import { ChallengeListComponent } from './gamification/challenge/challenge-list/challenge-list.component';
+
+// Services
+import { ChallengeService } from './services/gamification/challenge/challenge-service.service';
+import { UserChallengeService } from './services/gamification/userchallenge/user-challenge-service.service';
+import { MaterialModule } from './shared/material.modul';
+import { CreateChallengeComponent } from './gamification/challenge/create-challenge/create-challenge.component';
 
 @NgModule({
   declarations: [
@@ -40,20 +43,23 @@ import { UserChallengeComponent } from './gamification/user-challenge/user-chall
     RegisterComponent,
     LoginComponent,
     SubscriptionComponent,
-    BadgeComponent,
-    ChallengeComponent,
-    PointComponent,
-    UserChallengeComponent
+    ChallengeListComponent,
+    CreateChallengeComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     NgOptimizedImage,
-    HttpClientModule, // Add this line
+    HttpClientModule,
     FormsModule,
-
+    ReactiveFormsModule,
+    MaterialModule
   ],
-  providers: [],
+  providers: [
+    ChallengeService,
+    UserChallengeService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

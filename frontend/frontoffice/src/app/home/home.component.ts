@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../services/auth/auth.service";
-import {SubscriptionService} from "../../services/mic2/subscription.service";
+import {AuthService} from "../services/auth/auth.service";
+import {SubscriptionService} from "../services/mic2/subscription.service";
 
 @Component({
   selector: 'app-home',
