@@ -3,6 +3,9 @@ package tn.esprit.microservice.entities;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.aspectj.weaver.patterns.TypePatternQuestions;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -10,16 +13,11 @@ import java.util.List;
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idQuiz;
+    private Long id;
 
-    private Long courseId;
-    private String quizName;
-    private int totalQuestion;
-    private int passingScore;
+    private String title;
+    private String description;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<QuizQuestion> questions;
-
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<QuizResult> results;
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<QuizQuestion> questions = new ArrayList<>();
 }

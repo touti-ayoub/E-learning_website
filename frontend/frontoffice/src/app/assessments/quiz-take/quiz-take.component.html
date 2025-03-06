@@ -1,0 +1,17 @@
+<div *ngIf="quiz">
+    <h2>{{ quiz.title }}</h2>
+    <p>{{ quiz.description }}</p>
+    <div *ngFor="let quizQuestion of quiz?.quizQuestions">
+      <h3>{{ quizQuestion?.text }}</h3>
+      <div *ngFor="let quizResult of quizQuestion?.quizResults">
+        <label>
+          <input type="radio" 
+                 [name]="'quizQuestion-' + quizQuestion?.id" 
+                 [value]="quizResult?.id" 
+                 (change)="onAnswerSelected(quizQuestion?.id, quizResult?.id)">
+          {{ quizResult?.text }}
+        </label>
+      </div>
+    </div>
+    <button (click)="submitQuiz()">Submit Quiz</button>
+  </div>

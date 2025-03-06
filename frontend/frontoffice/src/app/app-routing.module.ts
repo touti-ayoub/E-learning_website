@@ -11,6 +11,10 @@ import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./auth/register/register.component";
 import {SubscriptionComponent} from "./mic2/subscription/subscription.component";
 import {AuthGuard} from "../services/auth/auth.guard";
+import { QuizCreateComponent } from './assessments/quiz-create/quiz-create.component';
+import { QuizListComponent } from './assessments/quiz-list/quiz-list.component';
+import { QuizTakeComponent } from './assessments/quiz-take/quiz-take.component';
+import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
 
 // Declare routes outside the class
 const routes: Routes = [
@@ -24,8 +28,14 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent },
   {path: 'register', component: RegisterComponent },
   { path: 'subscription/:courseId', component: SubscriptionComponent, canActivate: [AuthGuard] },
+  { path: 'quizzes/create', component: QuizCreateComponent },
+  { path: 'quizzes/list', component: QuizListComponent },
+  { path: 'quiz/:id', component: QuizTakeComponent },
+  { path: 'quiz-result/:score/:total', component: QuizResultComponent },
+  { path: '', redirectTo: '/quizzes/list', pathMatch: 'full' },
 
   { path: '**', component: NotfoundComponent }, // Keep this as the last route
+  
 ];
 
 @NgModule({
