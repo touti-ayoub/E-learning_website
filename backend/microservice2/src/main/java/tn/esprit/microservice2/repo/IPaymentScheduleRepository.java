@@ -11,10 +11,12 @@ import tn.esprit.microservice2.Model.PaymentScheduleStatus;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 @Repository
-public interface IPaymentScheduleRepository extends JpaRepository<PaymentSchedule, Long> {
+public interface IPaymentScheduleRepository extends JpaRepository<PaymentSchedule, Long> ,
+        JpaSpecificationExecutor<PaymentSchedule>{
 
     List<PaymentSchedule> findByPayment(Payment payment);
 
@@ -27,17 +29,8 @@ public interface IPaymentScheduleRepository extends JpaRepository<PaymentSchedul
             "WHERE u.id = :userId AND (ps.status = 'PENDING' OR ps.status = 'OVERDUE') " +
             "ORDER BY ps.dueDate ASC")
     List<PaymentSchedule> findPendingInstallmentsByUserId(@Param("userId") Long userId, @Param("status") PaymentScheduleStatus status);
-
-    // Option 2: Alternative native query to diagnose issues
-    @Query(value = "SELECT ps.* FROM payment_schedule ps " +
-            "JOIN payment p ON ps.payment_id = p.id " +
-            "JOIN subscription s ON p.subscription_id = s.id " +
-            "JOIN user u ON s.user_id = u.id " +
-            "WHERE u.id = :userId AND ps.status IN ('PENDING', 'OVERDUE') " +
-            "ORDER BY ps.due_date ASC", nativeQuery = true)
-    List<PaymentSchedule> findPendingInstallmentsNative(@Param("userId") Long userId);
     
-    List<PaymentSchedule> findByPaymentAndDueDateBefore(Payment payment, LocalDateTime dueDate);
+    List<PaymentSchedule> findByPaymentAndDueDateBefore(Payment payment, LocalDate dueDate);
 
     // New methods for the scheduler
     List<PaymentSchedule> findByStatusAndDueDateBefore(PaymentScheduleStatus status, LocalDate dueDate);
@@ -47,7 +40,33 @@ public interface IPaymentScheduleRepository extends JpaRepository<PaymentSchedul
     // Count methods
     long countByStatus(PaymentScheduleStatus status);
 
-    List<PaymentSchedule> findByStatus(PaymentScheduleStatus paymentScheduleStatus);
-
     PaymentSchedule findFirstByPaymentAndStatusInOrderByDueDateAsc(Payment payment, List<PaymentScheduleStatus> statuses);
+
+    List<PaymentSchedule> findByStatusAndDueDate(PaymentScheduleStatus status, LocalDate dueDate);
+    @Query("SELECT ps FROM PaymentSchedule ps " +
+            "JOIN ps.payment p " +
+            "JOIN p.subscription s " +
+            "JOIN s.user u " +
+            "WHERE u.id = :userId AND ps.status = :status " +
+            "AND ps.dueDate BETWEEN :startDate AND :endDate " +
+            "ORDER BY ps.dueDate ASC")
+    List<PaymentSchedule> findUpcomingInstallmentsByUserId(
+            @Param("userId") Long userId,
+            @Param("status") PaymentScheduleStatus status,
+            @Param("startDate") LocalDate startDate,
+            @Param("endDate") LocalDate endDate);
+    List<PaymentSchedule> findByStatus(PaymentScheduleStatus status);
+
+
+    @Query("SELECT ps FROM PaymentSchedule ps " +
+            "JOIN FETCH ps.payment p " +
+            "JOIN FETCH p.subscription s " +
+            "JOIN FETCH s.user u " +
+            "JOIN FETCH s.course c " +
+            "WHERE ps.status = :status AND ps.dueDate = :dueDate")
+    List<PaymentSchedule> findByStatusAndDueDateWithDetails(
+            @Param("status") PaymentScheduleStatus status,
+            @Param("dueDate") LocalDate dueDate);
+
+    List<PaymentSchedule> findAll(Specification<PaymentSchedule> spec);
 }

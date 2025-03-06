@@ -34,6 +34,27 @@ public class Invoice {
     @Column(name = "tax_amount", nullable = false, precision = 10, scale = 2)
     private BigDecimal taxAmount;
 
+    @Column(name = "installment_number")
+    private Integer installmentNumber;
+
+    public Integer getTotalInstallments() {
+        return totalInstallments;
+    }
+
+    public void setTotalInstallments(Integer totalInstallments) {
+        this.totalInstallments = totalInstallments;
+    }
+
+    public Integer getInstallmentNumber() {
+        return installmentNumber;
+    }
+
+    public void setInstallmentNumber(Integer installmentNumber) {
+        this.installmentNumber = installmentNumber;
+    }
+
+    @Column(name = "total_installments")
+    private Integer totalInstallments;
     // Essential date information
     @Column(name = "issued_date", nullable = false)
     private LocalDateTime issuedDate;

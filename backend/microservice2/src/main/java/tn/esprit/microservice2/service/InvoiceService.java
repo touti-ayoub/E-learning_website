@@ -6,9 +6,12 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.draw.LineSeparator;
 import org.hibernate.sql.exec.ExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.microservice2.Model.*;
 import tn.esprit.microservice2.repo.IInvoiceRepository;
 
@@ -19,10 +22,11 @@ import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class InvoiceService {
-
+    private static final Logger logger = LoggerFactory.getLogger(InvoiceService.class);
 
     @Value("${app.company.logo:}")  // Empty default value if not specified
     private String companyLogo;
@@ -51,20 +55,77 @@ public class InvoiceService {
     public InvoiceService() {
         // Default constructor
     }
-    // Generate unique invoice number with formatting
+
+    /**
+     * Generates a truly unique invoice number using UUID
+     * @param payment The payment to generate number for
+     * @return A unique invoice number
+     */
     private String generateInvoiceNumber(Payment payment) {
         LocalDateTime now = LocalDateTime.now();
         String yearMonth = DateTimeFormatter.ofPattern("yyMM").format(now);
 
-        // Get count of invoices for this month and increment
-        long count = payment.getId();//invoiceRepository.countByYearMonth(yearMonth) + 1;
+        // Generate a random unique identifier (first 8 chars of UUID)
+        String uniqueId = UUID.randomUUID().toString().substring(0, 8);
 
-        // Format: INV-YYMM-SEQUENCE (e.g., INV-2503-00123)
-        return String.format("INV-%s-%05d", yearMonth, count);
+        // Format: INV-YYMM-UNIQUEID (e.g., INV-2503-a1b2c3d4)
+        return String.format("INV-%s-%s", yearMonth, uniqueId);
     }
-    // Create invoice record in database
-// Create invoice record in database
+
+    /**
+     * Generates a unique invoice number for an installment payment
+     * @param payment The payment
+     * @param installmentNumber The installment number
+     * @return A unique invoice number including installment info
+     */
+    private String generateInstallmentInvoiceNumber(Payment payment, int installmentNumber) {
+        LocalDateTime now = LocalDateTime.now();
+        String yearMonth = DateTimeFormatter.ofPattern("yyMM").format(now);
+
+        // Generate a random unique identifier (first 8 chars of UUID)
+        String uniqueId = UUID.randomUUID().toString().substring(0, 8);
+
+        // Format: INV-YYMM-PAYMENTID-INSTALLMENT-UNIQUEID
+        return String.format("INV-%s-%d-%d-%s", yearMonth, payment.getId(), installmentNumber, uniqueId);
+    }
+
+    /**
+     * Checks if an invoice already exists for a payment
+     * @param paymentId The payment ID to check
+     * @return True if an invoice exists, false otherwise
+     */
+    public boolean invoiceExistsForPayment(Long paymentId) {
+        return invoiceRepository.existsByPaymentId(paymentId);
+    }
+
+    /**
+     * Checks if an invoice exists for a specific installment
+     * @param paymentId The payment ID
+     * @param installmentNumber The installment number
+     * @return True if invoice exists, false otherwise
+     */
+    public boolean invoiceExistsForInstallment(Long paymentId, int installmentNumber) {
+        return invoiceRepository.existsByPaymentIdAndInstallmentNumber(paymentId, installmentNumber);
+    }
+
+    /**
+     * Creates or retrieves an invoice for a payment
+     * @param payment The payment
+     * @param user The user
+     * @return The invoice (new or existing)
+     */
+    @Transactional
     public Invoice createInvoice(Payment payment, User user) {
+        // First check if invoice already exists for this payment
+        Optional<Invoice> existingInvoice = invoiceRepository.findByPaymentId(payment.getId());
+
+        if (existingInvoice.isPresent()) {
+            logger.info("Using existing invoice #{} for payment {}",
+                    existingInvoice.get().getInvoiceNumber(), payment.getId());
+            return existingInvoice.get();
+        }
+
+        logger.info("Creating new invoice for payment {}", payment.getId());
         LocalDateTime now = LocalDateTime.now();
 
         Invoice invoice = new Invoice();
@@ -81,6 +142,8 @@ public class InvoiceService {
         invoice.setUserName(user.getUsername());
         invoice.setCurrency(payment.getCurrency());
         invoice.setPaymentMethod(payment.getPaymentMethod());
+        invoice.setInstallmentNumber(null); // Not an installment invoice
+        invoice.setTotalInstallments(null); // Not an installment invoice
 
         // Add course information if available
         if (payment.getSubscription() != null && payment.getSubscription().getCourse() != null) {
@@ -90,6 +153,55 @@ public class InvoiceService {
 
         return invoiceRepository.save(invoice);
     }
+
+    /**
+     * Creates an invoice specifically for an installment payment
+     * @param payment The payment object
+     * @param user The user who made the payment
+     * @param installmentNumber The current installment number
+     * @param totalInstallments Total number of installments
+     * @return The created invoice
+     */
+    @Transactional
+    public Invoice createInvoiceForInstallment(Payment payment, User user, int installmentNumber, int totalInstallments) {
+        // First check if invoice already exists for this installment
+        Optional<Invoice> existingInvoice = invoiceRepository.findByPaymentIdAndInstallmentNumber(
+                payment.getId(), installmentNumber);
+
+        if (existingInvoice.isPresent()) {
+            logger.info("Using existing invoice #{} for installment #{} of payment {}",
+                    existingInvoice.get().getInvoiceNumber(), installmentNumber, payment.getId());
+            return existingInvoice.get();
+        }
+
+        logger.info("Creating new invoice for installment #{} of payment {}", installmentNumber, payment.getId());
+        LocalDateTime now = LocalDateTime.now();
+
+        Invoice invoice = new Invoice();
+        invoice.setPayment(payment);
+        invoice.setInvoiceNumber(generateInstallmentInvoiceNumber(payment, installmentNumber));
+        invoice.setTotalAmount(payment.getAmount());
+        invoice.setSubtotal(calculateSubtotal(payment.getAmount()));
+        invoice.setTaxAmount(calculateTax(payment.getAmount()));
+        invoice.setIssuedDate(now);
+        invoice.setDueDate(payment.getDueDate() != null ? payment.getDueDate() : now);
+        invoice.setStatus(InvoiceStatus.PAID); // Installment invoices are created when paid
+        invoice.setUserId(user.getId());
+        invoice.setUserName(user.getUsername());
+        invoice.setCurrency(payment.getCurrency());
+        invoice.setPaymentMethod(payment.getPaymentMethod());
+        invoice.setInstallmentNumber(installmentNumber);
+        invoice.setTotalInstallments(totalInstallments);
+
+        // Add course information if available
+        if (payment.getSubscription() != null && payment.getSubscription().getCourse() != null) {
+            invoice.setCourseId(payment.getSubscription().getCourse().getId());
+            invoice.setCourseName(payment.getSubscription().getCourse().getTitle());
+        }
+
+        return invoiceRepository.save(invoice);
+    }
+
     // Calculate subtotal (before tax)
     private BigDecimal calculateSubtotal(BigDecimal total) {
         // If your tax is included in the price, extract it here
@@ -143,8 +255,6 @@ public class InvoiceService {
 
         return baos.toByteArray();
     }
-
-
 
     private void addHeader(Document document) throws DocumentException, IOException {
         // Try to add company logo if available
@@ -203,6 +313,20 @@ public class InvoiceService {
         cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
         table.addCell(cell);
 
+        // Add installment info if applicable
+        if (invoice.getInstallmentNumber() != null && invoice.getTotalInstallments() != null) {
+            cell = new PdfPCell(new Phrase("Installment:", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 10)));
+            cell.setBorder(Rectangle.NO_BORDER);
+            cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+            table.addCell(cell);
+
+            String installmentInfo = invoice.getInstallmentNumber() + " of " + invoice.getTotalInstallments();
+            cell = new PdfPCell(new Phrase(installmentInfo, FontFactory.getFont(FontFactory.HELVETICA, 10)));
+            cell.setBorder(Rectangle.NO_BORDER);
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT);
+            table.addCell(cell);
+        }
+
         // Add issue date
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy");
 
@@ -243,6 +367,7 @@ public class InvoiceService {
         document.add(Chunk.NEWLINE);
     }
 
+    // The rest of the methods remain unchanged
     private void addCustomerInfo(Document document, Invoice invoice) throws DocumentException {
         // Add customer title
         Paragraph customerTitle = new Paragraph("BILLED TO:", FontFactory.getFont(FontFactory.HELVETICA_BOLD, 12));
@@ -298,6 +423,11 @@ public class InvoiceService {
         // Item details
         String description = invoice.getCourseName();
 
+        // Add installment information to the description if applicable
+        if (invoice.getInstallmentNumber() != null && invoice.getTotalInstallments() != null) {
+            description += " (Installment " + invoice.getInstallmentNumber() +
+                    " of " + invoice.getTotalInstallments() + ")";
+        }
 
         cell = new PdfPCell(new Phrase(description, FontFactory.getFont(FontFactory.HELVETICA, 10)));
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);

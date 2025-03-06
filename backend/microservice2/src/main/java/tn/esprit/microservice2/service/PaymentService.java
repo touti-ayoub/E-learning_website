@@ -501,7 +501,7 @@ public class PaymentService {
             // If it's an installment payment, update the schedule status
             if (PaymentType.INSTALLMENTS.equals(payment.getSubscription().getPaymentType())) {
                 List<PaymentSchedule> overdueSchedules = paymentScheduleRepository.findByPaymentAndDueDateBefore(
-                        payment, LocalDateTime.now());
+                        payment, LocalDate.now());
 
                 for (PaymentSchedule schedule : overdueSchedules) {
                     if (schedule.getStatus() == PaymentScheduleStatus.PENDING) {
@@ -509,6 +509,7 @@ public class PaymentService {
                         // Calculate penalty if needed
                         double penaltyAmount = calculatePenaltyAmount(schedule);
                         schedule.setPenaltyAmount(penaltyAmount);
+                        schedule.setAmount(schedule.getAmount() + penaltyAmount);
                         paymentScheduleRepository.save(schedule);
                         logger.info("Marked installment {} as OVERDUE with penalty amount: {}",
                                 schedule.getId(), penaltyAmount);
