@@ -23,8 +23,8 @@ export class SubscriptionComponent implements OnInit {
   userId: number | null = null;
 
   courses = [
-    { id: 1, title: 'Email Marketing Essentials', instructor: 'Moon', price: 111 },
-    { id: 2, title: 'Web Development', instructor: 'John Doe', price: 150 },
+    { id: 1, title: 'Web Development', instructor: 'Moon', price: 300 },
+    { id: 2, title: 'Angular+Spring', instructor: 'John Doe', price: 259 },
     { id: 3, title: 'AI for Beginners', instructor: 'Alice', price: 200 }
   ];
   currentDate= new Date();
@@ -112,22 +112,18 @@ export class SubscriptionComponent implements OnInit {
         error: (error) => {
           console.error('Error creating subscription:', error);
           this.error = error.message || 'Failed to create subscription';
-
-          // Check if the error is about existing subscription
-          if (error.message?.includes('already has an active subscription')) {
-            Swal.fire({
-              title: 'Already Subscribed',
-              text: 'You already have an active subscription for this course.',
-              icon: 'info',
-              confirmButtonText: 'View My Subscriptions',
-              showCancelButton: true,
-              cancelButtonText: 'Stay Here'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.router.navigate(['/my-subscriptions']);
-              }
-            });
-          }
+          Swal.fire({
+            title: 'Already Subscribed',
+            text: 'You already have an active subscription for this course.',
+            icon: 'info',
+            confirmButtonText: 'View My Subscriptions',
+            showCancelButton: true,
+            cancelButtonText: 'Stay Here'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['/my-subscriptions']);
+            }
+          });
         }
       });
   }

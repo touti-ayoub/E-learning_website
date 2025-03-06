@@ -1,30 +1,28 @@
 package tn.esprit.microservice2.Rest;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import tn.esprit.microservice2.DTO.PaymentDTO;
 import tn.esprit.microservice2.DTO.PaymentScheduleDTO;
 import tn.esprit.microservice2.Model.*;
 import tn.esprit.microservice2.repo.IPaymentRepository;
 import tn.esprit.microservice2.repo.IPaymentScheduleRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
+import tn.esprit.microservice2.service.InvoiceService;
 import tn.esprit.microservice2.service.PaymentService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
-
-import java.io.File;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
@@ -32,9 +30,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/mic2/payments")
 public class PaymentController {
     private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
+    private static final String CURRENT_USERNAME = "iitsMahdi";
+    private static final LocalDateTime CURRENT_DATETIME =
+            LocalDateTime.parse("2025-03-04T16:45:51", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private InvoiceService invoiceService;
 
     @Autowired
     private IPaymentRepository paymentRepository;
@@ -48,6 +52,7 @@ public class PaymentController {
     @GetMapping("/{paymentId}")
     public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable Long paymentId) {
         try {
+            logger.info("Fetching payment details for ID: {}", paymentId);
             PaymentDTO payment = paymentService.getPaymentById(paymentId);
             return ResponseEntity.ok(payment);
         } catch (Exception e) {
@@ -62,6 +67,9 @@ public class PaymentController {
             @RequestParam(defaultValue = "FULL") PaymentType paymentType,
             @RequestParam(defaultValue = "3") int installments) {
         try {
+            logger.info("Creating {} payment for subscription {}, installments: {}",
+                    paymentType, subscriptionId, paymentType == PaymentType.INSTALLMENTS ? installments : "N/A");
+
             // Validate installments parameter
             if (paymentType == PaymentType.INSTALLMENTS) {
                 if (installments <= 0 || installments > 12) {
@@ -90,7 +98,7 @@ public class PaymentController {
                     .orElseThrow(() -> new NoSuchElementException("Subscription not found"));
 
             Payment payment;
-            BigDecimal totalAmount = BigDecimal.valueOf(subscription.getCourse().getPrice());
+            BigDecimal totalAmount = subscription.getCourse().getPrice();
 
             if (paymentType == PaymentType.FULL) {
                 payment = paymentService.createFullPayment(subscription);
@@ -113,6 +121,7 @@ public class PaymentController {
     @PutMapping("/schedules/{scheduleId}/pay")
     public ResponseEntity<?> processInstallmentPayment(@PathVariable Long scheduleId) {
         try {
+            logger.info("Processing payment for installment ID: {}", scheduleId);
             paymentService.processInstallmentPayment(scheduleId);
 
             // Retrieve the updated schedule
@@ -124,7 +133,15 @@ public class PaymentController {
                 }
             }
 
-            return ResponseEntity.ok(updatedSchedule);
+            logger.info("Successfully processed installment payment: {}", scheduleId);
+            return ResponseEntity.ok(Map.of(
+                    "success", true,
+                    "message", "Installment payment processed successfully",
+                    "schedule", updatedSchedule,
+                    "invoiceGenerated", true, // An invoice is generated during payment processing
+                    "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                    "username", CURRENT_USERNAME
+            ));
         } catch (RuntimeException e) {
             logger.error("Error processing installment payment: {}", e.getMessage(), e);
             return ResponseEntity
@@ -145,9 +162,12 @@ public class PaymentController {
                         "3_installments", 0,
                         "6_installments", 2.5,
                         "12_installments", 5
-                )
+                ),
+                "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                "username", CURRENT_USERNAME
         ));
     }
+
     @GetMapping("/user/{userId}/pending")
     public ResponseEntity<List<PaymentScheduleDTO>> getPendingInstallments(@PathVariable Long userId) {
         try {
@@ -161,13 +181,16 @@ public class PaymentController {
             logger.error("Error retrieving pending installments: {}", e.getMessage(), e);
             return ResponseEntity.badRequest().build();
         }
-    }    // Modified exception handling for the controller
+    }
+
+    // Modified exception handling for the controller
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleValidationExceptions(IllegalArgumentException ex) {
         logger.warn("Validation error: {}", ex.getMessage());
         return ResponseEntity.badRequest().body(Map.of(
                 "error", "Validation error",
-                "message", ex.getMessage()
+                "message", ex.getMessage(),
+                "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         ));
     }
 
@@ -176,21 +199,44 @@ public class PaymentController {
         logger.warn("Resource not found: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
                 "error", "Resource not found",
-                "message", ex.getMessage()
+                "message", ex.getMessage(),
+                "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         ));
     }
 
     @PutMapping("/{paymentId}/status")
-    public ResponseEntity<PaymentDTO> updatePaymentStatus(@PathVariable Long paymentId) {
+    public ResponseEntity<?> updatePaymentStatus(@PathVariable Long paymentId) {
         try {
             logger.info("Updating payment status for payment ID: {}", paymentId);
             PaymentDTO updatedPayment = paymentService.updatePaymentStatus(paymentId);
-            return ResponseEntity.ok(updatedPayment);
+
+            // Check if invoice was generated
+            Invoice invoice = null;
+            try {
+                invoice = paymentService.getInvoice(paymentId);
+            } catch (Exception e) {
+                logger.warn("No invoice found for payment {}", paymentId);
+            }
+
+            Map<String, Object> response = Map.of(
+                    "payment", updatedPayment,
+                    "success", true,
+                    "message", "Payment status updated successfully",
+                    "invoiceGenerated", invoice != null,
+                    "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                    "username", CURRENT_USERNAME
+            );
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.error("Error updating payment status: {}", e.getMessage(), e);
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", e.getMessage(),
+                    "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            ));
         }
     }
+
     @PutMapping("/{paymentId}/ps/status")
     public ResponseEntity<?> processLatestUnpaidSchedule(@PathVariable Long paymentId) {
         try {
@@ -199,21 +245,19 @@ public class PaymentController {
             Payment payment = paymentRepository.findById(paymentId)
                     .orElseThrow(() -> new NoSuchElementException("Payment not found"));
 
-            // For full payment, just update the payment status
+            // For full payment, use the service method instead of direct repository access
             if (payment.getPaymentSchedules() == null || payment.getPaymentSchedules().isEmpty()) {
-                // This is a full payment
-                payment.setStatus(PaymentStatus.SUCCESS);
-                payment.setPaymentDate(LocalDateTime.now());
-                paymentRepository.save(payment);
-
-                // Activate the subscription
-                Subscription subscription = payment.getSubscription();
-                subscription.setStatus(SubscriptionStatus.ACTIVE);
-                subscription.setUpdatedAt(LocalDateTime.now());
-                subscriptionRepository.save(subscription);
+                // This is a full payment - use the service method
+                PaymentDTO updatedPayment = paymentService.updatePaymentStatus(paymentId);
 
                 logger.info("Processed full payment: {}, subscription now ACTIVE", paymentId);
-                return ResponseEntity.ok(PaymentDTO.fromEntity(payment));
+                return ResponseEntity.ok(Map.of(
+                        "payment", updatedPayment,
+                        "message", "Full payment processed successfully",
+                        "invoiceGenerated", true,
+                        "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                        "username", CURRENT_USERNAME
+                ));
             }
             else {
                 // This is an installment payment - find and process the earliest unpaid installment
@@ -228,7 +272,9 @@ public class PaymentController {
                     logger.info("No unpaid installments found for payment: {}", paymentId);
                     return ResponseEntity.ok(Map.of(
                             "message", "All installments for this payment are already paid",
-                            "paymentId", paymentId
+                            "paymentId", paymentId,
+                            "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                            "username", CURRENT_USERNAME
                     ));
                 }
 
@@ -240,7 +286,14 @@ public class PaymentController {
                 logger.info("Processed installment #{} for payment: {}",
                         nextUnpaidSchedule.getInstallmentNumber(), paymentId);
 
-                return ResponseEntity.ok(PaymentDTO.fromEntity(payment));
+                return ResponseEntity.ok(Map.of(
+                        "payment", PaymentDTO.fromEntity(payment),
+                        "message", "Installment " + nextUnpaidSchedule.getInstallmentNumber() + " processed successfully",
+                        "invoiceGenerated", true,
+                        "installmentNumber", nextUnpaidSchedule.getInstallmentNumber(),
+                        "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                        "username", CURRENT_USERNAME
+                ));
             }
         } catch (Exception e) {
             logger.error("Error processing payment: {}", e.getMessage(), e);
@@ -305,19 +358,73 @@ public class PaymentController {
     }
 
     @GetMapping("/{paymentId}/invoice")
-    public ResponseEntity<Invoice> getPaymentInvoice(@PathVariable Long paymentId) {
+    public ResponseEntity<?> getPaymentInvoice(@PathVariable Long paymentId) {
         try {
+            logger.info("Fetching invoice for payment ID: {}", paymentId);
             Invoice invoice = paymentService.getInvoice(paymentId);
 
             // Clear circular references
-            if (invoice.getPayment() != null) {
+            if (invoice != null && invoice.getPayment() != null) {
                 invoice.getPayment().setInvoice(null);
             }
 
             return ResponseEntity.ok(invoice);
+        } catch (NoSuchElementException e) {
+            logger.warn("Invoice not found for payment {}: {}", paymentId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "error", "Invoice not found",
+                    "message", "No invoice exists for this payment. The payment may not be completed yet.",
+                    "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            ));
         } catch (Exception e) {
             logger.error("Error getting payment invoice: {}", e.getMessage(), e);
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", e.getMessage(),
+                    "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            ));
+        }
+    }
+
+    /**
+     * New endpoint to download invoice as PDF
+     */
+    @GetMapping("/{paymentId}/invoice/download")
+    public ResponseEntity<?> downloadInvoice(@PathVariable Long paymentId) {
+        try {
+            logger.info("Downloading invoice PDF for payment ID: {}", paymentId);
+
+            // Get invoice details first to get the invoice number
+            Invoice invoice = paymentService.getInvoice(paymentId);
+
+            // Generate the PDF
+            byte[] pdfBytes = paymentService.downloadInvoice(paymentId);
+
+            // Set up HTTP headers for PDF download
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+            headers.setContentDispositionFormData(
+                    "attachment",
+                    "Invoice_" + invoice.getInvoiceNumber() + ".pdf"
+            );
+
+            logger.info("Successfully generated invoice PDF for payment {}", paymentId);
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .body(pdfBytes);
+        } catch (NoSuchElementException e) {
+            logger.warn("Invoice not found for payment {}: {}", paymentId, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of(
+                    "error", "Invoice not found",
+                    "message", "No invoice exists for this payment. The payment may not be completed yet.",
+                    "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            ));
+        } catch (Exception e) {
+            logger.error("Error downloading invoice PDF: {}", e.getMessage(), e);
+            return ResponseEntity.badRequest().body(Map.of(
+                    "error", e.getMessage(),
+                    "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            ));
         }
     }
 
@@ -328,31 +435,6 @@ public class PaymentController {
             return ResponseEntity.ok(isOverdue);
         } catch (Exception e) {
             logger.error("Error checking if payment is overdue: {}", e.getMessage(), e);
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @GetMapping("/{paymentId}/invoice/download")
-    public ResponseEntity<FileSystemResource> downloadInvoice(@PathVariable Long paymentId) {
-        try {
-            Invoice invoice = paymentService.getInvoice(paymentId);
-            File file = new File(invoice.getPdfUrl());
-            if (!file.exists()) {
-                logger.warn("Invoice PDF file not found: {}", invoice.getPdfUrl());
-                return ResponseEntity.notFound().build();
-            }
-
-            FileSystemResource resource = new FileSystemResource(file);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + file.getName());
-
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .contentLength(file.length())
-                    .contentType(MediaType.APPLICATION_PDF)
-                    .body(resource);
-        } catch (Exception e) {
-            logger.error("Error downloading invoice: {}", e.getMessage(), e);
             return ResponseEntity.badRequest().build();
         }
     }
@@ -376,7 +458,9 @@ public class PaymentController {
 
             return ResponseEntity.ok(Map.of(
                     "message", "Overdue check completed",
-                    "updatedCount", updatedCount
+                    "updatedCount", updatedCount,
+                    "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                    "username", CURRENT_USERNAME
             ));
         } catch (Exception e) {
             logger.error("Error checking overdue payments: {}", e.getMessage(), e);
@@ -389,16 +473,13 @@ public class PaymentController {
     @GetMapping("/system-status")
     public ResponseEntity<?> getSystemStatus() {
         try {
-            String username = "iitsMahdi"; // Using provided username
-            LocalDateTime now = LocalDateTime.parse("2025-03-01T03:35:36"); // Using provided timestamp
-
             long pendingCount = paymentScheduleRepository.countByStatus(PaymentScheduleStatus.PENDING);
             long overdueCount = paymentScheduleRepository.countByStatus(PaymentScheduleStatus.OVERDUE);
             long successCount = paymentRepository.countByStatus(PaymentStatus.SUCCESS);
 
             return ResponseEntity.ok(Map.of(
-                    "timestamp", now.toString(),
-                    "currentUser", username,
+                    "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                    "currentUser", CURRENT_USERNAME,
                     "pendingSchedules", pendingCount,
                     "overdueSchedules", overdueCount,
                     "successfulPayments", successCount

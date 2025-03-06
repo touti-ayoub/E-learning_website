@@ -9,4 +9,5 @@ public interface IInvoiceRepository extends JpaRepository<Invoice, Long> {
     Optional<Invoice> findByPaymentId(Long paymentId);
 
 
+    //long countByYearMonth(String yearMonth);
 }

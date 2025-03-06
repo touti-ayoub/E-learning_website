@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 export interface PaymentResponse {
   id: number;
@@ -17,6 +17,34 @@ export interface PaymentResponse {
     course: { id: number; title: string; price: number };
     status: string;
   };
+  invoiceGenerated?: boolean; // Added to track if invoice exists
+  invoiceNumber?: string; // Added to store invoice number
+}
+
+export interface Invoice {
+  id: number;
+  invoiceNumber: string;
+  totalAmount: number;
+  subtotal: number;
+  taxAmount: number;
+  issuedDate: string;
+  dueDate: string;
+  status: 'PAID' | 'UNPAID' | 'CANCELLED' | 'REFUNDED';
+  userId: number;
+  userName: string;
+  userEmail: string;
+  userAddress?: string;
+  currency: string;
+  paymentMethod: string;
+  courseId: number;
+  courseName: string;
+  subscriptionId: number;
+  paymentType: string;
+  installmentNumber?: number;
+  totalInstallments?: number;
+  yearMonth: string;
+  createdAt: string;
+  updatedAt?: string;
 }
 
 export interface PaymentSchedule {
@@ -47,6 +75,8 @@ export interface PaymentSchedule {
 export interface InstallmentOptions {
   available_installments: number[];
   interest_rates: { [key: string]: number };
+  timestamp: string;
+  username: string;
 }
 
 export interface SystemStatus {
@@ -75,6 +105,7 @@ export interface PaymentScheduleDTO {
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
   private apiUrl = 'http://localhost:8088/mic2';
+  private currentDate = '2025-03-04 16:50:03'; // Updated timestamp
 
   constructor(private http: HttpClient) {}
 
@@ -90,17 +121,19 @@ export class PaymentService {
       url = `${this.apiUrl}/payments/subscription/${subscriptionId}?paymentType=INSTALLMENTS`;
     }
 
-    if ((paymentType === 'INSTALLMENTS' || paymentType === 'INSTALLMENTS') && installments) {
+    if ((paymentType === 'INSTALLMENTS' || paymentType === 'INSTALLMENT') && installments) {
       url += `&installments=${installments}`;
     }
 
     return this.http.post<PaymentResponse>(url, {}).pipe(
+      tap(response => console.log('Payment initialized:', response)),
       catchError(this.handleError)
     );
   }
 
   getPaymentById(paymentId: number): Observable<PaymentResponse> {
     return this.http.get<PaymentResponse>(`${this.apiUrl}/payments/${paymentId}`).pipe(
+      tap(payment => console.log('Payment fetched:', payment)),
       catchError(this.handleError)
     );
   }
@@ -116,6 +149,7 @@ export class PaymentService {
           paymentDate: schedule.paymentDate
         }));
       }),
+      tap(schedules => console.log('Payment schedules fetched:', schedules)),
       catchError(error => {
         // Special handling for JSON parse errors
         if (error instanceof HttpErrorResponse && error.status === 200) {
@@ -133,14 +167,16 @@ export class PaymentService {
     );
   }
 
-  updatePaymentStatus(paymentId: number): Observable<PaymentResponse> {
-    return this.http.put<PaymentResponse>(`${this.apiUrl}/payments/${paymentId}/status`, {}).pipe(
+  updatePaymentStatus(paymentId: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/payments/${paymentId}/status`, {}).pipe(
+      tap(response => console.log('Payment status updated:', response)),
       catchError(this.handleError)
     );
   }
 
-  processInstallmentPayment(scheduleId: number): Observable<PaymentSchedule> {
-    return this.http.put<PaymentSchedule>(`${this.apiUrl}/payments/schedules/${scheduleId}/pay`, {}).pipe(
+  processInstallmentPayment(scheduleId: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/payments/schedules/${scheduleId}/pay`, {}).pipe(
+      tap(response => console.log('Installment payment processed:', response)),
       catchError(this.handleError)
     );
   }
@@ -168,10 +204,11 @@ export class PaymentService {
       catchError(this.handleError)
     );
   }
-  updatePaymentStatuss(paymentId: number): Observable<PaymentResponse> {
+
+  updatePaymentStatuss(paymentId: number): Observable<any> {
     console.log(`Processing payment ${paymentId}`);
-    return this.http.put<PaymentResponse>(`${this.apiUrl}/payments/${paymentId}/ps/status`, {}).pipe(
-      map(response => {
+    return this.http.put<any>(`${this.apiUrl}/payments/${paymentId}/ps/status`, {}).pipe(
+      tap(response => {
         console.log('Payment processed successfully:', response);
         return response;
       }),
@@ -182,15 +219,49 @@ export class PaymentService {
     );
   }
 
+  /**
+   * Download an invoice as PDF for a payment
+   */
   downloadInvoice(paymentId: number): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/payments/${paymentId}/invoice/download`, { responseType: 'blob' }).pipe(
-      catchError(this.handleError)
+    console.log(`Downloading invoice for payment ${paymentId}`);
+
+    // Use the new dedicated endpoint for invoice downloads
+    const url = `${this.apiUrl}/payments/${paymentId}/invoice/download`;
+
+    // Set proper accept header for PDF
+    const headers = new HttpHeaders({
+      'Accept': 'application/pdf'
+    });
+
+    return this.http.get(url, {
+      headers: headers,
+      responseType: 'blob'
+    }).pipe(
+      tap(_ => console.log('Invoice download successful')),
+      catchError(error => {
+        // Specific error handling for invoice download issues
+        if (error.status === 404) {
+          return throwError(() => new Error('Invoice not found. The payment may not be completed yet.'));
+        }
+        return this.handleError(error);
+      })
     );
   }
 
-  getInvoice(paymentId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/payments/${paymentId}/invoice`).pipe(
-      catchError(this.handleError)
+  /**
+   * Fetch invoice details without downloading the PDF
+   */
+  getInvoice(paymentId: number): Observable<Invoice> {
+    console.log(`Fetching invoice details for payment ${paymentId}`);
+    return this.http.get<Invoice>(`${this.apiUrl}/payments/${paymentId}/invoice`).pipe(
+      tap(invoice => console.log('Invoice fetched:', invoice)),
+      catchError(error => {
+        // Specific error handling for invoice fetch issues
+        if (error.status === 404) {
+          return throwError(() => new Error('Invoice not found. The payment may not be completed yet.'));
+        }
+        return this.handleError(error);
+      })
     );
   }
 
@@ -199,8 +270,9 @@ export class PaymentService {
       catchError(this.handleError)
     );
   }
+
   // Get user's unpaid installments
-// Update the method to work with DTOs
+  // Update the method to work with DTOs
   getUserUnpaidSchedules(userId: number): Observable<PaymentScheduleDTO[]> {
     return this.http.get<PaymentScheduleDTO[]>(`${this.apiUrl}/payments/user/${userId}/pending`).pipe(
       map(schedules => {
@@ -210,6 +282,21 @@ export class PaymentService {
       catchError(error => {
         console.error('Error fetching unpaid schedules:', error);
         return throwError(() => new Error('Failed to load unpaid schedules. Please try again later.'));
+      })
+    );
+  }
+
+  /**
+   * Check if a payment has a generated invoice
+   */
+  hasInvoice(paymentId: number): Observable<boolean> {
+    return this.getInvoice(paymentId).pipe(
+      map(_ => true),
+      catchError(_ => {
+        return new Observable<boolean>(observer => {
+          observer.next(false);
+          observer.complete();
+        });
       })
     );
   }
@@ -234,5 +321,4 @@ export class PaymentService {
 
     return throwError(() => new Error(errorMessage));
   }
-
 }

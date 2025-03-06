@@ -72,7 +72,7 @@ public class SubscriptionService {
             if (PaymentType.FULL.equals(subRequest.getPaymentType())) {
                 paymentService.createFullPayment(subscription);
             } else if (subRequest.getInstallments() != null) {
-                BigDecimal totalAmount = BigDecimal.valueOf(subscription.getCourse().getPrice());
+                BigDecimal totalAmount = subscription.getCourse().getPrice();
                 paymentService.createPaymentWithInstallments(subscription, totalAmount, subRequest.getInstallments());
             }
 

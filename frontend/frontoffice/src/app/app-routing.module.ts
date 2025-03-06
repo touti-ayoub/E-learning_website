@@ -35,7 +35,7 @@ const routes: Routes = [
     component: PaymentSuccessComponent,
     canActivate: [AuthGuard]  // If you're using authentication
   },
-  { path: 'hist', component: PaymentHistComponent,canActivate: [AuthGuard] },
+  { path: 'payment_hist', component: PaymentHistComponent,canActivate: [AuthGuard] },
   { path: 'subscription-plan/:planId', component: SubscriptionPlanComponent, canActivate: [AuthGuard] },
   { path: 'pricing', component: PricingComponent },
   { path: '**', component: NotfoundComponent }, // Keep this as the last route

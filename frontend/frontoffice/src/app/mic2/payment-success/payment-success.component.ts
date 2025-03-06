@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaymentService } from '../../../services/mic2/payment.service';
+import { PaymentService, Invoice } from '../../../services/mic2/payment.service';
 import { SubscriptionService } from '../../../services/mic2/subscription.service';
 import { DatePipe } from '@angular/common';
+import { finalize } from 'rxjs/operators';
+import { of, catchError } from 'rxjs';
 
 @Component({
   selector: 'app-payment-success',
@@ -15,13 +17,15 @@ export class PaymentSuccessComponent implements OnInit {
   paymentId?: number;
   paymentDetails: any;
   subscriptionDetails: any;
+  invoiceDetails: Invoice | null = null;
+  hasInvoice = false;
+  paymentType?: string;
   loading = true;
+  invoiceLoading = false;
   error: string | null = null;
-  currentTime: string = '2025-03-02 23:02:52';
+  invoiceError: string | null = null;
+  currentTime: string = '2025-03-04 16:50:03'; // Updated timestamp
   username: string = 'iitsMahdi';
-
-  // Flag to check if we're using test data
-  isTestMode = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,195 +36,142 @@ export class PaymentSuccessComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // Get stored user name if available
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      this.username = storedUsername;
+    }
+
     this.route.queryParams.subscribe(params => {
-      console.warn('Received URL params:', params);
+      console.log('Payment Success - Received parameters:', params);
 
-      // First try to get from query params
-      this.paymentId = params['paymentId'] ? Number(params['paymentId']) : undefined;
-      this.subscriptionId = params['subscriptionId'] ? Number(params['subscriptionId']) : undefined;
+      // Get the payment ID - this should always be available from the payment component
+      this.paymentId = params['paymentId'] ? +params['paymentId'] : undefined;
 
-      // Alternative: try different parameter naming
+      // Get the payment type if available
+      this.paymentType = params['type'];
+
+      // Get invoice generation status if available
+      this.hasInvoice = params['invoiceGenerated'] === 'true';
+
       if (!this.paymentId) {
-        this.paymentId = params['payment_id'] ? Number(params['payment_id']) : undefined;
+        this.error = 'Missing payment information. Please contact support if this issue persists.';
+        this.loading = false;
+        return;
       }
 
-      if (!this.subscriptionId) {
-        this.subscriptionId = params['subscription_id'] ? Number(params['subscription_id']) : undefined;
-      }
-
-      // Check query param 'type' which might indicate which flow we're in
-      const type = params['type'];
-
-      // If parameters are still missing, check if we can handle the situation
-      if (!this.paymentId || !this.subscriptionId) {
-        // For demo/testing purpose: use mock data if no IDs are provided
-        if (this.isInDevelopment() || type === 'demo') {
-          this.isTestMode = true;
-          this.paymentId = 12345;
-          this.subscriptionId = 67890;
-          console.warn('Using mock data for testing:', {
-            paymentId: this.paymentId,
-            subscriptionId: this.subscriptionId
-          });
-        } else {
-          // In production, try to recover with just one ID
-          if (this.paymentId && !this.subscriptionId) {
-            // We have payment ID but no subscription ID
-            // We can still load payment details and attempt to get subscription from it
-            this.loadPaymentDetailsOnly();
-            return;
-          } else if (!this.paymentId && this.subscriptionId) {
-            // We have subscription ID but no payment ID
-            // We can try to load subscription and get latest payment from it
-            this.loadSubscriptionDetailsOnly();
-            return;
-          } else {
-            // We have neither - show error
-            this.error = 'Missing payment and subscription information';
-            this.loading = false;
-            return;
-          }
-        }
-      }
-
-      this.loadPaymentAndSubscriptionDetails();
+      // Since we have the payment ID, load the payment details first
+      this.loadPaymentDetails();
     });
   }
 
-  private isInDevelopment(): boolean {
-    // Check if we're running in development mode
-    // This is a simplified check - you may need to adjust based on your environment setup
-    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-  }
-
-  private loadPaymentDetailsOnly(): void {
-    if (!this.paymentId) return;
-
-    this.paymentService.getPaymentById(this.paymentId).subscribe({
-      next: (payment) => {
-        console.log('Payment details loaded:', payment);
-        this.paymentDetails = payment;
-
-        // If payment has subscription info, try to get that as well
-        if (payment.subscription && payment.subscription.id) {
-          this.subscriptionId = payment.subscription.id;
-          this.loadSubscriptionDetails();
-        } else {
-          this.loading = false;
-        }
-      },
-      error: (error) => {
-        console.error('Error loading payment details:', error);
-        this.error = 'Failed to load payment details';
-        this.loading = false;
-      }
-    });
-  }
-
-  private loadSubscriptionDetailsOnly(): void {
-    if (!this.subscriptionId) return;
-
-    this.subscriptionService.getSubscriptionById(this.subscriptionId).subscribe({
-      next: (subscription) => {
-        console.log('Subscription details loaded:', subscription);
-        this.subscriptionDetails = subscription;
-
-        // If subscription has payment info, try to get the latest payment
-        if (subscription.payments && subscription.payments.length > 0) {
-          // Find the latest payment
-          const latestPayment = subscription.payments.reduce((latest:any, current:any) => {
-            if (!latest) return current;
-            return new Date(current.paymentDate) > new Date(latest.paymentDate) ? current : latest;
-          }, null);
-
-          if (latestPayment) {
-            this.paymentId = latestPayment.id;
-            this.paymentDetails = latestPayment;
-          }
-        }
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error loading subscription details:', error);
-        this.error = 'Failed to load subscription details';
-        this.loading = false;
-      }
-    });
-  }
-
-  private loadPaymentAndSubscriptionDetails(): void {
-    // If in test mode, use mock data
-    if (this.isTestMode) {
-      this.provideMockData();
+  private loadPaymentDetails(): void {
+    if (!this.paymentId) {
+      this.error = 'No payment ID provided';
+      this.loading = false;
       return;
     }
 
-    // Load payment details
-    this.paymentService.getPaymentById(this.paymentId!).subscribe({
-      next: (payment) => {
-        console.log('Payment details loaded:', payment);
-        this.paymentDetails = payment;
-        // Load subscription details after payment is loaded
-        this.loadSubscriptionDetails();
-      },
-      error: (error) => {
-        console.error('Error loading payment details:', error);
-        this.error = 'Failed to load payment details';
-        this.loading = false;
-      }
-    });
+    console.log(`Loading payment details for payment ID: ${this.paymentId}`);
+
+    this.paymentService.getPaymentById(this.paymentId)
+      .pipe(finalize(() => {
+        if (!this.subscriptionId) {
+          this.loading = false;
+        }
+      }))
+      .subscribe({
+        next: (payment) => {
+          console.log('Payment details loaded successfully:', payment);
+          this.paymentDetails = payment;
+
+          // Extract subscription information from the payment if it exists
+          if (payment && payment.subscription && payment.subscription.id) {
+            this.subscriptionId = payment.subscription.id;
+            console.log(`Extracted subscription ID: ${this.subscriptionId} from payment`);
+            this.loadSubscriptionDetails();
+          } else {
+            console.warn('No subscription information found in payment details');
+            this.loading = false;
+          }
+
+          // Try to load invoice information if payment is successful
+          if (payment.status === 'SUCCESS') {
+            this.loadInvoiceDetails();
+          }
+        },
+        error: (error) => {
+          console.error('Error loading payment details:', error);
+          this.error = 'Failed to load payment details. Please try again later.';
+          this.loading = false;
+        }
+      });
   }
 
   private loadSubscriptionDetails(): void {
     if (!this.subscriptionId) {
+      console.warn('No subscription ID available to load details');
       this.loading = false;
       return;
     }
 
-    this.subscriptionService.getSubscriptionById(this.subscriptionId).subscribe({
-      next: (subscription) => {
-        console.log('Subscription details loaded:', subscription);
-        this.subscriptionDetails = subscription;
-        this.loading = false;
-      },
-      error: (error) => {
-        console.error('Error loading subscription details:', error);
-        this.error = 'Failed to load subscription details, but payment was successful';
-        this.loading = false;
-      }
-    });
+    console.log(`Loading subscription details for subscription ID: ${this.subscriptionId}`);
+
+    this.subscriptionService.getSubscriptionById(this.subscriptionId)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (subscription) => {
+          console.log('Subscription details loaded successfully:', subscription);
+          this.subscriptionDetails = subscription;
+        },
+        error: (error) => {
+          console.warn('Error loading subscription details:', error);
+          // Don't show this as an error message since we still have payment details
+          console.warn('Failed to load subscription details, but payment was successful');
+        }
+      });
   }
 
-  private provideMockData(): void {
-    // Mock payment data for testing
-    this.paymentDetails = {
-      id: this.paymentId,
-      amount: 150,
-      currency: 'USD',
-      paymentMethod: 'Credit Card',
-      paymentDate: new Date().toISOString(),
-      status: 'PAID'
-    };
+  /**
+   * Load invoice details without downloading the PDF
+   */
+  private loadInvoiceDetails(): void {
+    if (!this.paymentId) return;
 
-    // Mock subscription data
-    this.subscriptionDetails = {
-      id: this.subscriptionId,
-      startDate: new Date().toISOString(),
-      endDate: new Date(new Date().setMonth(new Date().getMonth() + 6)).toISOString(),
-      status: 'ACTIVE',
-      paymentType: 'FULL',
-      autoRenew: false,
-      course: {
-        id: 101,
-        title: 'Advanced Web Development',
-        instructor: 'John Smith'
-      }
-    };
+    this.invoiceLoading = true;
 
-    // Simulate network delay
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
+    // Use hasInvoice or try to load directly
+    if (this.hasInvoice) {
+      this.paymentService.getInvoice(this.paymentId)
+        .pipe(
+          finalize(() => this.invoiceLoading = false),
+          catchError(error => {
+            console.warn('Error loading invoice:', error);
+            this.invoiceError = 'Invoice not available yet. It may be generated shortly.';
+            this.hasInvoice = false;
+            return of(null);
+          })
+        )
+        .subscribe(invoice => {
+          if (invoice) {
+            console.log('Invoice details loaded:', invoice);
+            this.invoiceDetails = invoice;
+            this.hasInvoice = true;
+          } else {
+            this.hasInvoice = false;
+          }
+        });
+    } else {
+      // Check if an invoice exists
+      this.paymentService.hasInvoice(this.paymentId)
+        .pipe(finalize(() => this.invoiceLoading = false))
+        .subscribe(exists => {
+          this.hasInvoice = exists;
+          if (exists) {
+            this.loadInvoiceDetails(); // Recursive call now that we know it exists
+          }
+        });
+    }
   }
 
   downloadInvoice(): void {
@@ -229,26 +180,42 @@ export class PaymentSuccessComponent implements OnInit {
       return;
     }
 
-    if (this.isTestMode) {
-      alert('This is a test mode. In a real environment, this would download an invoice PDF.');
+    if (!this.hasInvoice) {
+      this.error = "Invoice is not available yet. Please try again later.";
       return;
     }
 
-    this.paymentService.downloadInvoice(this.paymentId).subscribe({
-      next: (response) => {
-        const blob = new Blob([response], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `invoice_${this.paymentId}.pdf`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-      },
-      error: (error) => {
-        console.error('Error downloading invoice:', error);
-        this.error = 'Failed to download invoice';
-      }
-    });
+    console.log(`Downloading invoice for payment ID: ${this.paymentId}`);
+    this.loading = true;
+
+    this.paymentService.downloadInvoice(this.paymentId)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (response) => {
+          const blob = new Blob([response], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+
+          // Use invoice number if available, otherwise use payment ID
+          const fileName = this.invoiceDetails?.invoiceNumber
+            ? `Invoice_${this.invoiceDetails.invoiceNumber}.pdf`
+            : `invoice_${this.paymentId}_${this.formatCurrentDate()}.pdf`;
+
+          a.download = fileName;
+
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+
+          console.log('Invoice downloaded successfully');
+        },
+        error: (error) => {
+          console.error('Error downloading invoice:', error);
+          this.error = error.message || 'Failed to download invoice. Please try again later.';
+        }
+      });
   }
 
   printInvoice(): void {
@@ -257,36 +224,172 @@ export class PaymentSuccessComponent implements OnInit {
       return;
     }
 
-    if (this.isTestMode) {
-      alert('This is a test mode. In a real environment, this would open a printable invoice PDF.');
+    if (!this.hasInvoice) {
+      this.error = "Invoice is not available yet. Please try again later.";
       return;
     }
 
-    this.paymentService.downloadInvoice(this.paymentId).subscribe({
-      next: (response) => {
-        const blob = new Blob([response], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-        const printWindow = window.open(url, '_blank');
-        if (printWindow) {
-          printWindow.onload = () => {
-            printWindow.print();
-          };
-        } else {
-          this.error = 'Pop-up blocked. Please allow pop-ups to print the invoice.';
+    console.log(`Printing invoice for payment ID: ${this.paymentId}`);
+    this.loading = true;
+
+    this.paymentService.downloadInvoice(this.paymentId)
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (response) => {
+          const blob = new Blob([response], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          const printWindow = window.open(url, '_blank');
+
+          if (printWindow) {
+            printWindow.onload = () => {
+              console.log('Print window loaded, initiating print');
+              printWindow.print();
+            };
+          } else {
+            console.error('Print window blocked by browser');
+            this.error = 'Pop-up blocked. Please allow pop-ups to print the invoice.';
+          }
+        },
+        error: (error) => {
+          console.error('Error printing invoice:', error);
+          this.error = error.message || 'Failed to print invoice. Please try again later.';
         }
-      },
-      error: (error) => {
-        console.error('Error printing invoice:', error);
-        this.error = 'Failed to print invoice';
-      }
-    });
+      });
   }
 
   goToCourses(): void {
+    console.log('Navigating to courses page');
     this.router.navigate(['/courses']);
   }
 
   goToSubscriptions(): void {
+    console.log('Navigating to my subscriptions page');
     this.router.navigate(['/my-subscriptions']);
+  }
+
+  getCourseTitle(): string {
+    return this.subscriptionDetails?.course?.title ||
+      this.paymentDetails?.subscription?.course?.title ||
+      'Course';
+  }
+
+  getPaymentMethod(): string {
+    return this.paymentDetails?.paymentMethod || 'Credit Card';
+  }
+
+  getAmount(): string {
+    const amount = this.paymentDetails?.amount || 0;
+    const currency = this.paymentDetails?.currency || 'USD';
+    const currencySymbol = currency === 'EUR' ? '€' : '$';
+
+    return `${currencySymbol}${amount.toFixed(2)}`;
+  }
+
+  getPaymentType(): string {
+    if (this.paymentType === 'INSTALLMENT' ||
+      this.subscriptionDetails?.paymentType === 'INSTALLMENTS' ||
+      this.paymentDetails?.subscription?.paymentType === 'INSTALLMENTS') {
+      return 'Installment Payment';
+    }
+    return 'Full Payment';
+  }
+
+  getPaymentDate(): string {
+    if (!this.paymentDetails?.paymentDate) return 'N/A';
+
+    return this.datePipe.transform(this.paymentDetails.paymentDate, 'medium') || 'N/A';
+  }
+
+  getSubscriptionDuration(): string {
+    if (!this.subscriptionDetails) return 'N/A';
+
+    const startDate = this.subscriptionDetails.startDate ?
+      this.datePipe.transform(this.subscriptionDetails.startDate, 'mediumDate') : 'N/A';
+
+    const endDate = this.subscriptionDetails.endDate ?
+      this.datePipe.transform(this.subscriptionDetails.endDate, 'mediumDate') : 'N/A';
+
+    return `${startDate} - ${endDate}`;
+  }
+
+  formatCurrentDate(): string {
+    return this.datePipe.transform(new Date(), 'yyyy-MM-dd') || '';
+  }
+
+  getInstallmentInfo(): string {
+    if (this.paymentType !== 'INSTALLMENT' &&
+      this.subscriptionDetails?.paymentType !== 'INSTALLMENTS' &&
+      this.paymentDetails?.subscription?.paymentType !== 'INSTALLMENTS') {
+      return '';
+    }
+
+    const current = this.getCurrentInstallmentNumber();
+    const total = this.getTotalInstallments();
+
+    if (current && total) {
+      return `Installment ${current} of ${total}`;
+    }
+
+    return '';
+  }
+
+  getCurrentInstallmentNumber(): number {
+    // First check if we have it from the invoice
+    if (this.invoiceDetails?.installmentNumber) {
+      return this.invoiceDetails.installmentNumber;
+    }
+
+    // Try to determine from payment details
+    if (this.paymentDetails?.paymentSchedules?.length) {
+      const paidSchedules = this.paymentDetails.paymentSchedules.filter(
+        (schedule: any) => schedule.status === 'PAID'
+      );
+      return paidSchedules.length || 1;
+    }
+    return 1;
+  }
+
+  getTotalInstallments(): number {
+    // First check if we have it from the invoice
+    if (this.invoiceDetails?.totalInstallments) {
+      return this.invoiceDetails.totalInstallments;
+    }
+
+    // Try to determine from payment details
+    if (this.paymentDetails?.paymentSchedules?.length) {
+      return this.paymentDetails.paymentSchedules.length;
+    } else if (this.subscriptionDetails?.installments) {
+      return this.subscriptionDetails.installments;
+    }
+    return 0;
+  }
+
+  // Get invoice information for display
+  getInvoiceNumber(): string {
+    return this.invoiceDetails?.invoiceNumber || `INV-${this.paymentId}`;
+  }
+
+  getTaxAmount(): string {
+    if (!this.invoiceDetails?.taxAmount) return 'N/A';
+
+    const currency = this.invoiceDetails.currency || 'USD';
+    const currencySymbol = currency === 'EUR' ? '€' : '$';
+
+    return `${currencySymbol}${this.invoiceDetails.taxAmount}`;
+  }
+
+  getSubtotal(): string {
+    if (!this.invoiceDetails?.subtotal) return 'N/A';
+
+    const currency = this.invoiceDetails.currency || 'USD';
+    const currencySymbol = currency === 'EUR' ? '€' : '$';
+
+    return `${currencySymbol}${this.invoiceDetails.subtotal}`;
+  }
+
+  getInvoiceDate(): string {
+    if (!this.invoiceDetails?.issuedDate) return 'N/A';
+
+    return this.datePipe.transform(this.invoiceDetails.issuedDate, 'medium') || 'N/A';
   }
 }

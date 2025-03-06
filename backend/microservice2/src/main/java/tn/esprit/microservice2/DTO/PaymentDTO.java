@@ -6,6 +6,7 @@ import lombok.Setter;
 import tn.esprit.microservice2.Model.Payment;
 import tn.esprit.microservice2.Model.PaymentStatus;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,7 +14,7 @@ import java.util.stream.Collectors;
 @Data
 public class PaymentDTO {
     private Long id;
-    private double amount;
+    private BigDecimal amount;
     private String currency;
     private PaymentStatus status;
     private String paymentMethod;
@@ -47,11 +48,11 @@ public class PaymentDTO {
         this.id = id;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

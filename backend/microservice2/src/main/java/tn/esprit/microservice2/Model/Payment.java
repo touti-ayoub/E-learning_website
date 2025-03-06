@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class Payment {
     @JsonManagedReference
     private List<PaymentSchedule> paymentSchedules = new ArrayList<>();
 
-    private double amount;
+    private BigDecimal amount;
 
     @Column(length = 3)
     private String currency;
@@ -84,11 +85,11 @@ public class Payment {
         this.paymentSchedules = paymentSchedules;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

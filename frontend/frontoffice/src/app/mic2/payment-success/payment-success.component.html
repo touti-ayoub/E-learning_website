@@ -1,162 +1,85 @@
-<div class="success-page">
-  <!-- Status Bar -->
-  <div class="user-info-bar">
-    <div class="timestamp">
-      <i class="fas fa-clock"></i>
-      <span>{{currentTime}}</span>
-    </div>
-    <div class="user-badge">
-      <i class="fas fa-user-circle"></i>
-      <span>{{username}}</span>
-    </div>
+<!-- Update the timestamp -->
+<div class="timestamp">
+  <i class="fas fa-clock"></i>
+  <span>{{currentTime}}</span>
+</div>
+
+<!-- Inside the details-content section, add a new invoice details card -->
+<div *ngIf="hasInvoice && !invoiceLoading" class="detail-card invoice-details">
+  <div class="detail-header">
+    <i class="fas fa-file-invoice"></i>
+    <h2>Invoice Information</h2>
   </div>
 
-  <div class="success-content">
-    <div class="success-card">
-      <!-- Success Header with Animation -->
-      <div class="success-header">
-        <div class="checkmark-container">
-          <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
-            <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
-            <path class="checkmark-check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/>
-          </svg>
-        </div>
-
-        <h1 class="success-title">Payment Successful!</h1>
-        <p class="success-subtitle">Thank you for your purchase</p>
-      </div>
-
-      <!-- Payment Details Section -->
-      <div class="details-section">
-        <!-- Loading State -->
-        <div *ngIf="loading" class="loading-state">
-          <div class="pulse-loader"></div>
-          <p>Loading your payment details...</p>
-        </div>
-
-        <!-- Error Message -->
-        <div *ngIf="error" class="error-message">
-          <div class="message-icon">
-            <i class="fas fa-exclamation-circle"></i>
-          </div>
-          <div class="message-content">{{error}}</div>
-        </div>
-
-        <!-- Main Content -->
-        <div *ngIf="paymentDetails && !loading" class="details-content">
-          <!-- Order Summary -->
-          <div class="order-summary">
-            <div class="summary-header">Order Summary</div>
-            <div class="summary-amount">
-              <span class="amount">{{paymentDetails.amount}} {{paymentDetails.currency}}</span>
-              <span class="amount-label">Total</span>
-            </div>
-          </div>
-
-          <!-- Details Grid -->
-          <div class="details-grid">
-            <!-- Payment Details -->
-            <div class="detail-card payment-details">
-              <div class="detail-header">
-                <i class="fas fa-credit-card"></i>
-                <h2>Payment Information</h2>
-              </div>
-
-              <div class="detail-rows">
-                <div class="detail-row">
-                  <div class="detail-label">Transaction ID</div>
-                  <div class="detail-value">#{{paymentDetails.id}}</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Payment Method</div>
-                  <div class="detail-value">{{paymentDetails.paymentMethod || 'Credit Card'}}</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Payment Date</div>
-                  <div class="detail-value">{{paymentDetails.paymentDate | date:'medium'}}</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Status</div>
-                  <div class="detail-value status-paid">
-                    <span class="status-dot"></span>
-                    Paid
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Course Details -->
-            <div class="detail-card course-details">
-              <div class="detail-header">
-                <i class="fas fa-graduation-cap"></i>
-                <h2>Course Information</h2>
-              </div>
-
-              <div class="detail-rows">
-                <div class="detail-row">
-                  <div class="detail-label">Course</div>
-                  <div class="detail-value">{{subscriptionDetails?.course?.title || 'Course Name'}}</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Subscription Type</div>
-                  <div class="detail-value">{{subscriptionDetails?.paymentType === 'FULL' ? 'Full Payment' : 'Installment Plan'}}</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">Start Date</div>
-                  <div class="detail-value">{{subscriptionDetails?.startDate | date:'mediumDate'}}</div>
-                </div>
-                <div class="detail-row">
-                  <div class="detail-label">End Date</div>
-                  <div class="detail-value">{{subscriptionDetails?.endDate | date:'mediumDate'}}</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Receipt Actions -->
-          <div class="receipt-actions">
-            <div class="action-header">Receipt</div>
-            <div class="action-buttons">
-              <button class="action-btn download-btn" (click)="downloadInvoice()">
-                <i class="fas fa-download"></i>
-                <span>Download Invoice</span>
-              </button>
-              <button class="action-btn print-btn" (click)="printInvoice()">
-                <i class="fas fa-print"></i>
-                <span>Print Invoice</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Next Steps -->
-          <div class="next-steps">
-            <h3>Next Steps</h3>
-            <div class="step-buttons">
-              <button class="step-btn courses-btn" (click)="goToCourses()">
-                <div class="step-icon">
-                  <i class="fas fa-book"></i>
-                </div>
-                <div class="step-content">
-                  <span class="step-title">Go to Courses</span>
-                  <span class="step-description">Start learning now</span>
-                </div>
-                <i class="fas fa-arrow-right step-arrow"></i>
-              </button>
-
-              <button class="step-btn subscriptions-btn" (click)="goToSubscriptions()">
-                <div class="step-icon">
-                  <i class="fas fa-list"></i>
-                </div>
-                <div class="step-content">
-                  <span class="step-title">My Subscriptions</span>
-                  <span class="step-description">View your active subscriptions</span>
-                </div>
-                <i class="fas fa-arrow-right step-arrow"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+  <div class="detail-rows">
+    <div class="detail-row">
+      <div class="detail-label">Invoice Number</div>
+      <div class="detail-value">{{getInvoiceNumber()}}</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Issue Date</div>
+      <div class="detail-value">{{getInvoiceDate()}}</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Subtotal</div>
+      <div class="detail-value">{{getSubtotal()}}</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Tax</div>
+      <div class="detail-value">{{getTaxAmount()}}</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Total</div>
+      <div class="detail-value">{{getAmount()}}</div>
     </div>
   </div>
+</div>
+
+<!-- Invoice loading state -->
+<div *ngIf="invoiceLoading" class="detail-card invoice-loading">
+  <div class="loading-spinner">
+    <i class="fas fa-spinner fa-spin"></i>
+    <span>Loading invoice details...</span>
+  </div>
+</div>
+
+<!-- No invoice available message -->
+<div *ngIf="!hasInvoice && !invoiceLoading && paymentDetails?.status === 'SUCCESS'" class="detail-card invoice-not-available">
+  <div class="info-message">
+    <i class="fas fa-info-circle"></i>
+    <span>Invoice is currently being generated and will be available shortly.</span>
+  </div>
+</div>
+
+<!-- Update Receipt Actions section - disable buttons if no invoice -->
+<div class="receipt-actions">
+  <div class="action-header">Receipt</div>
+  <div class="action-buttons">
+    <button class="action-btn download-btn"
+            [disabled]="!hasInvoice"
+            [class.disabled]="!hasInvoice"
+            (click)="downloadInvoice()">
+      <i class="fas fa-download"></i>
+      <span>Download Invoice</span>
+    </button>
+    <button class="action-btn print-btn"
+            [disabled]="!hasInvoice"
+            [class.disabled]="!hasInvoice"
+            (click)="printInvoice()">
+      <i class="fas fa-print"></i>
+      <span>Print Invoice</span>
+    </button>
+  </div>
+  <!-- Add a message if invoice not available yet -->
+  <div *ngIf="!hasInvoice && paymentDetails?.status === 'SUCCESS'" class="invoice-message">
+    Invoice will be available shortly. Please check back in a few moments.
+  </div>
+</div>
+
+<!-- Add invoice error display if needed -->
+<div *ngIf="invoiceError" class="error-message invoice-error">
+  <div class="message-icon">
+    <i class="fas fa-exclamation-triangle"></i>
+  </div>
+  <div class="message-content">{{invoiceError}}</div>
 </div>

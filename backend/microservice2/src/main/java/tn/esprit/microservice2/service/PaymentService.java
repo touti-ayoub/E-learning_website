@@ -1,12 +1,10 @@
 package tn.esprit.microservice2.service;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
+import jakarta.mail.MessagingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.microservice2.DTO.PaymentDTO;
@@ -17,9 +15,6 @@ import tn.esprit.microservice2.repo.IPaymentRepository;
 import tn.esprit.microservice2.repo.IPaymentScheduleRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
@@ -31,6 +26,8 @@ import java.util.stream.Collectors;
 @Transactional
 public class PaymentService {
     private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    @Autowired
+    private EmailService emailService;
 
     @Autowired
     private IPaymentRepository paymentRepository;
@@ -43,6 +40,12 @@ public class PaymentService {
 
     @Autowired
     private IInvoiceRepository invoiceRepository;
+
+    @Autowired
+    private InvoiceService invoiceService;
+
+    @Value("${app.tax.rate:0.19}")
+    private BigDecimal taxRate;
 
     // Create full payment for a new subscription
     @Transactional
@@ -62,13 +65,13 @@ public class PaymentService {
         payment.setPaymentMethod("Credit Card");
         payment.setStatus(PaymentStatus.PENDING);
         payment.setPaymentDate(null); // Set to null until payment is processed
-        payment.setDueDate(subscription.getEndDate());
+        payment.setDueDate( null /*subscription.getEndDate()*/);
         payment.setCreatedAt(now);
 
         payment = paymentRepository.save(payment);
 
-        createInvoice(payment);
-
+        // Important note: We do NOT create an invoice yet
+        // Invoices should only be created when payment is successful
         logger.info("Created full payment with ID: {} for subscription: {}", payment.getId(), subscription.getId());
         return payment;
     }
@@ -87,7 +90,7 @@ public class PaymentService {
 
         Payment payment = new Payment();
         payment.setSubscription(subscription);
-        payment.setAmount(totalAmount.doubleValue());
+        payment.setAmount(totalAmount);
         payment.setCurrency("EUR");
         payment.setPaymentMethod("Credit Card");
         payment.setStatus(PaymentStatus.PENDING);
@@ -99,8 +102,8 @@ public class PaymentService {
 
         createInstallments(payment, totalAmount, numInstallments);
 
-        createInvoice(payment);
-
+        // Important note: We do NOT create an invoice yet
+        // For installments, invoices will be generated for each installment as it's paid
         logger.info("Created installment payment with ID: {} for subscription: {}", payment.getId(), subscription.getId());
         return payment;
     }
@@ -149,6 +152,7 @@ public class PaymentService {
 
         // Update the schedule status to PAID
         schedule.setStatus(PaymentScheduleStatus.PAID);
+
         schedule.setCreatedAt(LocalDateTime.now());
         paymentScheduleRepository.save(schedule);
 
@@ -165,6 +169,50 @@ public class PaymentService {
             logger.info("Updated subscription {} status to ACTIVE after first installment", subscription.getId());
         }
 
+        // Create an installment invoice - only when payment is made
+        Invoice invoice = generateInstallmentInvoice(schedule);
+        Payment payment = schedule.getPayment();
+        Subscription subscription = payment.getSubscription();
+        User user = subscription.getUser();
+        // Send email notifications for the installment payment
+        try {
+            String courseTitle = subscription.getCourse().getTitle();
+            String amount = BigDecimal.valueOf(schedule.getAmount()) + " " + payment.getCurrency();
+            String installmentInfo = "Installment " + schedule.getInstallmentNumber() + " of " +
+                    payment.getPaymentSchedules().size();
+
+            // Customize the payment confirmation email for installments
+            emailService.sendEmail(
+                    user.getEmail(),
+                    "Installment Payment Confirmation",
+                    String.format(
+                            "<html><body>" +
+                                    "<h1>Installment Payment Confirmation</h1>" +
+                                    "<p>Dear %s,</p>" +
+                                    "<p>Thank you for your payment of %s for %s.</p>" +
+                                    "<p>This payment is for %s of course \"%s\".</p>" +
+                                    "<p>Your installment payment has been successfully processed.</p>" +
+                                    "<p>Best regards,<br/>The eLEARNING Team</p>" +
+                                    "</body></html>",
+                            user.getUsername(), amount, installmentInfo, installmentInfo, courseTitle)
+            );
+
+            // Also send invoice email if an invoice was generated
+            if (invoice != null) {
+                byte[] pdfInvoice = downloadInvoice(payment.getId());
+                emailService.sendInvoiceEmail(
+                        user.getEmail(),
+                        user.getUsername(),
+                        invoice.getInvoiceNumber(),
+                        pdfInvoice
+                );
+            }
+
+            logger.info("Installment payment confirmation and invoice emails sent to {}", user.getEmail());
+        } catch (MessagingException e) {
+            // Log error but don't fail transaction
+            logger.error("Failed to send installment payment confirmation email: {}", e.getMessage(), e);
+        }
         // Check if all installments are paid
         checkAndUpdatePaymentStatus(schedule.getPayment());
     }
@@ -184,8 +232,29 @@ public class PaymentService {
                     .orElse(null);
             if (invoice != null) {
                 invoice.setStatus(InvoiceStatus.PAID);
+                //invoice.setUpdatedAt(LocalDateTime.now());
                 invoiceRepository.save(invoice);
                 logger.info("Updated invoice {} status to PAID", invoice.getId());
+                // Send "all installments completed" email
+                try {
+                    Subscription subscription = payment.getSubscription();
+                    User user = subscription.getUser();
+                    String courseTitle = subscription.getCourse().getTitle();
+                    String totalAmount = payment.getAmount() + " " + payment.getCurrency();
+
+                    emailService.sendAllInstallmentsCompletedEmail(
+                            user.getEmail(),
+                            user.getUsername(),
+                            courseTitle,
+                            totalAmount
+                    );
+
+                    logger.info("All installments completed email sent to {}", user.getEmail());
+                } catch (MessagingException e) {
+                    // Log error but don't fail transaction
+                    logger.error("Failed to send all installments completed email: {}", e.getMessage(), e);
+                }
+
             }
         }
     }
@@ -209,74 +278,20 @@ public class PaymentService {
         }
     }
 
-    // Generate unique invoice number
-    private String generateInvoiceNumber() {
-        return "INV-" + System.currentTimeMillis();
-    }
-
-    // Generate PDF invoice
-    private String generateInvoicePdf(Invoice invoice) {
-        String filePath = "src/main/resources/static/assets/invoices/invoice_" + invoice.getInvoiceNumber() + ".pdf";
-        try {
-            File file = new File(filePath);
-            file.getParentFile().mkdirs();
-
-            // Create a Document object
-            Document document = new Document();
-
-            // Create a PdfWriter instance to write the document to the file
-            PdfWriter.getInstance(document, new FileOutputStream(file));
-
-            // Open the document
-            document.open();
-
-            // Add content to the document
-            document.add(new Paragraph("Invoice Number: " + invoice.getInvoiceNumber()));
-            document.add(new Paragraph("Issued Date: " + invoice.getIssuedDate().toString()));
-            document.add(new Paragraph("Due Date: " + invoice.getDueDate().toString()));
-            document.add(new Paragraph("Total Amount: " + invoice.getTotalAmount()));
-            document.add(new Paragraph("Tax Amount: " + invoice.getTaxAmount()));
-            document.add(new Paragraph("Status: " + invoice.getStatus()));
-
-            // Close the document
-            document.close();
-        } catch (FileNotFoundException e) {
-            logger.error("Error creating invoice PDF", e);
-            e.printStackTrace();
-        } catch (DocumentException e) {
-            logger.error("Error creating invoice PDF", e);
-            throw new RuntimeException(e);
-        }
-
-        return "/assets/invoices/invoice_" + invoice.getInvoiceNumber() + ".pdf";
-    }
-
-    // Create invoice for payment
-    private void createInvoice(Payment payment) {
-        LocalDateTime now = LocalDateTime.now();
-
-        Invoice invoice = new Invoice();
-        invoice.setPayment(payment);
-        invoice.setInvoiceNumber(generateInvoiceNumber());
-        invoice.setTotalAmount(payment.getAmount());
-        invoice.setIssuedDate(now);
-        invoice.setDueDate(payment.getDueDate());
-        invoice.setStatus(InvoiceStatus.UNPAID);
-        invoice.setCreatedAt(now);
-
-        // Generate PDF
-        String pdfUrl = generateInvoicePdf(invoice);
-        invoice.setPdfUrl(pdfUrl);
-
-        invoiceRepository.save(invoice);
-        logger.info("Created invoice {} for payment {}", invoice.getInvoiceNumber(), payment.getId());
-    }
-
+    /**
+     * Updates payment status to SUCCESS and generates an invoice
+     */
     @Transactional
     public PaymentDTO updatePaymentStatus(Long paymentId) {
         // Find payment with all necessary relationships loaded
         Payment payment = paymentRepository.findByIdWithDetails(paymentId)
                 .orElseThrow(() -> new RuntimeException("Payment not found with id: " + paymentId));
+
+        // If payment is already successful, just return it
+        if (payment.getStatus() == PaymentStatus.SUCCESS) {
+            logger.info("Payment {} is already marked as successful", paymentId);
+            return PaymentDTO.fromEntity(payment);
+        }
 
         // Update payment status
         payment.setStatus(PaymentStatus.SUCCESS);
@@ -286,21 +301,124 @@ public class PaymentService {
         Subscription subscription = payment.getSubscription();
         subscription.setStatus(SubscriptionStatus.ACTIVE);
         subscription.setUpdatedAt(LocalDateTime.now());
-
-        // Update invoice status to PAID
-        Invoice invoice = payment.getInvoice();
-        invoice.setStatus(InvoiceStatus.PAID);
-        invoiceRepository.save(invoice);
-
-        // Save both entities
         subscriptionRepository.save(subscription);
+
+        // Save payment entity
         payment = paymentRepository.save(payment);
 
+
+        Invoice invoice = null;
+
+        // Generate invoice for full payment
+        // This is only for FULL payments, not installments (installments have their own invoices)
+        if (subscription.getPaymentType() == PaymentType.FULL) {
+            invoice = generateFullPaymentInvoice(payment);
+        }
+
+        // Send email notifications (encapsulate in try-catch to prevent mail errors from affecting the transaction)
+        try {
+            User user = subscription.getUser();
+            String courseTitle = subscription.getCourse().getTitle();
+            String amount = payment.getAmount() + " " + payment.getCurrency();
+
+            // Send payment confirmation
+            emailService.sendPaymentConfirmationEmail(
+                    user.getEmail(),
+                    user.getUsername(),
+                    courseTitle,
+                    amount
+            );
+
+            // If invoice was generated, also send invoice email
+            if (invoice != null) {
+                byte[] pdfInvoice = downloadInvoice(payment.getId());
+                emailService.sendInvoiceEmail(
+                        user.getEmail(),
+                        user.getUsername(),
+                        invoice.getInvoiceNumber(),
+                        pdfInvoice
+                );
+            }
+
+            logger.info("Payment confirmation and invoice emails sent to {}", user.getEmail());
+        } catch (MessagingException e) {
+            // Log error but don't fail transaction
+            logger.error("Failed to send payment confirmation email: {}", e.getMessage(), e);
+        }
         logger.info("Updated payment {} status to SUCCESS and subscription {} status to ACTIVE",
                 payment.getId(), subscription.getId());
 
         // Convert to DTO to avoid serialization issues
         return PaymentDTO.fromEntity(payment);
+    }
+
+    /**
+     * Generates an invoice for a full payment
+     */
+    private Invoice generateFullPaymentInvoice(Payment payment) {
+        try {
+            User user = payment.getSubscription().getUser();
+            Invoice invoice = invoiceService.createInvoice(payment, user);
+
+            logger.info("Generated invoice #{} for full payment {}",
+                    invoice.getInvoiceNumber(), payment.getId());
+
+            // Set the invoice on the payment
+            payment.setInvoice(invoice);
+            paymentRepository.save(payment);
+
+            return invoice;
+        } catch (Exception e) {
+            logger.error("Failed to generate invoice for payment {}: {}",
+                    payment.getId(), e.getMessage(), e);
+            throw new RuntimeException("Invoice generation failed", e);
+        }
+    }
+
+    /**
+     * Generates an invoice for an installment payment
+     */
+    private Invoice generateInstallmentInvoice(PaymentSchedule schedule) {
+        try {
+            Payment payment = schedule.getPayment();
+            User user = payment.getSubscription().getUser();
+
+            // For installment payments, we use a special handling
+            // We need to create an invoice just for this installment amount
+            // The invoice service needs to be adapted to handle this case
+
+            // First, create a temporary payment object with the installment amount
+            Payment installmentPayment = new Payment();
+            installmentPayment.setId(payment.getId()); // Same ID as parent payment
+            installmentPayment.setSubscription(payment.getSubscription());
+            installmentPayment.setAmount(BigDecimal.valueOf(schedule.getAmount()));
+            installmentPayment.setCurrency(payment.getCurrency());
+            installmentPayment.setPaymentMethod(payment.getPaymentMethod());
+            installmentPayment.setStatus(PaymentStatus.SUCCESS);
+            installmentPayment.setPaymentDate(LocalDateTime.now());
+            installmentPayment.setDueDate(payment.getDueDate());
+
+            // Generate invoice with special installment number
+            Invoice invoice = invoiceService.createInvoice(installmentPayment, user);
+
+            // Set installment specific details
+//            invoice.setInstallmentNumber(schedule.getInstallmentNumber());
+//            invoice.setTotalInstallments(
+//                    payment.getPaymentSchedules() != null ? payment.getPaymentSchedules().size() : 0
+//            );
+
+            // Update and save the invoice
+            invoice = invoiceRepository.save(invoice);
+
+            logger.info("Generated invoice #{} for installment #{} of payment {}",
+                    invoice.getInvoiceNumber(), schedule.getInstallmentNumber(), payment.getId());
+
+            return invoice;
+        } catch (Exception e) {
+            logger.error("Failed to generate invoice for installment {}: {}",
+                    schedule.getId(), e.getMessage(), e);
+            throw new RuntimeException("Installment invoice generation failed", e);
+        }
     }
 
     // Update installment status
@@ -320,6 +438,9 @@ public class PaymentService {
         // Check if all installments are completed
         if (status == PaymentScheduleStatus.PAID) {
             checkAndUpdatePaymentStatus(schedule.getPayment());
+
+            // Generate invoice for this installment
+            generateInstallmentInvoice(schedule);
         }
 
         return schedule;
@@ -342,12 +463,6 @@ public class PaymentService {
     // Get payment schedules by payment
     public List<PaymentSchedule> getPaymentSchedules(Long paymentId) {
         return paymentScheduleRepository.findByPaymentId(paymentId);
-    }
-
-    // Get invoice by payment
-    public Invoice getInvoice(Long paymentId) {
-        return invoiceRepository.findByPaymentId(paymentId)
-                .orElseThrow(() -> new RuntimeException("Invoice not found for payment id: " + paymentId));
     }
 
     // Check if payment is overdue
@@ -415,5 +530,27 @@ public class PaymentService {
     public double calculatePenaltyAmount(PaymentSchedule schedule) {
         // Example penalty calculation (e.g., 5% of the original amount)
         return schedule.getAmount() * 0.05;
+    }
+
+    /**
+     * Gets the invoice for a payment
+     */
+    public Invoice getInvoice(Long paymentId) {
+        return invoiceRepository.findByPaymentId(paymentId)
+                .orElseThrow(() -> new RuntimeException("Invoice not found for payment: " + paymentId));
+    }
+
+    /**
+     * Downloads invoice as PDF
+     */
+    public byte[] downloadInvoice(Long paymentId) {
+        Invoice invoice = getInvoice(paymentId);
+        try {
+            // Use the InvoiceService to generate the PDF
+            return invoiceService.generateInvoicePdf(invoice.getId());
+        } catch (Exception e) {
+            logger.error("Error generating invoice PDF for payment {}: {}", paymentId, e.getMessage(), e);
+            throw new RuntimeException("Failed to generate invoice PDF", e);
+        }
     }
 }
