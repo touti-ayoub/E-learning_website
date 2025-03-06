@@ -39,6 +39,8 @@ public class QuizController {
     // Evaluate a quiz
     @PostMapping("/{quizId}/evaluate")
     public int evaluateQuiz(@PathVariable Long quizId, @RequestBody Map<Long, Long> userAnswers) {
+        System.out.println("Received evaluation request for quiz ID: " + quizId);
+        System.out.println("User answers: " + userAnswers);
         return quizEvaluationService.evaluateQuiz(quizId, userAnswers);
     }
 }
