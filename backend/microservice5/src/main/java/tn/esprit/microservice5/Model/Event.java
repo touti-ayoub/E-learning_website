@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Max;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Setter
@@ -20,7 +22,7 @@ public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long eventId;
+    private long eventId;
 
     @NotBlank(message = "Title is required")
     @Size(min = 3, max = 100, message = "Title must be between 3 and 100 characters")
@@ -53,13 +55,13 @@ public class Event {
     @NotNull(message = "Event type is required")
     private EventType eventType;
 
-    public enum EventType {
-        CONFERENCE,
-        WORKSHOP,
-        WEBINAR,
-        HACKATHON,
-        SEMINAR,
-        COURSE_SUPPLEMENT
-    }
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Feedback> feedbacks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Material> materials = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Registration> registrations = new ArrayList<>();
 
 }

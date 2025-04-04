@@ -6,6 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.List;
+import java.util.ArrayList;
+
 @Entity
 @Setter
 @Getter
@@ -15,7 +18,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private long userId;
 
     @NotBlank(message = "Username is required")
     @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
@@ -31,10 +34,11 @@ public class User {
     @NotNull(message = "Role is required")
     private Role role;
 
-    public enum Role {
-        ADMINISTRATOR,
-        ORGANIZER,
-        PRESENTER,
-        PARTICIPANT
-    }
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Feedback> feedbacks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Registration> registrations = new ArrayList<>();
+
+
 }
