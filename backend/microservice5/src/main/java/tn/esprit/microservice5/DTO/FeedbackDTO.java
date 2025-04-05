@@ -1,29 +1,40 @@
 package tn.esprit.microservice5.DTO;
 
-
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import tn.esprit.microservice5.Model.Feedback;
 
 import java.time.LocalDateTime;
 
 @Data
-@AllArgsConstructor
+@Builder
 @NoArgsConstructor
+@AllArgsConstructor
 public class FeedbackDTO {
-
+    private long id;
+    private Long eventId;
     private Long userId;
-
-    @Min(value = 1, message = "Rating must be at least 1")
-    @Max(value = 5, message = "Rating cannot exceed 5")
-    private int rating;
-
+    private Integer rating;
     private String comments;
-
     private LocalDateTime submittedAt;
 
-    private boolean isAnonymous;
+    /**
+     * Convert from Feedback entity to FeedbackDTO
+     */
+    public static FeedbackDTO fromEntity(Feedback feedback) {
+        if (feedback == null) {
+            return null;
+        }
+
+        return FeedbackDTO.builder()
+                .id(feedback.getId())
+                .eventId(feedback.getEvent() != null ? feedback.getEvent().getEventId() : null)
+                .userId(feedback.getUser() != null ? feedback.getUser().getUserId() : null)
+                .rating(feedback.getRating())
+                .comments(feedback.getComments())
+                .submittedAt(feedback.getSubmittedAt())
+                .build();
+    }
 }
