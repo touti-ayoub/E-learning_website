@@ -1,0 +1,9 @@
+<ng-container *ngIf="!item.hidden">
+  <li class="nav-item coded-menu-caption" [ngClass]="item.classes">
+    <label for="{{ item.id }}">{{ item.title }}</label>
+  </li>
+  <ng-container *ngFor="let items of item.children; trackBy: trackByFn">
+    <app-nav-collapse *ngIf="items.type === 'collapse'" [item]="items"></app-nav-collapse>
+    <app-nav-item *ngIf="items.type === 'item'" [item]="items"></app-nav-item>
+  </ng-container>
+</ng-container>
