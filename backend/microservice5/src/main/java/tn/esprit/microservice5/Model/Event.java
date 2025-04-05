@@ -64,4 +64,8 @@ public class Event {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Registration> registrations = new ArrayList<>();
 
+    // -------------- New field to store the Google Calendar event ID --------------
+    private String googleCalendarEventId;
+
+
 }

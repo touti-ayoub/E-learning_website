@@ -24,13 +24,9 @@ public class EventController {
     private EventService eventService;
 
     @PostMapping
-    public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event) {
-        try {
-            Event createdEvent = eventService.createEvent(event);
-            return new ResponseEntity<>(createdEvent, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+    public EventDTO createEvent(@RequestBody EventDTO dto) {
+        Event createdEvent = eventService.createEvent(dto);
+        return EventDTO.fromEntity(createdEvent);
     }
 
     @GetMapping
@@ -54,23 +50,16 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @Valid @RequestBody Event event) {
-        try {
-            Event updatedEvent = eventService.updateEvent(id, event);
-            return new ResponseEntity<>(updatedEvent, HttpStatus.OK);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public EventDTO updateEvent(@PathVariable("id") Long eventId,
+                                @RequestBody EventDTO dto) {
+        Event updatedEvent = eventService.updateEvent(eventId, dto);
+        return EventDTO.fromEntity(updatedEvent);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        try {
-            eventService.deleteEvent(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public String deleteEvent(@PathVariable("id") Long eventId) {
+        eventService.deleteEvent(eventId);
+        return "Event with ID " + eventId + " was deleted.";
     }
 
     /**

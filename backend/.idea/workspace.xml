@@ -5,364 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="fix backend">
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/DTO/FeedbackDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/DTO/MaterialDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/DTO/RegistrationDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/EventType.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Feedback.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Material.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Registration.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/RegistrationStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Role.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Repo/IFeedbackRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Repo/IMaterialRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Repo/IRegistrationRepo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Rest/RegistrationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/RegistrationService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice5/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/DTO/EventDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/DTO/EventDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Rest/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Rest/EventController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/EventService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/.github/workflows/main.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/.github/workflows/main.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/CHANGELOG.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/ISSUE_TEMPLATE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/ISSUE_TEMPLATE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/LICENSE.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/LICENSE.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/css/bootstrap.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/css/demo-documentation.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/css/demo-documentation.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/css/material-dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/css/material-dashboard.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/arrive.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/arrive.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/bootstrap-notify.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/bootstrap-notify.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/bootstrap.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/bootstrap.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/chartist.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/chartist.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/demo.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/demo.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/initMenu.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/initMenu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/jquery-3.2.1.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/jquery-3.2.1.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/material-dashboard.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/material-dashboard.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/material.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/js/material.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/documentation/tutorial-components.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/documentation/tutorial-components.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/e2e/app.e2e-spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/e2e/app.e2e-spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/e2e/app.po.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/e2e/app.po.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/e2e/tsconfig.e2e.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/e2e/tsconfig.e2e.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/genezio.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/genezio.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/karma.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/karma.conf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/protractor.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/protractor.conf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.routing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.routing.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/components.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/components.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/footer/footer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/footer/footer.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/footer/footer.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/footer/footer.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/footer/footer.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/footer/footer.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/navbar/navbar.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/navbar/navbar.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/navbar/navbar.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/navbar/navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/navbar/navbar.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/sidebar/sidebar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/sidebar/sidebar.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/sidebar/sidebar.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/sidebar/sidebar.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/sidebar/sidebar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/components/sidebar/sidebar.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/dashboard/dashboard.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/dashboard/dashboard.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/dashboard/dashboard.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/dashboard/dashboard.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/dashboard/dashboard.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/dashboard/dashboard.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/icons/icons.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/icons/icons.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/icons/icons.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/icons/icons.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/icons/icons.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/icons/icons.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.routing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/layouts/admin-layout/admin-layout.routing.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/maps/maps.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/maps/maps.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/maps/maps.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/maps/maps.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/maps/maps.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/maps/maps.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/notifications/notifications.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/notifications/notifications.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/notifications/notifications.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/notifications/notifications.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/notifications/notifications.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/notifications/notifications.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/table-list/table-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/table-list/table-list.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/table-list/table-list.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/table-list/table-list.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/table-list/table-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/table-list/table-list.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/typography/typography.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/typography/typography.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/typography/typography.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/typography/typography.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/typography/typography.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/typography/typography.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/upgrade/upgrade.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/upgrade/upgrade.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/upgrade/upgrade.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/upgrade/upgrade.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/upgrade/upgrade.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/upgrade/upgrade.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/user-profile/user-profile.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/user-profile/user-profile.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/user-profile/user-profile.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/user-profile/user-profile.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/user-profile/user-profile.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/user-profile/user-profile.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/css/demo.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/css/demo.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_alerts.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_alerts.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_angular-modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_angular-modal.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_buttons.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_cards.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_cards.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_checkboxes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_checkboxes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_dropdown.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_dropdown.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_example-pages.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_example-pages.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_fixed-plugin.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_fixed-plugin.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_footers.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_footers.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_forms.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_images.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_images.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_input-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_input-group.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_misc.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_misc.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_navbar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_popover.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_popover.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_popups.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_popups.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_radios.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_radios.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_responsive.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_responsive.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_ripples.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_ripples.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_sidebar-and-main-panel.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_sidebar-and-main-panel.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_tables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_tables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_tabs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_tabs.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_togglebutton.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_togglebutton.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_tooltip.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_tooltip.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_type.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_type.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/_variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/cards/_card-plain.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/cards/_card-plain.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/cards/_card-profile.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/cards/_card-profile.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/cards/_card-stats.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/cards/_card-stats.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_alert.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_alert.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_animations.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_animations.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_breakpoints.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_breakpoints.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_buttons.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_chartist.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_chartist.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_colored-shadows.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_colored-shadows.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_drawer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_drawer.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_forms.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_hover.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_hover.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_layout.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_navbar-colors.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_navbar-colors.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_navs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_navs.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_sidebar-color.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_sidebar-color.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_transparency.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_transparency.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_type.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_type.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_utilities.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_vendor-prefixes.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/mixins/_vendor-prefixes.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/plugins/_animate.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/plugins/_animate.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/plugins/_chartist.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/plugins/_chartist.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/plugins/_perfect-scrollbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/plugins/_perfect-scrollbar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_body.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_body.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_bootstrap-material-design-base.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_bootstrap-material-design-base.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_bootstrap-material-design.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_bootstrap-material-design.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_brand.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_brand.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_buttons.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_card.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_code.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_code.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_colors-map.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_colors-map.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_colors.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_colors.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_custom-forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_custom-forms.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_drawer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_drawer.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_dropdown.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_dropdown.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_forms.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_layout.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_layout.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_list-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_list-group.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_menu.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_menu.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_modals.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_modals.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_nav.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_nav.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_pagination.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_pagination.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_shadow.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_shadow.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_snackbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_snackbar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_spacing.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_spacing.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_state.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_state.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_tables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_tables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_tooltip.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_tooltip.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_type.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/core/variables/_type.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/material-dashboard.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/scss/material-dashboard.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.prod.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.prod.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/polyfills.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/polyfills.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/tsconfig.app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/tsconfig.spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/tsconfig.spec.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/typings.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/typings.d.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/tslint.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/tslint.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/.vscode/extensions.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/.vscode/extensions.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/.vscode/launch.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/.vscode/launch.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/.vscode/tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/.vscode/tasks.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/about-us/about-us.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/about-us/about-us.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/about-us/about-us.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/about-us/about-us.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/about-us/about-us.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/about-us/about-us.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/register/register.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/register/register.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/register/register.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/register/register.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/register/register.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/register/register.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/banner/banner.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/banner/banner.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/banner/banner.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/banner/banner.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/banner/banner.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/banner/banner.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/banner/banner.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/banner/banner.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/contact/contact.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/contact/contact.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/contact/contact.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/contact/contact.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/contact/contact.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/contact/contact.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/footer/footer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/footer/footer.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/footer/footer.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/footer/footer.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/footer/footer.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/footer/footer.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/home/home.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/home/home.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/home/home.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/home/home.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/notfound/notfound.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/notfound/notfound.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/notfound/notfound.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/notfound/notfound.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/notfound/notfound.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/notfound/notfound.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/our-team/our-team.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/our-team/our-team.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/our-team/our-team.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/our-team/our-team.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/our-team/our-team.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/our-team/our-team.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/testimonial/testimonial.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/testimonial/testimonial.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/testimonial/testimonial.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/testimonial/testimonial.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/testimonial/testimonial.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/testimonial/testimonial.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/css/bootstrap.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/css/bootstrap.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/css/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/js/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/js/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/animate/animate.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/animate/animate.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/animate/animate.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/animate/animate.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/easing/easing.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/easing/easing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/easing/easing.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/easing/easing.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.carousel.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.carousel.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.carousel.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.carousel.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.theme.default.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.theme.default.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.theme.default.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.theme.default.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.theme.green.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.theme.green.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.theme.green.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/assets/owl.theme.green.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/owl.carousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/owl.carousel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/owl.carousel.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/owlcarousel/owl.carousel.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/waypoints/links.php" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/waypoints/links.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/waypoints/waypoints.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/waypoints/waypoints.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/wow/wow.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/wow/wow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/wow/wow.min.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/lib/wow/wow.min.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_accordion.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_accordion.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_alert.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_alert.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_badge.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_badge.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_breadcrumb.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_breadcrumb.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_button-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_button-group.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_buttons.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_card.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_carousel.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_carousel.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_close.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_close.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_containers.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_containers.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_dropdown.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_dropdown.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_forms.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_functions.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_functions.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_grid.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_grid.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_helpers.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_helpers.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_images.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_images.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_list-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_list-group.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_mixins.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_mixins.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_modal.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_modal.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_nav.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_nav.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_navbar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_navbar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_offcanvas.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_offcanvas.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_pagination.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_pagination.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_popover.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_popover.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_progress.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_progress.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_reboot.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_reboot.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_root.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_root.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_spinners.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_spinners.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_tables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_tables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_toasts.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_toasts.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_tooltip.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_tooltip.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_transitions.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_transitions.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_type.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_type.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_utilities.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/_variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/bootstrap-grid.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/bootstrap-grid.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/bootstrap-reboot.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/bootstrap-reboot.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/bootstrap-utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/bootstrap-utilities.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/bootstrap.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/bootstrap.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_floating-labels.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_floating-labels.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-check.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-check.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-control.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-control.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-range.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-range.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-select.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-select.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-text.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_form-text.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_input-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_input-group.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_labels.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_labels.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_validation.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/forms/_validation.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_clearfix.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_clearfix.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_colored-links.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_colored-links.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_position.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_position.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_ratio.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_ratio.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_stretched-link.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_stretched-link.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_text-truncation.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_text-truncation.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_visually-hidden.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/helpers/_visually-hidden.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_alert.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_alert.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_border-radius.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_border-radius.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_box-shadow.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_box-shadow.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_breakpoints.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_breakpoints.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_buttons.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_buttons.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_caret.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_caret.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_clearfix.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_clearfix.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_color-scheme.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_color-scheme.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_container.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_container.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_deprecate.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_deprecate.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_forms.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_gradients.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_gradients.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_grid.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_grid.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_image.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_image.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_list-group.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_list-group.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_lists.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_lists.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_pagination.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_pagination.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_reset-text.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_reset-text.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_resize.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_resize.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_table-variants.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_table-variants.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_text-truncate.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_text-truncate.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_transition.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_transition.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_utilities.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_utilities.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_visually-hidden.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/mixins/_visually-hidden.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/utilities/_api.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/utilities/_api.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/vendor/_rfs.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/scss/bootstrap/scss/vendor/_rfs.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth-interceptor.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth-interceptor.service.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth-interceptor.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth-interceptor.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.guard.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.guard.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.guard.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.service.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/subscription.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/subscription.service.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/subscription.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/subscription.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.spec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice5/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -412,48 +60,58 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Microservice2Application.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #3.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.eureka [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.eureka [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.gateway [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.gateway [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice2 [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice2 [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [install].executor&quot;: &quot;Run&quot;,
-    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
-    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.EurekaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.GatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.Microservice2Application.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.Microservice5Application.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.TpFoyer17Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;events&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Microservice2Application.executor": "Run",
+    "HTTP Request.generated-requests | #3.executor": "Run",
+    "Maven.eureka [clean].executor": "Run",
+    "Maven.eureka [install].executor": "Run",
+    "Maven.gateway [clean].executor": "Run",
+    "Maven.gateway [install].executor": "Run",
+    "Maven.microservice2 [clean].executor": "Run",
+    "Maven.microservice2 [install].executor": "Run",
+    "Maven.microservice5 [clean].executor": "Run",
+    "Maven.microservice5 [install].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor": "Run",
+    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
+    "Notification.DoNotAsk-Database detector": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.EurekaApplication.executor": "Run",
+    "Spring Boot.GatewayApplication.executor": "Run",
+    "Spring Boot.Microservice2Application.executor": "Run",
+    "Spring Boot.Microservice5Application.executor": "Run",
+    "Spring Boot.TpFoyer17Application.executor": "Run",
+    "git-widget-placeholder": "events",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources/credentials",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="tn.esprit.microservice2.Model" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources\credentials" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="tn.esprit.tpfoyer17.configurations" />
@@ -569,6 +227,9 @@
       <workItem from="1741829726925" duration="1846000" />
       <workItem from="1743701984093" duration="1746000" />
       <workItem from="1743717755599" duration="5068000" />
+      <workItem from="1743727889720" duration="2511000" />
+      <workItem from="1743734129359" duration="1199000" />
+      <workItem from="1743807685480" duration="10484000" />
     </task>
     <task id="LOCAL-00001" summary="setting up event class">
       <option name="closed" value="true" />
