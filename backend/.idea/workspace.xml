@@ -5,138 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="adding google calendar api">
-      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic5/event-dto.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/GoogleCalendarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/GoogleCalendarService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/resources/service-account.json" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/resources/service-account.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/.browserslistrc" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/.browserslistrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/.github/workflows/prod.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/.github/workflows/prod.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/.prettierrc" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/.prettierrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/eslint.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/eslint.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/karma.conf.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/karma.conf.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/test/test.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/test/test.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/test/test.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/test/test.component.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/test/test.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/test/test.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/dashboard/default/default.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/dashboard/default/default.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/dashboard/default/default.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/dashboard/default/default.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/dashboard/default/default.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/dashboard/default/default.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/elements/element-color/element-color.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/elements/element-color/element-color.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/elements/element-color/element-color.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/elements/element-color/element-color.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/elements/typography/typography.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/elements/typography/typography.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/elements/typography/typography.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/elements/typography/typography.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/other/sample-page/sample-page.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/other/sample-page/sample-page.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/other/sample-page/sample-page.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/other/sample-page/sample-page.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/authentication-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/authentication-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/authentication.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/authentication.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/login/login.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/register/register.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/register/register.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/register/register.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/register/register.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/admin.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/admin.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/admin.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/admin.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/configuration/configuration.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/configuration/configuration.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/configuration/configuration.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/configuration/configuration.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-bar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-bar.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-bar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-bar.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-left/nav-left.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-left/nav-left.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-left/nav-left.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-left/nav-left.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-left/nav-left.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-left/nav-left.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-logo/nav-logo.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-logo/nav-logo.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-logo/nav-logo.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-logo/nav-logo.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-right/nav-right.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-right/nav-right.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-right/nav-right.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-right/nav-right.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-right/nav-right.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/nav-bar/nav-right/nav-right.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-collapse/nav-collapse.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-collapse/nav-collapse.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-collapse/nav-collapse.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-collapse/nav-collapse.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-content.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-content.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-content.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-content.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-group/nav-group.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-group/nav-group.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-group/nav-group.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-group/nav-group.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-item/nav-item.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-item/nav-item.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-item/nav-item.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-item/nav-item.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/guest/guest.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/guest/guest.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/guest/guest.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/guest/guest.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/bajaj-chart/bajaj-chart.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/bajaj-chart/bajaj-chart.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/bajaj-chart/bajaj-chart.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/bajaj-chart/bajaj-chart.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/bar-chart/bar-chart.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/bar-chart/bar-chart.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/bar-chart/bar-chart.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/bar-chart/bar-chart.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/apexchart/chart-data-month/chart-data-month.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/breadcrumbs/breadcrumbs.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/breadcrumbs/breadcrumbs.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/breadcrumbs/breadcrumbs.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/breadcrumbs/breadcrumbs.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/card/card.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/card/card.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/card/card.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/card/card.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinkit-css/sk-line-material.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinkit-css/sk-line-material.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinkits.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinkits.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/directive/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/directive/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/shared.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/shared.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/authentication/auth2-login.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/authentication/auth2-login.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/authentication/google-icon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/authentication/google-icon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/favicon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/favicon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/logo-dark.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/logo-dark.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/assets/images/logo.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.prod.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.prod.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/polyfills.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/polyfills.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/bootstrap/bootstrap.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/bootstrap/bootstrap.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/berry/berry-icons.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/berry/berry-icons.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/berry/fonts/pct.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/berry/fonts/pct.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/phosphor/duotone/Phosphor-Duotone.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/phosphor/duotone/Phosphor-Duotone.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/phosphor/duotone/selection.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/phosphor/duotone/selection.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/phosphor/duotone/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/phosphor/duotone/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/tabler-icons.min.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/tabler-icons.min.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/tabler/tabler-icons.svg" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/fonts/tabler/tabler-icons.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/settings/bootstrap-variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/settings/bootstrap-variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/settings/color-variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/settings/color-variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/settings/theme-variables.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/settings/theme-variables.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/style-preset.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/style-preset.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/components/avatar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/components/avatar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/components/card.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/components/card.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/components/components.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/components/components.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/components/forms.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/components/forms.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/customizer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/customizer.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/general.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/general.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/generic.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/generic.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/font-family.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/font-family.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/layouts.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/layouts.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/menu-list.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/menu-list.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/pc-common.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/pc-common.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/pc-footer.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/pc-footer.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/pc-header.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/pc-header.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/pc-sidebar.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/pc-sidebar.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/style-config.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/layouts/style-config.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/pages/authentication.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/pages/authentication.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/pages/dashboard.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/pages/dashboard.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/pages/page.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/pages/page.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/pages/pages.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/scss/themes/pages/pages.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/event-service.service.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/event.service.spec.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/event-service.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/event.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/event-form/event-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/event-form/event-form.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/styles.scss" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/styles.scss" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/tsconfig.app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/tsconfig.spec.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/tsconfig.spec.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,52 +57,52 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Microservice2Application.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #3.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.eureka [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.eureka [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.gateway [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.gateway [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice2 [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice2 [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor&quot;: &quot;Run&quot;,
-    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
-    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.EurekaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.GatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.Microservice2Application.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.Microservice5Application.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.TpFoyer17Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;events&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources/credentials&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Microservice2Application.executor": "Run",
+    "HTTP Request.generated-requests | #3.executor": "Run",
+    "Maven.eureka [clean].executor": "Run",
+    "Maven.eureka [install].executor": "Run",
+    "Maven.gateway [clean].executor": "Run",
+    "Maven.gateway [install].executor": "Run",
+    "Maven.microservice2 [clean].executor": "Run",
+    "Maven.microservice2 [install].executor": "Run",
+    "Maven.microservice5 [clean].executor": "Run",
+    "Maven.microservice5 [install].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor": "Run",
+    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
+    "Notification.DoNotAsk-Database detector": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.EurekaApplication.executor": "Run",
+    "Spring Boot.GatewayApplication.executor": "Run",
+    "Spring Boot.Microservice2Application.executor": "Run",
+    "Spring Boot.Microservice5Application.executor": "Run",
+    "Spring Boot.TpFoyer17Application.executor": "Run",
+    "git-widget-placeholder": "events",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources/credentials",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "settings.sync",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="tn.esprit.microservice2.Model" />
@@ -361,7 +232,11 @@
       <workItem from="1743807685480" duration="14643000" />
       <workItem from="1743862491065" duration="5411000" />
       <workItem from="1743876642358" duration="6226000" />
-      <workItem from="1743890133395" duration="6924000" />
+      <workItem from="1743890133395" duration="7559000" />
+      <workItem from="1743966510471" duration="1110000" />
+      <workItem from="1743967644827" duration="17000" />
+      <workItem from="1743967671056" duration="4281000" />
+      <workItem from="1743975014199" duration="716000" />
     </task>
     <task id="LOCAL-00001" summary="setting up event class">
       <option name="closed" value="true" />
