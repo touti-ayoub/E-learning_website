@@ -22,7 +22,7 @@ import java.util.Collections;
 @Service
 public class GoogleCalendarService {
 
-    private static final String APPLICATION_NAME = "MySpringApplication";
+    private static final String APPLICATION_NAME = "CalendarProject";
     private static final JacksonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
 
     private Calendar getCalendarService() throws GeneralSecurityException, IOException {

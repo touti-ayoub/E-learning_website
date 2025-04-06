@@ -10,34 +10,48 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: '/default',
+        redirectTo: 'default',
         pathMatch: 'full'
       },
       {
         path: 'default',
-        loadComponent: () => import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent)
+        loadComponent: () =>
+          import('./demo/dashboard/default/default.component').then((c) => c.DefaultComponent)
       },
       {
         path: 'typography',
-        loadComponent: () => import('./demo/elements/typography/typography.component')
+        loadComponent: () =>
+          import('./demo/elements/typography/typography.component')
       },
       {
         path: 'color',
-        loadComponent: () => import('./demo/elements/element-color/element-color.component')
+        loadComponent: () =>
+          import('./demo/elements/element-color/element-color.component')
       },
       {
         path: 'sample-page',
-        loadComponent: () => import('./demo/other/sample-page/sample-page.component')
+        loadComponent: () =>
+          import('./demo/other/sample-page/sample-page.component')
+      },
+      // --------------------------------------------
+      // STEP 3: Nest the "events" route under Admin
+      // --------------------------------------------
+      {
+        path: 'events',
+        loadComponent: () =>
+          import('./Component/event-list/event-list.component').then((m) => m.EventListComponent)
       }
     ]
   },
+
   {
     path: '',
     component: GuestComponent,
     children: [
       {
         path: 'guest',
-        loadChildren: () => import('./demo/pages/authentication/authentication.module').then((m) => m.AuthenticationModule)
+        loadChildren: () =>
+          import('./demo/pages/authentication/authentication.module').then((m) => m.AuthenticationModule)
       }
     ]
   }
