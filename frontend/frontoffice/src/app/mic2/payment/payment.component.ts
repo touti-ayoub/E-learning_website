@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentService } from '../../../services/mic2/payment.service';
-import { finalize } from 'rxjs/operators';
+import { StripeService } from '../../../services/mic2/stripe.service';
+import { finalize, catchError, switchMap } from 'rxjs/operators';
+import { Subscription, from, of } from 'rxjs';
 import Swal from 'sweetalert2';
+import { Stripe, StripeCardElement } from '@stripe/stripe-js';
 
 interface PaymentResponse {
   id: number;
@@ -21,16 +24,30 @@ interface PaymentResponse {
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
-export class PaymentComponent implements OnInit {
+export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild('stripeCardElement') stripeCardElement!: ElementRef;
+  
+  // Stripe related properties
+  stripe: Stripe | null = null;
+  cardElement: StripeCardElement | null = null;
+  clientSecret: string | null = null;
+  stripeError: string | null = null;
+  
   // System info
-  currentUser = '';
-  currentDate = new Date('2025-03-02T22:39:59');
+  currentUser = 'iitsMahdii';
+  currentDate = new Date('2025-04-08 23:35:08');
+  
   // Component state
   loading = false;
   processing = false;
+  loadingPaymentIntent = false;
   error: string | null = null;
   success = false;
-
+  stripeLoaded = false;
+  stripeInitialized = false;
+  cardElementMounted = false;
+  retryCount = 0;
+  
   // Payment data
   paymentId?: number;
   payment?: PaymentResponse;
@@ -39,265 +56,607 @@ export class PaymentComponent implements OnInit {
   installmentNumber?: number;
   amount?: number;
   paymentType = 'FULL';  // Default to FULL payment
-
+  
+  // Installment options
+  numberOfInstallments: number = 3; // Default number of installments
+  installmentOptions: number[] = [1, 2, 3, 6, 12]; // Available options
+  
+  // Calculated values
+  installmentAmount: number = 0;
+  
   // Form data & validation
   cardDetails = {
-    number: '',
     holder: '',
-    expiry: '',
-    cvv: ''
   };
-
-  cardNumberInvalid = false;
+  
   cardHolderInvalid = false;
-  expiryInvalid = false;
-  cvvInvalid = false;
-
-  cardNumberTouched = false;
   cardHolderTouched = false;
-  expiryTouched = false;
-  cvvTouched = false;
-
+  cardComplete = false;
+  
+  // Subscriptions for cleanup
+  private subscriptions = new Subscription();
+  
   constructor(
     private route: ActivatedRoute,
     public router: Router,
-    private paymentService: PaymentService
+    private paymentService: PaymentService,
+    private stripeService: StripeService
   ) {}
-
+  
   ngOnInit(): void {
-    this.currentUser =<string>localStorage.getItem('username');
-
+    // Get current user
+    this.currentUser = localStorage.getItem('username') || 'iitsMahdii';
+    
+    // Get query parameters first
     this.getQueryParams();
+    
+    // Initialize Stripe by getting the singleton instance
+    this.initializeStripe();
+    
+    // Calculate installment amount if the payment type is INSTALLMENTS
+    if (this.amount && this.paymentType === 'INSTALLMENTS') {
+      this.calculateInstallmentAmount();
+    }
+    
+    // Load payment data
     if (this.subscriptionId) {
       this.loadPaymentDetails();
     } else if (this.paymentId) {
       this.loadExistingPayment();
+    } else if (this.scheduleId) {
+      this.loadSchedulePayment();
     } else {
       this.error = 'Missing required payment information';
     }
   }
-
-  private getQueryParams(): void {
-    this.route.queryParams.subscribe(params => {
-      this.paymentId = params['paymentId'] ? +params['paymentId'] : undefined;
-      this.subscriptionId = params['subscriptionId'] ? +params['subscriptionId'] : undefined;
-      this.scheduleId = params['scheduleId'] ? +params['scheduleId'] : undefined;
-      this.installmentNumber = params['installmentNumber'] ? +params['installmentNumber'] : undefined;
-      this.amount = params['amount'] ? +params['amount'] : undefined;
-      this.paymentType = params['paymentType'] || 'FULL';
-
-      console.log('Query params:', {
-        paymentId: this.paymentId,
-        subscriptionId: this.subscriptionId,
-        scheduleId: this.scheduleId,
-        installmentNumber: this.installmentNumber,
-        amount: this.amount,
-        paymentType: this.paymentType
+  
+  ngAfterViewInit(): void {
+    // Setup card element after view is ready
+    setTimeout(() => this.setupStripeCardElement(), 300);
+  }
+  
+  ngOnDestroy(): void {
+    // Clean up all subscriptions to prevent memory leaks
+    this.subscriptions.unsubscribe();
+    
+    // Unmount Stripe card element if it exists
+    if (this.cardElement) {
+      this.cardElement.unmount();
+    }
+  }
+  
+  initializeStripe(): void {
+    // Get the single Stripe instance from the service
+    this.subscriptions.add(
+      this.stripeService.getStripe().subscribe(
+        stripe => {
+          console.log('Got Stripe instance from service');
+          this.stripe = stripe;
+          this.stripeLoaded = true;
+          this.stripeInitialized = true;
+          
+          // If the view is initialized, set up card element
+          if (this.stripeCardElement && !this.cardElementMounted) {
+            this.setupStripeCardElement();
+          }
+        },
+        error => {
+          console.error('Failed to get Stripe instance:', error);
+          this.error = 'Payment system could not be initialized. Please refresh and try again.';
+        }
+      )
+    );
+  }
+  
+  setupStripeCardElement(): void {
+    // Only proceed if we have the Stripe instance and DOM element
+    if (!this.stripe || !this.stripeCardElement || !this.stripeCardElement.nativeElement) {
+      if (this.retryCount < 3) {
+        this.retryCount++;
+        console.log(`Retry ${this.retryCount}/3: Waiting for Stripe and DOM...`);
+        setTimeout(() => this.setupStripeCardElement(), 500);
+      } else {
+        console.error('Failed to set up card element after retries');
+      }
+      return;
+    }
+    
+    try {
+      // Create card element using the singleton Stripe instance
+      console.log('Creating card element...');
+      const elements = this.stripe.elements();
+      
+      this.cardElement = elements.create('card', {
+        style: {
+          base: {
+            color: '#32325d',
+            fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+              color: '#aab7c4'
+            }
+          },
+          invalid: {
+            color: '#fa755a',
+            iconColor: '#fa755a'
+          }
+        },
+        hidePostalCode: true
       });
-    });
+      
+      // Mount card element to DOM
+      console.log('Mounting card element...');
+      this.cardElement.mount(this.stripeCardElement.nativeElement);
+      this.cardElementMounted = true;
+      
+      // Listen for changes
+      this.cardElement.on('change', (event) => {
+        console.log('Card element change:', event.complete ? 'complete' : 'incomplete', event);
+        this.stripeError = event.error ? event.error.message : null;
+        this.cardComplete = event.complete;
+      });
+      
+      console.log('Card element mounted successfully');
+    } catch (error) {
+      console.error('Error setting up card element:', error);
+      this.error = 'Could not initialize payment form. Please refresh and try again.';
+    }
+  }
+  
+  private getQueryParams(): void {
+    this.subscriptions.add(
+      this.route.queryParams.subscribe(params => {
+        this.paymentId = params['paymentId'] ? +params['paymentId'] : undefined;
+        this.subscriptionId = params['subscriptionId'] ? +params['subscriptionId'] : undefined;
+        this.scheduleId = params['scheduleId'] ? +params['scheduleId'] : undefined;
+        this.installmentNumber = params['installmentNumber'] ? +params['installmentNumber'] : undefined;
+        this.amount = params['amount'] ? +params['amount'] : undefined;
+        this.paymentType = params['paymentType'] || 'FULL';
+
+        console.log('Query params loaded:', {
+          paymentId: this.paymentId,
+          subscriptionId: this.subscriptionId,
+          scheduleId: this.scheduleId,
+          installmentNumber: this.installmentNumber,
+          amount: this.amount,
+          paymentType: this.paymentType
+        });
+      })
+    );
+  }
+
+  calculateInstallmentAmount(): void {
+    if (!this.amount) return;
+    
+    // Simple calculation: total amount divided by number of installments
+    this.installmentAmount = this.amount / this.numberOfInstallments;
+    console.log(`Amount: ${this.amount} divided into ${this.numberOfInstallments} installments = ${this.installmentAmount} per installment`);
+  }
+  
+  // When user changes the number of installments
+  onInstallmentChange(event: any): void {
+    this.numberOfInstallments = parseInt(event.target.value, 10);
+    this.calculateInstallmentAmount();
   }
 
   private loadPaymentDetails(): void {
-    if (!this.subscriptionId) return;
+    if (!this.subscriptionId) {
+      this.error = 'Subscription ID is required';
+      return;
+    }
 
     this.loading = true;
-    this.paymentService.initializePayment(this.subscriptionId, this.paymentType)
-      .pipe(finalize(() => this.loading = false))
-      .subscribe({
-        next: (response) => {
-          this.payment = response;
-          this.paymentId = response.id;
-          console.log('Payment created:', this.payment);
-        },
-        error: (error) => {
-          this.error = `Failed to load payment details: ${error.message}`;
-          console.error('Error creating payment:', error);
-        }
-      });
+    this.error = null;
+    
+    console.log(`Creating payment with type ${this.paymentType}, installments: ${this.numberOfInstallments}`);
+    
+    this.subscriptions.add(
+      this.paymentService.initializePayment(this.subscriptionId, this.paymentType, this.numberOfInstallments)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          }),
+          catchError(error => {
+            this.error = `Failed to load payment details: ${error.message || 'Unknown error'}`;
+            console.error('Error creating payment:', error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: (response) => {
+            if (!response) return;
+            
+            this.payment = response;
+            this.paymentId = response.id;
+            console.log('Payment created:', this.payment);
+            
+            // Process payment schedules to find the first PENDING one
+            if (this.payment.paymentSchedules && this.payment.paymentSchedules.length > 0) {
+              this.processPaymentSchedules();
+            }
+            
+            // Create payment intent now that we have the payment ID
+            this.createPaymentIntent();
+          }
+        })
+    );
   }
 
   private loadExistingPayment(): void {
-    if (!this.paymentId) return;
+    if (!this.paymentId) {
+      this.error = 'Payment ID is required';
+      return;
+    }
 
     this.loading = true;
-    this.paymentService.getPaymentById(this.paymentId)
-      .pipe(finalize(() => this.loading = false))
-      .subscribe({
-        next: (response) => {
-          this.payment = response;
-          console.log('Existing payment loaded:', this.payment);
-        },
-        error: (error) => {
-          this.error = `Failed to load payment: ${error.message}`;
-          console.error('Error loading payment:', error);
-        }
-      });
+    this.error = null;
+    
+    this.subscriptions.add(
+      this.paymentService.getPaymentById(this.paymentId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          }),
+          catchError(error => {
+            this.error = `Failed to load payment: ${error.message || 'Unknown error'}`;
+            console.error('Error loading payment:', error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: (response) => {
+            if (!response) return;
+            
+            this.payment = response;
+            console.log('Existing payment loaded:', this.payment);
+            
+            // If there are payment schedules, set up installment information
+            if (this.payment.paymentSchedules && this.payment.paymentSchedules.length > 0) {
+              this.paymentType = 'INSTALLMENTS';
+              this.numberOfInstallments = this.payment.paymentSchedules.length;
+              this.processPaymentSchedules();
+            }
+            
+            // Create payment intent after loading payment
+            this.createPaymentIntent();
+          }
+        })
+    );
   }
-
-  onSubmit(): void {
-    this.markAllFieldsAsTouched();
-
-    if (!this.validatePaymentForm()) return;
-
-    if (this.paymentType === 'INSTALLMENTS') {
-      this.processInstallmentPayment();
+  
+  // Process payment schedules to find the first pending one
+  private processPaymentSchedules(): void {
+    console.log('Processing payment schedules:', this.payment?.paymentSchedules);
+    
+    if (!this.payment?.paymentSchedules || this.payment.paymentSchedules.length === 0) {
+      console.log('No payment schedules found');
+      return;
+    }
+    
+    // Sort schedules by installment number
+    const schedules = [...this.payment.paymentSchedules].sort((a, b) => 
+      a.installmentNumber - b.installmentNumber);
+    
+    console.log('Sorted schedules:', schedules);
+    
+    // Find first pending schedule
+    const firstPendingSchedule = schedules.find(s => s.status === 'PENDING');
+    
+    if (firstPendingSchedule) {
+      console.log('Found first pending schedule:', firstPendingSchedule);
+      this.scheduleId = firstPendingSchedule.id;
+      this.installmentAmount = firstPendingSchedule.amount;
+      this.installmentNumber = firstPendingSchedule.installmentNumber;
     } else {
-      this.processFullPayment();
+      console.log('No pending schedules found');
+      // Still calculate installment amount even if no pending schedules
+      if (this.payment.amount && this.payment.paymentSchedules.length > 0) {
+        this.installmentAmount = this.payment.amount / this.payment.paymentSchedules.length;
+      }
     }
   }
+  
+  // Method to handle loading payment details for a schedule
+  private loadSchedulePayment(): void {
+    if (!this.scheduleId) {
+      this.error = 'Schedule ID is required';
+      return;
+    }
 
-  markAllFieldsAsTouched(): void {
-    this.cardNumberTouched = true;
-    this.cardHolderTouched = true;
-    this.expiryTouched = true;
-    this.cvvTouched = true;
+    this.loading = true;
+    this.error = null;
+    
+    // This is an installment payment
+    this.paymentType = 'INSTALLMENTS';
+    
+    // Load the specific schedule details
+    this.subscriptions.add(
+      this.paymentService.getScheduleById(this.scheduleId)
+        .pipe(
+          finalize(() => {
+            this.loading = false;
+          }),
+          catchError(error => {
+            this.error = `Failed to load schedule: ${error.message || 'Unknown error'}`;
+            console.error('Error loading schedule:', error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: (schedule) => {
+            if (!schedule) return;
+            
+            // Set schedule information
+            this.installmentAmount = schedule.amount;
+            this.installmentNumber = schedule.installmentNumber;
+            this.paymentId = schedule.payment?.id;
+            
+            console.log('Schedule loaded:', schedule);
+            
+            // Create payment intent for this schedule
+            this.createPaymentIntent();
+          }
+        })
+    );
+  }
+  
+  createPaymentIntent(): void {
+    console.log('Creating payment intent with:', {
+      paymentId: this.paymentId,
+      scheduleId: this.scheduleId,
+      paymentType: this.paymentType
+    });
+    
+    if (this.paymentType === 'INSTALLMENTS') {
+      // For a new installment payment being created
+      if (!this.scheduleId && this.paymentId) {
+        // We need to fetch the schedules for this payment
+        this.loadingPaymentIntent = true;
+        this.subscriptions.add(
+          this.paymentService.getPaymentSchedules(this.paymentId)
+            .pipe(
+              finalize(() => this.loadingPaymentIntent = false),
+              catchError(error => {
+                this.error = `Failed to load payment schedules: ${error.message || 'Unknown error'}`;
+                console.error('Error loading schedules:', error);
+                return of([]);
+              })
+            )
+            .subscribe({
+              next: (schedules) => {
+                if (!schedules || schedules.length === 0) {
+                  this.error = 'No payment schedules found for this payment';
+                  return;
+                }
+                
+                // Sort and find first pending
+                const sortedSchedules = [...schedules].sort((a, b) => 
+                  a.installmentNumber - b.installmentNumber);
+                
+                const firstPending = sortedSchedules.find(s => s.status === 'PENDING');
+                
+                if (firstPending) {
+                  this.scheduleId = firstPending.id;
+                  this.installmentAmount = firstPending.amount;
+                  this.installmentNumber = firstPending.installmentNumber;
+                  
+                  // Now create the payment intent with the schedule ID
+                  this.createStripePaymentIntent();
+                } else {
+                  this.error = 'No pending installments found for this payment';
+                }
+              }
+            })
+        );
+        return;
+      }
+      
+      if (!this.scheduleId) {
+        // This is a completely new installment payment - it's OK, we just need to create the full payment first
+        console.log('Creating a new installment payment');
+        this.createFullPaymentIntent();
+        return;
+      }
+      
+      // We have a specific scheduleId - create installment payment intent
+      this.createInstallmentPaymentIntent();
+    } else {
+      // Regular full payment
+      if (!this.paymentId) {
+        this.error = 'Payment ID is required';
+        return;
+      }
+      
+      this.createFullPaymentIntent();
+    }
+  }
+  
+  // Helper methods to simplify payment intent creation
+  private createFullPaymentIntent(): void {
+    if (!this.paymentId) {
+      this.error = 'Payment ID is required';
+      return;
+    }
+    
+    this.loadingPaymentIntent = true;
+    this.error = null;
+    
+    this.subscriptions.add(
+      this.paymentService.createFullStripePayment(this.paymentId)
+        .pipe(
+          finalize(() => this.loadingPaymentIntent = false),
+          catchError(error => {
+            this.error = `Failed to set up payment: ${error.message || 'Unknown error'}`;
+            console.error('Error creating payment intent:', error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: (response) => {
+            if (!response) return;
+            
+            this.clientSecret = response.clientSecret;
+            console.log('Full payment intent created:', response);
+          }
+        })
+    );
+  }
+  
+  private createInstallmentPaymentIntent(): void {
+    if (!this.scheduleId) {
+      this.error = 'Schedule ID is required for installment payment';
+      return;
+    }
+    
+    this.loadingPaymentIntent = true;
+    this.error = null;
+    
+    this.subscriptions.add(
+      this.paymentService.createInstallmentStripePayment(this.scheduleId)
+        .pipe(
+          finalize(() => this.loadingPaymentIntent = false),
+          catchError(error => {
+            this.error = `Failed to set up installment payment: ${error.message || 'Unknown error'}`;
+            console.error('Error creating installment payment intent:', error);
+            return of(null);
+          })
+        )
+        .subscribe({
+          next: (response) => {
+            if (!response) return;
+            
+            this.clientSecret = response.clientSecret;
+            console.log('Installment payment intent created:', response);
+          }
+        })
+    );
+  }
+  
+  // Generic method to create appropriate payment intent based on current state
+  private createStripePaymentIntent(): void {
+    if (this.scheduleId) {
+      this.createInstallmentPaymentIntent();
+    } else if (this.paymentId) {
+      this.createFullPaymentIntent();
+    } else {
+      this.error = 'Missing payment or installment information';
+    }
+  }
+  
+  onSubmit(): void {
+    // Reset errors
+    this.error = null;
+    this.stripeError = null;
+    
+    // Mark fields as touched for validation
+    this.markAllFieldsAsTouched();
 
-    // Validate each field
-    this.validateCardNumber();
-    this.validateCardHolder();
-    this.validateExpiry();
-    this.validateCVV();
+    // Log validation state
+    console.log('Submit validation:', {
+      cardComplete: this.cardComplete,
+      cardHolderValid: !this.cardHolderInvalid,
+      stripeInitialized: this.stripeInitialized,
+      clientSecret: this.clientSecret ? 'Available' : 'Missing',
+      paymentId: this.paymentId,
+      scheduleId: this.scheduleId,
+      paymentType: this.paymentType
+    });
+
+    // Validate the form
+    if (!this.validatePaymentForm()) {
+      return;
+    }
+    
+    // System requirements check
+    if (!this.stripe || !this.cardElement || !this.clientSecret) {
+      this.error = 'Payment system is not fully initialized. Please refresh and try again.';
+      return;
+    }
+
+    this.processing = true;
+    
+    const billingDetails = {
+      name: this.cardDetails.holder
+    };
+    
+    console.log('Processing payment with Stripe...', {
+      paymentType: this.paymentType,
+      paymentId: this.paymentId,
+      scheduleId: this.scheduleId
+    });
+    
+    // Process the payment with Stripe
+    this.subscriptions.add(
+      this.paymentService.processStripePayment(
+        this.clientSecret,
+        this.cardElement,
+        this.paymentId,
+        this.scheduleId,
+        this.subscriptionId,
+        billingDetails
+      ).pipe(
+        finalize(() => {
+          this.processing = false;
+        }),
+        catchError(error => {
+          this.error = `Payment processing failed: ${error.message || 'Unknown error'}`;
+          this.showErrorAlert();
+          console.error('Payment error:', error);
+          return of({ success: false, error: error.message });
+        })
+      ).subscribe({
+        next: (result) => {
+          console.log('Payment result:', result);
+          
+          if (result.success) {
+            this.success = true;
+            this.showSuccessAlert('Payment successful!');
+            
+            // Redirect to success page after a delay
+            setTimeout(() => {
+              this.router.navigate(['/payment-success'], {
+                queryParams: {
+                  paymentId: this.paymentId,
+                  scheduleId: this.scheduleId,
+                  type: this.paymentType === 'INSTALLMENTS' ? 'INSTALLMENT' : 'FULL'
+                }
+              });
+            }, 1500);
+          } else {
+            this.error = result.error || 'Payment failed. Please try again.';
+            this.showErrorAlert();
+          }
+        }
+      })
+    );
   }
 
-  validateCardNumber(): void {
-    const cardNumber = this.cardDetails.number.replace(/\s/g, '');
-    this.cardNumberInvalid = !cardNumber || cardNumber.length !== 16 || !/^\d+$/.test(cardNumber);
+  // Rest of your component methods...
+
+  markAllFieldsAsTouched(): void {
+    this.cardHolderTouched = true;
+    this.validateCardHolder();
   }
 
   validateCardHolder(): void {
     this.cardHolderInvalid = !this.cardDetails.holder || this.cardDetails.holder.trim().length < 3;
   }
 
-  validateExpiry(): void {
-    const regex = /^(0[1-9]|1[0-2])\/([0-9]{2})$/;
-    this.expiryInvalid = !regex.test(this.cardDetails.expiry);
-
-    if (!this.expiryInvalid) {
-      // Check if date is valid and not expired
-      const [month, year] = this.cardDetails.expiry.split('/').map(Number);
-      const currentYear = new Date().getFullYear() % 100;
-      const currentMonth = new Date().getMonth() + 1;
-
-      if (year < currentYear || (year === currentYear && month < currentMonth)) {
-        this.expiryInvalid = true;
-      }
-    }
-  }
-
-  validateCVV(): void {
-    const regex = /^[0-9]{3,4}$/;
-    this.cvvInvalid = !regex.test(this.cardDetails.cvv);
-  }
-
-  private processInstallmentPayment(): void {
-    if (!this.paymentId || !this.payment) {
-      this.error = 'Payment information not available';
-      return;
-    }
-
-    this.processing = true;
-    this.error = null;
-
-    // Process the payment by marking the latest unpaid schedule as paid
-    this.paymentService.updatePaymentStatuss(this.paymentId)
-      .pipe(finalize(() => this.processing = false))
-      .subscribe({
-        next: (response) => {
-          console.log('Installment payment processed:', response);
-          this.success = true;
-          this.showSuccessAlert('Payment successful!');
-
-          // Redirect to success page or subscription details
-          setTimeout(() => {
-            this.router.navigate(['/payment-success'], {
-              queryParams: {
-                paymentId: this.paymentId,
-                type: 'INSTALLMENT'
-              }
-            });
-          }, 1500);
-        },
-        error: (error) => {
-          this.error = `Payment failed: ${error.message}`;
-          this.showErrorAlert();
-          console.error('Payment error:', error);
-        }
-      });
-  }
-
-  private processFullPayment(): void {
-    if (!this.paymentId || !this.payment) {
-      this.error = 'Payment information not available';
-      return;
-    }
-
-    this.processing = true;
-    this.error = null;
-
-    // Process the full payment
-    this.paymentService.updatePaymentStatuss(this.paymentId)
-      .pipe(finalize(() => this.processing = false))
-      .subscribe({
-        next: (response) => {
-          console.log('Full payment processed:', response);
-          this.success = true;
-          this.showSuccessAlert('Payment successful!');
-
-          // Redirect to success page
-          setTimeout(() => {
-            this.router.navigate(['/payment-success'], {
-              queryParams: {
-                paymentId: this.paymentId,
-                type: 'FULL'
-              }
-            });
-          }, 1500);
-        },
-        error: (error) => {
-          this.error = `Payment failed: ${error.message}`;
-          this.showErrorAlert();
-          console.error('Payment error:', error);
-        }
-      });
-  }
-
   validatePaymentForm(): boolean {
-    this.validateCardNumber();
     this.validateCardHolder();
-    this.validateExpiry();
-    this.validateCVV();
-
-    return !(this.cardNumberInvalid || this.cardHolderInvalid || this.expiryInvalid || this.cvvInvalid);
-  }
-
-  formatCardNumber(event: any): void {
-    let cardNumber = event.target.value.replace(/\D/g, '');
-    cardNumber = cardNumber.substring(0, 16);
-
-    // Add spaces every 4 digits
-    const formattedNumber = cardNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
-    this.cardDetails.number = formattedNumber;
-    this.cardNumberTouched = true;
-    this.validateCardNumber();
-  }
-
-  formatExpiryDate(event: any): void {
-    let expiry = event.target.value.replace(/\D/g, '');
-
-    if (expiry.length > 2) {
-      expiry = expiry.substring(0, 2) + '/' + expiry.substring(2, 4);
+    
+    // Check if the card is complete according to Stripe
+    if (!this.cardComplete) {
+      this.stripeError = 'Please complete the credit card information';
+      return false;
     }
-
-    this.cardDetails.expiry = expiry;
-    this.expiryTouched = true;
-    this.validateExpiry();
-  }
-
-  restrictCVVInput(event: any): void {
-    const cvv = event.target.value.replace(/\D/g, '');
-    this.cardDetails.cvv = cvv.substring(0, 4);
-    this.cvvTouched = true;
-    this.validateCVV();
+    
+    if (this.cardHolderInvalid) {
+      return false;
+    }
+    
+    return true;
   }
 
   showSuccessAlert(message: string): void {
@@ -318,17 +677,62 @@ export class PaymentComponent implements OnInit {
     });
   }
 
+  retryPayment(): void {
+    // Reset error states
+    this.error = null;
+    this.stripeError = null;
+    
+    // Recreate payment intent
+    this.createPaymentIntent();
+    
+    // If the card element has issues, try to remount it
+    if (!this.cardElementMounted) {
+      setTimeout(() => this.setupStripeCardElement(), 500);
+    }
+  }
+
   getDisplayAmount(): string {
     const currencySymbol = this.payment?.currency === 'EUR' ? '€' : '$';
 
+    // For installment payment, show the installment amount
+    if (this.paymentType === 'INSTALLMENTS') {
+      if (this.installmentAmount) {
+        return `${currencySymbol}${this.installmentAmount.toFixed(2)}`;
+      }
+      
+      // If we have a payment with schedules, use the first schedule's amount
+      if (this.payment?.paymentSchedules && this.payment.paymentSchedules.length > 0) {
+        const firstSchedule = this.payment.paymentSchedules[0];
+        return `${currencySymbol}${firstSchedule.amount.toFixed(2)}`;
+      }
+      
+      // If we have an amount but no installment amount calculated yet
+      if (this.amount && this.numberOfInstallments) {
+        return `${currencySymbol}${(this.amount / this.numberOfInstallments).toFixed(2)}`;
+      }
+    }
+    
+    // For regular payment or specific schedule payment
     if (this.scheduleId && this.amount) {
-      // Show the specific installment amount
       return `${currencySymbol}${this.amount.toFixed(2)}`;
     } else if (this.payment?.amount) {
-      // Show the total payment amount
       return `${currencySymbol}${this.payment.amount.toFixed(2)}`;
+    } else if (this.amount) {
+      return `${currencySymbol}${this.amount.toFixed(2)}`;
     }
 
+    return `${currencySymbol}0.00`;
+  }
+  
+  getTotalAmount(): string {
+    const currencySymbol = this.payment?.currency === 'EUR' ? '€' : '$';
+    
+    if (this.payment?.amount) {
+      return `${currencySymbol}${this.payment.amount.toFixed(2)}`;
+    } else if (this.amount) {
+      return `${currencySymbol}${this.amount.toFixed(2)}`;
+    }
+    
     return `${currencySymbol}0.00`;
   }
 
@@ -337,7 +741,7 @@ export class PaymentComponent implements OnInit {
       if (this.installmentNumber) {
         return `Installment #${this.installmentNumber}`;
       }
-      return 'Installment Payment';
+      return `${this.numberOfInstallments} Installments`;
     }
     return 'Full Payment';
   }
@@ -348,5 +752,20 @@ export class PaymentComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/my-subscriptions']);
+  }
+  
+  // Helper method to check if payment form can be displayed
+  canShowPaymentForm(): boolean {
+    return !this.loading && 
+           !this.loadingPaymentIntent && 
+           !this.success;
+  }
+  
+  // Helper method to determine if submit button should be disabled
+  isSubmitDisabled(): boolean {
+    return this.processing || 
+           !this.clientSecret || 
+           !this.cardComplete || 
+           this.cardHolderInvalid;
   }
 }

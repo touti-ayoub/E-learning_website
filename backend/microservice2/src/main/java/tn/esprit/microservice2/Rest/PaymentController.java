@@ -1,5 +1,6 @@
 package tn.esprit.microservice2.Rest;
 
+import com.stripe.exception.StripeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,19 +9,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.microservice2.DTO.PaymentDTO;
-import tn.esprit.microservice2.DTO.PaymentScheduleDTO;
+import tn.esprit.microservice2.DTO.*;
 import tn.esprit.microservice2.Model.*;
 import tn.esprit.microservice2.repo.IPaymentRepository;
 import tn.esprit.microservice2.repo.IPaymentScheduleRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
 import tn.esprit.microservice2.service.InvoiceService;
 import tn.esprit.microservice2.service.PaymentService;
+import tn.esprit.microservice2.service.StripePaymentService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -32,7 +34,7 @@ public class PaymentController {
     private static final Logger logger = LoggerFactory.getLogger(PaymentController.class);
     private static final String CURRENT_USERNAME = "iitsMahdi";
     private static final LocalDateTime CURRENT_DATETIME =
-            LocalDateTime.parse("2025-03-04T16:45:51", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+            LocalDateTime.parse("2025-04-08T14:56:39", DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 
     @Autowired
     private PaymentService paymentService;
@@ -48,6 +50,9 @@ public class PaymentController {
 
     @Autowired
     private IPaymentScheduleRepository paymentScheduleRepository;
+
+    @Autowired
+    private StripePaymentService stripePaymentService;
 
     @GetMapping("/{paymentId}")
     public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable Long paymentId) {
@@ -115,6 +120,200 @@ public class PaymentController {
                             "error", e.getMessage(),
                             "type", e.getClass().getSimpleName()
                     ));
+        }
+    }
+
+    /**
+     * NEW ENDPOINT: Create Stripe payment intent for a full payment
+     */
+    @PostMapping("/intent/full/{paymentId}")
+    public ResponseEntity<?> createFullPaymentIntent(@PathVariable Long paymentId) {
+        try {
+            logger.info("Creating Stripe payment intent for full payment ID: {}", paymentId);
+
+            // Fetch payment details
+            Payment payment = paymentRepository.findById(paymentId)
+                    .orElseThrow(() -> new NoSuchElementException("Payment not found with id: " + paymentId));
+
+            // Prepare request for Stripe payment intent
+            PaymentIntentRequest request = new PaymentIntentRequest();
+            request.setPaymentId(paymentId);
+            request.setSubscriptionId(payment.getSubscription().getId());
+            request.setAmount(payment.getAmount());
+            request.setCurrency(payment.getCurrency());
+
+            // Create payment intent with Stripe
+            PaymentIntentResponse response = stripePaymentService.createPaymentIntent(request);
+
+            logger.info("Created Stripe payment intent {} for payment {}",
+                    response.getPaymentIntentId(), paymentId);
+
+            return ResponseEntity.ok(response);
+        } catch (StripeException e) {
+            logger.error("Stripe error creating payment intent: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(Map.of(
+                            "error", "Payment processing error",
+                            "message", e.getMessage(),
+                            "code", e.getCode(),
+                            "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    ));
+        } catch (Exception e) {
+            logger.error("Error creating payment intent: {}", e.getMessage(), e);
+            return ResponseEntity.badRequest()
+                    .body(Map.of(
+                            "error", e.getMessage(),
+                            "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    ));
+        }
+    }
+
+    /**
+     * NEW ENDPOINT: Create Stripe payment intent for an installment payment
+     */
+    @PostMapping("/intent/installment/{scheduleId}")
+    public ResponseEntity<?> createInstallmentPaymentIntent(@PathVariable Long scheduleId) {
+        try {
+            logger.info("Creating Stripe payment intent for installment ID: {}", scheduleId);
+
+            // Fetch schedule details
+            PaymentSchedule schedule = paymentScheduleRepository.findById(scheduleId)
+                    .orElseThrow(() -> new NoSuchElementException("Payment schedule not found with id: " + scheduleId));
+
+            if (schedule.getStatus() == PaymentScheduleStatus.PAID) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of(
+                                "error", "Installment already paid",
+                                "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                        ));
+            }
+
+            // Prepare request for Stripe payment intent
+            PaymentIntentRequest request = new PaymentIntentRequest();
+            request.setPaymentScheduleId(scheduleId);
+            request.setPaymentId(schedule.getPayment().getId());
+            request.setSubscriptionId(schedule.getPayment().getSubscription().getId());
+            request.setAmount(BigDecimal.valueOf(schedule.getAmount()));
+            request.setCurrency(schedule.getPayment().getCurrency());
+
+            // Create payment intent with Stripe
+            PaymentIntentResponse response = stripePaymentService.createPaymentIntent(request);
+
+            logger.info("Created Stripe payment intent {} for installment {}",
+                    response.getPaymentIntentId(), scheduleId);
+
+            return ResponseEntity.ok(response);
+        } catch (StripeException e) {
+            logger.error("Stripe error creating payment intent for installment: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(Map.of(
+                            "error", "Payment processing error",
+                            "message", e.getMessage(),
+                            "code", e.getCode(),
+                            "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    ));
+        } catch (Exception e) {
+            logger.error("Error creating payment intent for installment: {}", e.getMessage(), e);
+            return ResponseEntity.badRequest()
+                    .body(Map.of(
+                            "error", e.getMessage(),
+                            "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    ));
+        }
+    }
+
+    /**
+     * NEW ENDPOINT: Confirm a Stripe payment
+     */
+    @PostMapping("/confirm")
+    public ResponseEntity<?> confirmPayment(@RequestBody PaymentConfirmationRequest request) {
+        try {
+            logger.info("Confirming payment intent: {}", request.getPaymentIntentId());
+
+            if (request.getPaymentIntentId() == null || request.getPaymentIntentId().isEmpty()) {
+                return ResponseEntity.badRequest()
+                        .body(Map.of(
+                                "error", "Payment intent ID is required",
+                                "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                        ));
+            }
+
+            // Confirm payment with Stripe and update our system
+            Map<String, Object> result = stripePaymentService.confirmPayment(
+                    request.getPaymentIntentId(),
+                    request.getPaymentId(),
+                    request.getPaymentScheduleId()
+            );
+
+            // Add standard metadata to the result
+            result.put("timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+            result.put("username", CURRENT_USERNAME);
+
+            logger.info("Payment intent {} confirmed successfully", request.getPaymentIntentId());
+            return ResponseEntity.ok(result);
+        } catch (StripeException e) {
+            logger.error("Stripe error confirming payment: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(Map.of(
+                            "error", "Payment processing error",
+                            "message", e.getMessage(),
+                            "code", e.getCode(),
+                            "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    ));
+        } catch (Exception e) {
+            logger.error("Error confirming payment: {}", e.getMessage(), e);
+            return ResponseEntity.badRequest()
+                    .body(Map.of(
+                            "error", e.getMessage(),
+                            "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    ));
+        }
+    }
+
+    /**
+     * NEW ENDPOINT: Get payment intent status from Stripe
+     */
+    @GetMapping("/intent/{paymentIntentId}/status")
+    public ResponseEntity<?> getPaymentIntentStatus(@PathVariable String paymentIntentId) {
+        try {
+            logger.info("Fetching payment intent status for: {}", paymentIntentId);
+            String status = stripePaymentService.getPaymentStatus(paymentIntentId);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("paymentIntentId", paymentIntentId);
+            response.put("status", status);
+            response.put("timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+
+            return ResponseEntity.ok(response);
+        } catch (StripeException e) {
+            logger.error("Stripe error getting payment intent status: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body(Map.of(
+                            "error", "Payment processing error",
+                            "message", e.getMessage(),
+                            "code", e.getCode(),
+                            "timestamp", CURRENT_DATETIME.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+                    ));
+        }
+    }
+
+    /**
+     * NEW ENDPOINT: Stripe webhook handler for asynchronous events
+     */
+    @PostMapping("/webhook")
+    public ResponseEntity<?> handleStripeWebhook(
+            @RequestBody String payload,
+            @RequestHeader("Stripe-Signature") String sigHeader) {
+        try {
+            logger.info("Received Stripe webhook");
+            // Forward to stripe service for processing
+            stripePaymentService.handleWebhookEvent(payload, sigHeader);
+            return ResponseEntity.ok().build();
+        } catch (StripeException e) {
+            logger.error("Stripe webhook error: {}", e.getMessage(), e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                    Map.of("error", e.getMessage())
+            );
         }
     }
 
