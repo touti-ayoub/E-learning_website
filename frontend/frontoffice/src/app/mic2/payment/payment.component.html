@@ -23,12 +23,23 @@
       <p>Loading payment information...</p>
     </div>
 
+    <!-- Stripe Loading state -->
+    <div *ngIf="!loading && loadingPaymentIntent" class="loading-container">
+      <div class="loader"></div>
+      <p>Preparing secure payment...</p>
+    </div>
+
     <!-- Error message -->
-    <div *ngIf="error && !loading" class="error-message">
+    <div *ngIf="error && !loading && !loadingPaymentIntent" class="error-message">
       <div class="message-icon">
         <i class="fas fa-exclamation-circle"></i>
       </div>
-      <p>{{error}}</p>
+      <div class="error-content">
+        <p>{{error}}</p>
+        <button *ngIf="error.includes('payment')" class="btn-retry" (click)="retryPayment()">
+          <i class="fas fa-redo"></i> Retry
+        </button>
+      </div>
     </div>
 
     <!-- Success message -->
@@ -44,22 +55,75 @@
     </div>
 
     <!-- Payment Form -->
-    <div *ngIf="!loading && !success && payment" class="payment-form-container">
+    <div *ngIf="canShowPaymentForm()" class="payment-form-container">
       <!-- Payment Summary -->
       <div class="payment-summary">
         <div class="summary-header">
           <h2>{{getCourseTitle()}}</h2>
+          
+          <!-- Payment Type Toggle -->
+          <div class="payment-type-toggle">
+            <label class="toggle-option" [class.active]="paymentType === 'FULL'">
+              <input 
+                type="radio" 
+                name="paymentType" 
+                value="FULL"
+                [(ngModel)]="paymentType"
+                (change)="calculateInstallmentAmount()"
+              >
+              <span>Full Payment</span>
+            </label>
+            <label class="toggle-option" [class.active]="paymentType === 'INSTALLMENTS'">
+              <input 
+                type="radio" 
+                name="paymentType" 
+                value="INSTALLMENTS"
+                [(ngModel)]="paymentType"
+                (change)="calculateInstallmentAmount()"
+              >
+              <span>Installments</span>
+            </label>
+          </div>
+          
           <span class="payment-badge">{{getPaymentDescription()}}</span>
         </div>
         <div class="summary-amount">{{getDisplayAmount()}}</div>
       </div>
 
+      <!-- Installment Options (if applicable) -->
+      <div *ngIf="paymentType === 'INSTALLMENTS'" class="installment-selector">
+        <div class="select-wrapper">
+          <label for="installmentSelect">Number of Installments:</label>
+          <select 
+            id="installmentSelect"
+            [(ngModel)]="numberOfInstallments" 
+            (change)="onInstallmentChange($event)" 
+            class="installment-select"
+          >
+            <option *ngFor="let option of installmentOptions" [value]="option">
+              {{option === 1 ? 'Pay in full' : option + ' installments'}}
+            </option>
+          </select>
+        </div>
+        
+        <div class="installment-summary">
+          <div class="summary-row total">
+            <span>Total Amount:</span>
+            <span>{{getTotalAmount()}}</span>
+          </div>
+          <div class="summary-row highlight">
+            <span>Each Installment:</span>
+            <span>{{getDisplayAmount()}}</span>
+          </div>
+        </div>
+      </div>
+
       <!-- Credit Card Form -->
       <div class="card-form-container">
-        <!-- Virtual Credit Card Display -->
+        <!-- Virtual Credit Card -->
         <div class="credit-card">
           <div class="card-chip"></div>
-          <div class="card-number">{{cardDetails.number || '•••• •••• •••• ••••'}}</div>
+          <div class="card-number">•••• •••• •••• ••••</div>
           <div class="card-details">
             <div class="card-holder">
               <span class="detail-label">Card Holder</span>
@@ -67,96 +131,52 @@
             </div>
             <div class="card-expiry">
               <span class="detail-label">Expires</span>
-              <span class="detail-value">{{cardDetails.expiry || 'MM/YY'}}</span>
+              <span class="detail-value">MM/YY</span>
             </div>
           </div>
         </div>
 
+        <!-- Stripe not initialized warning -->
+        <div *ngIf="!stripeInitialized" class="stripe-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>Payment system is initializing. Please wait...</p>
+        </div>
+
         <!-- Actual Form -->
-        <div class="form-fields">
-          <!-- Card Number -->
-          <div class="form-group" [ngClass]="{'has-error': cardNumberInvalid && cardNumberTouched}">
-            <label>Card Number</label>
-            <div class="input-icon-wrapper">
-              <i class="far fa-credit-card"></i>
-              <input
-                type="text"
-                name="cardNumber"
-                [(ngModel)]="cardDetails.number"
-                placeholder="1234 5678 9012 3456"
-                (input)="formatCardNumber($event)"
-                required
-                pattern="[0-9\s]{16,19}"
-                autocomplete="cc-number"
-              >
-            </div>
-            <p class="error-hint" *ngIf="cardNumberInvalid && cardNumberTouched">
-              Please enter a valid 16-digit card number.
+        <div class="form-fields" *ngIf="stripeInitialized">
+          <!-- Stripe Card Element -->
+          <div class="form-group">
+            <label for="card-element">Card Information</label>
+            <div id="card-element" class="stripe-card-element interactive-element" #stripeCardElement></div>
+            <p class="error-hint" *ngIf="stripeError">
+              {{stripeError}}
             </p>
+            <!-- Test card info helper -->
+            <div class="test-card-info">
+              <small><strong>Test card:</strong> 4242 4242 4242 4242 | <strong>Exp:</strong> any future date | <strong>CVV:</strong> any 3 digits</small>
+            </div>
           </div>
 
           <!-- Card Holder Name -->
           <div class="form-group" [ngClass]="{'has-error': cardHolderInvalid && cardHolderTouched}">
-            <label>Card Holder Name</label>
+            <label for="cardHolder">Card Holder Name</label>
             <div class="input-icon-wrapper">
               <i class="far fa-user"></i>
               <input
                 type="text"
+                id="cardHolder"
                 name="cardHolder"
                 [(ngModel)]="cardDetails.holder"
                 placeholder="John Doe"
                 required
                 autocomplete="cc-name"
+                [disabled]="processing"
+                (blur)="cardHolderTouched = true; validateCardHolder()"
               >
             </div>
             <p class="error-hint" *ngIf="cardHolderInvalid && cardHolderTouched">
               Please enter the cardholder name.
             </p>
-          </div>
-
-          <div class="form-row">
-            <!-- Expiry Date -->
-            <div class="form-group" [ngClass]="{'has-error': expiryInvalid && expiryTouched}">
-              <label>Expiry Date</label>
-              <div class="input-icon-wrapper">
-                <i class="far fa-calendar-alt"></i>
-                <input
-                  type="text"
-                  name="expiryDate"
-                  [(ngModel)]="cardDetails.expiry"
-                  placeholder="MM/YY"
-                  (input)="formatExpiryDate($event)"
-                  required
-                  pattern="^(0[1-9]|1[0-2])\/([0-9]{2})$"
-                  autocomplete="cc-exp"
-                >
-              </div>
-              <p class="error-hint" *ngIf="expiryInvalid && expiryTouched">
-                Please enter a valid expiry date (MM/YY).
-              </p>
-            </div>
-
-            <!-- CVV -->
-            <div class="form-group" [ngClass]="{'has-error': cvvInvalid && cvvTouched}">
-              <label>CVV</label>
-              <div class="input-icon-wrapper">
-                <i class="fas fa-lock"></i>
-                <input
-                  type="password"
-                  name="cvv"
-                  [(ngModel)]="cardDetails.cvv"
-                  placeholder="123"
-                  (input)="restrictCVVInput($event)"
-                  required
-                  pattern="[0-9]{3,4}"
-                  maxlength="4"
-                  autocomplete="cc-csc"
-                >
-              </div>
-              <p class="error-hint" *ngIf="cvvInvalid && cvvTouched">
-                Please enter a valid CVV code.
-              </p>
-            </div>
           </div>
 
           <!-- Security Notice -->
@@ -173,6 +193,7 @@
             <button
               type="button"
               class="btn-cancel"
+              [disabled]="processing"
               (click)="goBack()">
               <i class="fas fa-arrow-left"></i>
               Cancel
@@ -181,7 +202,7 @@
             <button
               type="button"
               class="btn-submit"
-              [disabled]="processing"
+              [disabled]="isSubmitDisabled()"
               (click)="onSubmit()">
               <span class="btn-text">{{processing ? 'Processing...' : 'Complete Payment'}}</span>
               <div *ngIf="processing" class="spinner"></div>
@@ -193,7 +214,7 @@
     </div>
 
     <!-- No payment data state -->
-    <div *ngIf="!loading && !payment && !success" class="empty-state">
+    <div *ngIf="!loading && !loadingPaymentIntent && !success && error && error.includes('Missing')" class="empty-state">
       <div class="empty-icon">
         <i class="far fa-question-circle"></i>
       </div>

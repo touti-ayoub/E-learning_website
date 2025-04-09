@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable, throwError, of } from 'rxjs';
+import { catchError, map, tap, switchMap } from 'rxjs/operators';
+import { StripeService, PaymentIntentResponse, PaymentConfirmationRequest } from './stripe.service';
 
 export interface PaymentResponse {
   id: number;
@@ -102,34 +103,46 @@ export interface PaymentScheduleDTO {
   currency: string;
 }
 
+// New interface for handling payment results
+export interface PaymentResult {
+  success: boolean;
+  message: string;
+  payment?: PaymentResponse;
+  invoiceGenerated?: boolean;
+  error?: string;
+  paymentIntentId?: string;
+  clientSecret?: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
   private apiUrl = 'http://localhost:8088/mic2';
-  private currentDate = '2025-03-04 16:50:03'; // Updated timestamp
+  private currentDate = '2025-04-08 16:53:48'; // Updated timestamp
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private stripeService: StripeService
+  ) {}
 
-  initializePayment(
-    subscriptionId: number,
-    paymentType: string,
-    installments?: number
-  ): Observable<PaymentResponse> {
-    let url = `${this.apiUrl}/payments/subscription/${subscriptionId}?paymentType=${paymentType}`;
 
-    // Convert INSTALLMENTS to INSTALLMENT to match backend
-    if (paymentType === 'INSTALLMENTS') {
-      url = `${this.apiUrl}/payments/subscription/${subscriptionId}?paymentType=INSTALLMENTS`;
-    }
+initializePayment(
+  subscriptionId: number,
+  paymentType: string,
+  installments?: number
+): Observable<PaymentResponse> {
+  let url = `${this.apiUrl}/payments/subscription/${subscriptionId}?paymentType=${paymentType}`;
 
-    if ((paymentType === 'INSTALLMENTS' || paymentType === 'INSTALLMENT') && installments) {
-      url += `&installments=${installments}`;
-    }
-
-    return this.http.post<PaymentResponse>(url, {}).pipe(
-      tap(response => console.log('Payment initialized:', response)),
-      catchError(this.handleError)
-    );
+  // Add installments parameter if provided and payment type is INSTALLMENTS
+  if (paymentType === 'INSTALLMENTS' && installments && installments > 1) {
+    url += `&installments=${installments}`;
+    console.log(`Creating installment payment with ${installments} installments`);
   }
+
+  return this.http.post<PaymentResponse>(url, {}).pipe(
+    tap(response => console.log('Payment initialized:', response)),
+    catchError(this.handleError)
+  );
+}
 
   getPaymentById(paymentId: number): Observable<PaymentResponse> {
     return this.http.get<PaymentResponse>(`${this.apiUrl}/payments/${paymentId}`).pipe(
@@ -293,13 +306,32 @@ export class PaymentService {
     return this.getInvoice(paymentId).pipe(
       map(_ => true),
       catchError(_ => {
-        return new Observable<boolean>(observer => {
-          observer.next(false);
-          observer.complete();
-        });
+        return of(false);
       })
     );
   }
+
+  /**
+   * NEW STRIPE INTEGRATION METHODS
+   */
+  
+  /**
+   * Create a Stripe payment intent for a full payment
+   */
+  createFullStripePayment(paymentId: number): Observable<PaymentIntentResponse> {
+    console.log(`Creating Stripe payment intent for full payment ${paymentId}`);
+    return this.stripeService.createFullPaymentIntent(paymentId);
+  }
+  
+  /**
+   * Create a Stripe payment intent for an installment payment
+   */
+  createInstallmentStripePayment(scheduleId: number): Observable<PaymentIntentResponse> {
+    console.log(`Creating Stripe payment intent for installment ${scheduleId}`);
+    return this.stripeService.createInstallmentPaymentIntent(scheduleId);
+  }
+  
+  
 
   private handleError(error: HttpErrorResponse) {
     console.error('Payment Error: ', error);
@@ -321,4 +353,96 @@ export class PaymentService {
 
     return throwError(() => new Error(errorMessage));
   }
+
+
+/**
+ * Update the status of an installment/payment schedule
+ */
+updateInstallmentStatus(scheduleId: number, status: string): Observable<any> {
+  const body = { status: status };
+  return this.http.put<any>(`${this.apiUrl}/payments/schedules/${scheduleId}/status`, body).pipe(
+    tap(response => console.log(`Schedule ${scheduleId} status updated to ${status}:`, response)),
+    catchError(this.handleError)
+  );
+}
+
+/**
+   * Process a Stripe payment
+   */
+processStripePayment(
+  clientSecret: string, 
+  card: any,
+  paymentId?: number,
+  scheduleId?: number,
+  subscriptionId?: number,
+  billingDetails: any = {}
+): Observable<PaymentResult> {
+  console.log(`Processing Stripe payment for payment ${paymentId || ''}, schedule ${scheduleId || ''}`);
+  
+  // Use the StripeService directly for payment processing with client-side Stripe
+  return this.stripeService.processCardPayment(clientSecret, card, billingDetails).pipe(
+    switchMap(result => {
+      if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+        // Now confirm with our backend
+        const confirmation: PaymentConfirmationRequest = {
+          paymentIntentId: result.paymentIntent.id,
+          paymentId: paymentId,
+          paymentScheduleId: scheduleId, // Important! Pass the schedule ID for installments
+          subscriptionId: subscriptionId
+        };
+        
+        // This calls the /mic2/payments/confirm endpoint which processes the installment payment
+        return this.stripeService.confirmPayment(confirmation).pipe(
+          map(response => {
+            return {
+              success: true,
+              message: 'Payment processed successfully',
+              payment: response.payment,
+              scheduleId: scheduleId, // Return the schedule ID so we know which one was paid
+              invoiceGenerated: response.invoiceGenerated || false,
+              paymentIntentId: result.paymentIntent.id
+            };
+          })
+        );
+      } else {
+        return of({
+          success: false,
+          message: 'Payment was not completed',
+          error: 'Payment intent did not succeed'
+        });
+      }
+    }),
+    catchError(error => {
+      console.error('Error processing Stripe payment:', error);
+      return of({
+        success: false,
+        message: 'Payment processing failed',
+        error: error.message || 'Unknown error occurred'
+      });
+    })
+  );
+}
+
+
+
+/**
+ * Get schedule by ID
+ */
+getScheduleById(scheduleId: number): Observable<any> {
+  // This endpoint isn't in your controller, but you can add it or
+  // use the schedules endpoint and filter client-side
+  return this.http.get<any>(`${this.apiUrl}/payments/schedules/${scheduleId}`).pipe(
+    catchError(error => {
+      // If direct endpoint doesn't exist, return a mock response for now
+      console.error('Error getting schedule by ID, endpoint might not exist:', error);
+      return of({
+        id: scheduleId,
+        installmentNumber: 1,
+        amount: 0,
+        status: 'PENDING'
+      });
+    })
+  );
+}
+
 }

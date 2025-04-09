@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="tpFoyer-17" />
+        <module name="microservice2" />
         <module name="eureka" />
         <module name="gateway" />
         <module name="microservice" />
@@ -19,7 +20,6 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="microservice2" />
         <module name="microservice5" />
       </profile>
     </annotationProcessing>
