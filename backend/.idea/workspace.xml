@@ -6,13 +6,19 @@
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
 <<<<<<< HEAD
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
 =======
+=======
+>>>>>>> 03b27c8 (integrating Stripe Payment API)
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/PaymentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/resources/application.properties" afterDir="false" />
+<<<<<<< HEAD
+>>>>>>> 03b27c8 (integrating Stripe Payment API)
+=======
 >>>>>>> 03b27c8 (integrating Stripe Payment API)
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,6 +65,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
 <<<<<<< HEAD
+<<<<<<< HEAD
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;Application.Microservice2Application.executor&quot;: &quot;Run&quot;,
@@ -96,6 +103,8 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
 =======
+=======
+>>>>>>> 03b27c8 (integrating Stripe Payment API)
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.Microservice2Application.executor": "Run",
@@ -131,6 +140,9 @@
     "run.configurations.included.in.services": "true",
     "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
     "vue.rearranger.settings.migration": "true"
+<<<<<<< HEAD
+>>>>>>> 03b27c8 (integrating Stripe Payment API)
+=======
 >>>>>>> 03b27c8 (integrating Stripe Payment API)
   }
 }]]></component>
@@ -279,7 +291,11 @@
       <workItem from="1741018774772" duration="88000" />
       <workItem from="1741044535547" duration="3515000" />
 <<<<<<< HEAD
+<<<<<<< HEAD
       <workItem from="1741260434630" duration="734000" />
+=======
+      <workItem from="1744121678367" duration="8871000" />
+>>>>>>> 03b27c8 (integrating Stripe Payment API)
 =======
       <workItem from="1744121678367" duration="8871000" />
 >>>>>>> 03b27c8 (integrating Stripe Payment API)
