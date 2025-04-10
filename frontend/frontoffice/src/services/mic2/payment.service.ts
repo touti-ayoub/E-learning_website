@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, map, tap, switchMap } from 'rxjs/operators';
 import { StripeService, PaymentIntentResponse, PaymentConfirmationRequest } from './stripe.service';
@@ -20,6 +20,11 @@ export interface PaymentResponse {
   };
   invoiceGenerated?: boolean; // Added to track if invoice exists
   invoiceNumber?: string; // Added to store invoice number
+  // Add these properties for coupon support
+  originalAmount?: number;
+  couponCode?: string;
+  discountPercentage?: number;
+  paymentSchedules?: any[];
 }
 
 export interface Invoice {
@@ -103,7 +108,6 @@ export interface PaymentScheduleDTO {
   currency: string;
 }
 
-// New interface for handling payment results
 export interface PaymentResult {
   success: boolean;
   message: string;
@@ -114,36 +118,107 @@ export interface PaymentResult {
   clientSecret?: string;
 }
 
+export interface DiscountInfo {
+  originalAmount: number;
+  discountPercentage: number;
+  discountedAmount: number;
+}
+
 @Injectable({ providedIn: 'root' })
 export class PaymentService {
   private apiUrl = 'http://localhost:8088/mic2';
-  private currentDate = '2025-04-08 16:53:48'; // Updated timestamp
+  private currentDate = '2025-04-09 21:59:52'; // Updated timestamp
 
   constructor(
     private http: HttpClient,
     private stripeService: StripeService
   ) {}
 
+  /**
+   * Initialize payment with discount support
+   * @param subscriptionId ID of subscription
+   * @param paymentType Payment type (FULL or INSTALLMENTS)
+   * @param numberOfInstallments Number of installments (optional)
+   * @param couponCode Coupon code (optional)
+   * @param discountInfo Discount information (optional)
+   * @returns Observable of payment response
+   */
+  initializePayment(
+    subscriptionId: number,
+    paymentType: string,
+    numberOfInstallments?: number,
+    couponCode?: string,
+    discountInfo?: DiscountInfo
+  ): Observable<PaymentResponse> {
+    // Construct the base URL without query parameters
+    const url = `${this.apiUrl}/payments/subscription/${subscriptionId}`;
 
-initializePayment(
-  subscriptionId: number,
-  paymentType: string,
-  installments?: number
-): Observable<PaymentResponse> {
-  let url = `${this.apiUrl}/payments/subscription/${subscriptionId}?paymentType=${paymentType}`;
+    // Create query params object
+    let params = new HttpParams()
+      .set('paymentType', paymentType);
 
-  // Add installments parameter if provided and payment type is INSTALLMENTS
-  if (paymentType === 'INSTALLMENTS' && installments && installments > 1) {
-    url += `&installments=${installments}`;
-    console.log(`Creating installment payment with ${installments} installments`);
+    // Add installments if applicable
+    if (paymentType === 'INSTALLMENTS' && numberOfInstallments) {
+      params = params.set('installments', numberOfInstallments.toString());
+    }
+
+    // Add coupon code as query parameter if provided
+    if (couponCode && couponCode.trim().length > 0) {
+      params = params.set('couponCode', couponCode.trim());
+    }
+
+    // Create the request body with discount information
+    let body: any = {};
+
+    // If there's discount info, include it in the body to ensure it's saved in database
+    if (discountInfo && couponCode) {
+      body = {
+        amount: discountInfo.discountedAmount,
+        originalAmount: discountInfo.originalAmount,
+        discountPercentage: discountInfo.discountPercentage,
+        couponCode: couponCode,
+        applyDiscount: true
+      };
+      
+      console.log('Sending discount information to save in database:', body);
+    }
+
+    console.log(`Initializing payment with URL: ${url}`);
+    console.log('Request parameters:', {
+      params: params.toString(),
+      body: body
+    });
+
+    // Make the HTTP request with both query params and body
+    return this.http.post<PaymentResponse>(url, body, { params }).pipe(
+      tap(response => {
+        console.log('Payment initialized:', response);
+        
+        // Verify that discount was applied in response
+        if (couponCode && discountInfo) {
+          const wasDiscountApplied = 
+            response.discountPercentage && 
+            response.originalAmount && 
+            response.amount < response.originalAmount;
+          
+          if (!wasDiscountApplied) {
+            console.warn('Warning: Coupon discount was not saved in database response.');
+          } else {
+            console.log('Discount successfully saved in database:', {
+              originalAmount: response.originalAmount,
+              amount: response.amount,
+              discountPercentage: response.discountPercentage
+            });
+          }
+        }
+      }),
+      catchError(this.handleError)
+    );
   }
 
-  return this.http.post<PaymentResponse>(url, {}).pipe(
-    tap(response => console.log('Payment initialized:', response)),
-    catchError(this.handleError)
-  );
-}
-
+  /**
+   * Get payment by ID
+   */
   getPaymentById(paymentId: number): Observable<PaymentResponse> {
     return this.http.get<PaymentResponse>(`${this.apiUrl}/payments/${paymentId}`).pipe(
       tap(payment => console.log('Payment fetched:', payment)),
@@ -151,20 +226,57 @@ initializePayment(
     );
   }
 
+  /**
+   * Update payment with discount
+   */
+  updatePaymentWithDiscount(
+    paymentId: number, 
+    discountInfo: DiscountInfo, 
+    couponCode: string
+  ): Observable<PaymentResponse> {
+    const url = `${this.apiUrl}/payments/${paymentId}`;
+    
+    const body = {
+      amount: discountInfo.discountedAmount,
+      originalAmount: discountInfo.originalAmount,
+      discountPercentage: discountInfo.discountPercentage,
+      couponCode: couponCode
+    };
+    
+    console.log(`Updating payment ${paymentId} with discount:`, body);
+    
+    return this.http.put<PaymentResponse>(url, body).pipe(
+      tap(response => console.log('Payment updated with discount:', response)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Calculate discounted amount based on percentage
+   */
+  calculateDiscountedAmount(originalAmount: number, discountPercentage: number): number {
+    if (!originalAmount || !discountPercentage) {
+      return originalAmount;
+    }
+    
+    const discount = (originalAmount * discountPercentage) / 100;
+    const discountedAmount = originalAmount - discount;
+    
+    // Round to 2 decimal places
+    return Math.round((discountedAmount + Number.EPSILON) * 100) / 100;
+  }
+
   getPaymentSchedules(paymentId: number): Observable<PaymentSchedule[]> {
     return this.http.get<PaymentSchedule[]>(`${this.apiUrl}/payments/${paymentId}/schedules`).pipe(
       map(schedules => {
-        // Ensure we're getting proper schedule objects
         return schedules.map(schedule => ({
           ...schedule,
-          // Convert string dates to proper format if needed
           dueDate: schedule.dueDate,
           paymentDate: schedule.paymentDate
         }));
       }),
       tap(schedules => console.log('Payment schedules fetched:', schedules)),
       catchError(error => {
-        // Special handling for JSON parse errors
         if (error instanceof HttpErrorResponse && error.status === 200) {
           console.error('JSON parsing error for schedules. Response was:', error.error.text);
           return throwError(() => new Error('Invalid response format from server'));
@@ -172,6 +284,25 @@ initializePayment(
         return this.handleError(error);
       })
     );
+  }
+
+  /**
+   * Apply discount to payment schedules (used for updating UI)
+   */
+  applyDiscountToSchedules(schedules: PaymentSchedule[], discountPercentage: number): PaymentSchedule[] {
+    if (!schedules || !discountPercentage) {
+      return schedules;
+    }
+    
+    return schedules.map(schedule => {
+      const originalAmount = schedule.amount;
+      const discountedAmount = this.calculateDiscountedAmount(originalAmount, discountPercentage);
+      
+      return {
+        ...schedule,
+        amount: discountedAmount
+      };
+    });
   }
 
   getInstallmentOptions(): Observable<InstallmentOptions> {
@@ -232,19 +363,10 @@ initializePayment(
     );
   }
 
-  /**
-   * Download an invoice as PDF for a payment
-   */
   downloadInvoice(paymentId: number): Observable<Blob> {
     console.log(`Downloading invoice for payment ${paymentId}`);
-
-    // Use the new dedicated endpoint for invoice downloads
     const url = `${this.apiUrl}/payments/${paymentId}/invoice/download`;
-
-    // Set proper accept header for PDF
-    const headers = new HttpHeaders({
-      'Accept': 'application/pdf'
-    });
+    const headers = new HttpHeaders({ 'Accept': 'application/pdf' });
 
     return this.http.get(url, {
       headers: headers,
@@ -252,7 +374,6 @@ initializePayment(
     }).pipe(
       tap(_ => console.log('Invoice download successful')),
       catchError(error => {
-        // Specific error handling for invoice download issues
         if (error.status === 404) {
           return throwError(() => new Error('Invoice not found. The payment may not be completed yet.'));
         }
@@ -261,15 +382,11 @@ initializePayment(
     );
   }
 
-  /**
-   * Fetch invoice details without downloading the PDF
-   */
   getInvoice(paymentId: number): Observable<Invoice> {
     console.log(`Fetching invoice details for payment ${paymentId}`);
     return this.http.get<Invoice>(`${this.apiUrl}/payments/${paymentId}/invoice`).pipe(
       tap(invoice => console.log('Invoice fetched:', invoice)),
       catchError(error => {
-        // Specific error handling for invoice fetch issues
         if (error.status === 404) {
           return throwError(() => new Error('Invoice not found. The payment may not be completed yet.'));
         }
@@ -284,8 +401,6 @@ initializePayment(
     );
   }
 
-  // Get user's unpaid installments
-  // Update the method to work with DTOs
   getUserUnpaidSchedules(userId: number): Observable<PaymentScheduleDTO[]> {
     return this.http.get<PaymentScheduleDTO[]>(`${this.apiUrl}/payments/user/${userId}/pending`).pipe(
       map(schedules => {
@@ -299,9 +414,6 @@ initializePayment(
     );
   }
 
-  /**
-   * Check if a payment has a generated invoice
-   */
   hasInvoice(paymentId: number): Observable<boolean> {
     return this.getInvoice(paymentId).pipe(
       map(_ => true),
@@ -311,138 +423,104 @@ initializePayment(
     );
   }
 
-  /**
-   * NEW STRIPE INTEGRATION METHODS
-   */
-  
-  /**
-   * Create a Stripe payment intent for a full payment
-   */
   createFullStripePayment(paymentId: number): Observable<PaymentIntentResponse> {
     console.log(`Creating Stripe payment intent for full payment ${paymentId}`);
     return this.stripeService.createFullPaymentIntent(paymentId);
   }
   
-  /**
-   * Create a Stripe payment intent for an installment payment
-   */
   createInstallmentStripePayment(scheduleId: number): Observable<PaymentIntentResponse> {
     console.log(`Creating Stripe payment intent for installment ${scheduleId}`);
     return this.stripeService.createInstallmentPaymentIntent(scheduleId);
   }
   
-  
-
   private handleError(error: HttpErrorResponse) {
     console.error('Payment Error: ', error);
 
     let errorMessage = 'An error occurred with the payment service';
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
       errorMessage = `Error: ${error.error.message}`;
     } else if (error.status === 200 && error.error && typeof error.error.text === 'string') {
-      // This is likely a JSON parsing error with status 200
       errorMessage = 'Error processing server response: Invalid data format';
     } else if (error.error && error.error.message) {
-      // Server error with message
       errorMessage = error.error.message;
     } else if (typeof error.error === 'string') {
-      // Plain error message
       errorMessage = error.error;
     }
 
     return throwError(() => new Error(errorMessage));
   }
 
+  updateInstallmentStatus(scheduleId: number, status: string): Observable<any> {
+    const body = { status: status };
+    return this.http.put<any>(`${this.apiUrl}/payments/schedules/${scheduleId}/status`, body).pipe(
+      tap(response => console.log(`Schedule ${scheduleId} status updated to ${status}:`, response)),
+      catchError(this.handleError)
+    );
+  }
 
-/**
- * Update the status of an installment/payment schedule
- */
-updateInstallmentStatus(scheduleId: number, status: string): Observable<any> {
-  const body = { status: status };
-  return this.http.put<any>(`${this.apiUrl}/payments/schedules/${scheduleId}/status`, body).pipe(
-    tap(response => console.log(`Schedule ${scheduleId} status updated to ${status}:`, response)),
-    catchError(this.handleError)
-  );
-}
-
-/**
-   * Process a Stripe payment
-   */
-processStripePayment(
-  clientSecret: string, 
-  card: any,
-  paymentId?: number,
-  scheduleId?: number,
-  subscriptionId?: number,
-  billingDetails: any = {}
-): Observable<PaymentResult> {
-  console.log(`Processing Stripe payment for payment ${paymentId || ''}, schedule ${scheduleId || ''}`);
-  
-  // Use the StripeService directly for payment processing with client-side Stripe
-  return this.stripeService.processCardPayment(clientSecret, card, billingDetails).pipe(
-    switchMap(result => {
-      if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
-        // Now confirm with our backend
-        const confirmation: PaymentConfirmationRequest = {
-          paymentIntentId: result.paymentIntent.id,
-          paymentId: paymentId,
-          paymentScheduleId: scheduleId, // Important! Pass the schedule ID for installments
-          subscriptionId: subscriptionId
-        };
-        
-        // This calls the /mic2/payments/confirm endpoint which processes the installment payment
-        return this.stripeService.confirmPayment(confirmation).pipe(
-          map(response => {
-            return {
-              success: true,
-              message: 'Payment processed successfully',
-              payment: response.payment,
-              scheduleId: scheduleId, // Return the schedule ID so we know which one was paid
-              invoiceGenerated: response.invoiceGenerated || false,
-              paymentIntentId: result.paymentIntent.id
-            };
-          })
-        );
-      } else {
+  processStripePayment(
+    clientSecret: string, 
+    card: any,
+    paymentId?: number,
+    scheduleId?: number,
+    subscriptionId?: number,
+    billingDetails: any = {}
+  ): Observable<PaymentResult> {
+    console.log(`Processing Stripe payment for payment ${paymentId || ''}, schedule ${scheduleId || ''}`);
+    
+    return this.stripeService.processCardPayment(clientSecret, card, billingDetails).pipe(
+      switchMap(result => {
+        if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+          // Now confirm with our backend
+          const confirmation: PaymentConfirmationRequest = {
+            paymentIntentId: result.paymentIntent.id,
+            paymentId: paymentId,
+            paymentScheduleId: scheduleId, // Important! Pass the schedule ID for installments
+            subscriptionId: subscriptionId
+          };
+          
+          return this.stripeService.confirmPayment(confirmation).pipe(
+            map(response => {
+              return {
+                success: true,
+                message: 'Payment processed successfully',
+                payment: response.payment,
+                scheduleId: scheduleId,
+                invoiceGenerated: response.invoiceGenerated || false,
+                paymentIntentId: result.paymentIntent.id
+              };
+            })
+          );
+        } else {
+          return of({
+            success: false,
+            message: 'Payment was not completed',
+            error: 'Payment intent did not succeed'
+          });
+        }
+      }),
+      catchError(error => {
+        console.error('Error processing Stripe payment:', error);
         return of({
           success: false,
-          message: 'Payment was not completed',
-          error: 'Payment intent did not succeed'
+          message: 'Payment processing failed',
+          error: error.message || 'Unknown error occurred'
         });
-      }
-    }),
-    catchError(error => {
-      console.error('Error processing Stripe payment:', error);
-      return of({
-        success: false,
-        message: 'Payment processing failed',
-        error: error.message || 'Unknown error occurred'
-      });
-    })
-  );
-}
+      })
+    );
+  }
 
-
-
-/**
- * Get schedule by ID
- */
-getScheduleById(scheduleId: number): Observable<any> {
-  // This endpoint isn't in your controller, but you can add it or
-  // use the schedules endpoint and filter client-side
-  return this.http.get<any>(`${this.apiUrl}/payments/schedules/${scheduleId}`).pipe(
-    catchError(error => {
-      // If direct endpoint doesn't exist, return a mock response for now
-      console.error('Error getting schedule by ID, endpoint might not exist:', error);
-      return of({
-        id: scheduleId,
-        installmentNumber: 1,
-        amount: 0,
-        status: 'PENDING'
-      });
-    })
-  );
-}
-
+  getScheduleById(scheduleId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/payments/schedules/${scheduleId}`).pipe(
+      catchError(error => {
+        console.error('Error getting schedule by ID, endpoint might not exist:', error);
+        return of({
+          id: scheduleId,
+          installmentNumber: 1,
+          amount: 0,
+          status: 'PENDING'
+        });
+      })
+    );
+  }
 }

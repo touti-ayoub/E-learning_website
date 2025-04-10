@@ -637,3 +637,121 @@ input:checked + .toggle-label .toggle-button:before {
     width: 100%;
   }
 }
+/* Coupon Styles */
+.coupon-section {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.coupon-container {
+  margin-top: 0.5rem;
+}
+
+.coupon-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.coupon-input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+}
+
+.coupon-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+  outline: none;
+}
+
+.coupon-button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+}
+
+.coupon-button:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+}
+
+.coupon-button:disabled {
+  background-color: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.coupon-message {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.coupon-message.success {
+  background-color: rgba(72, 187, 120, 0.1);
+  color: #2f855a;
+}
+
+.coupon-message.error {
+  background-color: rgba(245, 101, 101, 0.1);
+  color: #c53030;
+}
+
+.reset-coupon {
+  background: none;
+  border: none;
+  color: #718096;
+  font-size: 0.8rem;
+  cursor: pointer;
+  padding: 5px;
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.reset-coupon:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* Update price display */
+.strikethrough {
+  text-decoration: line-through;
+  color: #718096;
+  margin-right: 8px;
+}
+
+.discounted-price {
+  color: #2f855a;
+  font-weight: bold;
+}
+
+/* Update summary section */
+.summary-row.discount {
+  color: #2f855a;
+  font-weight: 500;
+}
+
+.button-spinner.small {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}

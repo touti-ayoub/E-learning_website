@@ -7,7 +7,9 @@ import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -31,6 +33,42 @@ public class Course {
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Subscription> subscriptions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private Set<Coupon> coupons = new HashSet<>();
+
+    // Helper method to validate coupon code for this course
+    @Transient
+    public Coupon validateCouponCode(String code) {
+        if (code == null || code.isEmpty()) {
+            return null;
+        }
+
+        return coupons.stream()
+                .filter(coupon -> coupon.getCode().equalsIgnoreCase(code) && coupon.isActive())
+                .findFirst()
+                .orElse(null);
+    }
+
+    // Method to calculate price with coupon
+    @Transient
+    public BigDecimal getPriceWithCoupon(String couponCode) {
+        Coupon coupon = validateCouponCode(couponCode);
+        if (coupon == null) {
+            return price;
+        }
+
+        return coupon.calculateDiscountedPrice(price);
+    }
+
+    // Add getter and setter for coupons
+    public Set<Coupon> getCoupons() {
+        return coupons;
+    }
+
+    public void setCoupons(Set<Coupon> coupons) {
+        this.coupons = coupons;
+    }
 
     public Long getId() {
         return id;

@@ -14,6 +14,7 @@ import tn.esprit.microservice2.Model.*;
 import tn.esprit.microservice2.repo.IPaymentRepository;
 import tn.esprit.microservice2.repo.IPaymentScheduleRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
+import tn.esprit.microservice2.service.CouponService;
 import tn.esprit.microservice2.service.InvoiceService;
 import tn.esprit.microservice2.service.PaymentService;
 import tn.esprit.microservice2.service.StripePaymentService;
@@ -22,10 +23,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -53,6 +51,9 @@ public class PaymentController {
 
     @Autowired
     private StripePaymentService stripePaymentService;
+
+    @Autowired
+    private CouponService couponService;
 
     @GetMapping("/{paymentId}")
     public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable Long paymentId) {
@@ -122,6 +123,7 @@ public class PaymentController {
                     ));
         }
     }
+
 
     /**
      * NEW ENDPOINT: Create Stripe payment intent for a full payment

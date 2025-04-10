@@ -57,6 +57,15 @@
     <!-- Payment Form -->
     <div *ngIf="canShowPaymentForm()" class="payment-form-container">
       <!-- Payment Summary -->
+      <div *ngIf="hasAppliedDiscount()" class="coupon-highlight-banner">
+        <div class="coupon-icon">
+          <i class="fas fa-ticket-alt"></i>
+        </div>
+        <div class="coupon-details">
+          <div class="coupon-title">Coupon Applied: {{couponCode}}</div>
+          <div class="coupon-savings">You saved {{getDiscountAmount()}} ({{discountPercentage}}% off)</div>
+        </div>
+      </div>
       <div class="payment-summary">
         <div class="summary-header">
           <h2>{{getCourseTitle()}}</h2>
@@ -87,7 +96,34 @@
           
           <span class="payment-badge">{{getPaymentDescription()}}</span>
         </div>
-        <div class="summary-amount">{{getDisplayAmount()}}</div>
+        
+        <!-- Summary Amount with Discount Display -->
+       <!-- Replace the summary-amount section in your HTML with this improved version -->
+<div class="summary-amount">
+  <!-- Display discount info if applied -->
+  <div *ngIf="hasAppliedDiscount()" class="discount-info">
+    <div class="discount-details">
+      <div class="original-price-label">Original Price:</div>
+      <div class="original-price">{{getOriginalAmount()}}</div>
+    </div>
+    <div class="discount-badge-container">
+      <span class="discount-badge">{{discountPercentage}}% OFF</span>
+    </div>
+  </div>
+  
+  <div class="final-amount" [class.discounted]="hasAppliedDiscount()">
+    {{getDisplayAmount()}}
+  </div>
+  
+  <!-- Show coupon code info if present -->
+  <div *ngIf="couponCode && hasAppliedDiscount()" class="coupon-applied">
+    <i class="fas fa-ticket-alt"></i> Coupon <strong>{{couponCode}}</strong> applied
+    <span class="savings">(You save {{getDiscountAmount()}})</span>
+  </div>
+</div>
+
+
+        <!-- Add this section right after the summary-amount div for more visibility -->
       </div>
 
       <!-- Installment Options (if applicable) -->
@@ -107,10 +143,23 @@
         </div>
         
         <div class="installment-summary">
+          <!-- Original price if discount applied -->
+          <div *ngIf="hasAppliedDiscount()" class="summary-row">
+            <span>Original Amount:</span>
+            <span>{{getOriginalAmount()}}</span>
+          </div>
+          
+          <!-- Discount row if applicable -->
+          <div *ngIf="hasAppliedDiscount()" class="summary-row discount">
+            <span>Discount ({{discountPercentage}}%):</span>
+            <span>-{{getDiscountAmount()}}</span>
+          </div>
+          
           <div class="summary-row total">
             <span>Total Amount:</span>
             <span>{{getTotalAmount()}}</span>
           </div>
+          
           <div class="summary-row highlight">
             <span>Each Installment:</span>
             <span>{{getDisplayAmount()}}</span>

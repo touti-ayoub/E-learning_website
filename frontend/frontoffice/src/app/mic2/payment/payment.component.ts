@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PaymentService } from '../../../services/mic2/payment.service';
+import { PaymentService, DiscountInfo } from '../../../services/mic2/payment.service';
 import { StripeService } from '../../../services/mic2/stripe.service';
-import { finalize, catchError, switchMap } from 'rxjs/operators';
-import { Subscription, from, of } from 'rxjs';
+import { finalize, catchError } from 'rxjs/operators';
+import { Subscription, of } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Stripe, StripeCardElement } from '@stripe/stripe-js';
 
@@ -17,6 +17,9 @@ interface PaymentResponse {
   dueDate?: string;
   subscription?: any;
   paymentSchedules?: any[];
+  originalAmount?: number;
+  couponCode?: string;
+  discountPercentage?: number;
 }
 
 @Component({
@@ -34,8 +37,8 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
   stripeError: string | null = null;
   
   // System info
-  currentUser = 'iitsMahdii';
-  currentDate = new Date('2025-04-08 23:35:08');
+  currentUser = 'iitsMahdi';
+  currentDate = new Date('2025-04-09 21:59:52');
   
   // Component state
   loading = false;
@@ -56,6 +59,12 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
   installmentNumber?: number;
   amount?: number;
   paymentType = 'FULL';  // Default to FULL payment
+  
+  // Coupon data
+  couponCode?: string;
+  hasDiscount = false;
+  discountPercentage = 0;
+  originalAmount = 0;
   
   // Installment options
   numberOfInstallments: number = 3; // Default number of installments
@@ -85,7 +94,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
   
   ngOnInit(): void {
     // Get current user
-    this.currentUser = localStorage.getItem('username') || 'iitsMahdii';
+    this.currentUser = localStorage.getItem('username') || 'iitsMahdi';
     
     // Get query parameters first
     this.getQueryParams();
@@ -151,12 +160,13 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
   setupStripeCardElement(): void {
     // Only proceed if we have the Stripe instance and DOM element
     if (!this.stripe || !this.stripeCardElement || !this.stripeCardElement.nativeElement) {
-      if (this.retryCount < 3) {
+      if (this.retryCount < 5) {
         this.retryCount++;
-        console.log(`Retry ${this.retryCount}/3: Waiting for Stripe and DOM...`);
-        setTimeout(() => this.setupStripeCardElement(), 500);
+        console.log(`Retry ${this.retryCount}/5: Waiting for Stripe and DOM...`);
+        setTimeout(() => this.setupStripeCardElement(), 800);
       } else {
         console.error('Failed to set up card element after retries');
+        this.error = 'Could not initialize payment form. Please refresh the page.';
       }
       return;
     }
@@ -166,6 +176,16 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log('Creating card element...');
       const elements = this.stripe.elements();
       
+      // Clean up existing element if it exists
+      if (this.cardElement) {
+        try {
+          this.cardElement.unmount();
+        } catch (e) {
+          console.log('No previous element to unmount');
+        }
+      }
+      
+      // Create a fresh card element
       this.cardElement = elements.create('card', {
         style: {
           base: {
@@ -186,13 +206,13 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
       });
       
       // Mount card element to DOM
-      console.log('Mounting card element...');
+      console.log('Mounting card element to:', this.stripeCardElement.nativeElement);
       this.cardElement.mount(this.stripeCardElement.nativeElement);
       this.cardElementMounted = true;
       
       // Listen for changes
       this.cardElement.on('change', (event) => {
-        console.log('Card element change:', event.complete ? 'complete' : 'incomplete', event);
+        console.log('Card element change:', event.complete ? 'complete' : 'incomplete');
         this.stripeError = event.error ? event.error.message : null;
         this.cardComplete = event.complete;
       });
@@ -213,19 +233,45 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.installmentNumber = params['installmentNumber'] ? +params['installmentNumber'] : undefined;
         this.amount = params['amount'] ? +params['amount'] : undefined;
         this.paymentType = params['paymentType'] || 'FULL';
-
-        console.log('Query params loaded:', {
+        
+        // Get coupon code if provided
+        this.couponCode = params['couponCode'];
+        
+        // Explicitly handle discount information
+        if (params['hasDiscount'] === 'true' || this.couponCode) {
+          this.hasDiscount = true;
+          
+          // Get discount percentage 
+          if (params['discountPercentage']) {
+            this.discountPercentage = +params['discountPercentage'];
+          }
+          
+          // Get original amount
+          if (params['originalAmount']) {
+            this.originalAmount = +params['originalAmount'];
+            
+            // Calculate discount percentage if not provided
+            if (!this.discountPercentage && this.amount && this.originalAmount) {
+              const difference = this.originalAmount - this.amount;
+              this.discountPercentage = Math.round((difference / this.originalAmount) * 100);
+            }
+          }
+        }
+        
+        console.log('Query params loaded with coupon data:', {
           paymentId: this.paymentId,
           subscriptionId: this.subscriptionId,
-          scheduleId: this.scheduleId,
-          installmentNumber: this.installmentNumber,
           amount: this.amount,
-          paymentType: this.paymentType
+          paymentType: this.paymentType,
+          couponCode: this.couponCode,
+          hasDiscount: this.hasDiscount,
+          discountPercentage: this.discountPercentage,
+          originalAmount: this.originalAmount
         });
       })
     );
   }
-
+  
   calculateInstallmentAmount(): void {
     if (!this.amount) return;
     
@@ -245,41 +291,183 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
       this.error = 'Subscription ID is required';
       return;
     }
-
+  
     this.loading = true;
     this.error = null;
+
+    // Prepare discount information if we have valid data
+    let discountInfo: DiscountInfo | undefined;
+
+    if (this.hasDiscount && this.discountPercentage > 0) {
+      // If we have original amount and discount percentage
+      if (this.originalAmount > 0) {
+        // Calculate the discounted amount
+        const discountedAmount = this.paymentService.calculateDiscountedAmount(
+          this.originalAmount,
+          this.discountPercentage
+        );
+
+        discountInfo = {
+          originalAmount: this.originalAmount,
+          discountPercentage: this.discountPercentage,
+          discountedAmount: discountedAmount
+        };
+
+        // Update local amount
+        this.amount = discountedAmount;
+        
+        console.log('Prepared discount info for payment creation:', discountInfo);
+      } 
+      // If we have amount and discount percentage but not original amount
+      else if (this.amount && this.discountPercentage) {
+        // Calculate the original amount
+        const calculatedOriginal = Math.round(this.amount / (1 - (this.discountPercentage / 100)));
+        
+        discountInfo = {
+          originalAmount: calculatedOriginal,
+          discountPercentage: this.discountPercentage,
+          discountedAmount: this.amount
+        };
+        
+        // Update local original amount
+        this.originalAmount = calculatedOriginal;
+        
+        console.log('Calculated original amount from discounted price:', discountInfo);
+      }
+    }
     
-    console.log(`Creating payment with type ${this.paymentType}, installments: ${this.numberOfInstallments}`);
+    // Log what we're sending to the server
+    console.log('Initializing payment with:', {
+      subscriptionId: this.subscriptionId,
+      paymentType: this.paymentType,
+      numberOfInstallments: this.numberOfInstallments,
+      couponCode: this.couponCode,
+      discountInfo: discountInfo
+    });
     
     this.subscriptions.add(
-      this.paymentService.initializePayment(this.subscriptionId, this.paymentType, this.numberOfInstallments)
-        .pipe(
-          finalize(() => {
-            this.loading = false;
-          }),
-          catchError(error => {
-            this.error = `Failed to load payment details: ${error.message || 'Unknown error'}`;
-            console.error('Error creating payment:', error);
-            return of(null);
-          })
-        )
-        .subscribe({
-          next: (response) => {
-            if (!response) return;
+      this.paymentService.initializePayment(
+        this.subscriptionId, 
+        this.paymentType, 
+        this.numberOfInstallments,
+        this.couponCode,
+        discountInfo // Pass discount info to save in DB
+      )
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        }),
+        catchError(error => {
+          this.error = `Failed to load payment details: ${error.message || 'Unknown error'}`;
+          console.error('Error creating payment:', error);
+          return of(null);
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          if (!response) return;
+          
+          this.payment = response;
+          this.paymentId = response.id;
+          
+          console.log('Payment response received:', response);
+          
+          // Handle discount from response
+          if (response.originalAmount && response.amount < response.originalAmount) {
+            console.log('Discount was saved in database!');
+            this.hasDiscount = true;
+            this.originalAmount = response.originalAmount;
+            this.discountPercentage = response.discountPercentage || 
+              Math.round(((response.originalAmount - response.amount) / response.originalAmount) * 100);
+            this.couponCode = response.couponCode || this.couponCode;
+            this.amount = response.amount;
+          } 
+          // If we have discount info but it's not in the response, try updating the payment
+          else if (this.hasDiscount && discountInfo && this.paymentId) {
+            console.log('Discount wasn\'t saved in initial response. Updating payment...');
             
-            this.payment = response;
-            this.paymentId = response.id;
-            console.log('Payment created:', this.payment);
-            
-            // Process payment schedules to find the first PENDING one
-            if (this.payment.paymentSchedules && this.payment.paymentSchedules.length > 0) {
-              this.processPaymentSchedules();
+            // Update the payment in the backend with the discount info
+            this.updatePaymentWithDiscount(discountInfo);
+          } else {
+            // No discount case
+            this.amount = response.amount;
+          }
+          
+          // Process payment schedules
+          if (this.payment?.paymentSchedules && this.payment.paymentSchedules.length > 0) {
+            // If we have discount, apply it to schedules
+            if (this.hasDiscount && this.discountPercentage > 0) {
+              this.applyDiscountToSchedules();
             }
             
-            // Create payment intent now that we have the payment ID
-            this.createPaymentIntent();
+            this.processPaymentSchedules();
           }
-        })
+          
+          // Create payment intent now that we have the payment ID
+          this.createPaymentIntent();
+        }
+      })
+    );
+  }
+
+  /**
+   * Update payment with discount info if it wasn't saved initially
+   */
+  private updatePaymentWithDiscount(discountInfo: DiscountInfo): void {
+    if (!this.paymentId || !this.couponCode) return;
+    
+    this.subscriptions.add(
+      this.paymentService.updatePaymentWithDiscount(
+        this.paymentId,
+        discountInfo,
+        this.couponCode
+      ).subscribe({
+        next: (response) => {
+          console.log('Payment updated with discount:', response);
+          
+          // Update component state with updated payment
+          this.payment = response;
+          this.amount = response.amount;
+          
+          if (response.originalAmount && response.discountPercentage) {
+            // Refresh component state
+            this.hasDiscount = true;
+            this.originalAmount = response.originalAmount;
+            this.discountPercentage = response.discountPercentage;
+            
+            // If we have installments, update them too
+            if (this.payment.paymentSchedules && this.payment.paymentSchedules.length > 0) {
+              this.applyDiscountToSchedules();
+              this.processPaymentSchedules();
+            }
+          }
+        },
+        error: (error) => {
+          console.error('Failed to update payment with discount:', error);
+          // Continue with local discount values
+          if (this.payment) {
+            this.payment.originalAmount = discountInfo.originalAmount;
+            this.payment.amount = discountInfo.discountedAmount;
+            this.payment.discountPercentage = discountInfo.discountPercentage;
+            this.payment.couponCode = this.couponCode;
+          }
+        }
+      })
+    );
+  }
+  
+  /**
+   * Apply discount to payment schedules
+   */
+  private applyDiscountToSchedules(): void {
+    if (!this.payment?.paymentSchedules || !this.discountPercentage) return;
+    
+    console.log('Applying discount to payment schedules');
+    
+    // Apply discount to each schedule
+    this.payment.paymentSchedules = this.paymentService.applyDiscountToSchedules(
+      this.payment.paymentSchedules,
+      this.discountPercentage
     );
   }
 
@@ -291,6 +479,20 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.loading = true;
     this.error = null;
+    
+    // Prepare discount info if we have it
+    let discountInfo: DiscountInfo | undefined;
+    
+    if (this.hasDiscount && this.discountPercentage > 0 && this.originalAmount > 0) {
+      discountInfo = {
+        originalAmount: this.originalAmount,
+        discountPercentage: this.discountPercentage,
+        discountedAmount: this.paymentService.calculateDiscountedAmount(
+          this.originalAmount, 
+          this.discountPercentage
+        )
+      };
+    }
     
     this.subscriptions.add(
       this.paymentService.getPaymentById(this.paymentId)
@@ -311,10 +513,33 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
             this.payment = response;
             console.log('Existing payment loaded:', this.payment);
             
+            // Check for discount info in response
+            if (response.originalAmount && response.amount < response.originalAmount) {
+              this.hasDiscount = true;
+              this.originalAmount = response.originalAmount;
+              this.discountPercentage = response.discountPercentage || 
+                Math.round(100 - ((response.amount / response.originalAmount) * 100));
+              this.couponCode = response.couponCode || this.couponCode;
+              
+              // Update the amount to the discounted amount
+              this.amount = response.amount;
+            }
+            // If we have discount info but it's not in the response, update the payment
+            else if (discountInfo && this.couponCode) {
+              console.log('Applying discount to existing payment');
+              this.updatePaymentWithDiscount(discountInfo);
+            }
+            
             // If there are payment schedules, set up installment information
             if (this.payment.paymentSchedules && this.payment.paymentSchedules.length > 0) {
               this.paymentType = 'INSTALLMENTS';
               this.numberOfInstallments = this.payment.paymentSchedules.length;
+              
+              // Apply discount to schedules if needed
+              if (this.hasDiscount && this.discountPercentage > 0) {
+                this.applyDiscountToSchedules();
+              }
+              
               this.processPaymentSchedules();
             }
             
@@ -391,6 +616,16 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
             this.installmentAmount = schedule.amount;
             this.installmentNumber = schedule.installmentNumber;
             this.paymentId = schedule.payment?.id;
+            
+            // Check for discount from payment
+            if (schedule.payment && schedule.payment.originalAmount && 
+                schedule.payment.amount < schedule.payment.originalAmount) {
+              this.hasDiscount = true;
+              this.originalAmount = schedule.payment.originalAmount;
+              this.discountPercentage = schedule.payment.discountPercentage || 
+                Math.round(100 - ((schedule.payment.amount / schedule.payment.originalAmount) * 100));
+              this.couponCode = schedule.payment.couponCode;
+            }
             
             console.log('Schedule loaded:', schedule);
             
@@ -632,7 +867,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  // Rest of your component methods...
+  // Supporting methods
 
   markAllFieldsAsTouched(): void {
     this.cardHolderTouched = true;
@@ -691,6 +926,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  // Fix display methods to show correct discount information
   getDisplayAmount(): string {
     const currencySymbol = this.payment?.currency === 'EUR' ? '€' : '$';
 
@@ -734,6 +970,40 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     
     return `${currencySymbol}0.00`;
+  }
+  
+  getOriginalAmount(): string {
+    const currencySymbol = this.payment?.currency === 'EUR' ? '€' : '$';
+    
+    if (this.payment?.originalAmount) {
+      return `${currencySymbol}${this.payment.originalAmount.toFixed(2)}`;
+    } else if (this.originalAmount) {
+      return `${currencySymbol}${this.originalAmount.toFixed(2)}`;
+    }
+    
+    return this.getTotalAmount();
+  }
+  
+  getDiscountAmount(): string {
+    const currencySymbol = this.payment?.currency === 'EUR' ? '€' : '$';
+    
+    if (this.hasDiscount) {
+      if (this.payment?.originalAmount && this.payment?.amount) {
+        const discount = this.payment.originalAmount - this.payment.amount;
+        return `${currencySymbol}${discount.toFixed(2)}`;
+      } else if (this.originalAmount && this.amount) {
+        const discount = this.originalAmount - this.amount;
+        return `${currencySymbol}${discount.toFixed(2)}`;
+      }
+    }
+    
+    return `${currencySymbol}0.00`;
+  }
+  
+  hasAppliedDiscount(): boolean {
+    return this.hasDiscount || 
+      (this.payment?.originalAmount !== undefined && 
+       this.payment?.amount < this.payment.originalAmount);
   }
 
   getPaymentDescription(): string {
