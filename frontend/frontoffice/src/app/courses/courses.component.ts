@@ -9,8 +9,8 @@ import {AuthService} from "../../services/auth/auth.service";
 })
 export class CoursesComponent {
   courses = [
-    { id: 1, title: 'Email Marketing Essentials', instructor: 'Moon', price: 111 },
-    { id: 2, title: 'Web Development', instructor: 'John Doe', price: 150 },
+    { id: 1, title: 'Web Development', instructor: 'Moon', price: 300 },
+    { id: 2, title: 'Angular+Spring', instructor: 'John Doe', price: 499 },
     { id: 3, title: 'ISTQB', instructor: 'Alice', price: 180 }
   ];
 

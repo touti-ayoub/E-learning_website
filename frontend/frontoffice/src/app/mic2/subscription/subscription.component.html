@@ -52,8 +52,52 @@
             </div>
             <div class="info-content">
               <span class="info-label">Price</span>
-              <span class="info-value price">${{course.price}}</span>
+              <span class="info-value price" [ngClass]="{'strikethrough': hasValidCoupon}">
+                ${{course.price}}
+              </span>
+              <span *ngIf="hasValidCoupon" class="discounted-price">
+                ${{getDiscountedPrice().toFixed(2)}}
+              </span>
             </div>
+          </div>
+        </div>
+
+        <!-- Coupon Code Section -->
+        <div class="coupon-section">
+          <h3 class="section-title">
+            <i class="fas fa-ticket-alt"></i>
+            Coupon Code
+          </h3>
+          
+          <div class="coupon-container">
+            <div class="coupon-input-group">
+              <input 
+                type="text" 
+                class="coupon-input" 
+                placeholder="Enter coupon code" 
+                [(ngModel)]="couponCode"
+                [disabled]="hasValidCoupon || validatingCoupon"
+              >
+              <button 
+                class="coupon-button" 
+                (click)="validateCoupon()"
+                [disabled]="!couponCode || validatingCoupon || hasValidCoupon"
+              >
+                <div *ngIf="validatingCoupon" class="button-spinner small"></div>
+                <span *ngIf="!validatingCoupon">Apply</span>
+              </button>
+            </div>
+            
+            <!-- Coupon feedback message -->
+            <div *ngIf="couponMessage" class="coupon-message" [ngClass]="{'success': hasValidCoupon, 'error': couponError}">
+              <i class="fas" [ngClass]="{'fa-check-circle': hasValidCoupon, 'fa-times-circle': couponError}"></i>
+              <span>{{couponMessage}}</span>
+            </div>
+            
+            <!-- Reset coupon button when coupon is valid -->
+            <button *ngIf="hasValidCoupon" class="reset-coupon" (click)="resetCoupon()">
+              <i class="fas fa-undo-alt"></i> Remove Coupon
+            </button>
           </div>
         </div>
 
@@ -110,7 +154,7 @@
                      (click)="installments = 3">
                   <span class="installment-number">3</span>
                   <span class="installment-text">months</span>
-                  <span class="installment-amount">${{(course.price / 3).toFixed(2)}}/mo</span>
+                  <span class="installment-amount">${{getMonthlyInstallmentAmount(3).toFixed(2)}}/mo</span>
                 </div>
 
                 <div class="installment-option"
@@ -118,7 +162,7 @@
                      (click)="installments = 6">
                   <span class="installment-number">6</span>
                   <span class="installment-text">months</span>
-                  <span class="installment-amount">${{(course.price / 6).toFixed(2)}}/mo</span>
+                  <span class="installment-amount">${{getMonthlyInstallmentAmount(6).toFixed(2)}}/mo</span>
                 </div>
 
                 <div class="installment-option"
@@ -126,7 +170,7 @@
                      (click)="installments = 9">
                   <span class="installment-number">9</span>
                   <span class="installment-text">months</span>
-                  <span class="installment-amount">${{(course.price / 9).toFixed(2)}}/mo</span>
+                  <span class="installment-amount">${{getMonthlyInstallmentAmount(9).toFixed(2)}}/mo</span>
                 </div>
               </div>
             </div>
@@ -171,9 +215,22 @@
               <span>Monthly Payment</span>
               <span>${{getMonthlyPayment().toFixed(2)}}</span>
             </div>
+            
+            <!-- Original price row (only when coupon is applied) -->
+            <div class="summary-row" *ngIf="hasValidCoupon">
+              <span>Original Price</span>
+              <span>${{course.price}}</span>
+            </div>
+            
+            <!-- Coupon discount row (only when coupon is applied) -->
+            <div class="summary-row discount" *ngIf="hasValidCoupon">
+              <span>Coupon Discount ({{couponDiscount}}%)</span>
+              <span>-${{getDiscountAmount().toFixed(2)}}</span>
+            </div>
+            
             <div class="summary-row total">
               <span>Total Price</span>
-              <span>${{course.price}}</span>
+              <span>${{getFinalPrice().toFixed(2)}}</span>
             </div>
           </div>
         </div>

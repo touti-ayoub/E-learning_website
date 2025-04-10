@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, catchError, throwError } from 'rxjs';
+import { Observable, catchError, tap, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export interface SubscriptionResponse {
@@ -31,6 +31,7 @@ export interface SubCreatingRequest {
   paymentType: string;
   autoRenew: boolean;
   installments?: number;
+  couponCode?: string; // Add this field
 }
 
 @Injectable({
@@ -46,10 +47,25 @@ export class SubscriptionService {
       .pipe(catchError(this.handleError));
   }
 
-  createSubscription(request: SubCreatingRequest): Observable<SubscriptionResponse> {
-    return this.http.post<SubscriptionResponse>(`${this.apiUrl}`, request)
-      .pipe(catchError(this.handleError));
+// Add this method to ensure subscription creation includes coupon code
+createSubscription(request: SubCreatingRequest): Observable<any> {
+  // Log the request for debugging
+  console.log('Creating subscription with request:', request);
+  
+  // Ensure coupon code is prominently passed in request
+  if (request.couponCode) {
+    console.log(`Including coupon code ${request.couponCode} in subscription creation`);
   }
+  
+  // The original method implementation
+  return this.http.post<any>(`${this.apiUrl}`, request).pipe(
+    tap(response => console.log('Subscription created:', response)),
+    catchError(error => {
+      console.error('Error creating subscription:', error);
+      return throwError(() => new Error(error.error?.message || 'Failed to create subscription'));
+    })
+  );
+}
 
   getSubscriptionById(id: number): Observable<SubscriptionResponse> {
     return this.http.get<SubscriptionResponse>(`${this.apiUrl}/${id}`)

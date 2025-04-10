@@ -1,0 +1,131 @@
+.event-container {
+  padding: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.table-container {
+  overflow-x: auto;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  border-radius: 8px;
+}
+
+.event-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+
+  th, td {
+    text-align: left;
+    padding: 12px 15px;
+  }
+
+  th {
+    background-color: #1c76da; // Purple color
+    color: white; // White text for better contrast
+    font-weight: 600;
+    padding: 12px 15px;
+    text-align: left;
+  }
+
+  tr {
+    border-bottom: 1px solid #e9ecef;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    &:hover {
+      background-color: #f1f3f5;
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-edit, .btn-delete {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-edit {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.no-events {
+  text-align: center;
+  padding: 30px;
+  color: #6c757d;
+  font-style: italic;
+}
+
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+
+  i {
+    font-size: 16px;
+  }
+}
+
+.btn-edit {
+  background-color: #007bff;
+  color: white;
+
+  &:hover {
+    background-color: darken(#007bff, 10%);
+  }
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: white;
+
+  &:hover {
+    background-color: darken(#dc3545, 10%);
+  }
+}

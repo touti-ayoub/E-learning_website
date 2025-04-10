@@ -1011,3 +1011,171 @@ input:focus {
     border-radius: 6px;
   }
 }
+/* Add these styles to your payment.component.css file */
+
+/* Discount styling */
+.discount-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.original-price {
+  color: #64748b;
+  text-decoration: line-through;
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.discount-badge {
+  background-color: #10b981;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.final-amount {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.final-amount.discounted {
+  color: #10b981;
+}
+
+.coupon-applied {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.coupon-applied i {
+  color: #10b981;
+}
+
+/* Discount in installment summary */
+.summary-row.discount {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.summary-row.discount span:last-child {
+  color: #10b981;
+}
+.coupon-highlight-banner {
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.coupon-icon {
+  background-color: #10b981;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+}
+
+.coupon-details {
+  flex: 1;
+}
+
+.coupon-title {
+  font-weight: 600;
+  color: #10b981;
+}
+
+.coupon-savings {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+/* Add these styles to improve coupon display */
+.coupon-highlight-banner {
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid #10b981;
+  border-radius: 8px;
+  padding: 12px 15px;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+}
+
+.coupon-icon {
+  background-color: #10b981;
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  font-size: 14px;
+}
+
+.coupon-details {
+  flex: 1;
+}
+
+.coupon-title {
+  font-weight: 600;
+  color: #10b981;
+  margin-bottom: 4px;
+}
+
+.coupon-savings {
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.discount-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.original-price {
+  color: #64748b;
+  text-decoration: line-through;
+  margin-right: 10px;
+  font-size: 1.1rem;
+}
+
+.discount-badge {
+  background-color: #10b981;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.final-amount.discounted {
+  color: #10b981;
+}
+
+/* Fix for Stripe card element container */
+#card-element {
+  min-height: 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 10px;
+  background-color: white;
+}
+
+.stripe-card-element {
+  width: 100%;
+}
