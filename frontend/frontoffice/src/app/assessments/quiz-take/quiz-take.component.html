@@ -1,6 +1,7 @@
 <div *ngIf="quiz" class="quiz-take-container">
     <h1>{{ quiz.title }}</h1>
     <p>{{ quiz.description }}</p>
+    <p>Time left: {{ formatTime(timeLeft) }}</p>
   
     <form (ngSubmit)="submitQuiz()" class="quiz-form">
       <div *ngFor="let question of quiz.questions" class="question-group">
