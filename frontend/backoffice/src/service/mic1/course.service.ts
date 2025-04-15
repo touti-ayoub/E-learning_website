@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Course, Category } from '../../model/mic1/course.model';
+import { Course, Category, Lesson } from '../../model/mic1/course.model';
 
 @Injectable({
   providedIn: 'root'
@@ -75,6 +75,31 @@ export class CourseService {
 
   createCategory(category: Category): Observable<Category> {
     return this.http.post<Category>(`${this.apiUrl}/categories`, category);
+  }
+  
+  // Lesson API calls
+  getLessonById(id: number): Observable<Lesson> {
+    return this.http.get<Lesson>(`${this.apiUrl}/lessons/${id}`);
+  }
+  
+  createLesson(lesson: Lesson, courseId: number): Observable<Lesson> {
+    return this.http.post<Lesson>(`${this.apiUrl}/lessons/${courseId}`, lesson);
+  }
+  
+  updateLesson(id: number, lesson: Lesson): Observable<Lesson> {
+    return this.http.put<Lesson>(`${this.apiUrl}/lessons/${id}`, lesson);
+  }
+  
+  deleteLesson(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/lessons/${id}`);
+  }
+  
+  // Upload presentation for a lesson
+  uploadLessonPresentation(lessonId: number, file: File): Observable<Lesson> {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    return this.http.post<Lesson>(`${this.apiUrl}/lessons/${lessonId}/presentation`, formData);
   }
   
   // Process course data before sending to API

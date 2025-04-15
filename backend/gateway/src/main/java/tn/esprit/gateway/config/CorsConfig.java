@@ -2,6 +2,8 @@ package tn.esprit.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
@@ -12,6 +14,7 @@ import java.util.Arrays;
 public class CorsConfig {
 
     @Bean
+    @Order(Ordered.HIGHEST_PRECEDENCE) // Make sure this runs before other filters
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowCredentials(true);
@@ -34,7 +37,8 @@ public class CorsConfig {
             "Access-Control-Allow-Origin", 
             "Access-Control-Request-Method", 
             "Access-Control-Request-Headers",
-            "X-Requested-With"
+            "X-Requested-With",
+            "*"  // Allow all headers
         ));
         
         // Expose headers to the client
@@ -44,7 +48,10 @@ public class CorsConfig {
             "Access-Control-Allow-Headers",
             "Access-Control-Max-Age",
             "Access-Control-Request-Headers",
-            "Access-Control-Request-Method"
+            "Access-Control-Request-Method",
+            "Content-Disposition",  // Needed for file downloads
+            "Content-Type",
+            "Content-Length"
         ));
         
         // Cache preflight response for 3600 seconds (1 hour)

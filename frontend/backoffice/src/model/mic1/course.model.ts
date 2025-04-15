@@ -19,6 +19,8 @@ export interface Lesson {
   videoType?: string;
   pdfUrl?: string;
   pdfName?: string;
+  presentationUrl?: string;
+  presentationName?: string;
   orderIndex?: number;
   courseId?: number;
 }

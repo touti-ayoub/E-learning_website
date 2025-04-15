@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/course-access")
-@CrossOrigin(origins = "*")
+@CrossOrigin(originPatterns = "http://localhost:[*]", maxAge = 3600, allowCredentials = "true")
 public class CourseAccessController {
 
     private final CourseAccessService courseAccessService;

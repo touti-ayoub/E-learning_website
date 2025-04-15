@@ -33,6 +33,21 @@ public class Lesson {
     
     @Column(name = "pdf_name", length = 255)
     private String pdfName;
+    
+    @Column(name = "presentation_url", columnDefinition = "LONGTEXT")
+    private String presentationUrl;
+    
+    @Column(name = "presentation_name", length = 255)
+    private String presentationName;
+    
+    @Column(name = "converted_presentation_url", columnDefinition = "LONGTEXT")
+    private String convertedPresentationUrl;
+    
+    @Column(name = "presentation_conversion_status", length = 20)
+    private String presentationConversionStatus; // "PENDING", "COMPLETED", "FAILED"
+    
+    @Column(name = "presentation_html_content", columnDefinition = "LONGTEXT")
+    private String presentationHtmlContent;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = true)

@@ -75,6 +75,8 @@ export class CourseManagementComponent implements OnInit {
       videoType: ['youtube'],
       pdfUrl: [''],
       pdfName: [''],
+      presentationUrl: [''],
+      presentationName: [''],
       orderIndex: [this.lessonsArray.length + 1]
     });
   }
@@ -412,6 +414,8 @@ export class CourseManagementComponent implements OnInit {
           videoType: [lesson.videoType || 'youtube'],
           pdfUrl: [lesson.pdfUrl || ''],
           pdfName: [lesson.pdfName || ''],
+          presentationUrl: [lesson.presentationUrl || ''],
+          presentationName: [lesson.presentationName || ''],
           orderIndex: [lesson.orderIndex || this.lessonsArray.length + 1]
         }));
       });
@@ -469,62 +473,73 @@ export class CourseManagementComponent implements OnInit {
     }, 3000);
   }
 
-  // Handle PDF upload for lessons
-  handlePdfUpload(event: Event, lessonIndex: number): void {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
-    
-    // Check file size - limit to 5MB for better performance
-    const maxSizeInMB = 5;
-    const fileSizeInMB = file.size / (1024 * 1024);
-    
-    if (fileSizeInMB > maxSizeInMB) {
-      this.error = `PDF file is too large (${fileSizeInMB.toFixed(2)}MB). Maximum size is ${maxSizeInMB}MB.`;
-      setTimeout(() => {
-        this.error = '';
-      }, 5000);
-      return;
-    }
-    
-    // For PDFs in this implementation, we'll just store the filename and direct URL path
-    // rather than the full base64 content to avoid database size issues
-    const lessonGroup = this.lessonsArray.at(lessonIndex) as FormGroup;
-    
-    // If the file is small enough (< 1MB), we can still use base64
-    if (fileSizeInMB < 1) {
+  // Method to open the PDF file browser
+  openPdfFileBrowser(inputId: string): void {
+    const fileInput = document.getElementById(inputId) as HTMLInputElement;
+    fileInput.click();
+  }
+  
+  // Method to open the presentation file browser
+  openPresentationFileBrowser(inputId: string): void {
+    const fileInput = document.getElementById(inputId) as HTMLInputElement;
+    fileInput.click();
+  }
+
+  // Handle PDF file upload
+  handlePdfUpload(event: Event, index: number): void {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      
+      // Check file size (5MB limit)
+      if (file.size > 5 * 1024 * 1024) {
+        this.error = 'PDF file is too large. Maximum size is 5MB.';
+        return;
+      }
+      
+      // Process file (in a real app, you would upload to a server)
       const reader = new FileReader();
       reader.onload = () => {
         const base64Data = reader.result as string;
+        // Get the FormGroup for this lesson
+        const lessonFormGroup = this.lessonsArray.at(index) as FormGroup;
         
-        // Update the form values
-        lessonGroup.patchValue({
+        // Set PDF data in the form
+        lessonFormGroup.patchValue({
           pdfUrl: base64Data,
           pdfName: file.name
         });
       };
-      
       reader.readAsDataURL(file);
-    } else {
-      // For larger files, suggest using an external storage URL instead
-      // In a production app, you would upload to S3, Google Cloud Storage, etc.
-      // and store the resulting URL
-      lessonGroup.patchValue({
-        pdfName: file.name
-      });
-      
-      // Show notification to the user about large file handling
-      this.successMessage = 'For larger PDF files, consider using a storage service like Google Drive or Dropbox and entering the URL directly.';
-      setTimeout(() => {
-        this.successMessage = '';
-      }, 8000);
     }
   }
   
-  // Edit the browser-specific element access for the PDF upload button
-  openPdfFileBrowser(inputId: string): void {
-    const fileInput = document.getElementById(inputId) as HTMLInputElement;
-    if (fileInput) {
-      fileInput.click();
+  // Handle presentation file upload
+  handlePresentationUpload(event: Event, index: number): void {
+    const fileInput = event.target as HTMLInputElement;
+    if (fileInput.files && fileInput.files.length > 0) {
+      const file = fileInput.files[0];
+      
+      // Check file size (10MB limit)
+      if (file.size > 10 * 1024 * 1024) {
+        this.error = 'Presentation file is too large. Maximum size is 10MB.';
+        return;
+      }
+      
+      // Process file (in a real app, you would upload to a server)
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64Data = reader.result as string;
+        // Get the FormGroup for this lesson
+        const lessonFormGroup = this.lessonsArray.at(index) as FormGroup;
+        
+        // Set presentation data in the form
+        lessonFormGroup.patchValue({
+          presentationUrl: base64Data,
+          presentationName: file.name
+        });
+      };
+      reader.readAsDataURL(file);
     }
   }
 

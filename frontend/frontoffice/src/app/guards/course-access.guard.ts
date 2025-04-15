@@ -28,21 +28,8 @@ export class CourseAccessGuard implements CanActivate {
     
     console.log(`CourseAccessGuard: Checking access for user ${userId} to course ${courseId}`);
     
-    // During testing/development, we allow access regardless of the backend check
-    // For production, uncomment the following code block:
-    
-    return this.courseAccessService.checkCourseAccess(userId, courseId).pipe(
-      tap(response => console.log('CourseAccessGuard: Access check response', response)),
-      map(response => {
-        // Always allow navigation to the course page
-        // The course detail component will handle showing the access control UI
-        return true;
-      }),
-      catchError(error => {
-        console.error('CourseAccessGuard: Error checking access', error);
-        // On error, still allow navigation but log the error
-        return of(true);
-      })
-    );
+    // Always allow access in development mode
+    // The course detail component will handle access UI
+    return of(true);
   }
 } 

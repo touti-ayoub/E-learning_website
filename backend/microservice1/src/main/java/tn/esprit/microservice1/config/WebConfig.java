@@ -14,7 +14,7 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    // CORS is now handled by the API Gateway
+    // CORS is now handled by the API Gateway and controller annotations
     /* 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -24,28 +24,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("*")
                 .allowCredentials(true);
     }
-
-    @Bean
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        CorsConfiguration config = new CorsConfiguration();
-        
-        // Allow requests from Angular frontend
-        config.addAllowedOrigin("http://localhost:4200");
-        
-        // Allow all HTTP methods
-        config.addAllowedMethod("*");
-        
-        // Allow all headers
-        config.addAllowedHeader("*");
-        
-        // Allow cookies
-        config.setAllowCredentials(true);
-        
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
-    }
     */
+
+    // CORS filter removed to avoid duplicate headers with gateway and controller annotations
 
     @Override
     public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {

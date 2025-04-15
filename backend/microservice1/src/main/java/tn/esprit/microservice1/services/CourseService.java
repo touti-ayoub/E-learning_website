@@ -150,6 +150,8 @@ public class CourseService {
                         existingLesson.setVideoType(updatedLesson.getVideoType());
                         existingLesson.setPdfUrl(updatedLesson.getPdfUrl());
                         existingLesson.setPdfName(updatedLesson.getPdfName());
+                        existingLesson.setPresentationUrl(updatedLesson.getPresentationUrl());
+                        existingLesson.setPresentationName(updatedLesson.getPresentationName());
                         lessonRepository.save(existingLesson);
                     }
                 } else {

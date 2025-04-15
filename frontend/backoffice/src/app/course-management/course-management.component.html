@@ -177,6 +177,24 @@
                              class="form-control mt-2" placeholder="PDF Display Name (optional)">
                     </div>
                     
+                    <div class="form-group mb-3">
+                      <label>Presentation Attachment</label>
+                      <div class="input-group">
+                        <input type="text" [id]="'presentationUrl'+i" formControlName="presentationUrl" class="form-control" 
+                               placeholder="Enter presentation URL or upload file">
+                        <button class="btn btn-outline-secondary" type="button" (click)="openPresentationFileBrowser('presentationUpload'+i)">
+                          <i class="fas fa-upload"></i> Browse
+                        </button>
+                      </div>
+                      <input type="file" [id]="'presentationUpload'+i" style="display: none;" accept=".ppt,.pptx,.odp" 
+                             (change)="handlePresentationUpload($event, i)">
+                      <small class="text-muted mt-1 d-block">
+                        Upload a presentation file (PPT, PPTX, ODP) (max 10MB) or enter a URL to an existing presentation (Google Slides, etc.)
+                      </small>
+                      <input type="text" [id]="'presentationName'+i" formControlName="presentationName" 
+                             class="form-control mt-2" placeholder="Presentation Display Name (optional)">
+                    </div>
+                    
                     <div class="form-group mb-0">
                       <label for="lessonOrder{{i}}">Order</label>
                       <input type="number" [id]="'lessonOrder'+i" formControlName="orderIndex" class="form-control" min="1">

@@ -8,23 +8,28 @@ import { SafeUrlPipe } from '../shared/pipes/safe-url.pipe';
 import { getEmbedUrl } from '../shared/utils/video-utils';
 import { CourseAccessComponent } from '../course-access/course-access.component';
 import { CourseAccessService } from '../../services/mic2/course-access.service';
+import { PptxViewerComponent } from '../shared/components/pptx-viewer/pptx-viewer.component';
 
 @Component({
   selector: 'app-course-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, SafeUrlPipe, CourseAccessComponent],
+  imports: [CommonModule, FormsModule, SafeUrlPipe, CourseAccessComponent, PptxViewerComponent],
   templateUrl: './course-detail.component.html',
   styleUrls: ['./course-detail.component.scss']
 })
 export class CourseDetailComponent implements OnInit {
+  courseId!: number;
   course: Course | null = null;
-  selectedLesson: Lesson | null = null;
-  loading = true;
-  error = '';
+  hasAccess = true; // Set to true for development
+  selectedLessonId: number | null = null;
+  selectedLesson: any = null;
   viewingPdf = false;
   viewingPdfLessonId: number | null = null;
+  viewingPresentation = false;
+  viewingPresentationLessonId: number | null = null;
+  loading = true;
+  error = '';
   userId = 1; // This should come from authentication service
-  hasAccess = false;
   checkingAccess = true;
   
   constructor(
@@ -92,49 +97,68 @@ export class CourseDetailComponent implements OnInit {
     return !!lesson && !!lesson.videoUrl;
   }
   
-  isBase64Pdf(lesson: Lesson | null): boolean {
-    if (!lesson || !lesson.pdfUrl) return false;
-    return lesson.pdfUrl.startsWith('data:application/pdf') || 
-           lesson.pdfUrl.startsWith('data:image/pdf') ||
-           lesson.pdfUrl.includes('base64');
+  // Helpers for PDF handling
+  hasPdf(lesson: any): boolean {
+    return lesson && lesson.pdfUrl && lesson.pdfUrl.trim() !== '';
   }
   
-  viewPdf(lesson: Lesson): void {
+  getPdfName(lesson: any): string {
+    return lesson && lesson.pdfName ? lesson.pdfName : 'PDF Document';
+  }
+  
+  viewPdf(lesson: any): void {
     this.viewingPdf = true;
-    this.viewingPdfLessonId = lesson.id || null;
+    this.viewingPdfLessonId = lesson.id;
+    
+    // Close presentation if open
+    this.viewingPresentation = false;
+    this.viewingPresentationLessonId = null;
   }
   
-  hasPdf(lesson: Lesson | null): boolean {
-    if (!lesson || !lesson.pdfUrl) return false;
-    
-    // Consider a PDF valid if it has any content (not just empty string)
-    return lesson.pdfUrl.trim().length > 0;
+  isBase64Pdf(lesson: any): boolean {
+    return lesson && lesson.pdfUrl && lesson.pdfUrl.startsWith('data:');
   }
   
-  getPdfName(lesson: Lesson | null): string {
-    if (!lesson) return '';
+  // Helpers for Presentation handling
+  hasPresentation(lesson: any): boolean {
+    return lesson && lesson.presentationUrl && lesson.presentationUrl.trim() !== '';
+  }
+  
+  getPresentationName(lesson: any): string {
+    return lesson && lesson.presentationName ? lesson.presentationName : 'Presentation';
+  }
+  
+  viewPresentation(lesson: any): void {
+    this.viewingPresentation = true;
+    this.viewingPresentationLessonId = lesson.id;
     
-    // Use the custom name if provided, otherwise extract from URL or use generic name
-    if (lesson.pdfName && lesson.pdfName.trim() !== '') {
-      return lesson.pdfName;
+    // Close PDF if open
+    this.viewingPdf = false;
+    this.viewingPdfLessonId = null;
+  }
+  
+  isBase64Presentation(lesson: any): boolean {
+    return lesson && lesson.presentationUrl && lesson.presentationUrl.startsWith('data:');
+  }
+  
+  // Get a viewer URL for the presentation using Google Docs or Office Online viewer
+  getPresentationViewerUrl(lesson: any): string {
+    if (!lesson || !lesson.presentationUrl) return '';
+    
+    // If it's already a Google Slides URL, just use it directly
+    if (lesson.presentationUrl.includes('docs.google.com/presentation')) {
+      return lesson.presentationUrl;
     }
     
-    if (lesson.pdfUrl) {
-      // If it's a data URL (base64), return a generic name
-      if (lesson.pdfUrl.startsWith('data:')) {
-        return 'Document.pdf';
-      }
-      
-      // Otherwise try to extract filename from URL
-      const urlParts = lesson.pdfUrl.split('/');
-      const possibleName = urlParts[urlParts.length - 1];
-      
-      if (possibleName && possibleName.includes('.pdf')) {
-        return possibleName;
-      }
+    // If it's a direct URL to a PPTX file (not base64), use Google Docs Viewer
+    if (!this.isBase64Presentation(lesson)) {
+      // Use Google Docs Viewer for external URLs
+      return `https://docs.google.com/viewer?url=${encodeURIComponent(lesson.presentationUrl)}&embedded=true`;
     }
     
-    return 'Course Material.pdf';
+    // For base64 data, we'll need to rely on the browser's ability to display it
+    // However, we'll show a helper message to the user in the HTML
+    return lesson.presentationUrl;
   }
 
   toggleAccess(): void {
@@ -155,6 +179,15 @@ export class CourseDetailComponent implements OnInit {
 
   checkCourseAccess(courseId: number): void {
     this.checkingAccess = true;
+    
+    // For testing & development
+    if (this.course?.free) {
+      this.hasAccess = true;
+      this.checkingAccess = false;
+      console.log('Free course - access automatically granted');
+      return;
+    }
+    
     this.courseAccessService.checkCourseAccess(this.userId, courseId)
       .subscribe({
         next: (response) => {
@@ -169,5 +202,49 @@ export class CourseDetailComponent implements OnInit {
           this.hasAccess = true;
         }
       });
+  }
+
+  // Download presentation file
+  downloadPresentation(lesson: any): void {
+    if (!lesson || !lesson.id) return;
+    
+    // Show loading indicator
+    this.loading = true;
+    
+    this.courseService.downloadLessonPresentation(lesson.id).subscribe({
+      next: (blob) => {
+        // Create a URL for the blob
+        const url = window.URL.createObjectURL(blob);
+        
+        // Create a temporary link element
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = lesson.presentationName || 'presentation.pptx';
+        document.body.appendChild(a);
+        
+        // Trigger download
+        a.click();
+        
+        // Clean up
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error downloading presentation:', err);
+        this.error = 'Failed to download presentation. Please try again.';
+        this.loading = false;
+        
+        // If download fails, fallback to direct download from presentationUrl
+        if (lesson.presentationUrl && lesson.presentationUrl.startsWith('data:')) {
+          const a = document.createElement('a');
+          a.href = lesson.presentationUrl;
+          a.download = lesson.presentationName || 'presentation.pptx';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+      }
+    });
   }
 } 

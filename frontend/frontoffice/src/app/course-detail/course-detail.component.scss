@@ -133,4 +133,50 @@ img.img-fluid {
       }
     }
   }
+}
+
+.pdf-container {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  
+  .pdf-frame {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+}
+
+.presentation-container {
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 20px;
+  
+  .presentation-frame {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .base64-presentation-fallback {
+    padding: 15px;
+    background-color: white;
+    border-radius: 5px;
+    text-align: center;
+    
+    .alert {
+      margin-bottom: 20px;
+    }
+    
+    .btn-primary {
+      background-color: #06BBCC;
+      border-color: #06BBCC;
+      padding: 10px 20px;
+      
+      &:hover {
+        background-color: #05a7b7;
+        border-color: #05a7b7;
+      }
+    }
+  }
 } 
