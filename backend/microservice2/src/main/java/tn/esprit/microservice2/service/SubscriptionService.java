@@ -14,7 +14,6 @@ import tn.esprit.microservice2.repo.ISubscriptionRepository;
 import tn.esprit.microservice2.repo.UserRepository;
 import org.slf4j.LoggerFactory;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,10 +69,9 @@ public class SubscriptionService {
             subscription = subscriptionRepository.save(subscription);
 
             if (PaymentType.FULL.equals(subRequest.getPaymentType())) {
-                paymentService.createFullPayment(subscription);
+                paymentService.createInitialPayment(subscription);
             } else if (subRequest.getInstallments() != null) {
-                BigDecimal totalAmount = subscription.getCourse().getPrice();
-                paymentService.createPaymentWithInstallments(subscription, totalAmount, subRequest.getInstallments());
+                paymentService.createPayment(subscription.getId(), subRequest.getInstallments());
             }
 
             return SubscriptionDTO.fromEntity(subscription);
@@ -82,6 +80,7 @@ public class SubscriptionService {
             throw new RuntimeException("Failed to create subscription: " + e.getMessage(), e);
         }
     }
+
 
     @Transactional(readOnly = true)
     public List<SubscriptionDTO> getUserSubscriptions(Long userId) {
@@ -94,6 +93,16 @@ public class SubscriptionService {
                 .map(SubscriptionDTO::fromEntity)
                 .collect(Collectors.toList());
     }
+
+    /*@Transactional(readOnly = true)
+    public SubscriptionDTO getSubscriptionById(Long id) {
+        log.debug("Fetching subscription with id: {}", id);
+
+        Subscription subscription = subscriptionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Subscription not found with id: " + id));
+
+        return SubscriptionDTO.fromEntity(subscription);
+    }*/
 
     @Transactional(readOnly = true)
     public List<SubscriptionDTO> getAllSubscriptions() {
@@ -140,6 +149,7 @@ public class SubscriptionService {
         subscription = subscriptionRepository.save(subscription);
         return SubscriptionDTO.fromEntity(subscription);
     }
+
 
     @Transactional
     public void cancelSubscription(Long subscriptionId) {

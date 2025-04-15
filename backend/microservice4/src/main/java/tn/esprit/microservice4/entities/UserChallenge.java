@@ -4,19 +4,21 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "user_challenges")
 public class UserChallenge {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @ManyToOne
-    @JoinColumn(name = "challenge_id")
+    @JoinColumn(name = "challenge_id", nullable = false)
     private Challenge challenge;
 
-    private LocalDate completedAt;
+    private boolean completed;
 
     // Getters and Setters
     public Long getId() {
@@ -27,12 +29,12 @@ public class UserChallenge {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Challenge getChallenge() {
@@ -43,11 +45,11 @@ public class UserChallenge {
         this.challenge = challenge;
     }
 
-    public LocalDate getCompletedAt() {
-        return completedAt;
+    public boolean isCompleted() {
+        return completed;
     }
 
-    public void setCompletedAt(LocalDate completedAt) {
-        this.completedAt = completedAt;
+    public void setCompleted(boolean completed) {
+        this.completed = completed;
     }
 }

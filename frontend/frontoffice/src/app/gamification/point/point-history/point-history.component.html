@@ -1,0 +1,42 @@
+<div class="container">
+  <h2>Historique des Points</h2>
+
+  <div class="total-points">
+    <h3>Total des Points : <span>{{ totalPoints }}</span></h3>
+  </div>
+
+  <div *ngIf="points.length > 0; else noData">
+    <table mat-table [dataSource]="points" class="mat-elevation-z8">
+      <ng-container matColumnDef="dateObtained">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let point">
+          {{ point.dateObtention ? (point.dateObtention | date:'dd/MM/yyyy HH:mm') : 'N/A' }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="challengeName">
+        <th mat-header-cell *matHeaderCellDef>Challenge</th>
+        <td mat-cell *matCellDef="let point">
+          {{ point.challenge?.name  }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="points">
+        <th mat-header-cell *matHeaderCellDef>Points</th>
+        <td mat-cell *matCellDef="let point">{{ point.pointWins }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="activityType">
+        <th mat-header-cell *matHeaderCellDef>Activité</th>
+        <td mat-cell *matCellDef="let point">{{ point.typeActivity }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+  <ng-template #noData>
+    <p class="no-data">Aucun point trouvé.</p>
+  </ng-template>
+</div>

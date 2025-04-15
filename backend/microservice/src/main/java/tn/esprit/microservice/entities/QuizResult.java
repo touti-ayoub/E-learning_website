@@ -1,22 +1,22 @@
 package tn.esprit.microservice.entities;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
-
+import java.util.Date;
 
 @Data
 @Entity
 public class QuizResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idResult;
 
-    private String text;
-    private boolean isCorrect;
+    private Long idUser;
+    private int score;
+    private boolean passed;
+    private Date dateTaken;
 
     @ManyToOne
-    @JoinColumn(name = "question_id") // This links Answer to Question
-    @JsonBackReference
-    private QuizQuestion question; // Ensure this is the correct entity type
+    @JoinColumn(name = "id_quiz")
+    private Quiz quiz;
 }

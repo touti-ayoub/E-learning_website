@@ -27,9 +27,6 @@ public class User {
     @Column(nullable = false)
     private String role;
 
-    @Column(nullable = false)
-    private String email;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Subscription> subscriptions = new ArrayList<>();
 
@@ -71,13 +68,5 @@ public class User {
 
     public void setSubscriptions(List<Subscription> subscriptions) {
         this.subscriptions = subscriptions;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 }

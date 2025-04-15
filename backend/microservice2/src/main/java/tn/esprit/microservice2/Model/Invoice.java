@@ -1,11 +1,10 @@
 package tn.esprit.microservice2.Model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -17,190 +16,31 @@ public class Invoice {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "invoice_number", unique = true, nullable = false)
-    private String invoiceNumber;
-
     @OneToOne
     @JoinColumn(name = "payment_id", nullable = false)
     private Payment payment;
 
-    // Essential financial information
-    @Column(name = "total_amount", nullable = false, precision = 10, scale = 2)
-    private BigDecimal totalAmount;
+    @Column(unique = true)
+    private String invoiceNumber;
 
-    @Column(name = "subtotal", nullable = false, precision = 10, scale = 2)
-    private BigDecimal subtotal;
-
-    @Column(name = "tax_amount", nullable = false, precision = 10, scale = 2)
-    private BigDecimal taxAmount;
-
-    @Column(name = "installment_number")
-    private Integer installmentNumber;
-
-    public Integer getTotalInstallments() {
-        return totalInstallments;
-    }
-
-    public void setTotalInstallments(Integer totalInstallments) {
-        this.totalInstallments = totalInstallments;
-    }
-
-    public Integer getInstallmentNumber() {
-        return installmentNumber;
-    }
-
-    public void setInstallmentNumber(Integer installmentNumber) {
-        this.installmentNumber = installmentNumber;
-    }
-
-    @Column(name = "total_installments")
-    private Integer totalInstallments;
-    // Essential date information
-    @Column(name = "issued_date", nullable = false)
+    private String pdfUrl;
     private LocalDateTime issuedDate;
-
-    @Column(name = "due_date", nullable = true)
     private LocalDateTime dueDate;
+    private Double totalAmount;
+    private Double taxAmount;
 
-    // Essential status information
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false, length = 20)
     private InvoiceStatus status;
 
-    // Basic payment information
-    @Column(name = "currency", length = 3)
-    private String currency;
+    @Column(updatable = false)
+    private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Column(name = "payment_method")
-    private String paymentMethod;
-
-    // Minimal customer information
-    @Column(name = "user_id", nullable = false)
-    private Long userId;
-
-    @Column(name = "user_name")
-    private String userName;
-
-    // Minimal purchase information
-    @Column(name = "course_id")
-    private Long courseId;
-
-    @Column(name = "course_name")
-    private String courseName;
-
-    // Minimal audit fields
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    // Pre-persist hook
-    @PrePersist
-    public void prePersist() {
-        this.createdAt = LocalDateTime.now();
+    public Long getId() {
+        return id;
     }
 
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public Long getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Long courseId) {
-        this.courseId = courseId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getPaymentMethod() {
-        return paymentMethod;
-    }
-
-    public void setPaymentMethod(String paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public InvoiceStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(InvoiceStatus status) {
-        this.status = status;
-    }
-
-    public LocalDateTime getDueDate() {
-        return dueDate;
-    }
-
-    public void setDueDate(LocalDateTime dueDate) {
-        this.dueDate = dueDate;
-    }
-
-    public LocalDateTime getIssuedDate() {
-        return issuedDate;
-    }
-
-    public void setIssuedDate(LocalDateTime issuedDate) {
-        this.issuedDate = issuedDate;
-    }
-
-    public BigDecimal getTaxAmount() {
-        return taxAmount;
-    }
-
-    public void setTaxAmount(BigDecimal taxAmount) {
-        this.taxAmount = taxAmount;
-    }
-
-    public BigDecimal getSubtotal() {
-        return subtotal;
-    }
-
-    public void setSubtotal(BigDecimal subtotal) {
-        this.subtotal = subtotal;
-    }
-
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
-
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Payment getPayment() {
@@ -219,11 +59,59 @@ public class Invoice {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public Long getId() {
-        return id;
+    public String getPdfUrl() {
+        return pdfUrl;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPdfUrl(String pdfUrl) {
+        this.pdfUrl = pdfUrl;
+    }
+
+    public LocalDateTime getIssuedDate() {
+        return issuedDate;
+    }
+
+    public void setIssuedDate(LocalDateTime issuedDate) {
+        this.issuedDate = issuedDate;
+    }
+
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDateTime dueDate) {
+        this.dueDate = dueDate;
+    }
+
+    public Double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(Double totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public Double getTaxAmount() {
+        return taxAmount;
+    }
+
+    public void setTaxAmount(Double taxAmount) {
+        this.taxAmount = taxAmount;
+    }
+
+    public InvoiceStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(InvoiceStatus status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

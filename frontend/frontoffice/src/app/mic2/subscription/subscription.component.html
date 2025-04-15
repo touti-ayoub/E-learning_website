@@ -1,202 +1,72 @@
-<div class="subscription-container">
-  <!-- Header with current info -->
-  <div class="user-info-bar">
-    <div class="user-badge">
-      <i class="fas fa-user-circle"></i>
-      <span>{{storedUsername || 'iitsMahdi'}}</span>
-    </div>
-    <div class="timestamp">
-      <i class="fas fa-clock"></i>
-      <span>{{currentDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
-    </div>
-  </div>
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-3xl">
+  <h2 class="text-2xl font-bold text-center text-blue-600">Class Details</h2>
 
-  <div class="subscription-content">
-    <h1 class="page-title">
-      Course <span class="highlight-text">Subscription</span>
-      <div class="title-underline"></div>
-    </h1>
-
-    <div *ngIf="!course" class="error-message">
-      <div class="message-icon">
-        <i class="fas fa-exclamation-triangle"></i>
-      </div>
-      <div class="message-content">
-        <h3>Course Not Found</h3>
-        <p>Please go back and select a valid course.</p>
-      </div>
+  <div class="p-4 space-y-4">
+    <!-- Existing course details -->
+    <div class="bg-gray-100 p-3 rounded-md">
+      <strong>📘 Title:</strong> {{ course?.title }}
     </div>
 
-    <div *ngIf="course" class="course-details-container">
-      <!-- Course Card -->
-      <div class="course-card">
-        <div class="course-header">
-          <div class="course-badge">Course Details</div>
-          <h2 class="course-title">{{course.title}}</h2>
+    <div class="bg-green-100 p-3 rounded-md">
+      <strong>👨‍🏫 Instructor:</strong> {{ course?.instructor }}
+    </div>
+
+    <div class="bg-purple-100 p-3 rounded-md">
+      <strong>💰 Price:</strong> ${{ course?.price }}
+    </div>
+
+    <!-- Payment Options -->
+    <div class="bg-blue-50 p-4 rounded-md">
+      <h3 class="text-lg font-semibold mb-3">Payment Options</h3>
+
+      <div class="space-y-3">
+        <!-- Payment Type Selection -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700">Payment Type</label>
+          <select
+            [(ngModel)]="selectedPaymentType"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+            <option *ngFor="let type of paymentTypes" [value]="type">
+              {{type}}
+            </option>
+          </select>
         </div>
 
-        <div class="course-info">
-          <div class="info-item">
-            <div class="info-icon">
-              <i class="fas fa-chalkboard-teacher"></i>
-            </div>
-            <div class="info-content">
-              <span class="info-label">Instructor</span>
-              <span class="info-value">{{course.instructor}}</span>
-            </div>
-          </div>
-
-          <div class="info-item">
-            <div class="info-icon price-icon">
-              <i class="fas fa-tags"></i>
-            </div>
-            <div class="info-content">
-              <span class="info-label">Price</span>
-              <span class="info-value price">${{course.price}}</span>
-            </div>
-          </div>
+        <!-- Installments (only show if INSTALLMENT is selected) -->
+        <div *ngIf="selectedPaymentType === 'INSTALLMENT'">
+          <label class="block text-sm font-medium text-gray-700">Number of Installments</label>
+          <input
+            type="number"
+            [(ngModel)]="installments"
+            min="2"
+            max="12"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
         </div>
 
-        <!-- Payment Options -->
-        <div class="payment-options">
-          <h3 class="section-title">
-            <i class="fas fa-credit-card"></i>
-            Payment Options
-          </h3>
-
-          <div class="options-container">
-            <!-- Payment Type Selection -->
-            <div class="option-group">
-              <label>Payment Type</label>
-              <div class="payment-type-selector">
-                <div class="payment-type-option"
-                     [class.active]="selectedPaymentType === 'FULL'"
-                     (click)="selectedPaymentType = 'FULL'">
-                  <div class="option-icon">
-                    <i class="fas fa-money-bill-wave"></i>
-                  </div>
-                  <div class="option-details">
-                    <span class="option-title">Full Payment</span>
-                    <span class="option-description">Pay the entire amount at once</span>
-                  </div>
-                  <div class="option-radio">
-                    <div class="radio-circle" [class.checked]="selectedPaymentType === 'FULL'"></div>
-                  </div>
-                </div>
-
-                <div class="payment-type-option"
-                     [class.active]="selectedPaymentType === 'INSTALLMENTS'"
-                     (click)="selectedPaymentType = 'INSTALLMENTS'">
-                  <div class="option-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                  </div>
-                  <div class="option-details">
-                    <span class="option-title">Installment Plan</span>
-                    <span class="option-description">Divide payment into monthly installments</span>
-                  </div>
-                  <div class="option-radio">
-                    <div class="radio-circle" [class.checked]="selectedPaymentType === 'INSTALLMENTS'"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Installments (only show if INSTALLMENT is selected) -->
-            <div class="option-group installment-options" *ngIf="selectedPaymentType === 'INSTALLMENTS'">
-              <label>Number of Installments</label>
-              <div class="installment-selector">
-                <div class="installment-option"
-                     [class.active]="installments === 3"
-                     (click)="installments = 3">
-                  <span class="installment-number">3</span>
-                  <span class="installment-text">months</span>
-                  <span class="installment-amount">${{(course.price / 3).toFixed(2)}}/mo</span>
-                </div>
-
-                <div class="installment-option"
-                     [class.active]="installments === 6"
-                     (click)="installments = 6">
-                  <span class="installment-number">6</span>
-                  <span class="installment-text">months</span>
-                  <span class="installment-amount">${{(course.price / 6).toFixed(2)}}/mo</span>
-                </div>
-
-                <div class="installment-option"
-                     [class.active]="installments === 9"
-                     (click)="installments = 9">
-                  <span class="installment-number">9</span>
-                  <span class="installment-text">months</span>
-                  <span class="installment-amount">${{(course.price / 9).toFixed(2)}}/mo</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Auto Renewal Option -->
-            <div class="option-group auto-renew">
-              <div class="toggle-switch">
-                <input type="checkbox" id="autoRenew" [(ngModel)]="autoRenew">
-                <label for="autoRenew" class="toggle-label">
-                  <span class="toggle-button"></span>
-                </label>
-                <div class="toggle-text">
-                  <span class="toggle-title">Auto-Renewal</span>
-                  <span class="toggle-description">Automatically renew your subscription when it expires</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Summary Section -->
-        <div class="payment-summary">
-          <h3 class="section-title">
-            <i class="fas fa-receipt"></i>
-            Summary
-          </h3>
-
-          <div class="summary-details">
-            <div class="summary-row">
-              <span>Course</span>
-              <span>{{course.title}}</span>
-            </div>
-            <div class="summary-row">
-              <span>Payment Type</span>
-              <span>{{selectedPaymentType === 'FULL' ? 'Full Payment' : 'Installment Plan'}}</span>
-            </div>
-            <div class="summary-row" *ngIf="selectedPaymentType === 'INSTALLMENTS'">
-              <span>Installments</span>
-              <span>{{installments}} months</span>
-            </div>
-            <div class="summary-row" *ngIf="selectedPaymentType === 'INSTALLMENTS'">
-              <span>Monthly Payment</span>
-              <span>${{getMonthlyPayment().toFixed(2)}}</span>
-            </div>
-            <div class="summary-row total">
-              <span>Total Price</span>
-              <span>${{course.price}}</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Error Message -->
-        <div class="error-banner" *ngIf="error">
-          <i class="fas fa-exclamation-circle"></i>
-          <span>{{error}}</span>
-        </div>
-
-        <!-- Submit Button -->
-        <div class="action-buttons">
-          <button class="btn-back" (click)="goo()">
-            <i class="fas fa-arrow-left"></i>
-            Back to Courses
-          </button>
-          <button class="btn-proceed" [disabled]="loading" (click)="proceedToPayment()">
-            <span>{{loading ? 'Processing...' : 'Proceed to Payment'}}</span>
-            <div *ngIf="loading" class="button-spinner"></div>
-            <i *ngIf="!loading" class="fas fa-arrow-right"></i>
-          </button>
+        <!-- Auto Renewal Option -->
+        <div class="flex items-center">
+          <input
+            type="checkbox"
+            [(ngModel)]="autoRenew"
+            class="h-4 w-4 text-blue-600 rounded border-gray-300">
+          <label class="ml-2 text-sm text-gray-700">Enable Auto-Renewal</label>
         </div>
       </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="error" class="bg-red-100 text-red-700 p-3 rounded-md">
+      {{ error }}
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button
+        [disabled]="loading"
+        class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-800 transition disabled:bg-blue-300"
+        (click)="proceedToPayment()">
+        {{ loading ? 'Processing...' : 'Proceed to Payment' }}
+      </button>
     </div>
   </div>
 </div>

@@ -1,31 +1,33 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { AppRoutingModule } from './app.routing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { MaterialModule } from './shared/material.module';
 import { ComponentsModule } from './components/components.module';
+
+// Components
 import { AppComponent } from './app.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
-import { QuizCreateComponent } from './assessments/quiz-create/quiz-create.component';
-import { QuizQuestionsComponent } from './assessments/quiz-questions/quiz-questions.component';
+
+// Routing
+import { AppRoutingModule } from './app.routing';
 
 @NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    ComponentsModule,
-    RouterModule,
-    AppRoutingModule,
-  ],
   declarations: [
     AppComponent,
-    AdminLayoutComponent,
-    QuizCreateComponent,
-    QuizQuestionsComponent,
-
+    AdminLayoutComponent
+  ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    RouterModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MaterialModule,
+    ComponentsModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,28 +1,26 @@
 package tn.esprit.microservice.controllers;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.microservice.entities.QuizResult;
 import tn.esprit.microservice.services.QuizResultService;
 
+import java.util.List;
 
 @RestController
-@RequestMapping("/answers")
+@RequestMapping("/results")
+@RequiredArgsConstructor
 public class QuizResultController {
+    private final QuizResultService quizResultService;
 
-    @Autowired
-    private QuizResultService answerService;
-
-    // Create a new answer
-    @PostMapping("/create")
-    public QuizResult createAnswer(@RequestBody QuizResult answer) {
-        return answerService.createAnswer(answer);
+    @PostMapping
+    public QuizResult saveQuizResult(@RequestBody QuizResult quizResult) {
+        return quizResultService.saveQuizResult(quizResult);
     }
 
-    // Get an answer by ID
-    @GetMapping("/{id}")
-    public QuizResult getAnswerById(@PathVariable Long id) {
-        return answerService.getAnswerById(id);
+    @GetMapping("/user/{userId}")
+    public List<QuizResult> getResultsByUserId(@PathVariable Long userId) {
+        return quizResultService.getResultsByUserId(userId);
     }
 }

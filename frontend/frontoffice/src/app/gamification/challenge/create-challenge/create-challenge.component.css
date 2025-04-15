@@ -1,0 +1,52 @@
+.create-challenge-container {
+  padding: 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.challenge-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+}
+
+.badge-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+mat-card {
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .create-challenge-container {
+    padding: 16px;
+  }
+
+  .challenge-form {
+    padding: 16px;
+  }
+}

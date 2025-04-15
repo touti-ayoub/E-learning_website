@@ -1,12 +1,8 @@
 package tn.esprit.microservice.entities;
 
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
-import org.aspectj.weaver.patterns.TypePatternQuestions;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -14,12 +10,16 @@ import java.util.List;
 public class Quiz {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idQuiz;
 
-    private String title;
-    private String description;
+    private Long courseId;
+    private String quizName;
+    private int totalQuestion;
+    private int passingScore;
 
-    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, orphanRemoval = true)
-    @JsonManagedReference
-    private List<QuizQuestion> questions = new ArrayList<>();
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<QuizQuestion> questions;
+
+    @OneToMany(mappedBy = "quiz", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<QuizResult> results;
 }

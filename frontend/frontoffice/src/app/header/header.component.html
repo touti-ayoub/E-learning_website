@@ -8,7 +8,6 @@
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <div class="navbar-nav ms-auto p-4 p-lg-0">
       <a routerLink="/home" class="nav-item nav-link active">Home</a>
-      <a routerLink="/quizzes/list" class="nav-item nav-link">Take A Quiz</a>
       <a routerLink="/aboutus" class="nav-item nav-link">About</a>
       <a routerLink="/courses" class="nav-item nav-link">Courses</a>
       <div class="nav-item dropdown">
@@ -22,64 +21,44 @@
       <a href="/contact" class="nav-item nav-link">Contact</a>
     </div>
 
-    <div *ngIf="isLoggedIn; else joinNowBlock" class="user-profile-container">
+    <div *ngIf="isLoggedIn; else joinNowBlock" class="d-flex align-items-center">
       <div class="nav-item dropdown">
         <a href="#" class="nav-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-          <div class="user-avatar" [style.background-color]="getUserColor()">
-            {{ username[0] | uppercase }}
+          <div class="user-avatar me-2">
+            {{ username[0] | uppercase }} <!-- Shows first letter of username -->
           </div>
-          <span class="username-text">{{ username }}</span>
-          <i class="fas fa-chevron-down dropdown-arrow"></i>
+          {{ username }}
         </a>
-
-        <div class="dropdown-menu fade-down">
-          <!-- User Header -->
-          <div class="dropdown-header">
+        <div class="dropdown-menu fade-down m-0">
+          <div class="px-3 py-2">
             <div class="d-flex align-items-center gap-3">
-              <div class="user-avatar large" [style.background-color]="getUserColor()">
+              <div class="user-avatar">
                 {{ username[0] | uppercase }}
               </div>
-              <div class="user-info">
-                <div class="username">{{ username }}</div>
-                <div class="user-role">Student Account</div>
-                <div class="user-date">{{ currentDate | date:'yyyy-MM-dd HH:mm:ss' }}</div>
+              <div>
+                <div class="fw-500">{{ username }}</div>
+                <div class="text-muted small">Student Account</div>
               </div>
             </div>
           </div>
-
           <div class="dropdown-divider"></div>
-
-          <!-- Menu Items -->
           <a routerLink="/profile" class="dropdown-item">
-            <i class="fas fa-user-cog"></i>
-            <span>Profile Settings</span>
+            <i class="fas fa-user-cog me-2"></i>
+            Profile Settings
           </a>
-
           <a routerLink="/my-courses" class="dropdown-item">
-            <i class="fas fa-book-open"></i>
-            <span>My Courses</span>
+            <i class="fas fa-book-open me-2"></i>
+            My Courses
           </a>
-
-          <a routerLink="/payment_hist" class="dropdown-item">
-            <i class="fas fa-credit-card"></i>
-            <span>My Subscriptions</span>
-          </a>
-
           <div class="dropdown-divider"></div>
-
           <a (click)="logout()" class="dropdown-item logout-item">
-            <i class="fas fa-sign-out-alt"></i>
-            <span>Log Out</span>
+            <i class="fas fa-sign-out-alt me-2"></i>
+            Log Out
           </a>
         </div>
       </div>
     </div>
 
-    <ng-template #joinNowBlock>
-      <a routerLink="/register" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block join-now-btn">
-        Join Now<i class="fa fa-arrow-right ms-3"></i>
-      </a>
-    </ng-template>
     <ng-template #joinNowBlock>
       <a routerLink="/register" class="btn btn-primary py-4 px-lg-5 d-none d-lg-block">
         Join Now<i class="fa fa-arrow-right ms-3"></i>

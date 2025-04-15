@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {AuthService, RegisterRequest} from "../../../services/auth/auth.service";
+import {AuthService, RegisterRequest} from "../../services/auth/auth.service";
 import {Router} from "@angular/router";
 import Swal from 'sweetalert2';
 
