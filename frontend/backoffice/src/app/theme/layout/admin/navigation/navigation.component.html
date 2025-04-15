@@ -1,0 +1,19 @@
+<nav class="">
+  <div class="navbar-wrapper">
+    <div class="m-header">
+      <a [routerLink]="['/default/']" class="b-brand">
+        <ng-container *ngIf="themeMode === 'compact'; else fullLogo">
+          <img src="assets/images/Logo-small.svg" alt="small-menu-logo" class="logo logo-sm" />
+        </ng-container>
+        <ng-template #fullLogo>
+          <img src="assets/images/logo.svg" alt="logo" class="logo logo-lg" />
+        </ng-template>
+      </a>
+    </div>
+    <app-nav-content
+      (NavCollapsedMob)="navCollapseMob()"
+      (SubmenuCollapse)="navSubmenuCollapse()"
+      class="scroll-div w-100 compact">
+    </app-nav-content>
+  </div>
+</nav>

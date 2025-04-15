@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="tpFoyer-17" />
+        <module name="microservice2" />
         <module name="eureka" />
         <module name="gateway" />
       </profile>
@@ -20,6 +21,7 @@
         </processorPath>
         <module name="microservice2" />
         <module name="microservice4" />
+        <module name="microservice5" />
       </profile>
     </annotationProcessing>
   </component>
