@@ -69,4 +69,8 @@ public interface IPaymentScheduleRepository extends JpaRepository<PaymentSchedul
             @Param("dueDate") LocalDate dueDate);
 
     List<PaymentSchedule> findAll(Specification<PaymentSchedule> spec);
+
+    // Add this method to your PaymentScheduleRepository
+    long countByStatusAndDueDateBefore(PaymentScheduleStatus status, LocalDate date);
+
 }

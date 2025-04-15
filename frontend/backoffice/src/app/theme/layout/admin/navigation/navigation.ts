@@ -16,6 +16,7 @@ export interface NavigationItem {
 }
 
 export const NavigationItems: NavigationItem[] = [
+  
   {
     id: 'dashboard',
     title: 'Dashboard',
@@ -30,6 +31,86 @@ export const NavigationItems: NavigationItem[] = [
         url: '/default',
         icon: 'ti ti-dashboard',
         breadcrumbs: false
+      }
+    ]
+  },
+  {
+    id: 'payments',
+    title: 'Payments',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'main_dashbaord',
+        title: 'Main Dashboard',
+        type: 'item',
+        url: 'admin/pay_dashboard',
+        target: true,
+        breadcrumbs: false
+      },
+      {
+        id: 'Subscription',
+        title: 'Subscription',
+        type: 'collapse',
+        icon: 'ti ti-key',
+        children: [
+          {//to change
+            id: 'subscription_list',
+            title: 'Subscription List',
+            type: 'item',
+            url: '/Sub/list',
+            target: true,
+            breadcrumbs: false
+          },
+          {
+            id: '******',
+            title: '*****',
+            type: 'item',
+            url: '/guest/register',
+            target: true,
+            breadcrumbs: false
+          }
+        ]
+      },
+      {
+        id: 'Coupon',
+        title: 'Coupon',
+        type: 'collapse',
+        icon: 'ti ti-key',
+        children: [
+          {//to change
+            id: 'create-coupon',
+            title: 'Create Coupon',
+            type: 'item',
+            url: '/coupon/create-coupon',
+            target: true,
+            breadcrumbs: false
+          },
+          {
+            id: 'coupon_list',
+            title: 'Coupon List',
+            type: 'item',
+            url: '/coupon/list',
+            target: true,
+            breadcrumbs: false
+          }
+        ]
+      },
+      {
+        id: 'Payment',
+        title: 'Payment',
+        type: 'collapse',
+        icon: 'ti ti-key',
+        children: [
+          {
+            id: 'Payment_list',
+            title: 'Payment List',
+            type: 'item',
+            url: '/Payment/list',
+            target: true,
+            breadcrumbs: false
+          }
+        ]
       }
     ]
   },
