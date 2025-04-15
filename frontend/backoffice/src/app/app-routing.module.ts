@@ -40,6 +40,16 @@ const routes: Routes = [
         path: 'events',
         loadComponent: () =>
           import('./Component/event-list/event-list.component').then((m) => m.EventListComponent)
+      },
+      {
+        path: 'coupon/create-coupon',
+        loadComponent: () =>
+          import('./Component/Payments/add-coupon/add-coupon.component').then((m) => m.AddCouponComponent)
+      },
+      {
+        path: 'admin/pay_dashboard',
+        loadComponent: () =>
+          import('./Component/Payments/dashboard-summary/dashboard-summary.component').then((m) => m.DashboardSummaryComponent)
       }
     ]
   },

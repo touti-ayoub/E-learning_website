@@ -24,7 +24,7 @@ export class PaymentHistComponent implements OnInit {
   groupedSchedules: Record<string, GroupedSchedule> = {};
   currentUser: string="";
   userId: number | null = null;
-  currentDate:Date = new Date('2025-03-02T19:09:05');
+  currentDate:Date = new Date();
 
   constructor(
     private paymentService: PaymentService,
