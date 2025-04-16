@@ -13,6 +13,15 @@
         <module name="eureka" />
         <module name="gateway" />
       </profile>
+      <profile name="Annotation profile for microservice1" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+        </processorPath>
+        <module name="microservice1" />
+      </profile>
       <profile name="Annotation profile for microservice5" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -41,7 +50,7 @@
       <module name="gateway" options="-parameters" />
       <module name="microservice" options="-parameters" />
       <module name="microservice1" options="-parameters" />
-      <module name="microservice2" options="-parameters" />
+      <module name="microservice2" options="" />
       <module name="microservice3" options="-parameters" />
       <module name="microservice4" options="-parameters" />
       <module name="microservice5" options="-parameters" />

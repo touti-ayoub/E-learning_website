@@ -39,19 +39,7 @@ export class CourseAccessService {
   checkCourseAccess(userId: number, courseId: number): Observable<CourseAccessResponseDTO> {
     console.log(`Checking access for user ${userId} to course ${courseId}`);
     
-    // DEVELOPMENT MODE - Always return access granted
-    // Skip API call completely to avoid CORS/network issues during development
-    const fakeResponse: CourseAccessResponseDTO = {
-      hasAccess: true,
-      message: "Development mode: Access granted for testing",
-      userId: userId,
-      courseId: courseId
-    };
-    
-    console.log('DEV MODE: Returning fake response', fakeResponse);
-    return of(fakeResponse);
-    
-    /* PRODUCTION CODE - Uncomment for real API calls
+    // PRODUCTION CODE
     const requestBody = { userId, courseId };
     
     return this.http.post<CourseAccessResponseDTO>(
@@ -62,28 +50,38 @@ export class CourseAccessService {
       tap(response => console.log('Course access check result:', response)),
       catchError(error => {
         console.error('Course access check error:', error);
-        // Return a fake response for development
+        // Return a denied access response on error
         return of({
-          hasAccess: true, // Default to access granted during development
-          message: "Error checking access, defaulting to granted",
+          hasAccess: false,
+          message: "Error checking access, defaulting to denied",
           userId: userId,
           courseId: courseId
         });
       })
     );
-    */
   }
 
   /**
-   * Request access to a course - DEVELOPMENT STUB
+   * Request access to a course
    */
   requestCourseAccess(userId: number, courseId: number): Observable<CourseAccessResponseDTO> {
-    // DEVELOPMENT MODE - Always return success
-    return of({
-      hasAccess: true,
-      message: "Development mode: Access request granted",
-      userId: userId,
-      courseId: courseId
-    });
+    const requestBody = { userId, courseId };
+    
+    return this.http.post<CourseAccessResponseDTO>(
+      `${this.apiUrl}/request-access`, 
+      requestBody,
+      this.httpOptions
+    ).pipe(
+      tap(response => console.log('Course access request result:', response)),
+      catchError(error => {
+        console.error('Course access request error:', error);
+        return of({
+          hasAccess: false,
+          message: "Error processing access request",
+          userId: userId,
+          courseId: courseId
+        });
+      })
+    );
   }
 } 

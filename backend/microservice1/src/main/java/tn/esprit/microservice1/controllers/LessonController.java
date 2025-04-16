@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tn.esprit.microservice1.entities.Lesson;
+import tn.esprit.microservice1.services.CourseAccessClientService;
 import tn.esprit.microservice1.services.LessonService;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -24,25 +25,48 @@ import java.util.NoSuchElementException;
 @RequestMapping("/api/lessons")
 public class LessonController {
     private final LessonService lessonService;
+    private final CourseAccessClientService courseAccessService;
     private final Logger logger = LoggerFactory.getLogger(LessonController.class);
     
     @Value("${app.upload.dir:${user.home}/uploads/presentations}")
     private String uploadDir;
 
-    public LessonController(LessonService lessonService) {
+    public LessonController(LessonService lessonService, CourseAccessClientService courseAccessService) {
         this.lessonService = lessonService;
+        this.courseAccessService = courseAccessService;
     }
 
     /**
      * Get a lesson by its ID
      *
      * @param id The lesson ID
-     * @return The lesson if found
+     * @param userId Optional user ID for access control
+     * @return The lesson if found and accessible
      */
     @GetMapping("/{id}")
-    public ResponseEntity<?> getLessonById(@PathVariable Long id) {
+    public ResponseEntity<?> getLessonById(
+            @PathVariable Long id,
+            @RequestParam(name = "userId", required = false) Long userId) {
         try {
             Lesson lesson = lessonService.getLessonById(id);
+            
+            // Check course access if userId is provided
+            if (userId != null && lesson.getCourse() != null) {
+                Long courseId = lesson.getCourse().getId();
+                
+                // If course is paid, check if user has access
+                if (!courseAccessService.isCoursePublic(courseId)) {
+                    if (!courseAccessService.checkCourseAccess(userId, courseId)) {
+                        logger.warn("Access denied: User {} does not have access to course {}", userId, courseId);
+                        return new ResponseEntity<>(Map.of(
+                            "error", "Access denied",
+                            "message", "You need to purchase this course to access its content",
+                            "courseId", courseId
+                        ), HttpStatus.FORBIDDEN);
+                    }
+                }
+            }
+            
             return ResponseEntity.ok(lesson);
         } catch (NoSuchElementException e) {
             logger.error("Lesson not found: {}", e.getMessage());
@@ -155,15 +179,31 @@ public class LessonController {
     }
 
     /**
-     * Get a presentation as a downloadable file
-     *
-     * @param id The lesson ID
-     * @return The presentation file
+     * Download a presentation - Access controlled
      */
     @GetMapping(value = "/{id}/presentation/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<?> downloadPresentation(@PathVariable Long id) {
+    public ResponseEntity<?> downloadPresentation(
+            @PathVariable Long id,
+            @RequestParam(name = "userId", required = false) Long userId) {
         try {
             Lesson lesson = lessonService.getLessonById(id);
+            
+            // Check course access if userId is provided
+            if (userId != null && lesson.getCourse() != null) {
+                Long courseId = lesson.getCourse().getId();
+                
+                // If course is paid, check if user has access
+                if (!courseAccessService.isCoursePublic(courseId)) {
+                    if (!courseAccessService.checkCourseAccess(userId, courseId)) {
+                        logger.warn("Access denied: User {} does not have access to course {}", userId, courseId);
+                        return new ResponseEntity<>(Map.of(
+                            "error", "Access denied",
+                            "message", "You need to purchase this course to access its content",
+                            "courseId", courseId
+                        ), HttpStatus.FORBIDDEN);
+                    }
+                }
+            }
             
             if (lesson.getPresentationUrl() == null || lesson.getPresentationUrl().isEmpty()) {
                 return new ResponseEntity<>(Map.of("error", "No presentation available for this lesson"), HttpStatus.NOT_FOUND);
@@ -262,94 +302,143 @@ public class LessonController {
     }
     
     /**
-     * View the converted presentation as HTML
-     *
-     * @param id The lesson ID
-     * @return The HTML content of the converted presentation
+     * View presentation HTML - Access controlled
      */
     @GetMapping(value = "/{id}/presentation/view", produces = MediaType.TEXT_HTML_VALUE)
-    public ResponseEntity<?> viewPresentationHtml(@PathVariable Long id) {
+    public ResponseEntity<?> viewPresentationHtml(
+            @PathVariable Long id,
+            @RequestParam(name = "userId", required = false) Long userId) {
         try {
-            logger.info("Viewing HTML presentation for lesson ID: {}", id);
+            Lesson lesson = lessonService.getLessonById(id);
             
-            if (!lessonService.isPresentationConverted(id)) {
-                logger.warn("Presentation not converted yet for lesson ID: {}", id);
-                return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .header("Access-Control-Allow-Origin", "*") // Allow cross-origin for error responses too
-                    .contentType(MediaType.TEXT_HTML)
-                    .body("<html><body><h1>Presentation Not Available</h1><p>The presentation has not been converted yet.</p></body></html>");
+            // Check course access if userId is provided
+            if (userId != null && lesson.getCourse() != null) {
+                Long courseId = lesson.getCourse().getId();
+                
+                // If course is paid, check if user has access
+                if (!courseAccessService.isCoursePublic(courseId)) {
+                    if (!courseAccessService.checkCourseAccess(userId, courseId)) {
+                        logger.warn("Access denied: User {} does not have access to course {}", userId, courseId);
+                        
+                        // Return HTML with access denied message instead of JSON
+                        String accessDeniedHtml = "<html><body><h1>Access Denied</h1>" +
+                            "<p>You need to purchase this course to access its content.</p>" +
+                            "<p><a href='/courses/" + courseId + "'>View Course</a></p></body></html>";
+                        
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                            .contentType(MediaType.TEXT_HTML)
+                            .body(accessDeniedHtml);
+                    }
+                }
             }
             
-            String htmlContent = lessonService.getConvertedPresentationHtml(id);
-            logger.debug("Retrieved HTML content length: {}", htmlContent != null ? htmlContent.length() : 0);
-            return ResponseEntity.ok()
-                .header("Access-Control-Allow-Origin", "*") // Allow cross-origin access
-                .contentType(MediaType.TEXT_HTML)
-                .body(htmlContent);
+            // Check if converted presentation HTML content is available
+            if (lesson.getPresentationHtmlContent() == null || lesson.getPresentationHtmlContent().isEmpty()) {
+                // Check conversion status
+                String status = lesson.getPresentationConversionStatus();
+                
+                if ("PENDING".equals(status)) {
+                    return ResponseEntity.ok(
+                        "<html><body><h1>Converting Presentation</h1>" +
+                        "<p>Your presentation is currently being converted. Please try again in a few moments.</p>" +
+                        "</body></html>"
+                    );
+                } else if ("FAILED".equals(status)) {
+                    return ResponseEntity.ok(
+                        "<html><body><h1>Conversion Failed</h1>" +
+                        "<p>We couldn't convert this presentation to HTML format. Please download it instead.</p>" +
+                        "</body></html>"
+                    );
+                } else {
+                    // Not yet converted or unknown status
+                    lessonService.triggerPresentationConversion(id);
+                    return ResponseEntity.ok(
+                        "<html><body><h1>Not Available</h1>" +
+                        "<p>Presentation is not available in HTML format. Please try again later or contact support.</p>" +
+                        "</body></html>"
+                    );
+                }
+            }
+            
+            // Return the converted HTML content
+            return ResponseEntity.ok(lesson.getPresentationHtmlContent());
         } catch (NoSuchElementException e) {
             logger.error("Lesson not found: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .header("Access-Control-Allow-Origin", "*")
-                .contentType(MediaType.TEXT_HTML)
-                .body("<html><body><h1>Not Found</h1><p>" + e.getMessage() + "</p></body></html>");
+            return new ResponseEntity<>(
+                "<html><body><h1>Not Found</h1><p>The requested lesson could not be found.</p></body></html>", 
+                HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            logger.error("Error viewing HTML presentation", e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .header("Access-Control-Allow-Origin", "*")
-                .contentType(MediaType.TEXT_HTML)
-                .body("<html><body><h1>Error</h1><p>" + e.getMessage() + "</p></body></html>");
+            logger.error("Error viewing presentation", e);
+            return new ResponseEntity<>(
+                "<html><body><h1>Error</h1><p>An error occurred while trying to view this presentation.</p></body></html>", 
+                HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
-     * Get presentation images
-     * 
-     * @param id The lesson ID
-     * @param slideId The slide ID
-     * @param imageName The image name
-     * @return The image data
+     * Get image from the presentation - Access controlled
      */
     @GetMapping("/{id}/presentation/images/{slideId}/{imageName}")
     public ResponseEntity<byte[]> getPresentationImage(
             @PathVariable Long id,
             @PathVariable Integer slideId,
-            @PathVariable String imageName) {
-        logger.info("Getting presentation image for lesson ID: {}, slide: {}, image: {}", id, slideId, imageName);
-        
+            @PathVariable String imageName,
+            @RequestParam(name = "userId", required = false) Long userId) {
         try {
-            // Get the lesson to verify it exists
             Lesson lesson = lessonService.getLessonById(id);
-            if (lesson == null) {
+            
+            // Check course access if userId is provided
+            if (userId != null && lesson.getCourse() != null) {
+                Long courseId = lesson.getCourse().getId();
+                
+                // If course is paid, check if user has access
+                if (!courseAccessService.isCoursePublic(courseId)) {
+                    if (!courseAccessService.checkCourseAccess(userId, courseId)) {
+                        logger.warn("Access denied: User {} does not have access to course {}", userId, courseId);
+                        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+                    }
+                }
+            }
+            
+            // If the lesson doesn't have an image path pattern, construct one
+            String imagePath;
+            if (lesson.getPresentationImagePath() == null || lesson.getPresentationImagePath().isEmpty()) {
+                // Fallback to a standard path structure
+                imagePath = uploadDir + "/images/" + id + "/" + slideId + "/" + imageName;
+                logger.warn("No image path pattern available for lesson ID: {}, using fallback: {}", id, imagePath);
+            } else {
+                // Use the stored path pattern
+                imagePath = lesson.getPresentationImagePath()
+                        .replace("{slideId}", slideId.toString())
+                        .replace("{imageName}", imageName);
+            }
+            
+            File imageFile = new File(imagePath);
+            
+            if (!imageFile.exists() || !imageFile.isFile()) {
+                logger.warn("Image file not found: {}", imagePath);
                 return ResponseEntity.notFound().build();
             }
             
-            // Build the path to the image file
-            String imagesDir = uploadDir + "/images/" + id;
-            File imageFile = new File(imagesDir, imageName);
-            
-            // Check if file exists
-            if (!imageFile.exists()) {
-                logger.warn("Image file not found: {}", imageFile.getAbsolutePath());
-                return ResponseEntity.notFound().build();
-            }
-            
-            // Read the image file
             byte[] imageBytes = Files.readAllBytes(imageFile.toPath());
             
-            // Set appropriate headers
-            HttpHeaders headers = new HttpHeaders();
-            headers.setCacheControl("max-age=31536000"); // Cache for 1 year
-            headers.setContentType(MediaType.IMAGE_PNG);
-            
-            // Add CORS headers
-            headers.add("Access-Control-Allow-Origin", "*");
-            headers.add("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-            headers.add("Access-Control-Allow-Headers", "*");
-            headers.add("Access-Control-Expose-Headers", "Content-Disposition");
+            MediaType mediaType;
+            if (imageName.toLowerCase().endsWith(".png")) {
+                mediaType = MediaType.IMAGE_PNG;
+            } else if (imageName.toLowerCase().endsWith(".jpg") || imageName.toLowerCase().endsWith(".jpeg")) {
+                mediaType = MediaType.IMAGE_JPEG;
+            } else if (imageName.toLowerCase().endsWith(".gif")) {
+                mediaType = MediaType.IMAGE_GIF;
+            } else {
+                mediaType = MediaType.APPLICATION_OCTET_STREAM;
+            }
             
             return ResponseEntity.ok()
-                    .headers(headers)
+                    .contentType(mediaType)
                     .body(imageBytes);
+        } catch (NoSuchElementException e) {
+            logger.error("Lesson not found: {}", e.getMessage());
+            return ResponseEntity.notFound().build();
         } catch (Exception e) {
             logger.error("Error retrieving presentation image", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
