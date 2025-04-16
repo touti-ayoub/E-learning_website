@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
 import { ChatMessage, ChatSession } from '../models/chat.model';
 import { environment } from '../../environments/environment';
 
@@ -9,43 +10,58 @@ import { environment } from '../../environments/environment';
 })
 export class ChatbotService {
   private apiUrl = `${environment.apiBaseUrl}/chatbot`;
+  private currentSessionId: number | null = null;
 
   constructor(private http: HttpClient) { }
 
   /**
-   * Create a new chat session
+   * Create a new anonymous chat session
    */
-  createSession(userId: number, title?: string): Observable<ChatSession> {
-    let params = new HttpParams().set('userId', userId.toString());
-    if (title) {
-      params = params.set('title', title);
-    }
-    return this.http.post<ChatSession>(`${this.apiUrl}/sessions`, null, { params });
-  }
-
-  /**
-   * Get all chat sessions for a user
-   */
-  getUserSessions(userId: number): Observable<ChatSession[]> {
-    return this.http.get<ChatSession[]>(`${this.apiUrl}/sessions/user/${userId}`);
-  }
-
-  /**
-   * Get a specific chat session
-   */
-  getSession(sessionId: number): Observable<ChatSession> {
-    return this.http.get<ChatSession>(`${this.apiUrl}/sessions/${sessionId}`);
+  createSession(): Observable<ChatSession> {
+    console.log('Creating new anonymous session');
+    
+    return this.http.post<ChatSession>(`${this.apiUrl}/sessions`, {
+      title: 'Anonymous Conversation'
+    })
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
   }
 
   /**
    * Send a message to the chatbot
    */
-  sendMessage(userId: number, sessionId: number, message: string): Observable<ChatMessage> {
-    const params = new HttpParams()
-      .set('userId', userId.toString())
-      .set('sessionId', sessionId.toString())
-      .set('message', message);
+  sendMessage(sessionId: number, message: string): Observable<ChatMessage> {
+    console.log(`Sending message to session ${sessionId}`);
     
-    return this.http.post<ChatMessage>(`${this.apiUrl}/messages`, null, { params });
+    return this.http.post<ChatMessage>(`${this.apiUrl}/messages`, {
+      sessionId: sessionId,
+      message: message
+    })
+      .pipe(
+        retry(1),
+        catchError(this.handleError)
+      );
+  }
+
+  /**
+   * Error handler
+   */
+  private handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Client-side error
+      errorMessage = `Error: ${error.error.message}`;
+    } else {
+      // Server-side error
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${JSON.stringify(error.error)}`
+      );
+    }
+    console.error(errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 } 

@@ -39,11 +39,6 @@ public class CourseAccessService {
     public boolean hasAccessToCourse(Long userId, Long courseId) {
         logger.debug("Checking access for user {} to course {}", userId, courseId);
         
-        // TEMPORARY FOR TESTING: Allow access to all courses
-        // Remove this line in production
-        return true;
-        
-        /* 
         // Get the course
         Optional<Course> courseOpt = courseRepository.findById(courseId);
         if (courseOpt.isEmpty()) {
@@ -77,7 +72,6 @@ public class CourseAccessService {
         
         logger.debug("User {} has active subscription for course {}: {}", userId, courseId, hasSubscription);
         return hasSubscription;
-        */
     }
     
     /**
@@ -88,10 +82,6 @@ public class CourseAccessService {
     public boolean isCoursePubliclyAccessible(Long courseId) {
         logger.debug("Checking if course {} is publicly accessible", courseId);
         
-        // TEMPORARY FOR TESTING
-        return true;
-        
-        /*
         Optional<Course> courseOpt = courseRepository.findById(courseId);
         if (courseOpt.isEmpty()) {
             logger.debug("Course {} not found", courseId);
@@ -101,7 +91,6 @@ public class CourseAccessService {
         boolean isFree = courseOpt.get().isFree();
         logger.debug("Course {} is free: {}", courseId, isFree);
         return isFree;
-        */
     }
     
     /**

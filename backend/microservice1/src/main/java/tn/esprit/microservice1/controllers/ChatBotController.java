@@ -25,10 +25,16 @@ public class ChatBotController {
     }
 
     @PostMapping("/sessions")
-    public ResponseEntity<ChatSessionDto> createSession(
-            @RequestParam Long userId,
-            @RequestParam(required = false) String title) {
+    public ResponseEntity<ChatSessionDto> createSession(@RequestBody Map<String, Object> request) {
         try {
+            Long userId = null;
+            // Handle userId if provided
+            if (request.containsKey("userId")) {
+                userId = Long.valueOf(request.get("userId").toString());
+            }
+            
+            String title = request.containsKey("title") ? request.get("title").toString() : "New Conversation";
+            
             ChatSessionDto session = chatBotService.createSession(userId, title);
             return ResponseEntity.ok(session);
         } catch (Exception e) {
@@ -60,11 +66,17 @@ public class ChatBotController {
     }
 
     @PostMapping("/messages")
-    public ResponseEntity<ChatMessageDto> sendMessage(
-            @RequestParam Long userId,
-            @RequestParam Long sessionId,
-            @RequestParam String message) {
+    public ResponseEntity<ChatMessageDto> sendMessage(@RequestBody Map<String, Object> request) {
         try {
+            Long userId = null;
+            // Handle userId if provided
+            if (request.containsKey("userId")) {
+                userId = Long.valueOf(request.get("userId").toString());
+            }
+            
+            Long sessionId = Long.valueOf(request.get("sessionId").toString());
+            String message = request.get("message").toString();
+            
             ChatMessageDto response = chatBotService.sendMessage(userId, sessionId, message);
             return ResponseEntity.ok(response);
         } catch (Exception e) {

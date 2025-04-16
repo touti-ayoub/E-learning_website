@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\configurations\AOPConfig.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\configurations\SecurityConfig.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\controllers\AuthController.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\controllers\UserController.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\entities\User.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\entities\UserDTO.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\repositories\UserRepository.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\services\auth\CustomUserDetailsService.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\services\auth\JwtAuthenticationFilter.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\services\auth\JwtUtils.java
+C:\Users\tahan\OneDrive\Bureau\yarab\E-learning_website-485244a2d8bdb7c0d2fcd2c7877bc6e401025492\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\TpFoyer17Application.java
+=======
 C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\configurations\AOPConfig.java
 C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\configurations\SecurityConfig.java
 C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\controllers\AuthController.java
@@ -8,3 +21,4 @@ C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\
 C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\services\auth\JwtAuthenticationFilter.java
 C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\services\auth\JwtUtils.java
 C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\TpFoyer17Application.java
+>>>>>>> 7c94de627e899717580ff4873275ce2f6b2eee43

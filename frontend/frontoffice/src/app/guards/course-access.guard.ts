@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { CourseAccessService } from '../../services/mic2/course-access.service';
+import { AuthService } from '../../services/auth/auth.service';
 import { catchError, map, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -10,6 +11,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 export class CourseAccessGuard implements CanActivate {
   constructor(
     private courseAccessService: CourseAccessService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
@@ -18,7 +20,13 @@ export class CourseAccessGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> {
     const courseId = Number(route.paramMap.get('id'));
-    const userId = 1; // This should come from your auth service in a real app
+    
+    // Check if the user is logged in
+    if (!this.authService.isLoggedIn()) {
+      console.warn('CourseAccessGuard: No authenticated user, redirecting to login');
+      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
+      return of(false);
+    }
     
     if (!courseId) {
       console.warn('CourseAccessGuard: No course ID found in route');
@@ -26,10 +34,49 @@ export class CourseAccessGuard implements CanActivate {
       return of(false);
     }
     
+    // Get user ID from local storage
+    const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
+    let userId = 0;
+    
+    try {
+      // Try to get userId from currentUser if available
+      const storedUser = localStorage.getItem('currentUser');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        userId = user.id;
+      } else {
+        // Fallback to a default test user ID if we can't get it otherwise
+        // This is temporary and should be replaced with proper user identification
+        userId = 1;
+      }
+    } catch (error) {
+      console.error('CourseAccessGuard: Error getting user ID', error);
+      this.router.navigate(['/login']);
+      return of(false);
+    }
+    
     console.log(`CourseAccessGuard: Checking access for user ${userId} to course ${courseId}`);
     
-    // Always allow access in development mode
-    // The course detail component will handle access UI
-    return of(true);
+    return this.courseAccessService.checkCourseAccess(userId, courseId).pipe(
+      tap(response => console.log('CourseAccessGuard: Access response', response)),
+      map(response => {
+        if (response.hasAccess) {
+          console.log('CourseAccessGuard: Access granted');
+          return true;
+        } else {
+          console.warn(`CourseAccessGuard: Access denied - ${response.message}`);
+          // Redirect to subscription page or access denied page
+          this.router.navigate(['/subscription', courseId]);
+          return false;
+        }
+      }),
+      catchError(error => {
+        console.error('CourseAccessGuard: Error checking access', error);
+        // Handle error - redirecting to the courses list
+        this.router.navigate(['/courses']);
+        return of(false);
+      })
+    );
   }
 } 
