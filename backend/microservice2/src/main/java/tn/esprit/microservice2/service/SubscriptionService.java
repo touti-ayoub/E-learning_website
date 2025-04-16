@@ -9,6 +9,7 @@ import tn.esprit.microservice2.DTO.SubCreatingRequest;
 import tn.esprit.microservice2.DTO.SubscriptionDTO;
 import tn.esprit.microservice2.DTO.UserDTO;
 import tn.esprit.microservice2.Model.*;
+import tn.esprit.microservice2.comm.UserClient;
 import tn.esprit.microservice2.repo.ICourseRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
 import tn.esprit.microservice2.repo.UserRepository;
@@ -28,20 +29,31 @@ public class SubscriptionService {
 
     @Autowired
     private ISubscriptionRepository subscriptionRepository;
+
+    // Replace UserRepository with UserClient
     @Autowired
-    private  UserRepository userRepository;
+    private UserClient userClient;
+
     @Autowired
-    private  PaymentService paymentService;
+    private PaymentService paymentService;
+
     @Autowired
-    private  ICourseRepository courseRepository;
+    private ICourseRepository courseRepository;
 
     @Transactional
     public SubscriptionDTO createSubscription(SubCreatingRequest subRequest) {
         log.debug("Creating subscription for user: {} and course: {}", subRequest.getUserId(), subRequest.getCourseId());
 
         try {
-            User user = userRepository.findById(subRequest.getUserId())
-                    .orElseThrow(() -> new RuntimeException("User not found with id: " + subRequest.getUserId()));
+            // Fetch user from user microservice using UserClient
+            UserDTO userDTO = userClient.getUserById(subRequest.getUserId());
+
+            if (userDTO == null || userDTO.getId() == null) {
+                throw new RuntimeException("User not found with id: " + subRequest.getUserId());
+            }
+
+            // Map UserDTO to User entity or use the DTO directly depending on your model
+            User user = mapUserDtoToEntity(userDTO, subRequest.getUserId());
 
             Course course = courseRepository.findById(subRequest.getCourseId())
                     .orElseThrow(() -> new RuntimeException("Course not found with id: " + subRequest.getCourseId()));
@@ -67,12 +79,15 @@ public class SubscriptionService {
             subscription.setCreatedAt(now);
             subscription.setUpdatedAt(now);
 
-            subscription = subscriptionRepository.save(subscription);
-
             if (PaymentType.FULL.equals(subRequest.getPaymentType())) {
+                subscription.setEndDate(null);
+                subscription = subscriptionRepository.save(subscription);
                 paymentService.createFullPayment(subscription);
             } else if (subRequest.getInstallments() != null) {
+                subscription.setEndDate(now.plusMonths(1));
+                subscription = subscriptionRepository.save(subscription);
                 BigDecimal totalAmount = subscription.getCourse().getPrice();
+
                 paymentService.createPaymentWithInstallments(subscription, totalAmount, subRequest.getInstallments());
             }
 
@@ -87,12 +102,32 @@ public class SubscriptionService {
     public List<SubscriptionDTO> getUserSubscriptions(Long userId) {
         log.debug("Fetching subscriptions for user: {}", userId);
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        // Fetch user from user microservice to validate it exists
+        UserDTO userDTO = userClient.getUserById(userId);
+
+        if (userDTO == null || userDTO.getId() == null) {
+            throw new RuntimeException("User not found with id: " + userId);
+        }
+
+        // Map UserDTO to User entity
+        User user = mapUserDtoToEntity(userDTO, userId);
 
         return subscriptionRepository.findByUser(user).stream()
                 .map(SubscriptionDTO::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Maps a UserDTO from the user microservice to a User entity for the subscription service
+     */
+    private User mapUserDtoToEntity(UserDTO userDTO, Long userId) {
+        User user = new User();
+        user.setId(userId);
+        user.setUsername(userDTO.getUsername());
+        // Set other fields as needed from the UserDTO
+        // Note: This is a simplified mapping, adjust based on your actual User entity properties
+
+        return user;
     }
 
     @Transactional(readOnly = true)
@@ -231,7 +266,7 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public UserDTO getUserByUsername(String username) {
+        return userClient.getUserByUsername(username);
     }
 }
