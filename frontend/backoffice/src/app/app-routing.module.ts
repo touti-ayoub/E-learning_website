@@ -40,6 +40,23 @@ const routes: Routes = [
         path: 'events',
         loadComponent: () =>
           import('./Component/event-list/event-list.component').then((m) => m.EventListComponent)
+      },
+      {
+        path: 'quizzes',
+        loadComponent: () =>
+          import('./Component/assessments/quiz/quiz.component').then((m) => m.QuizComponent),
+        children: [
+          {
+            path: 'questions',
+            loadComponent: () =>
+              import('./Component/assessments/quiz-question/quiz-question.component').then((m) => m.QuizQuestionComponent)
+          },
+          {
+            path: 'results',
+            loadComponent: () =>
+              import('./Component/assessments/quiz-result/quiz-result.component').then((m) => m.QuizResultComponent)
+          }
+        ]
       }
     ]
   },

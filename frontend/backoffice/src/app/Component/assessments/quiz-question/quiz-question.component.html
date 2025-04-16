@@ -1,0 +1,52 @@
+<div class="quiz-questions-container">
+    <h2>Quiz Questions</h2>
+  
+    <!-- Display all questions -->
+    <div *ngFor="let question of questions; let qIndex = index" class="question-block">
+      <h3>Question {{ qIndex + 1 }}</h3>
+      <div class="form-group">
+        <label for="questionText{{ qIndex }}">Question Text:</label>
+        <input
+          id="questionText{{ qIndex }}"
+          [(ngModel)]="question.text"
+          name="questionText{{ qIndex }}"
+          class="form-control"
+          placeholder="Enter question text"
+        />
+      </div>
+  
+      <!-- Display answers for the current question -->
+      <div class="answers-container">
+        <h4>Answers</h4>
+        <div *ngFor="let answer of question.answers; let aIndex = index" class="answer-block">
+          <label for="answerText{{ qIndex }}{{ aIndex }}">Answer {{ aIndex + 1 }}:</label>
+          <input
+            id="answerText{{ qIndex }}{{ aIndex }}"
+            [(ngModel)]="answer.text"
+            name="answerText{{ qIndex }}{{ aIndex }}"
+            class="form-control"
+            placeholder="Enter answer text"
+          />
+          <label>
+            <input
+              type="checkbox"
+              [(ngModel)]="answer.correct"
+              name="answerCorrect{{ qIndex }}{{ aIndex }}"
+            />
+            Correct
+          </label>
+          <button type="button" (click)="removeAnswer(qIndex, aIndex)" class="btn btn-danger">
+            Remove Answer
+          </button>
+        </div>
+        <button type="button" (click)="addAnswer(qIndex)" class="btn btn-primary">+ Add Answer</button>
+      </div>
+  
+      <button type="button" (click)="removeQuestion(qIndex)" class="btn btn-danger">
+        Remove Question
+      </button>
+    </div>
+  
+    <!-- Add new question -->
+    <button type="button" (click)="addQuestion()" class="btn btn-success">+ Add Question</button>
+  </div>
