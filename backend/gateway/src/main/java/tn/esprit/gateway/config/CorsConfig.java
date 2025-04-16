@@ -8,16 +8,19 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.reactive.CorsWebFilter;
 import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Configuration
 public class CorsConfig {
 
     @Bean
-    @Order(Ordered.HIGHEST_PRECEDENCE) // Make sure this runs before other filters
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
+
+        // Allow credentials (cookies, auth headers)
         corsConfig.setAllowCredentials(true);
+<<<<<<< HEAD
         
         // Allow Angular app origins with any port
         corsConfig.setAllowedOriginPatterns(Arrays.asList(
@@ -38,8 +41,32 @@ public class CorsConfig {
         ));
         
         // Cache preflight response for 3600 seconds (1 hour)
+=======
+
+        // Allow any port on localhost (for your Angular app)
+        corsConfig.setAllowedOriginPatterns(List.of("http://localhost:*"));
+
+        // Allow standard HTTP methods
+        corsConfig.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH"
+        ));
+
+        // Allow any header from the client
+        corsConfig.addAllowedHeader(CorsConfiguration.ALL);
+
+        // Expose headers you need in the browser
+        corsConfig.setExposedHeaders(List.of(
+                "Authorization",
+                "Content-Disposition",
+                "Content-Length",
+                "Content-Type"
+        ));
+
+        // Cache preflight response for 1 hour
+>>>>>>> 5f2dd717e86f09e1d867c6d39afea34ed8f259e5
         corsConfig.setMaxAge(3600L);
 
+        // Apply this CORS config to all paths
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
 

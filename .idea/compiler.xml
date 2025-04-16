@@ -33,6 +33,15 @@
         <module name="microservice4" />
         <module name="microservice3" />
       </profile>
+      <profile name="Annotation profile for microservice1" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+        </processorPath>
+        <module name="microservice1" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">

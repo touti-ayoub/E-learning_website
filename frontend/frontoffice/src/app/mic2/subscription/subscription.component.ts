@@ -3,8 +3,12 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { AuthService } from "../../../services/auth/auth.service";
 import { SubscriptionService, SubCreatingRequest } from "../../../services/mic2/subscription.service";
 import { CouponService } from "../../../services/mic2/coupon.service";
-import { finalize } from 'rxjs/operators';
+import {finalize, map} from 'rxjs/operators';
 import Swal from 'sweetalert2';
+import { CourseService } from "../../../services/mic1/course.service";
+import { Course } from "../../../services/mic1/models";
+import { HttpClient } from "@angular/common/http";
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-subscription',
@@ -32,11 +36,7 @@ export class SubscriptionComponent implements OnInit {
   couponError: boolean = false;
   discountedPrice: number = 0;
 
-  courses = [
-    { id: 1, title: 'Web Development', instructor: 'Moon', price: 300 },
-    { id: 2, title: 'Angular+Spring', instructor: 'John Doe', price: 499 },
-    { id: 3, title: 'ISTQB', instructor: 'Alice', price: 180 }
-  ];
+  courses: Course[] = [];
   currentDate = new Date();
 
   constructor(
@@ -44,18 +44,15 @@ export class SubscriptionComponent implements OnInit {
     private router: Router,
     private subscriptionService: SubscriptionService,
     private authService: AuthService,
-    private couponService: CouponService
+    private couponService: CouponService,
+    private courseService: CourseService,
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
     this.courseId = Number(this.route.snapshot.paramMap.get('courseId'));
-    this.course = this.courses.find(c => c.id === this.courseId);
-
-    if (!this.course) {
-      this.error = 'Course not found';
-    }
-
     this.storedUsername = localStorage.getItem('username');
+
     if (!this.storedUsername) {
       this.error = 'You must be logged in to subscribe to a course';
       Swal.fire({
@@ -68,9 +65,47 @@ export class SubscriptionComponent implements OnInit {
           queryParams: { returnUrl: this.router.url }
         });
       });
-    } else {
-      this.getUserId();
+      return;
     }
+
+    this.loading = true;
+
+    // Load both course and user data in parallel using forkJoin
+    const userData$ = this.subscriptionService.getUserByUsername(this.storedUsername);
+    const courseData$ = this.loadCourseDetails();
+
+    forkJoin({
+      user: userData$,
+      course: courseData$
+    })
+      .pipe(finalize(() => this.loading = false))
+      .subscribe({
+        next: (result) => {
+          this.userId = result.user.id;
+          console.log(`User ID retrieved: ${this.userId}`);
+        },
+        error: (error) => {
+          console.error('Error initializing data:', error);
+          this.error = 'Failed to initialize page data';
+        }
+      });
+  }
+
+  private loadCourseDetails() {
+    // Update this to use proper course service directly
+    return this.courseService.getCourseById(this.courseId).pipe(
+      finalize(() => {}),
+      map((course) => {
+        this.course = course;
+        console.log('Course loaded:', this.course);
+
+        if (!this.course) {
+          this.error = 'Course not found';
+        }
+
+        return course;
+      })
+    );
   }
 
   private getUserId() {
@@ -89,6 +124,20 @@ export class SubscriptionComponent implements OnInit {
           this.error = 'Failed to retrieve user information';
         }
       });
+  }
+
+  loadCourses(): void {
+    this.http.get("http://localhost:8088/mic2/subscription/courses").subscribe(
+      {
+        next: (response:any) => {
+          this.courses = response;
+          console.log(this.courses);
+        },
+        error: (error) => {
+          console.error('Error retrieving course:', error);
+        }
+      }
+    )
   }
 
   /**
@@ -151,9 +200,6 @@ export class SubscriptionComponent implements OnInit {
       });
   }
 
-  /**
-   * Reset coupon state
-   */
   resetCoupon(): void {
     this.hasValidCoupon = false;
     this.couponDiscount = 0;
@@ -168,26 +214,20 @@ export class SubscriptionComponent implements OnInit {
     localStorage.removeItem(`coupon_price_${this.courseId}`);
   }
 
-  /**
-   * Calculate the discounted price based on coupon
-   */
   getDiscountedPrice(): number {
     if (!this.hasValidCoupon || !this.course) {
       return this.course?.price || 0;
     }
-    
+
     if (this.discountedPrice > 0) {
       return this.discountedPrice;
     }
-    
+
     // Calculate on the fly if we don't have a pre-calculated value
     const discount = (this.course.price * this.couponDiscount) / 100;
     return this.course.price - discount;
   }
 
-  /**
-   * Get the discount amount
-   */
   getDiscountAmount(): number {
     if (!this.hasValidCoupon || !this.course) {
       return 0;
@@ -195,16 +235,10 @@ export class SubscriptionComponent implements OnInit {
     return this.course.price - this.getDiscountedPrice();
   }
 
-  /**
-   * Get the final price (original or discounted)
-   */
   getFinalPrice(): number {
     return this.hasValidCoupon ? this.getDiscountedPrice() : (this.course?.price || 0);
   }
 
-  /**
-   * Calculate monthly payment including any coupon discount
-   */
   getMonthlyPayment(): number {
     if (this.selectedPaymentType !== 'INSTALLMENTS' || !this.installments || this.installments <= 0) {
       return 0;
@@ -212,9 +246,6 @@ export class SubscriptionComponent implements OnInit {
     return this.getFinalPrice() / this.installments;
   }
 
-  /**
-   * Calculate monthly installment amount for a specific number of months
-   */
   getMonthlyInstallmentAmount(months: number): number {
     if (!this.course) return 0;
     return this.getFinalPrice() / months;
@@ -234,7 +265,6 @@ export class SubscriptionComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    // Log coupon details for debugging
     console.log('Proceeding to payment with coupon details:', {
       hasValidCoupon: this.hasValidCoupon,
       couponCode: this.couponCode,
@@ -278,63 +308,57 @@ export class SubscriptionComponent implements OnInit {
       });
   }
 
-  /**
- * Navigate to payment page with discount information
- */
-navigateToPayment(subscriptionId: number) {
-  if (!this.course) {
-    this.error = 'Course not found';
-    return;
-  }
+  navigateToPayment(subscriptionId: number) {
+    if (!this.course) {
+      this.error = 'Course not found';
+      return;
+    }
 
-  // Calculate the exact prices with correct precision
-  const originalPrice = this.course.price;
-  let discountedPrice = originalPrice;
-  let discountPercentage = 0;
-  
-  // If coupon is validated, calculate the correct discounted price
-  if (this.hasValidCoupon && this.couponDiscount > 0) {
-    discountPercentage = this.couponDiscount;
-    const discountAmount = (originalPrice * discountPercentage) / 100;
-    discountedPrice = originalPrice - discountAmount;
-    
-    // Round to 2 decimal places for consistency
-    discountedPrice = Math.round((discountedPrice + Number.EPSILON) * 100) / 100;
-    
-    console.log('Coupon discount calculation:', {
+    // Calculate the exact prices with correct precision
+    const originalPrice = this.course.price;
+    let discountedPrice = originalPrice;
+    let discountPercentage = 0;
+
+    // If coupon is validated, calculate the correct discounted price
+    if (this.hasValidCoupon && this.couponDiscount > 0) {
+      discountPercentage = this.couponDiscount;
+      const discountAmount = (originalPrice * discountPercentage) / 100;
+      discountedPrice = originalPrice - discountAmount;
+
+      // Round to 2 decimal places for consistency
+      discountedPrice = Math.round((discountedPrice + Number.EPSILON) * 100) / 100;
+
+      console.log('Coupon discount calculation:', {
+        originalPrice,
+        discountPercentage,
+        discountAmount,
+        discountedPrice
+      });
+    }
+
+    console.log('Navigating to payment with:', {
+      subscriptionId,
       originalPrice,
+      discountedPrice,
       discountPercentage,
-      discountAmount,
-      discountedPrice
+      hasDiscount: this.hasValidCoupon,
+      couponCode: this.couponCode
+    });
+
+    this.router.navigate(['/payment'], {
+      queryParams: {
+        subscriptionId: subscriptionId,
+        amount: discountedPrice,  // The final price after discount
+        originalAmount: this.hasValidCoupon ? originalPrice : undefined,
+        discountPercentage: this.hasValidCoupon ? discountPercentage : undefined,
+        hasDiscount: this.hasValidCoupon,
+        paymentType: this.selectedPaymentType,
+        installments: this.selectedPaymentType === 'INSTALLMENTS' ? this.installments : undefined,
+        couponCode: this.hasValidCoupon ? this.couponCode : undefined
+      }
     });
   }
-  
-  // Log what we're sending to the payment page
-  console.log('Navigating to payment with:', {
-    subscriptionId,
-    originalPrice,
-    discountedPrice,
-    discountPercentage,
-    hasDiscount: this.hasValidCoupon,
-    couponCode: this.couponCode
-  });
-  
-  // Include all discount information in query params
-  this.router.navigate(['/payment'], {
-    queryParams: {
-      subscriptionId: subscriptionId,
-      amount: discountedPrice,  // The final price after discount
-      originalAmount: this.hasValidCoupon ? originalPrice : undefined,
-      discountPercentage: this.hasValidCoupon ? discountPercentage : undefined,
-      hasDiscount: this.hasValidCoupon,
-      paymentType: this.selectedPaymentType,
-      installments: this.selectedPaymentType === 'INSTALLMENTS' ? this.installments : undefined,
-      couponCode: this.hasValidCoupon ? this.couponCode : undefined
-    }
-  });
-}
 
   goo() {
-    this.router.navigate(['/courses'])
-  }
-}
+    this.router.navigate(['/courses']);
+  }}
