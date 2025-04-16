@@ -22,6 +22,7 @@ public class EventDTO {
     private Integer maxCapacity;
     private String place;
     private EventType eventType;
+    private String googleCalendarEventId;
     private int registrationsCount;
     private int feedbacksCount;
     private int materialsCount;
@@ -53,6 +54,7 @@ public class EventDTO {
                 .maxCapacity(event.getMaxCapacity())
                 .place(event.getPlace())
                 .eventType(event.getEventType())
+                .googleCalendarEventId(event.getGoogleCalendarEventId())
                 .registrationsCount(event.getRegistrations() != null ? event.getRegistrations().size() : 0)
                 .feedbacksCount(event.getFeedbacks() != null ? event.getFeedbacks().size() : 0)
                 .materialsCount(event.getMaterials() != null ? event.getMaterials().size() : 0)

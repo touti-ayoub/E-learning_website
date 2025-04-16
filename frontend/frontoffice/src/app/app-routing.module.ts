@@ -11,6 +11,8 @@ import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./auth/register/register.component";
 import {SubscriptionComponent} from "./mic2/subscription/subscription.component";
 import {AuthGuard} from "../services/auth/auth.guard";
+import {EventListComponent} from "./mic5/event-list/event-list.component";
+import {EventDetailsComponent}  from "./mic5/event-details/event-details.component";
 
 // Declare routes outside the class
 const routes: Routes = [
@@ -21,9 +23,11 @@ const routes: Routes = [
   { path: 'testemonial', component: TestimonialComponent },
   { path: 'aboutus', component: AboutUsComponent },
   { path: 'contact', component: ContactComponent },
-  {path: 'login', component: LoginComponent },
-  {path: 'register', component: RegisterComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   { path: 'subscription/:courseId', component: SubscriptionComponent, canActivate: [AuthGuard] },
+  { path: 'events', component: EventListComponent },
+  { path: 'events/:id', component: EventDetailsComponent },
 
   { path: '**', component: NotfoundComponent }, // Keep this as the last route
 ];

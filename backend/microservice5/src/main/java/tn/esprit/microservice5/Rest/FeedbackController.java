@@ -9,7 +9,7 @@ import tn.esprit.microservice5.Service.FeedbackService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/feedbacks")
+    @RequestMapping("/mic5/feedbacks")
 public class FeedbackController {
 
     @Autowired

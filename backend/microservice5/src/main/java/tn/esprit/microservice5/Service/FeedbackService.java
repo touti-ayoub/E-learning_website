@@ -26,17 +26,20 @@ public class FeedbackService {
     @Autowired
     private IEventRepo eventRepository;
 
+    //read
     public List<FeedbackDTO> getAllFeedbacks() {
         return feedbackRepository.findAll().stream()
                 .map(FeedbackDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
+    // Get feedback by event ID
     public FeedbackDTO getFeedbackById(long id) {
         Optional<Feedback> feedback = feedbackRepository.findById(id);
         return feedback.map(FeedbackDTO::fromEntity).orElse(null);
     }
 
+    // create
     public FeedbackDTO createFeedback(FeedbackDTO feedbackDTO) {
         // First fetch the user entity
         User user = userRepository.findById(feedbackDTO.getUserId())
@@ -57,6 +60,7 @@ public class FeedbackService {
         return FeedbackDTO.fromEntity(feedback);
     }
 
+    // update
     public FeedbackDTO updateFeedback(long id, FeedbackDTO feedbackDTO) {
         Optional<Feedback> feedbackOptional = feedbackRepository.findById(id);
         if (feedbackOptional.isPresent()) {
@@ -79,6 +83,7 @@ public class FeedbackService {
         return null;
     }
 
+    // delete
     public void deleteFeedback(long id) {
         feedbackRepository.deleteById(id);
     }

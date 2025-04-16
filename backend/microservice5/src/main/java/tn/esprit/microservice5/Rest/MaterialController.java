@@ -9,7 +9,7 @@ import tn.esprit.microservice5.Service.MaterialService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/materials")
+@RequestMapping("/mic5/materials")
 public class MaterialController {
 
     @Autowired

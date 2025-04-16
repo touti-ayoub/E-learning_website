@@ -55,6 +55,9 @@ public class Event {
     @NotNull(message = "Event type is required")
     private EventType eventType;
 
+    // -------------- New field to store the Google Calendar event ID --------------
+    private String googleCalendarEventId;
+
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Feedback> feedbacks = new ArrayList<>();
 
@@ -64,8 +67,7 @@ public class Event {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Registration> registrations = new ArrayList<>();
 
-    // -------------- New field to store the Google Calendar event ID --------------
-    private String googleCalendarEventId;
+
 
 
 }

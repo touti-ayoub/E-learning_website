@@ -21,17 +21,20 @@ public class MaterialService {
     @Autowired
     private IEventRepo eventRepository;  // Make sure you have this injected
 
+    //read
     public List<MaterialDTO> getAllMaterials() {
         return materialRepository.findAll().stream()
                 .map(MaterialDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
+    // Get material by ID
     public MaterialDTO getMaterialById(long id) {
         Optional<Material> material = materialRepository.findById(id);
         return material.map(MaterialDTO::fromEntity).orElse(null);
     }
 
+    // create
     public MaterialDTO createMaterial(MaterialDTO materialDTO) {
         // First fetch the event entity
         Event event = eventRepository.findById(materialDTO.getEventId())
@@ -48,6 +51,7 @@ public class MaterialService {
         return MaterialDTO.fromEntity(material);
     }
 
+    // Update
     public MaterialDTO updateMaterial(long id, MaterialDTO materialDTO) {
         Optional<Material> materialOptional = materialRepository.findById(id);
         if (materialOptional.isPresent()) {
@@ -64,6 +68,7 @@ public class MaterialService {
         return null;
     }
 
+    // Delete
     public void deleteMaterial(long id) {
         materialRepository.deleteById(id);
     }

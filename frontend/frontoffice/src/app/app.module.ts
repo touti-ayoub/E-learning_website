@@ -19,6 +19,8 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import {FormsModule} from "@angular/forms";
 import { SubscriptionComponent } from './mic2/subscription/subscription.component';
+import { EventListComponent } from './mic5/event-list/event-list.component';
+import { EventDetailsComponent } from './mic5/event-details/event-details.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +37,9 @@ import { SubscriptionComponent } from './mic2/subscription/subscription.componen
     ContactComponent,
     RegisterComponent,
     LoginComponent,
-    SubscriptionComponent
+    SubscriptionComponent,
+    EventListComponent,
+    EventDetailsComponent
   ],
   imports: [
     BrowserModule,

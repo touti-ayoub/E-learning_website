@@ -54,6 +54,7 @@ public class EventService {
      * @param eventDTO Data for the new event
      * @return The saved Event entity (or you could return an EventDTO)
      */
+    // Create
     @Transactional
     public Event createEvent(EventDTO eventDTO) {
         // 1) Build the Event entity (as you do now)
@@ -109,19 +110,11 @@ public class EventService {
                 .collect(Collectors.toList());
     }
 
-    public Optional<Event> getEventById(Long id) {
-        return eventRepository.findById(id);
-    }
-
     // Get event by ID as DTO
-    public EventDTO getEventDTOById(Long id) {
+    public EventDTO getEventById(Long id) {
         return eventRepository.findById(id)
                 .map(EventDTO::fromEntity)
                 .orElse(null);
-    }
-
-    public List<Event> getUpcomingEvents() {
-        return eventRepository.findByStartTimeAfter(LocalDateTime.now());
     }
 
     // Update
@@ -176,7 +169,6 @@ public class EventService {
         // Return updated entity
         return existingEvent;
     }
-
 
     // Delete
     @Transactional

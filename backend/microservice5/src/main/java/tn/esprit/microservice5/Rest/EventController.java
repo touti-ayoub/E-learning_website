@@ -36,17 +36,13 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        Optional<Event> event = eventService.getEventById(id);
-        return event
-                .map(value -> new ResponseEntity<>(value, HttpStatus.OK))
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
-
-    @GetMapping("/upcoming")
-    public ResponseEntity<List<Event>> getUpcomingEvents() {
-        List<Event> events = eventService.getUpcomingEvents();
-        return new ResponseEntity<>(events, HttpStatus.OK);
+    public ResponseEntity<EventDTO> getEventById(@PathVariable("id") Long eventId) {
+        EventDTO eventDTO = eventService.getEventById(eventId);
+        if (eventDTO != null) {
+            return new ResponseEntity<>(eventDTO, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/{id}")

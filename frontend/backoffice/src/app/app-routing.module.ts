@@ -33,13 +33,15 @@ const routes: Routes = [
         loadComponent: () =>
           import('./demo/other/sample-page/sample-page.component')
       },
-      // --------------------------------------------
-      // STEP 3: Nest the "events" route under Admin
-      // --------------------------------------------
       {
         path: 'events',
         loadComponent: () =>
           import('./Component/event-list/event-list.component').then((m) => m.EventListComponent)
+      },
+      {
+        path: 'feedbacks',
+        loadComponent: () =>
+          import('./Component/feedback-list/feedback-list.component').then((m) => m.FeedbackListComponent)
       }
     ]
   },
