@@ -8,7 +8,14 @@
       <p class="quiz-description">{{ quiz.description }}</p>
     </div>
     <div class="quiz-card-footer">
-      <a [routerLink]="['/quiz', quiz.id]" class="take-quiz-button">Take Quiz</a>
+      <!-- Show "Take Quiz" if the user hasn't taken the quiz -->
+      <a *ngIf="!hasTakenQuiz(quiz.id)" [routerLink]="['/quiz-take', quiz.id]" class="take-quiz-button">
+        Take Quiz
+      </a>
+      <!-- Show "View Quiz Result" if the user has taken the quiz -->
+      <a *ngIf="hasTakenQuiz(quiz.id)" [routerLink]="['/quiz-result', quiz.id]" class="view-result-button">
+        View Quiz Result
+      </a>
     </div>
   </div>
 </div>

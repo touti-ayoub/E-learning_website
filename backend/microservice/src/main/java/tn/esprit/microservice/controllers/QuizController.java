@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.microservice.entities.Quiz;
 import tn.esprit.microservice.services.QuizService;
 import tn.esprit.microservice.services.QuizEvaluationService;
+import org.springframework.web.client.RestTemplate;
+
 
 import java.util.List;
 import java.util.Map;
@@ -36,17 +38,32 @@ public class QuizController {
         return quizService.getQuizById(id);
     }
 
-    // Evaluate a quiz
+    // Evaluate a quiz and associate it with the user
+    // Evaluate a quiz and associate it with the user
     @PostMapping("/{quizId}/evaluate")
-    public int evaluateQuiz(@PathVariable Long quizId, @RequestBody Map<Long, Long> userAnswers) {
-        System.out.println("Received evaluation request for quiz ID: " + quizId);
-        System.out.println("User answers: " + userAnswers);
+    public int evaluateQuiz(
+            @PathVariable Long quizId,
+            @RequestBody Map<Long, Long> userAnswers,
+            @RequestHeader("userId") Long userId) {
+
+        if (userId == null) {
+            throw new RuntimeException("User ID is required");
+        }
+
+        // Automatically associate the quiz with the user
+        quizService.addUserToQuiz(quizId, userId);
+
+        // Evaluate the quiz
         return quizEvaluationService.evaluateQuiz(quizId, userAnswers);
     }
+
+    // Update a quiz
     @PutMapping("/{id}/update")
     public Quiz updateQuiz(@PathVariable Long id, @RequestBody Quiz quizDetails) {
         return quizService.updateQuiz(id, quizDetails);
     }
+
+    // Delete a quiz
     @DeleteMapping("/{id}/delete")
     public void deleteQuiz(@PathVariable Long id) {
         quizService.deleteQuiz(id);

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import tn.esprit.microservice.entities.Quiz;
 import tn.esprit.microservice.repositories.QuizRepository;
 
-
 import java.util.List;
 
 @Service
@@ -43,8 +42,12 @@ public class QuizService {
         quizRepository.deleteById(id);
     }
 
-    // Find quizzes by title (example)
-    public List<Quiz> findQuizzesByTitle(String title) {
-        return quizRepository.findByTitleContaining(title);
+    // Associate a user with a quiz
+    public void addUserToQuiz(Long quizId, Long userId) {
+        Quiz quiz = getQuizById(quizId);
+        if (!quiz.getUserIds().contains(userId)) {
+            quiz.getUserIds().add(userId);
+            quizRepository.save(quiz);
+        }
     }
 }

@@ -15,6 +15,7 @@ export interface LoginRequest {
 }
 
 export interface AuthResponse {
+  id: number; // User ID returned by the backend
   token: string; // JWT token returned by the backend
   role: string; // User ID (optional, depending on your backend)
   username: string;

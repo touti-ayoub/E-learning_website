@@ -3,15 +3,16 @@ export interface Quiz {
   title: string;
   description: string;
   questions: QuizQuestion[];
+  userIds: string[]; // Change to string[] if userIds store usernames
 }
 
 export interface QuizQuestion {
   id: number;
   text: string;
-  answers: QuizResult[];
+  answers: QuizAnswer[];
 }
 
-export interface QuizResult {
+export interface QuizAnswer {
   id: number;
   text: string;
   isCorrect: boolean;

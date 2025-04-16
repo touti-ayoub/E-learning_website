@@ -30,15 +30,20 @@ export class AuthService {
     return this.currentUserSubject.asObservable();
   }
 
-  login(username: string, password: string): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}/auth/login`, { username, password })
-      .pipe(
-        tap(user => {
-          // Store user details and token in local storage
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-        })
-      );
+  login(username: string, password: string): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/auth/login`, { username, password }).pipe(
+      tap((response) => {
+        const user = { 
+          id: response.id, // Retrieve the user's ID
+          username: response.username, 
+          role: response.role, 
+          token: response.token 
+        };
+        console.log('User logged in:', user); // Debugging statement
+        localStorage.setItem('currentUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+      })
+    );
   }
 
   logout(): void {

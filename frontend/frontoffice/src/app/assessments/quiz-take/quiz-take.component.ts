@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
+import { AuthService } from '../../services/auth.service'; // Import AuthService
 import { Quiz } from '../../models/quiz.model';
 
 @Component({
@@ -20,7 +21,8 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private quizService: QuizService
+    private quizService: QuizService,
+    private authService: AuthService // Inject AuthService
   ) {}
 
   ngOnInit(): void {
@@ -90,12 +92,13 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
       }
     }, 1000);
   }
+
   formatTime(seconds: number): string {
     const minutes: number = Math.floor(seconds / 60);
     const remainingSeconds: number = seconds % 60;
     return `${this.pad(minutes)}:${this.pad(remainingSeconds)}`;
   }
-  
+
   pad(num: number): string {
     return num < 10 ? '0' + num : num.toString();
   }
@@ -112,7 +115,6 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
       localStorage.setItem('quizState', JSON.stringify(state));
     }
   }
-  
 
   clearState(): void {
     localStorage.removeItem('quizState');
@@ -155,27 +157,36 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
     if (!this.validateAnswers()) {
       return;
     }
-
+  
     if (!this.quiz) {
       console.error('Quiz is not loaded');
       return;
     }
-
+  
     const quizId = this.quiz.id;
     if (quizId === undefined) {
       console.error('Quiz ID is undefined');
       return;
     }
-
+  
+    // Retrieve the user ID from localStorage
+    const userId = localStorage.getItem('id');
+    if (!userId) {
+      console.error('User is not logged in');
+      alert('You must be logged in to submit the quiz.');
+      this.router.navigate(['/login']); // Redirect to login page
+      return;
+    }
+  
     // Convert Map to an object
     const userAnswersObject = Object.fromEntries(this.userAnswers);
     console.log('Submitting quiz with answers:', userAnswersObject);
-
-    this.quizService.evaluateQuiz(quizId, userAnswersObject).subscribe(
+  
+    this.quizService.evaluateQuiz(quizId, userAnswersObject, parseInt(userId, 10)).subscribe(
       (score) => {
-        alert(`Your score: ${score}/${this.quiz!.questions.length}`);
+        console.log('Received score from backend:', score); // Debugging statement
         this.clearState(); // Clear saved state after submission
-        this.router.navigate(['/quiz-result', score, this.quiz!.questions.length]);
+        this.router.navigate(['/quiz-result', score, this.quiz!.questions.length]); // Pass score and total questions
       },
       (error) => {
         console.error('Error evaluating quiz:', error);
