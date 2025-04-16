@@ -13,7 +13,7 @@ import java.util.Collections;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-
+/*
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true)
                 .maxAge(3600);
     }
-    
+
     @Bean
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -60,5 +60,5 @@ public class WebConfig implements WebMvcConfigurer {
         
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-    }
+    }*/
 } 

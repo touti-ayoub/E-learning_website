@@ -7,6 +7,8 @@ import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 public class GatewayApplication {
@@ -25,4 +27,5 @@ public class GatewayApplication {
 
 				build();
 	}
+
 }

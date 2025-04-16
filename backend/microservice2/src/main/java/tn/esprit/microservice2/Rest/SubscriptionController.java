@@ -3,10 +3,12 @@ package tn.esprit.microservice2.Rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.microservice2.DTO.CourseDTO;
 import tn.esprit.microservice2.DTO.SubCreatingRequest;
 import tn.esprit.microservice2.DTO.SubscriptionDTO;
 import tn.esprit.microservice2.DTO.UserDTO;
 import tn.esprit.microservice2.Model.*;
+import tn.esprit.microservice2.comm.CourseClient;
 import tn.esprit.microservice2.comm.UserClient;
 import tn.esprit.microservice2.service.SubscriptionService;
 
@@ -19,6 +21,8 @@ import java.util.Map;
 public class SubscriptionController {
     @Autowired
     private UserClient userClient;
+    @Autowired
+    private CourseClient courseClient;
 
     @Autowired
     private SubscriptionService subscriptionService;
@@ -116,6 +120,15 @@ public class SubscriptionController {
             System.err.println("Error fetching user by username: " + e.getMessage());
             // Return a more appropriate response
             return ResponseEntity.status(500).build();
+        }
+    }
+    @GetMapping("/courses")
+    public ResponseEntity<List<CourseDTO>> testGetAllCourses() {
+        try {
+            List<CourseDTO> courses = courseClient.getAllCourses();
+            return ResponseEntity.ok(courses);
+        } catch (Exception e) {
+            throw e;
         }
     }
 }
