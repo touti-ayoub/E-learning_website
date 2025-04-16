@@ -126,7 +126,19 @@ export class SubscriptionComponent implements OnInit {
       });
   }
 
-  // Rest of your methods remain the same...
+  loadCourses(): void {
+    this.http.get("http://localhost:8088/mic2/subscription/courses").subscribe(
+      {
+        next: (response:any) => {
+          this.courses = response;
+          console.log(this.courses);
+        },
+        error: (error) => {
+          console.error('Error retrieving course:', error);
+        }
+      }
+    )
+  }
 
   /**
    * Validate coupon code with backend
@@ -349,5 +361,4 @@ export class SubscriptionComponent implements OnInit {
 
   goo() {
     this.router.navigate(['/courses']);
-  }
-}
+  }}

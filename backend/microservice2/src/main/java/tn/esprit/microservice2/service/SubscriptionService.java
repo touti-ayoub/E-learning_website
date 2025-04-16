@@ -81,7 +81,6 @@ public class SubscriptionService {
             subscription.setPaymentType(subRequest.getPaymentType());
             subscription.setStatus(SubscriptionStatus.PENDING);
             subscription.setStartDate(now);
-            subscription.setEndDate(now.plusMonths(course.getDurationInMonths()));
             subscription.setAutoRenew(subRequest.isAutoRenew());
             subscription.setCreatedAt(now);
             subscription.setUpdatedAt(now);

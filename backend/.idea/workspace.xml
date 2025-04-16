@@ -5,40 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/config/CorsConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/config/OpenRouterConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/config/OpenRouterConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/config/WebMvcConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/config/WebMvcConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/controllers/LessonController.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/controllers/LessonController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/ChatMessageDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/ChatMessageDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/ChatSessionDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/ChatSessionDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/UserDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/UserDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterMessageDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterMessageDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterRequestDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterRequestDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto$ChoiceDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto$ChoiceDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto$MessageDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto$MessageDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto$UsageDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto$UsageDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Category.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Category.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/ChatMessage.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/ChatMessage.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/ChatSession.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/ChatSession.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Course$CourseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Course$CourseBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Course.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Course.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Lesson$LessonBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Lesson$LessonBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Lesson.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/Lesson.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/entities/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/CategoryService.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/CategoryService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/ChatBotService.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/ChatBotService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/CourseService.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/CourseService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/LessonService.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/LessonService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/PresentationConversionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/services/PresentationConversionService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/CourseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/CourseDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/config/WebConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/config/WebConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -294,7 +263,7 @@
       <workItem from="1744465734597" duration="6765000" />
       <workItem from="1744675027914" duration="1309000" />
       <workItem from="1744754363899" duration="13550000" />
-      <workItem from="1744769871561" duration="10938000" />
+      <workItem from="1744769871561" duration="17066000" />
     </task>
     <servers />
   </component>
