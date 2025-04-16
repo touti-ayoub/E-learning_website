@@ -8,3 +8,4 @@ import tn.esprit.microservice1.entities.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     // No additional methods needed
 } 
+

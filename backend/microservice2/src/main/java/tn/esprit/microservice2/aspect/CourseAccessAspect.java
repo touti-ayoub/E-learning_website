@@ -12,6 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
+
 /**
  * Aspect for logging course access attempts
  */

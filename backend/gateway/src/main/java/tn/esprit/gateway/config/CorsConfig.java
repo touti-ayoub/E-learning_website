@@ -37,8 +37,7 @@ public class CorsConfig {
             "Access-Control-Allow-Origin", 
             "Access-Control-Request-Method", 
             "Access-Control-Request-Headers",
-            "X-Requested-With",
-            "*"  // Allow all headers
+            "X-Requested-With"
         ));
         
         // Expose headers to the client
@@ -48,10 +47,7 @@ public class CorsConfig {
             "Access-Control-Allow-Headers",
             "Access-Control-Max-Age",
             "Access-Control-Request-Headers",
-            "Access-Control-Request-Method",
-            "Content-Disposition",  // Needed for file downloads
-            "Content-Type",
-            "Content-Length"
+            "Access-Control-Request-Method"
         ));
         
         // Cache preflight response for 3600 seconds (1 hour)

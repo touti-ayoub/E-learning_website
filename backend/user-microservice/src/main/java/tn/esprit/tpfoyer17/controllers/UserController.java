@@ -7,6 +7,13 @@ import tn.esprit.tpfoyer17.entities.User;
 import tn.esprit.tpfoyer17.entities.UserDTO;
 import tn.esprit.tpfoyer17.repositories.UserRepository;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.tpfoyer17.entities.User;
+import tn.esprit.tpfoyer17.entities.UserDTO;
+import tn.esprit.tpfoyer17.repositories.UserRepository;
+
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -36,4 +43,4 @@ public class UserController {
         boolean exists = userRepository.existsById(id);
         return ResponseEntity.ok(exists);
     }
-} 
+}

@@ -45,5 +45,50 @@
 
 <!-- Template Javascript -->
 <script src="assets/js/main.js"></script>
+
+<!-- Fix for OwlCarousel -->
+<script>
+  // Ensure jQuery and OwlCarousel are loaded before using them
+  document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(function() {
+      if (typeof jQuery !== 'undefined' && typeof jQuery.fn.owlCarousel !== 'undefined') {
+        try {
+          jQuery(".header-carousel").owlCarousel({
+            autoplay: true,
+            smartSpeed: 1500,
+            items: 1,
+            dots: false,
+            loop: true,
+            nav: true,
+            navText: [
+              '<i class="bi bi-chevron-left"></i>',
+              '<i class="bi bi-chevron-right"></i>'
+            ]
+          });
+
+          jQuery(".testimonial-carousel").owlCarousel({
+            autoplay: true,
+            smartSpeed: 1000,
+            center: true,
+            margin: 24,
+            dots: true,
+            loop: true,
+            nav: false,
+            responsive: {
+              0: { items: 1 },
+              768: { items: 2 },
+              992: { items: 3 }
+            }
+          });
+          console.log('OwlCarousel initialized successfully');
+        } catch (e) {
+          console.error('Error initializing OwlCarousel:', e);
+        }
+      } else {
+        console.error('jQuery or OwlCarousel not loaded');
+      }
+    }, 500); // Small delay to ensure everything is loaded
+  });
+</script>
 </body>
 </html>

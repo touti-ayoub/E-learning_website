@@ -55,6 +55,7 @@ const routes: Routes = [
   { path: 'quiz/:id', component: QuizTakeComponent },
   { path: 'quiz-result/:score/:total', component: QuizResultComponent },
   { path: 'chatbot', component: ChatbotComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: '/quizzes/list', pathMatch: 'full' },
 
   { path: '**', component: NotfoundComponent }, // Keep this as the last route
   

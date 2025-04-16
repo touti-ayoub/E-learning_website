@@ -39,7 +39,6 @@ export class CourseAccessService {
   checkCourseAccess(userId: number, courseId: number): Observable<CourseAccessResponseDTO> {
     console.log(`Checking access for user ${userId} to course ${courseId}`);
     
-    // PRODUCTION CODE
     const requestBody = { userId, courseId };
     
     return this.http.post<CourseAccessResponseDTO>(

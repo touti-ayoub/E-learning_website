@@ -17,3 +17,4 @@ public class ChatMessageDto {
     private LocalDateTime timestamp;
     private Long chatSessionId;
 } 
+

@@ -21,3 +21,4 @@ public class User {
     
     // No additional fields needed as this is just a reference entity
 } 
+

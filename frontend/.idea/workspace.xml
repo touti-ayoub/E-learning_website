@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="6d3944b0-3a6a-4ab0-9143-1558329140cc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/application.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/Microservice1Application.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/config/GlobalExceptionHandler.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/config/OpenRouterConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/config/WebConfig$1.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/config/WebConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/config/WebMvcConfig.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/controllers/CategoryController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/controllers/ChatBotController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/controllers/CourseController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/controllers/LessonController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/controllers/PresentationController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/dto/ChatMessageDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/dto/ChatSessionDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/dto/UserDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterMessageDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterRequestDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto$ChoiceDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto$MessageDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto$UsageDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/entities/Category.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/entities/ChatMessage.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/entities/ChatSession.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/entities/Course$CourseBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/entities/Course.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/entities/Lesson$LessonBuilder.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/entities/Lesson.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/entities/User.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/repositories/CategoryRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/repositories/ChatMessageRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/repositories/ChatSessionRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/repositories/CourseRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/repositories/LessonRepository.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/services/CategoryService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/services/ChatBotService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/services/CourseService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/services/LessonService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/services/PresentationConversionService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/classes/tn/esprit/microservice1/services/UserClientService.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/maven-archiver/pom.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/microservice1-0.0.1-SNAPSHOT.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice1/target/microservice1-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/comm/UserClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/comm/UserClientFallbackFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz-question/quiz-question.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz-question/quiz-question.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz-question/quiz-question.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz-question/quiz-question.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz-result/quiz-result.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz-result/quiz-result.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz-result/quiz-result.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz-result/quiz-result.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz/quiz.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz/quiz.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz/quiz.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/app/Component/assessments/quiz/quiz.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/model/mic/quiz-question.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/model/mic/quiz-result.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/model/mic/quiz.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/service/mic/quiz-question.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/service/mic/quiz-result.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backoffice/src/service/mic/quiz.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/gateway/src/main/java/tn/esprit/gateway/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/gateway/src/main/java/tn/esprit/gateway/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/config/OpenRouterConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/config/OpenRouterConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/controllers/ChatBotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/controllers/ChatBotController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/controllers/LessonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/controllers/LessonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/ChatMessageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/ChatMessageDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/ChatSessionDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/ChatSessionDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/UserDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/UserDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/openrouter/OpenRouterMessageDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/openrouter/OpenRouterMessageDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/openrouter/OpenRouterRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/openrouter/OpenRouterRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/entities/ChatMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/entities/ChatMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/entities/ChatSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/entities/ChatSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/entities/Lesson.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/entities/Lesson.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/entities/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/repositories/ChatMessageRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/repositories/ChatMessageRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/repositories/ChatSessionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/repositories/ChatSessionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/repositories/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/services/ChatBotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/services/ChatBotService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/services/CourseAccessClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/services/CourseAccessClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/services/PresentationConversionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/java/tn/esprit/microservice1/services/PresentationConversionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice1/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice1/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice2/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/Microservice2Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/Microservice2Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/aspect/CourseAccessAspect.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/aspect/CourseAccessAspect.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/service/CourseAccessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/service/CourseAccessService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/service/ScheduledTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/service/ScheduledTasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/microservice2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/microservice2/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/src/main/java/tn/esprit/tpfoyer17/configurations/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/src/main/java/tn/esprit/tpfoyer17/configurations/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/AuthController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/UserDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/UserDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/target/surefire-reports/TEST-tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/target/surefire-reports/TEST-tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../backend/user-microservice/target/surefire-reports/tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../backend/user-microservice/target/surefire-reports/tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backoffice/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backoffice/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backoffice/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backoffice/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backoffice/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backoffice/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/backoffice/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/auth/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/components/chatbot/chatbot.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/components/chatbot/chatbot.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/components/chatbot/chatbot.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/components/chatbot/chatbot.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/components/chatbot/chatbot.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/components/chatbot/chatbot.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/guards/course-access.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/guards/course-access.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/header/header.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/models/chat.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/models/chat.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/services/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/services/chatbot.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/services/chatbot.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/app/shared/components/pptx-viewer/pptx-viewer.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/app/shared/components/pptx-viewer/pptx-viewer.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/services/auth/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontoffice/src/services/mic2/course-access.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontoffice/src/services/mic2/course-access.service.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="2vnwfvVulryBJkxJQhIe7jgA1kO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "com.codeium.enabled": "true",
+    "git-widget-placeholder": "Merging clean-course3",
+    "kotlin-language-version-configured": "true",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-corretto-21.0.2-4caba194b151-51586f01" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="6d3944b0-3a6a-4ab0-9143-1558329140cc" name="Changes" comment="" />
+      <created>1744794252488</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1744794252488</updated>
+      <workItem from="1744794253588" duration="49000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChatbotService } from '../../services/chatbot.service';
 import { ChatMessage, ChatSession } from '../../models/chat.model';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,6 +17,7 @@ export class ChatbotComponent implements OnInit {
   isLoading: boolean = false;
   isSidebarOpen: boolean = false;
   errorMessage: string = '';
+  private lastUserId: number | null = null;
 
   constructor(
     private chatbotService: ChatbotService,
@@ -29,38 +30,52 @@ export class ChatbotComponent implements OnInit {
     this.setupUserId();
   }
 
+  clearCurrentData(): void {
+    this.userId = null;
+    this.sessions = [];
+    this.currentSession = null;
+    this.lastUserId = null;
+    this.errorMessage = '';
+  }
+
   setupUserId(): void {
-    // Get user ID from auth service
     console.log('Setting up user ID');
+    
+    // Get user ID directly from localStorage
     const storedUser = localStorage.getItem('currentUser');
+    const token = localStorage.getItem('token');
     
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser);
-        this.userId = user.id;
-        console.log('User ID from localStorage:', this.userId);
-        this.loadUserSessions();
+        if (user && user.id) {
+          const newUserId = Number(user.id);
+          
+          // Check if user has changed
+          if (this.lastUserId !== null && this.lastUserId !== newUserId) {
+            console.log('User changed from', this.lastUserId, 'to', newUserId);
+            this.clearCurrentData(); // Clear previous user's data
+          }
+          
+          this.userId = newUserId;
+          this.lastUserId = newUserId;
+          console.log('User ID from localStorage:', this.userId);
+          this.loadUserSessions();
+        } else {
+          console.error('User object found but no ID property', user);
+          this.errorMessage = 'User ID not available. Please try logging out and in again.';
+          setTimeout(() => this.router.navigate(['/login']), 2000);
+        }
       } catch (error) {
         console.error('Error parsing stored user:', error);
-        this.useFallbackUser();
-      }
-    } else {
-      // For auth services that store tokens differently
-      if (localStorage.getItem('token')) {
-        console.log('Token found but no currentUser object');
-        this.useFallbackUser();
-      } else {
-        console.warn('No authentication found, redirecting to login');
-        this.errorMessage = 'Please log in to use the chatbot.';
+        this.errorMessage = 'Error with user data. Please try logging out and in again.';
         setTimeout(() => this.router.navigate(['/login']), 2000);
       }
+    } else {
+      console.warn('No authentication found, redirecting to login');
+      this.errorMessage = 'Please log in to use the chatbot.';
+      setTimeout(() => this.router.navigate(['/login']), 2000);
     }
-  }
-
-  useFallbackUser(): void {
-    console.warn('Using fallback user ID for development');
-    this.userId = 1; // Fallback to user ID 1 for development
-    this.loadUserSessions();
   }
 
   loadUserSessions(): void {
@@ -72,13 +87,35 @@ export class ChatbotComponent implements OnInit {
     
     console.log('Loading sessions for user ID:', this.userId);
     this.isLoading = true;
+    
+    // Explicitly clear any existing sessions first to ensure no mixing of user data
+    this.sessions = [];
+    this.currentSession = null;
+    
     this.chatbotService.getUserSessions(this.userId).subscribe({
       next: (sessions) => {
         console.log('Loaded sessions:', sessions);
-        this.sessions = sessions;
-        // If we have sessions, load the most recent one
-        if (sessions.length > 0) {
-          this.selectSession(sessions[0]);
+        // Make sure we're only loading sessions for the current user
+        if (sessions && Array.isArray(sessions)) {
+          this.sessions = sessions.filter(session => {
+            const sessionUserId = session.userId || null;
+            const matches = sessionUserId === this.userId;
+            if (!matches) {
+              console.warn(`Filtering out session ${session.id} with userId ${sessionUserId} (current: ${this.userId})`);
+            }
+            return matches;
+          });
+          
+          console.log(`Filtered down to ${this.sessions.length} sessions for user ${this.userId}`);
+          
+          // If we have sessions, load the most recent one
+          if (this.sessions.length > 0) {
+            this.selectSession(this.sessions[0]);
+          } else {
+            console.log('No sessions found for this user');
+          }
+        } else {
+          console.error('Received invalid sessions data:', sessions);
         }
         this.isLoading = false;
       },
@@ -109,6 +146,11 @@ export class ChatbotComponent implements OnInit {
     this.chatbotService.createSession(this.userId, 'New Conversation').subscribe({
       next: (session) => {
         console.log('Created new session:', session);
+        // Ensure the session has the correct user ID
+        if (!session.userId) {
+          session.userId = this.userId as number;
+          console.log('Added missing userId to session:', session);
+        }
         this.sessions.unshift(session); // Add to beginning of array
         this.selectSession(session);
         this.isLoading = false;
@@ -123,6 +165,15 @@ export class ChatbotComponent implements OnInit {
 
   selectSession(session: ChatSession): void {
     console.log('Selecting session:', session);
+    // Make sure the session belongs to the current user
+    if (session.userId && session.userId !== this.userId) {
+      console.error('Attempted to select session belonging to different user', {
+        sessionUserId: session.userId,
+        currentUserId: this.userId
+      });
+      this.errorMessage = 'Cannot access this chat session.';
+      return;
+    }
     this.currentSession = session;
     this.isSidebarOpen = false; // Close sidebar on mobile after selection
   }
@@ -134,6 +185,16 @@ export class ChatbotComponent implements OnInit {
         noUserId: !this.userId,
         noSessionId: !this.currentSession?.id
       });
+      return;
+    }
+    
+    // Verify the current session belongs to the current user
+    if (this.currentSession.userId && this.currentSession.userId !== this.userId) {
+      console.error('Cannot send message to another user\'s session', {
+        sessionUserId: this.currentSession.userId,
+        currentUserId: this.userId
+      });
+      this.errorMessage = 'Cannot send messages in this chat session.';
       return;
     }
     

@@ -10,14 +10,6 @@ public class UserDTO {
 
     private String username;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getToken() {
         return token;
     }
@@ -36,6 +28,14 @@ public class UserDTO {
 
     public String getUsername() {
         return username;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setUsername(String username) {
