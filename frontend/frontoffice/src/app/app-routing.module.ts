@@ -22,6 +22,7 @@ import { QuizTakeComponent } from './assessments/quiz-take/quiz-take.component';
 import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
 import { CourseDetailComponent } from './course-detail/course-detail.component';
 import { CourseAccessGuard } from './guards/course-access.guard';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 
 // Declare routes outside the class
 const routes: Routes = [
@@ -53,6 +54,7 @@ const routes: Routes = [
   { path: 'quizzes/list', component: QuizListComponent },
   { path: 'quiz/:id', component: QuizTakeComponent },
   { path: 'quiz-result/:score/:total', component: QuizResultComponent },
+  { path: 'chatbot', component: ChatbotComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/quizzes/list', pathMatch: 'full' },
 
   { path: '**', component: NotfoundComponent }, // Keep this as the last route
