@@ -15,6 +15,7 @@ import tn.esprit.microservice1.entities.ChatSession;
 import tn.esprit.microservice1.entities.User;
 import tn.esprit.microservice1.repositories.ChatMessageRepository;
 import tn.esprit.microservice1.repositories.ChatSessionRepository;
+import tn.esprit.microservice1.repositories.UserRepository;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -30,27 +31,48 @@ public class ChatBotService {
     private final ChatSessionRepository chatSessionRepository;
     private final ChatMessageRepository chatMessageRepository;
     private final UserClientService userClientService;
+    private final UserRepository userRepository;
 
     @Autowired
     public ChatBotService(WebClient openRouterWebClient, 
                           ChatSessionRepository chatSessionRepository,
                           ChatMessageRepository chatMessageRepository,
-                          UserClientService userClientService) {
+                          UserClientService userClientService,
+                          UserRepository userRepository) {
         this.openRouterWebClient = openRouterWebClient;
         this.chatSessionRepository = chatSessionRepository;
         this.chatMessageRepository = chatMessageRepository;
         this.userClientService = userClientService;
+        this.userRepository = userRepository;
     }
 
     public ChatSessionDto createSession(Long userId, String title) {
-        // Verify user exists
-        UserDto userDto = userClientService.getUserById(userId);
-        if (userDto == null) {
-            throw new RuntimeException("User not found");
+        // Create an anonymous user if userId is null
+        User user;
+        if (userId != null) {
+            // Verify user exists if ID provided
+            try {
+                UserDto userDto = userClientService.getUserById(userId);
+                if (userDto == null) {
+                    log.warn("User with ID {} not found, creating anonymous user", userId);
+                    user = createAnonymousUser();
+                } else {
+                    // Get or create a User entity with this ID
+                    user = userRepository.findById(userId)
+                        .orElseGet(() -> {
+                            User newUser = new User();
+                            newUser.setId(userId);
+                            return userRepository.save(newUser);
+                        });
+                }
+            } catch (Exception e) {
+                log.warn("Error verifying user, creating anonymous user", e);
+                user = createAnonymousUser();
+            }
+        } else {
+            // Create anonymous user
+            user = createAnonymousUser();
         }
-        
-        User user = new User();
-        user.setId(userDto.getId());
         
         ChatSession session = new ChatSession();
         session.setUser(user);
@@ -60,9 +82,22 @@ public class ChatBotService {
         return convertToDto(savedSession);
     }
 
+    // Helper method to create an anonymous user
+    private User createAnonymousUser() {
+        User anonymousUser = new User();
+        // Set a negative ID to avoid conflicts with real users
+        anonymousUser.setId(-System.currentTimeMillis());
+        return userRepository.save(anonymousUser);
+    }
+
     public List<ChatSessionDto> getUserSessions(Long userId) {
-        User user = new User();
-        user.setId(userId);
+        // Get or create a User entity with this ID
+        User user = userRepository.findById(userId)
+                .orElseGet(() -> {
+                    User newUser = new User();
+                    newUser.setId(userId);
+                    return userRepository.save(newUser);
+                });
         
         return chatSessionRepository.findByUserOrderByUpdatedAtDesc(user)
                 .stream()
@@ -78,18 +113,35 @@ public class ChatBotService {
     }
 
     public ChatMessageDto sendMessage(Long userId, Long sessionId, String message) {
-        // Verify user exists
-        if (!userClientService.validateUser(userId)) {
-            throw new RuntimeException("User not found");
-        }
-        
         // Get the chat session
         ChatSession session = chatSessionRepository.findById(sessionId)
                 .orElseThrow(() -> new RuntimeException("Chat session not found"));
         
-        // Create a user entity reference (we don't need to fetch the full user object)
-        User user = new User();
-        user.setId(userId);
+        // Use the session's user if userId is null
+        User user;
+        if (userId != null) {
+            // Try to verify user if ID is provided
+            try {
+                if (!userClientService.validateUser(userId)) {
+                    log.warn("User with ID {} not found, using session user", userId);
+                    user = session.getUser();
+                } else {
+                    // Get or create a User entity with this ID
+                    user = userRepository.findById(userId)
+                        .orElseGet(() -> {
+                            User newUser = new User();
+                            newUser.setId(userId);
+                            return userRepository.save(newUser);
+                        });
+                }
+            } catch (Exception e) {
+                log.warn("Error verifying user, using session user", e);
+                user = session.getUser();
+            }
+        } else {
+            // Use the session's user
+            user = session.getUser();
+        }
         
         // Save the user message
         ChatMessage userMessage = new ChatMessage(user, "user", message, session);
@@ -108,30 +160,48 @@ public class ChatBotService {
         // Create the request
         OpenRouterRequestDto request = OpenRouterRequestDto.createDefault(openRouterMessages);
         
-        // Send to OpenRouter
-        OpenRouterResponseDto response = openRouterWebClient.post()
-                .uri("/chat/completions")
-                .bodyValue(request)
-                .retrieve()
-                .bodyToMono(OpenRouterResponseDto.class)
-                .block();
-        
-        if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
-            throw new RuntimeException("Failed to get response from AI service");
+        try {
+            log.info("Sending request to OpenRouter API...");
+            // Send to OpenRouter
+            OpenRouterResponseDto response = openRouterWebClient.post()
+                    .uri("/chat/completions")
+                    .bodyValue(request)
+                    .retrieve()
+                    .bodyToMono(OpenRouterResponseDto.class)
+                    .block();
+            
+            if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
+                log.error("OpenRouter returned empty response");
+                throw new RuntimeException("Failed to get response from AI service");
+            }
+            
+            // Extract assistant's response
+            String assistantResponse = response.getChoices().get(0).getMessage().getContent();
+            log.info("Received response from OpenRouter API");
+            
+            // Save the assistant's response
+            ChatMessage assistantMessage = new ChatMessage(user, "assistant", assistantResponse, session);
+            ChatMessage savedAssistantMessage = chatMessageRepository.save(assistantMessage);
+            
+            // Update session's lastUpdated time
+            session.setUpdatedAt(LocalDateTime.now());
+            chatSessionRepository.save(session);
+            
+            return convertToDto(savedAssistantMessage);
+        } catch (Exception e) {
+            log.error("Error calling OpenRouter API: {}", e.getMessage(), e);
+            
+            // In case of API failure, return a fallback message
+            String fallbackResponse = "I'm sorry, I'm having trouble connecting to my knowledge service. Please try again later.";
+            ChatMessage fallbackMessage = new ChatMessage(user, "assistant", fallbackResponse, session);
+            ChatMessage savedFallbackMessage = chatMessageRepository.save(fallbackMessage);
+            
+            // Still update the session timestamp
+            session.setUpdatedAt(LocalDateTime.now());
+            chatSessionRepository.save(session);
+            
+            return convertToDto(savedFallbackMessage);
         }
-        
-        // Extract assistant's response
-        String assistantResponse = response.getChoices().get(0).getMessage().getContent();
-        
-        // Save the assistant's response
-        ChatMessage assistantMessage = new ChatMessage(user, "assistant", assistantResponse, session);
-        ChatMessage savedAssistantMessage = chatMessageRepository.save(assistantMessage);
-        
-        // Update session's lastUpdated time
-        session.setUpdatedAt(LocalDateTime.now());
-        chatSessionRepository.save(session);
-        
-        return convertToDto(savedAssistantMessage);
     }
     
     // Helper methods for DTO conversion

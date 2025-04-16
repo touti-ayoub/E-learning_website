@@ -16,6 +16,7 @@ public interface ISubscriptionRepository extends JpaRepository<Subscription, Lon
     List<Subscription> findByUser(User user);
     Optional<Subscription> findByUserAndCourseAndStatus(User user, Course course, SubscriptionStatus status);
     Optional<Subscription> findByUserIdAndCourseIdAndStatus(Long userId, Long courseId, SubscriptionStatus status);
+    List<Subscription> findByUserIdAndCourseId(Long userId, Long courseId);
     @Query("SELECT s FROM Subscription s " +
             "LEFT JOIN FETCH s.user " +
             "LEFT JOIN FETCH s.course " +

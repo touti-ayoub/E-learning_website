@@ -1,6 +1,6 @@
 export interface ChatMessage {
     id?: number;
-    userId: number;
+    userId?: number;
     role: 'user' | 'assistant';
     content: string;
     timestamp: Date;
@@ -9,9 +9,9 @@ export interface ChatMessage {
 
 export interface ChatSession {
     id?: number;
-    userId: number;
+    userId?: number;
     title: string;
     createdAt: Date;
     updatedAt: Date;
     messages: ChatMessage[];
-} 
+}

@@ -191,7 +191,7 @@ export const NavigationItems: NavigationItem[] = [
             id: 'create-quiz',
             title: 'Create Quiz',
             type: 'item',
-            url: '/quiz/create', // URL for the create quiz page
+            url: '/quizzes', // URL for the create quiz page
             classes: 'nav-item',
             breadcrumbs: true
           }

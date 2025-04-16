@@ -24,11 +24,18 @@ export class QuizService {
 
   // Delete a quiz
   deleteQuiz(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.baseUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}/delete`); // Add '/delete' to match the backend endpoint
   }
 
   // Evaluate a quiz
   evaluateQuiz(quizId: number, userAnswers: { [key: number]: number }): Observable<number> {
     return this.http.post<number>(`${this.baseUrl}/${quizId}/evaluate`, userAnswers);
+  }
+  getQuizById(id: number): Observable<Quiz> {
+    return this.http.get<Quiz>(`${this.baseUrl}/${id}`);
+  }
+  // Update a quiz
+  updateQuiz(quiz: Quiz): Observable<Quiz> {
+    return this.http.put<Quiz>(`${this.baseUrl}/${quiz.id}/update`, quiz); // Add '/update' to match the backend endpoint
   }
 }

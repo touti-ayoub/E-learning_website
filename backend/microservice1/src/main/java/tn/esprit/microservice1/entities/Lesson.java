@@ -48,6 +48,9 @@ public class Lesson {
     
     @Column(name = "presentation_html_content", columnDefinition = "LONGTEXT")
     private String presentationHtmlContent;
+    
+    @Column(name = "presentation_image_path", length = 500)
+    private String presentationImagePath;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id", nullable = true)

@@ -193,7 +193,7 @@ public class PresentationConversionService {
                 String activeClass = (i == 0) ? " active" : "";
                 htmlBuilder.append("    <div class=\"slide").append(activeClass).append("\">\n");
                 htmlBuilder.append("      <img class=\"slide-image\" src=\"/api/lessons/").append(lessonId)
-                          .append("/presentation/images/1/").append(imgName)
+                          .append("/presentation/images/").append(i + 1).append("/").append(imgName)
                           .append("\" alt=\"Slide ").append(i + 1).append("\">\n");
                 htmlBuilder.append("    </div>\n");
                 
@@ -204,6 +204,12 @@ public class PresentationConversionService {
             Lesson lesson = lessonRepository.findById(lessonId)
                     .orElseThrow(() -> new RuntimeException("Lesson not found"));
             lesson.setConvertedPresentationUrl(String.join(",", imageNames));
+            
+            // Set the image path pattern for later retrieval
+            // This pattern can be used to construct the actual file path by replacing the placeholders
+            String imagePathPattern = imagesDir + "/{slideId}/" + prefix + "-slide-{slideId}.png";
+            lesson.setPresentationImagePath(imagePathPattern);
+            
             lessonRepository.save(lesson);
             
             // Add navigation controls
@@ -250,6 +256,14 @@ public class PresentationConversionService {
             htmlBuilder.append("</html>");
         }
         
-        return htmlBuilder.toString();
+        String htmlContent = htmlBuilder.toString();
+        
+        // Update lesson with HTML content
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+        lesson.setPresentationHtmlContent(htmlContent);
+        lessonRepository.save(lesson);
+        
+        return htmlContent;
     }
 } 
