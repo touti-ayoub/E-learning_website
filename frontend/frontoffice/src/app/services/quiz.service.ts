@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Quiz } from '../models/quiz.model';
 
@@ -26,8 +26,12 @@ export class QuizService {
     return this.http.get<Quiz>(`${this.apiUrl}/quizzes/${id}`);
   }
 
-  // Evaluate a quiz
-  evaluateQuiz(quizId: number, answers: { [key: number]: number }): Observable<number> {
-    return this.http.post<number>(`${this.apiUrl}/quizzes/${quizId}/evaluate`, answers);
+  // Evaluate a quiz and associate it with a user
+  evaluateQuiz(quizId: number, answers: { [key: number]: number }, userId: number): Observable<number> {
+    const headers = new HttpHeaders().set('userId', userId.toString()); // Add userId to the request header
+    return this.http.post<number>(`${this.apiUrl}/quizzes/${quizId}/evaluate`, answers, { headers });
+  }
+  getUserQuizResults(userId: number): Observable<{ quizId: number; score: number }[]> {
+    return this.http.get<{ quizId: number; score: number }[]>(`${this.apiUrl}/quizzes/results/${userId}`);
   }
 }
