@@ -1,0 +1,5 @@
+<div *ngFor="let quiz of quizzes" class="quiz-card">
+  <h3>{{ quiz.title }}</h3>
+  <p>{{ quiz.description }}</p>
+  <a [routerLink]="['/quiz', quiz.id]" class="take-quiz-button">Take Quiz</a>
+</div>

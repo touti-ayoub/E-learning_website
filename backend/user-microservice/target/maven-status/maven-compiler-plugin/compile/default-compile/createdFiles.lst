@@ -1,0 +1,11 @@
+tn\esprit\tpfoyer17\controllers\UserController.class
+tn\esprit\tpfoyer17\configurations\SecurityConfig.class
+tn\esprit\tpfoyer17\controllers\AuthController.class
+tn\esprit\tpfoyer17\TpFoyer17Application.class
+tn\esprit\tpfoyer17\entities\User.class
+tn\esprit\tpfoyer17\configurations\AOPConfig.class
+tn\esprit\tpfoyer17\entities\UserDTO.class
+tn\esprit\tpfoyer17\services\auth\CustomUserDetailsService.class
+tn\esprit\tpfoyer17\services\auth\JwtAuthenticationFilter.class
+tn\esprit\tpfoyer17\repositories\UserRepository.class
+tn\esprit\tpfoyer17\services\auth\JwtUtils.class

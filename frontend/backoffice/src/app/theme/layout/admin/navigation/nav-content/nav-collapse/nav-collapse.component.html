@@ -1,0 +1,16 @@
+<li *ngIf="!item.hidden" data-username="Berry Dashboard" class="nav-item coded-hasmenu" [routerLinkActive]="['active']">
+  <a [routerLinkActive]="['active']" href="javascript:" class="nav-link" (click)="navCollapse($event)">
+    <span *ngIf="item.icon" class="coded-micon">
+      <i class="{{ item.icon }}"></i>
+    </span>
+    <span class="coded-mtext">
+      {{ item.title }}
+    </span>
+  </a>
+  <ul class="coded-submenu" [routerLinkActive]="['active']" [ngClass]="item.classes!">
+    <ng-container *ngFor="let items of item.children; trackBy: trackByFn">
+      <app-nav-item *ngIf="items.type === 'item'" [item]="items"></app-nav-item>
+      <app-nav-collapse *ngIf="items.type === 'collapse'" [item]="items"></app-nav-collapse>
+    </ng-container>
+  </ul>
+</li>

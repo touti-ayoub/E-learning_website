@@ -1,0 +1,582 @@
+// Dashboard Container
+.dashboard-container {
+    padding: 1rem 0;
+  }
+  
+  // Dashboard Header
+  .dashboard-header {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+    
+    .dashboard-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      
+      .title-icon {
+        margin-right: 0.5rem;
+        color: #4f46e5;
+      }
+    }
+    
+    .dashboard-subtitle {
+      color: #64748b;
+      margin-bottom: 0;
+      font-size: 0.9rem;
+      
+      .dashboard-datetime {
+        margin-left: 1rem;
+        padding-left: 1rem;
+        border-left: 1px solid #e2e8f0;
+        font-weight: 500;
+      }
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 1rem;
+      
+      @media (min-width: 768px) {
+        margin-top: 0;
+      }
+      
+      .custom-dropdown {
+        button {
+          border-radius: 0.5rem;
+          padding: 0.5rem 1rem;
+          font-weight: 500;
+          border-color: #e2e8f0;
+          
+          &:hover {
+            background-color: #f8fafc;
+          }
+        }
+      }
+      
+      .refresh-btn {
+        border-radius: 0.5rem;
+        padding: 0.5rem 1.25rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        
+        &:active {
+          transform: scale(0.97);
+        }
+      }
+    }
+  }
+  
+  // Alerts
+  .alert {
+    border-radius: 0.75rem;
+    border: none;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    
+    &.fade-in {
+      animation: fadeIn 0.3s ease;
+    }
+    
+    .alert-content {
+      display: flex;
+      align-items: center;
+      
+      .alert-icon {
+        font-size: 1.25rem;
+        margin-right: 0.75rem;
+      }
+    }
+    
+    &.alert-info {
+      background-color: rgba(59, 130, 246, 0.1);
+      color: #2563eb;
+    }
+    
+    &.alert-danger {
+      background-color: rgba(239, 68, 68, 0.1);
+      color: #dc2626;
+    }
+  }
+  
+  // Metric Rows
+  .metrics-row {
+    margin-bottom: 1.5rem;
+  }
+  
+  .metrics-small-row {
+    margin-bottom: 1.5rem;
+  }
+  
+  // Revenue Cards
+  .revenue-card {
+    height: 100%;
+    border: none;
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    color: white;
+    position: relative;
+    transition: transform 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-body {
+      padding: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .card-shapes {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      pointer-events: none;
+      
+      .shape {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+        
+        &.shape-1 {
+          width: 100px;
+          height: 100px;
+          top: -30px;
+          right: -30px;
+        }
+        
+        &.shape-2 {
+          width: 150px;
+          height: 150px;
+          bottom: -50px;
+          right: -30px;
+        }
+        
+        &.shape-3 {
+          width: 60px;
+          height: 60px;
+          bottom: 40px;
+          left: -20px;
+        }
+      }
+    }
+    
+    .card-header-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .metric-icon {
+      background: rgba(255, 255, 255, 0.2);
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      i {
+        font-size: 1.75rem;
+      }
+      
+      &.small {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        
+        i {
+          font-size: 1.5rem;
+        }
+      }
+    }
+    
+    .card-action-btn {
+      width: 30px;
+      height: 30px;
+      background-color: rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      cursor: pointer;
+      
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.25);
+        color: white;
+      }
+      
+      i {
+        font-size: 1rem;
+      }
+    }
+    
+    .metric-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 1rem 0 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      
+      .growth-indicator {
+        font-size: 0.9rem;
+        border-radius: 2rem;
+        padding: 0.2rem 0.75rem;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        
+        &.text-success {
+          background-color: rgba(34, 197, 94, 0.25);
+        }
+        
+        &.text-danger {
+          background-color: rgba(239, 68, 68, 0.25);
+        }
+      }
+    }
+    
+    .metric-label {
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+    
+    .metric-value-sm {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+    
+    .metric-label-sm {
+      font-size: 0.875rem;
+      opacity: 0.8;
+    }
+  }
+  
+  // Gradients for cards
+  .primary-gradient {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+  }
+  
+  .secondary-gradient {
+    background: linear-gradient(135deg, #475569, #334155);
+  }
+  
+  .success-gradient {
+    background: linear-gradient(135deg, #059669, #047857);
+  }
+  
+  .warning-gradient {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+  
+  // Metric Card (smaller)
+  .metric-card {
+    height: 100%;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      transform: translateY(-3px);
+    }
+    
+    .card-body {
+      padding: 1.25rem;
+    }
+    
+    .metric-icon-round {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      i {
+        font-size: 1.5rem;
+      }
+      
+      &.primary {
+        background-color: rgba(79, 70, 229, 0.1);
+        color: #4f46e5;
+      }
+      
+      &.success {
+        background-color: rgba(5, 150, 105, 0.1);
+        color: #059669;
+      }
+      
+      &.warning {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+      }
+      
+      &.danger {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+      }
+    }
+    
+    .metric-value-md {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+    
+    .metric-label-md {
+      font-size: 0.875rem;
+      color: #64748b;
+    }
+    
+    .metric-footer {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+      
+      &.coupon-badges {
+        justify-content: flex-start;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+    }
+    
+    .growth-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      gap: 0.25rem;
+      
+      &.positive {
+        background-color: rgba(5, 150, 105, 0.1);
+        color: #059669;
+      }
+      
+      &.negative {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+      }
+    }
+    
+    .comparison-period {
+      margin-left: 0.5rem;
+      font-size: 0.75rem;
+      color: #64748b;
+    }
+    
+    .action-link {
+      display: inline-flex;
+      align-items: center;
+      font-weight: 600;
+      font-size: 0.875rem;
+      gap: 0.25rem;
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.5rem;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        transform: translateX(3px);
+      }
+      
+      &.warning {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+      }
+      
+      &.danger {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #dc2626;
+      }
+      
+      &.primary {
+        background-color: rgba(79, 70, 229, 0.1);
+        color: #4f46e5;
+      }
+    }
+    
+    .metric-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+      background-color: #f1f5f9;
+      color: #64748b;
+    }
+  }
+  
+  // Chart Cards
+  .chart-card {
+    height: 100%;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    
+    .card-header {
+      background-color: transparent;
+      border-bottom: 1px solid #f1f5f9;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .card-title {
+        margin-bottom: 0;
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 1.125rem;
+        display: flex;
+        align-items: center;
+        
+        .card-title-icon {
+          margin-right: 0.5rem;
+          color: #4f46e5;
+        }
+      }
+      
+      .card-actions {
+        display: flex;
+        gap: 0.5rem;
+      }
+    }
+    
+    .chart-period-selector {
+      button {
+        font-size: 0.875rem;
+        border-radius: 0.5rem;
+        padding: 0.375rem 0.75rem;
+      }
+    }
+    
+    .chart-container {
+      padding: 1.5rem;
+    }
+    
+    .chart-subheader {
+      margin: 1.5rem 0 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid #f1f5f9;
+      
+      h6 {
+        font-weight: 600;
+        color: #1e293b;
+        font-size: 1rem;
+        margin: 0;
+      }
+    }
+    
+    .coupon-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1.5rem;
+      
+      .coupon-list-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #f1f5f9;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        .coupon-code {
+          font-weight: 600;
+          padding: 0.25rem 0.75rem;
+          border-radius: 0.375rem;
+          font-size: 0.875rem;
+          
+          &.success {
+            background-color: rgba(5, 150, 105, 0.1);
+            color: #059669;
+          }
+          
+          &.info {
+            background-color: rgba(6, 182, 212, 0.1);
+            color: #0891b2;
+          }
+          
+          &.warning {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+          }
+        }
+        
+        .coupon-stat {
+          .coupon-value {
+            font-weight: 600;
+            color: #059669;
+            font-size: 0.875rem;
+          }
+        }
+      }
+    }
+    
+    .action-container {
+      text-align: center;
+      
+      .btn-block {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.625rem 1.25rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+        
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+  
+  // Animation
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  // Responsive adjustments
+  @media (max-width: 767px) {
+    .header-left, .header-actions {
+      width: 100%;
+    }
+    
+    .header-actions {
+      margin-top: 1rem;
+    }
+    
+    .metrics-row, .metrics-small-row, .charts-row {
+      margin-left: 0;
+      margin-right: 0;
+    }
+    
+    .col-md-6, .col-xl-3, .col-xl-4, .col-xl-8 {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }

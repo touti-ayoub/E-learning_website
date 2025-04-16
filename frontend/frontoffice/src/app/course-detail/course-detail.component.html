@@ -1,0 +1,161 @@
+<div class="container mt-5" *ngIf="loading">
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5" *ngIf="error && !loading">
+  <div class="alert alert-danger">
+    {{ error }}
+  </div>
+</div>
+
+<!-- Course Content -->
+<div class="container mt-4" *ngIf="course && !loading">
+  <div class="row">
+    <!-- Course Information -->
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="card-title">{{ course.title }}</h2>
+          <p class="card-text">{{ course.description }}</p>
+          
+          <div class="course-details">
+            <p><strong>Price:</strong> {{ course.free ? 'Free' : ('$' + course.price) }}</p>
+            <p><strong>Duration:</strong> Variable</p>
+            <p><strong>Level:</strong> All Levels</p>
+          </div>
+          
+          <!-- For debug/testing: Access control override -->
+          <div class="debug-section">
+            <div class="form-check form-switch mb-3">
+              <input class="form-check-input" type="checkbox" id="accessOverride" [checked]="hasAccess" (click)="toggleAccess()">
+              <label class="form-check-label" for="accessOverride">
+                Override Access (For Testing)
+              </label>
+            </div>
+          </div>
+          
+          <!-- Access-restricted content notice - Commented out for testing
+          <app-course-access 
+            *ngIf="!course.free && !hasAccess && !checkingAccess"
+            [courseId]="course.id"
+          ></app-course-access>
+          -->
+          
+          <!-- Lessons List -->
+          <div *ngIf="hasAccess || course.free">
+            <h4 class="mt-4 mb-3">Lessons</h4>
+            <div class="list-group">
+              <a href="javascript:void(0)" 
+                *ngFor="let lesson of course.lessons" 
+                class="list-group-item list-group-item-action"
+                [class.active]="selectedLesson?.id === lesson.id"
+                (click)="selectLesson(lesson)">
+                {{ lesson.title }}
+                <span class="badge bg-info float-end" *ngIf="hasPdf(lesson)">PDF</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Lesson Content -->
+    <div class="col-md-8">
+      <div class="card" *ngIf="selectedLesson && (hasAccess || course.free)">
+        <div class="card-body">
+          <h3 class="card-title">{{ selectedLesson.title }}</h3>
+          
+          <div class="mb-4" *ngIf="!viewingPdf">
+            <!-- Video Content -->
+            <div *ngIf="hasVideo(selectedLesson)" class="ratio ratio-16x9 mb-4">
+              <iframe [src]="getVideoEmbedUrl(selectedLesson) | safeUrl" 
+                      allowfullscreen></iframe>
+            </div>
+            
+            <!-- Lesson Content -->
+            <div class="lesson-content" [innerHTML]="selectedLesson.content"></div>
+            
+            <!-- PDF Button if available -->
+            <div class="mt-4" *ngIf="hasPdf(selectedLesson)">
+              <button class="btn btn-outline-primary" (click)="viewPdf(selectedLesson)">
+                <i class="fas fa-file-pdf me-2"></i>
+                View {{ getPdfName(selectedLesson) }}
+              </button>
+            </div>
+            
+            <!-- Presentation Button if available -->
+            <div class="mt-2" *ngIf="hasPresentation(selectedLesson)">
+              <button class="btn btn-outline-success" (click)="viewPresentation(selectedLesson)">
+                <i class="fas fa-file-powerpoint me-2"></i>
+                View {{ getPresentationName(selectedLesson) }}
+              </button>
+            </div>
+          </div>
+          
+          <!-- PDF Viewer -->
+          <div *ngIf="viewingPdf && viewingPdfLessonId === selectedLesson.id">
+            <div class="d-flex justify-content-between mb-3">
+              <h4>{{ getPdfName(selectedLesson) }}</h4>
+              <button class="btn btn-sm btn-outline-secondary" (click)="viewingPdf = false">
+                <i class="fas fa-times"></i> Close PDF
+              </button>
+            </div>
+            
+            <!-- PDF Embed -->
+            <div class="pdf-container">
+              <!-- For Base64 PDFs -->
+              <iframe *ngIf="isBase64Pdf(selectedLesson)" 
+                      [src]="selectedLesson.pdfUrl | safeUrl" 
+                      width="100%" 
+                      height="600px"
+                      class="pdf-frame"></iframe>
+              
+              <!-- For URL PDFs -->
+              <iframe *ngIf="!isBase64Pdf(selectedLesson) && selectedLesson.pdfUrl" 
+                      [src]="selectedLesson.pdfUrl | safeUrl" 
+                      width="100%" 
+                      height="600px"
+                      class="pdf-frame"></iframe>
+            </div>
+          </div>
+          
+          <!-- Presentation Viewer -->
+          <div *ngIf="viewingPresentation && viewingPresentationLessonId === selectedLesson.id">
+            <div class="d-flex justify-content-between mb-3">
+              <h4>{{ getPresentationName(selectedLesson) }}</h4>
+              <button class="btn btn-sm btn-outline-secondary" (click)="viewingPresentation = false">
+                <i class="fas fa-times"></i> Close Presentation
+              </button>
+            </div>
+            
+            <!-- Presentation Embed -->
+            <div class="presentation-container">
+              <!-- Use the PPTX Viewer component for both base64 and URL presentations -->
+              <app-pptx-viewer 
+                [presentationUrl]="selectedLesson.presentationUrl" 
+                [isBase64]="isBase64Presentation(selectedLesson)"
+                [lessonId]="selectedLesson.id">
+              </app-pptx-viewer>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Access Restricted Placeholder -->
+      <div class="card" *ngIf="!hasAccess && !course?.free">
+        <div class="card-body text-center py-5">
+          <div class="mb-4">
+            <i class="fas fa-lock fa-4x text-secondary"></i>
+          </div>
+          <h3>Premium Content</h3>
+          <p class="lead">This content is available to paid subscribers only.</p>
+          <button class="btn btn-primary btn-lg mt-3" (click)="purchaseCourse()">Purchase Course</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

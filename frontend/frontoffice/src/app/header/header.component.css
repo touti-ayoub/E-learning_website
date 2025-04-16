@@ -1,0 +1,76 @@
+/* User Profile Dropdown Styling */
+.navbar .dropdown-menu {
+  border: none;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  min-width: 200px;
+  margin-top: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.navbar .dropdown-toggle::after {
+  vertical-align: middle;
+  margin-left: 8px;
+}
+
+.navbar .dropdown-item {
+  padding: 0.75rem 1.5rem;
+  color: #1f2937;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+.navbar .dropdown-item:hover {
+  background: #f3f4f6;
+  color: #2563eb;
+  transform: translateX(4px);
+}
+
+.navbar .dropdown-item:active {
+  background: #e5e7eb;
+}
+
+.navbar .dropdown-divider {
+  margin: 0.25rem 0;
+  border-color: #e5e7eb;
+}
+
+/* User name in navbar */
+.navbar .nav-link.dropdown-toggle {
+  color: #1f2937;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.navbar .nav-link.dropdown-toggle:hover {
+  color: #2563eb;
+}
+
+/* Logout specific styling */
+.navbar .dropdown-item.logout-item {
+  color: #ef4444;
+}
+
+.navbar .dropdown-item.logout-item:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+/* User avatar styling */
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #2563eb;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}

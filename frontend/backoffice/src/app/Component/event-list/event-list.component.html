@@ -1,0 +1,48 @@
+<div class="event-container">
+  <div class="header-row">
+    <h2>Events</h2>
+    <button class="add-btn" (click)="openAddEventForm()">+ New Event</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <div class="table-container" *ngIf="events.length > 0; else noEvents">
+    <table class="event-table">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Date & Time</th>
+        <th>Place</th>
+        <th>Type</th>
+        <th>Capacity</th>
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let event of events">
+        <td>{{ event.title }}</td>
+        <td>{{ event.description | slice:0:50 }}{{ event.description.length > 50 ? '...' : '' }}</td>
+        <td>{{ event.startTime | date:'short' }}</td>
+        <td>{{ event.place }}</td>
+        <td>{{ event.eventType }}</td>
+        <td>{{ event.maxCapacity }}</td>
+        <td class="actions">
+          <button class="btn-icon btn-edit" (click)="editEvent(event)" title="Edit">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn-icon btn-delete" (click)="deleteEvent(event)" title="Delete">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noEvents>
+    <div class="no-events">No events found</div>
+  </ng-template>
+</div>
