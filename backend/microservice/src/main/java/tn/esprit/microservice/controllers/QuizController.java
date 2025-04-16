@@ -50,11 +50,16 @@ public class QuizController {
             throw new RuntimeException("User ID is required");
         }
 
-        // Automatically associate the quiz with the user
+        // Associate the quiz with the user
         quizService.addUserToQuiz(quizId, userId);
 
         // Evaluate the quiz
-        return quizEvaluationService.evaluateQuiz(quizId, userAnswers);
+        int score = quizEvaluationService.evaluateQuiz(quizId, userAnswers);
+
+        // Store the user's score
+        quizService.updateUserScore(quizId, userId, score);
+
+        return score;
     }
 
     // Update a quiz

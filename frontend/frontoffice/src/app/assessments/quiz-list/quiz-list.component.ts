@@ -16,37 +16,47 @@ export class QuizListComponent implements OnInit {
 
   constructor(
     private quizService: QuizService,
-    private authService: AuthService, // Inject AuthService
-    private router: Router // Inject Router
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     const userId = localStorage.getItem('id');
     if (userId) {
       this.userId = parseInt(userId, 10); // Convert the string to a number
-      console.log('Logged-in user ID:', this.userId); // Debugging statement
-  
+      console.log('Logged-in user ID:', this.userId);
+
       // Fetch quizzes after retrieving the user ID
       this.quizService.getQuizzes().subscribe((quizzes) => {
         this.quizzes = quizzes;
-  
-        // Identify quizzes the user has taken
-        if (this.userId !== null) {
-          this.takenQuizzes = quizzes
-            .filter((quiz) => Array.isArray(quiz.userIds) && this.userId !== null && quiz.userIds.includes(this.userId.toString())) // Ensure userIds is an array and userId is non-null
-            .map((quiz) => quiz.id);
-          console.log('Taken quizzes:', this.takenQuizzes); // Debugging statement
-        }
+
+        // Fetch the user's quiz results
+        this.quizzes.forEach((quiz) => {
+          if (quiz.userScores && quiz.userScores[this.userId!]) {
+            quiz.result = quiz.userScores[this.userId!]; // Assign the logged-in user's score
+            this.takenQuizzes.push(quiz.id); // Mark the quiz as taken
+          }
+        });
+
+        console.log('Updated quizzes with results:', this.quizzes); // Debugging statement
       });
     } else {
-      console.error('No logged-in user found in localStorage'); // Debugging statement
+      console.error('No logged-in user found in localStorage');
       alert('You must be logged in to view the quiz list.');
-      this.authService.logout(); // Clear any invalid session
-      this.router.navigate(['/login']); // Redirect to login page
+      this.authService.logout();
+      this.router.navigate(['/login']);
     }
   }
 
   hasTakenQuiz(quizId: number): boolean {
     return this.takenQuizzes.includes(quizId);
+  }
+
+  takeQuiz(quizId: number): void {
+    if (this.hasTakenQuiz(quizId)) {
+      alert('You have already taken this quiz.');
+      return;
+    }
+    this.router.navigate(['/quiz-take', quizId]); // Navigate to the quiz-taking page
   }
 }

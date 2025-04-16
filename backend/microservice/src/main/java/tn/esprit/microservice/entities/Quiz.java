@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @Entity
@@ -25,4 +27,10 @@ public class Quiz {
     @CollectionTable(name = "user_quiz", joinColumns = @JoinColumn(name = "quiz_id"))
     @Column(name = "user_id")
     private List<Long> userIds = new ArrayList<>(); // Stores user IDs
+
+    @ElementCollection
+    @CollectionTable(name = "user_quiz_scores", joinColumns = @JoinColumn(name = "quiz_id"))
+    @MapKeyColumn(name = "user_id")
+    @Column(name = "score")
+    private Map<Long, Integer> userScores = new HashMap<>(); // Stores user scores
 }
