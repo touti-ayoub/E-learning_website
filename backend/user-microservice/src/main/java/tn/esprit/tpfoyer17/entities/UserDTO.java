@@ -2,6 +2,8 @@ package tn.esprit.tpfoyer17.entities;
 
 public class UserDTO {
 
+    private long id;
+
     private String token;
 
     private String role;
@@ -26,6 +28,14 @@ public class UserDTO {
 
     public String getUsername() {
         return username;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setUsername(String username) {

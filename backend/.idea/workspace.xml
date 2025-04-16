@@ -5,16 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentScheduleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentScheduleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-hist/payment-hist.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-hist/payment-hist.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment/payment.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment/payment.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Microservice2Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Microservice2Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/ScheduledTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/ScheduledTasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/UserDTO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -258,7 +257,7 @@
       <workItem from="1744121678367" duration="8871000" />
       <workItem from="1744465734597" duration="6765000" />
       <workItem from="1744675027914" duration="1309000" />
-      <workItem from="1744754363899" duration="2279000" />
+      <workItem from="1744754363899" duration="13550000" />
     </task>
     <servers />
   </component>
