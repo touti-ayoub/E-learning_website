@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import tn.esprit.microservice2.Model.Payment;
 import tn.esprit.microservice2.Model.PaymentStatus;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,4 +33,8 @@ public interface IPaymentRepository extends JpaRepository<Payment, Long> {
 
     // Add this method
     @Query("SELECT COUNT(p) FROM Payment p JOIN p.subscription s JOIN s.user u WHERE u.id = :userId")
-    int countPaymentsByUserId(@Param("userId") Long userId);}
+    int countPaymentsByUserId(@Param("userId") Long userId);
+
+    // Add these methods to your PaymentRepository
+    List<Payment> findByStatusAndPaymentDateBetween(PaymentStatus status, LocalDateTime start, LocalDateTime end);
+}

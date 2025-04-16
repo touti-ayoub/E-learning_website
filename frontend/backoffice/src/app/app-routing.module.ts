@@ -52,6 +52,16 @@ const routes: Routes = [
         path: 'categories',
         loadComponent: () =>
           import('./category-management/category-management.component').then((m) => m.CategoryManagementComponent)
+      },
+      {
+        path: 'coupon/create-coupon',
+        loadComponent: () =>
+          import('./Component/Payments/add-coupon/add-coupon.component').then((m) => m.AddCouponComponent)
+      },
+      {
+        path: 'admin/pay_dashboard',
+        loadComponent: () =>
+          import('./Component/Payments/dashboard-summary/dashboard-summary.component').then((m) => m.DashboardSummaryComponent)
       }
     ]
   },

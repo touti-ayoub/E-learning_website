@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/httpRequests/2025-02-21T234843.200.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/.gitattributes" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/mvnw" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/mvnw.cmd" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/test/java/tn/esprit/microservice1/Microservice1ApplicationTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/ChartDataDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/CouponChartItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/CouponMetricsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/DashboardSummaryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/PaymentMetricsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/RevenueChartItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/RevenueMetricsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/SubscriptionChartItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/SubscriptionMetricsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/DashboardController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/DashboardService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/add-coupon/add-coupon.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/add-coupon/add-coupon.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/add-coupon/add-coupon.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/add-coupon/add-coupon.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/coupon-list/coupon-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/coupon-list/coupon-list.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/coupon-list/coupon-list.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/coupon-list/coupon-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/dashboard-summary/dashboard-summary.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/dashboard-summary/dashboard-summary.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/dashboard-summary/dashboard-summary.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/dashboard-summary/dashboard-summary.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/subscription-list/subscription-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/subscription-list/subscription-list.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/subscription-list/subscription-list.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/subscription-list/subscription-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/coupon-usage-chart/coupon-usage-chart.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/coupon-usage-chart/coupon-usage-chart.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/coupon-usage-chart/coupon-usage-chart.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/coupon-usage-chart/coupon-usage-chart.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/revenue-chart/revenue-chart.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/revenue-chart/revenue-chart.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/revenue-chart/revenue-chart.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/revenue-chart/revenue-chart.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/subscription-growth-chart/subscription-growth-chart.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/subscription-growth-chart/subscription-growth-chart.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/subscription-growth-chart/subscription-growth-chart.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/subscription-growth-chart/subscription-growth-chart.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic1/empty.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic1/empty.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/coupon.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/coupon.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/dashboard.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/dashboard.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/config/CorsConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/config/CorsConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice1/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/Microservice1Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/Microservice1Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice1/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Course.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentScheduleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentScheduleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-hist/payment-hist.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-hist/payment-hist.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment/payment.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment/payment.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.app.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;iitsMahdi&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/touti-ayoub/E-learning_website.git&quot;,
+    &quot;accountId&quot;: &quot;99960faa-173e-4a98-8292-19f4149adc12&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="ProjectColorInfo">{
+    &quot;associatedIndex&quot;: 3
+    }</component>
+  <component name="ProjectId" id="2szCwL5dXd7MmQDjU6GvmNHcTrs" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.EurekaApplication.executor": "Run",
+    "Application.Microservice2Application.executor": "Run",
+    "HTTP Request.generated-requests | #3.executor": "Run",
+    "HTTP Request.generated-requests | #8.executor": "Run",
+    "HTTP Request.generated-requests | #9.executor": "Run",
+    "Maven.eureka [clean].executor": "Run",
+    "Maven.eureka [install].executor": "Run",
+    "Maven.gateway [clean].executor": "Run",
+    "Maven.gateway [install].executor": "Run",
+    "Maven.microservice2 [clean].executor": "Run",
+    "Maven.microservice2 [install].executor": "Run",
+    "Maven.microservice5 [clean].executor": "Run",
+    "Maven.microservice5 [install].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.EurekaApplication.executor": "Run",
+    "Spring Boot.GatewayApplication.executor": "Run",
+    "Spring Boot.Microservice2Application.executor": "Run",
+    "Spring Boot.Microservice5Application.executor": "Run",
+    "Spring Boot.MicroserviceApplication.executor": "Run",
+    "Spring Boot.TpFoyer17Application.executor": "Run",
+    "git-widget-placeholder": "Merging Course3",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="tn.esprit.microservice2.Model" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="tn.esprit.tpfoyer17.configurations" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn clean" />
+      <command value="mvn install" />
+    </option>
+  </component>
+  <component name="RunDashboard">
+    <option name="configurationTypes">
+      <set>
+        <option value="KtorApplicationConfigurationType" />
+        <option value="MicronautRunConfigurationType" />
+        <option value="QuarkusRunConfigurationType" />
+        <option value="SpringBootApplicationConfigurationType" />
+      </set>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.Microservice2Application">
+    <configuration name="EurekaApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="esprit.eureka.EurekaApplication" />
+      <module name="eureka" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="esprit.eureka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="generated-requests | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="3" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="8" requestIdentifier="#8" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #9" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="9" requestIdentifier="#9" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="EurekaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="eureka" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="esprit.eureka.EurekaApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Microservice2Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="microservice2" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.microservice2.Microservice2Application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tn.esprit.microservice2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Microservice5Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="microservice5" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.microservice5.Microservice5Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.microservice.MicroserviceApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TpFoyer17Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="tpFoyer-17" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.tpfoyer17.TpFoyer17Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.EurekaApplication" />
+      <item itemvalue="HTTP Request.generated-requests | #8" />
+      <item itemvalue="HTTP Request.generated-requests | #9" />
+      <item itemvalue="HTTP Request.generated-requests | #3" />
+      <item itemvalue="Spring Boot.MicroserviceApplication" />
+      <item itemvalue="Spring Boot.Microservice5Application" />
+      <item itemvalue="Spring Boot.EurekaApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.TpFoyer17Application" />
+      <item itemvalue="Spring Boot.Microservice2Application" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.Microservice2Application" />
+        <item itemvalue="Application.EurekaApplication" />
+        <item itemvalue="HTTP Request.generated-requests | #9" />
+        <item itemvalue="HTTP Request.generated-requests | #8" />
+        <item itemvalue="HTTP Request.generated-requests | #3" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="" />
+      <created>1739449256270</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1739449256270</updated>
+      <workItem from="1739449256591" duration="402000" />
+      <workItem from="1740162345441" duration="18469000" />
+      <workItem from="1740260771345" duration="3026000" />
+      <workItem from="1740306046904" duration="8794000" />
+      <workItem from="1740315373782" duration="8769000" />
+      <workItem from="1740324713561" duration="2090000" />
+      <workItem from="1740344008011" duration="3084000" />
+      <workItem from="1740598515684" duration="1297000" />
+      <workItem from="1740656266159" duration="24072000" />
+      <workItem from="1740779900907" duration="20545000" />
+      <workItem from="1740930458463" duration="4540000" />
+      <workItem from="1740935047127" duration="701000" />
+      <workItem from="1740954576862" duration="763000" />
+      <workItem from="1741021819416" duration="12599000" />
+      <workItem from="1741107771072" duration="25231000" />
+      <workItem from="1741015896530" duration="1025000" />
+      <workItem from="1741018774772" duration="88000" />
+      <workItem from="1741044535547" duration="3515000" />
+      <workItem from="1741260434630" duration="734000" />
+      <workItem from="1744121678367" duration="8871000" />
+      <workItem from="1744465734597" duration="6765000" />
+      <workItem from="1744675027914" duration="1309000" />
+      <workItem from="1744754363899" duration="2279000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+</project>
