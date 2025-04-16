@@ -256,6 +256,14 @@ public class PresentationConversionService {
             htmlBuilder.append("</html>");
         }
         
-        return htmlBuilder.toString();
+        String htmlContent = htmlBuilder.toString();
+        
+        // Update lesson with HTML content
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new RuntimeException("Lesson not found"));
+        lesson.setPresentationHtmlContent(htmlContent);
+        lessonRepository.save(lesson);
+        
+        return htmlContent;
     }
 } 

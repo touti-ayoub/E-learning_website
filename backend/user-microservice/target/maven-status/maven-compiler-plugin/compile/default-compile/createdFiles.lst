@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 tn\esprit\tpfoyer17\controllers\UserController.class
+=======
+>>>>>>> 7c94de627e899717580ff4873275ce2f6b2eee43
 tn\esprit\tpfoyer17\configurations\SecurityConfig.class
 tn\esprit\tpfoyer17\controllers\AuthController.class
 tn\esprit\tpfoyer17\TpFoyer17Application.class

@@ -1,0 +1,42 @@
+<div class="quiz-result-container">
+    <h2>Quiz Results</h2>
+  
+    <!-- Display all quiz results -->
+    <div *ngIf="quizResults.length > 0; else noResults">
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Answer</th>
+            <th>Correct</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let result of quizResults">
+            <td>{{ result.id }}</td>
+            <td>{{ result.text }}</td>
+            <td>{{ result.correct ? 'Yes' : 'No' }}</td>
+            <td>
+              <button (click)="selectResult(result)" class="btn btn-primary">View</button>
+              <button (click)="deleteResult(result.id)" class="btn btn-danger">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- No results message -->
+    <ng-template #noResults>
+      <p>No quiz results available.</p>
+    </ng-template>
+  
+    <!-- Selected result details -->
+    <div *ngIf="selectedResult" class="selected-result">
+      <h3>Selected Result</h3>
+      <p><strong>ID:</strong> {{ selectedResult.id }}</p>
+      <p><strong>Answer:</strong> {{ selectedResult.text }}</p>
+      <p><strong>Correct:</strong> {{ selectedResult.correct ? 'Yes' : 'No' }}</p>
+      <button (click)="selectedResult = null" class="btn btn-secondary">Close</button>
+    </div>
+  </div>

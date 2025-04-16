@@ -332,16 +332,36 @@ public class LessonController {
                 }
             }
             
-            // Continue with existing implementation
-            if (lesson.getConvertedPresentationUrl() == null || lesson.getConvertedPresentationUrl().isEmpty()) {
-                return new ResponseEntity<>(
-                    "<html><body><h1>Not Available</h1><p>Presentation is not available in HTML format. " +
-                    "Please try again later or contact support.</p></body></html>", 
-                    HttpStatus.NOT_FOUND);
+            // Check if converted presentation HTML content is available
+            if (lesson.getPresentationHtmlContent() == null || lesson.getPresentationHtmlContent().isEmpty()) {
+                // Check conversion status
+                String status = lesson.getPresentationConversionStatus();
+                
+                if ("PENDING".equals(status)) {
+                    return ResponseEntity.ok(
+                        "<html><body><h1>Converting Presentation</h1>" +
+                        "<p>Your presentation is currently being converted. Please try again in a few moments.</p>" +
+                        "</body></html>"
+                    );
+                } else if ("FAILED".equals(status)) {
+                    return ResponseEntity.ok(
+                        "<html><body><h1>Conversion Failed</h1>" +
+                        "<p>We couldn't convert this presentation to HTML format. Please download it instead.</p>" +
+                        "</body></html>"
+                    );
+                } else {
+                    // Not yet converted or unknown status
+                    lessonService.triggerPresentationConversion(id);
+                    return ResponseEntity.ok(
+                        "<html><body><h1>Not Available</h1>" +
+                        "<p>Presentation is not available in HTML format. Please try again later or contact support.</p>" +
+                        "</body></html>"
+                    );
+                }
             }
             
             // Return the converted HTML content
-            return ResponseEntity.ok(lesson.getConvertedPresentationUrl());
+            return ResponseEntity.ok(lesson.getPresentationHtmlContent());
         } catch (NoSuchElementException e) {
             logger.error("Lesson not found: {}", e.getMessage());
             return new ResponseEntity<>(

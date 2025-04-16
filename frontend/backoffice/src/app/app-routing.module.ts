@@ -54,6 +54,23 @@ const routes: Routes = [
           import('./category-management/category-management.component').then((m) => m.CategoryManagementComponent)
       },
       {
+        path: 'quizzes',
+        loadComponent: () =>
+          import('./Component/assessments/quiz/quiz.component').then((m) => m.QuizComponent),
+        children: [
+          {
+            path: 'questions',
+            loadComponent: () =>
+              import('./Component/assessments/quiz-question/quiz-question.component').then((m) => m.QuizQuestionComponent)
+          },
+          {
+            path: 'results',
+            loadComponent: () =>
+              import('./Component/assessments/quiz-result/quiz-result.component').then((m) => m.QuizResultComponent)
+          }
+        ]
+      },
+      {
         path: 'coupon/create-coupon',
         loadComponent: () =>
           import('./Component/Payments/add-coupon/add-coupon.component').then((m) => m.AddCouponComponent)
