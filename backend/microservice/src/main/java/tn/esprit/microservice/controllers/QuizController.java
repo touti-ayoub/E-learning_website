@@ -43,4 +43,12 @@ public class QuizController {
         System.out.println("User answers: " + userAnswers);
         return quizEvaluationService.evaluateQuiz(quizId, userAnswers);
     }
+    @PutMapping("/{id}/update")
+    public Quiz updateQuiz(@PathVariable Long id, @RequestBody Quiz quizDetails) {
+        return quizService.updateQuiz(id, quizDetails);
+    }
+    @DeleteMapping("/{id}/delete")
+    public void deleteQuiz(@PathVariable Long id) {
+        quizService.deleteQuiz(id);
+    }
 }

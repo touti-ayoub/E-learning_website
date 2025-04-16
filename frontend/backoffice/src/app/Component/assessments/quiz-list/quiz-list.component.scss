@@ -1,0 +1,44 @@
+/* filepath: c:\Users\LOQ\Desktop\PIDEV\pi\frontend\backoffice\src\app\components\quiz-list\quiz-list.component.scss */
+.quiz-list-container {
+    padding: 20px;
+  }
+  
+  .quiz-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .quiz-table th,
+  .quiz-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+  }
+  
+  .quiz-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .btn {
+    margin-right: 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .btn-info {
+    background-color: #17a2b8;
+    color: white;
+  }
+  
+  .btn-warning {
+    background-color: #ffc107;
+    color: white;
+  }
+  
+  .btn-danger {
+    background-color: #dc3545;
+    color: white;
+  }

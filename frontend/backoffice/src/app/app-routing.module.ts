@@ -71,6 +71,11 @@ const routes: Routes = [
         ]
       },
       {
+        path: 'quiz/list',
+        loadComponent: () =>
+          import('./Component/assessments/quiz-list/quiz-list.component').then((m) => m.QuizListComponent) // Standalone route
+      },
+      {
         path: 'coupon/create-coupon',
         loadComponent: () =>
           import('./Component/Payments/add-coupon/add-coupon.component').then((m) => m.AddCouponComponent)

@@ -1,0 +1,76 @@
+<div class="quiz-list-container">
+    <h2>Available Quizzes</h2>
+  
+    <div *ngIf="quizzes.length > 0; else noQuizzes">
+      <table class="quiz-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let quiz of quizzes">
+            <td>{{ quiz.id }}</td>
+            <td>{{ quiz.title }}</td>
+            <td>{{ quiz.description }}</td>
+            <td>
+              <button (click)="viewQuiz(quiz.id)" class="btn btn-info btn-sm">View</button>
+              <button (click)="editQuiz(quiz.id)" class="btn btn-warning btn-sm">Edit</button>
+              <button (click)="deleteQuiz(quiz.id)" class="btn btn-danger btn-sm">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <ng-template #noQuizzes>
+      <p>No quizzes available.</p>
+    </ng-template>
+  
+    <!-- Inline Quiz Details -->
+    <div *ngIf="selectedQuiz" class="quiz-details">
+      <h3>Quiz Details</h3>
+      <p><strong>Title:</strong> {{ selectedQuiz.title }}</p>
+      <p><strong>Description:</strong> {{ selectedQuiz.description }}</p>
+      <h4>Questions:</h4>
+      <ul>
+        <li *ngFor="let question of selectedQuiz.questions">
+          <strong>{{ question.text }}</strong>
+          <ul>
+            <li *ngFor="let answer of question.answers">
+              {{ answer.text }} <span *ngIf="answer.correct">(Correct)</span>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <button (click)="closeQuizDetails()" class="btn btn-secondary">Close</button>
+    </div>
+  
+    <!-- Inline Quiz Editing -->
+    <div *ngIf="editingQuiz" class="quiz-edit">
+      <h3>Edit Quiz</h3>
+      <div class="form-group">
+        <label for="edit-title">Title:</label>
+        <input
+          id="edit-title"
+          [(ngModel)]="editingQuiz.title"
+          class="form-control"
+          placeholder="Enter quiz title"
+        />
+      </div>
+      <div class="form-group">
+        <label for="edit-description">Description:</label>
+        <textarea
+          id="edit-description"
+          [(ngModel)]="editingQuiz.description"
+          class="form-control"
+          placeholder="Enter quiz description"
+        ></textarea>
+      </div>
+      <button (click)="saveQuiz()" class="btn btn-success">Save</button>
+      <button (click)="cancelEdit()" class="btn btn-secondary">Cancel</button>
+    </div>
+  </div>
