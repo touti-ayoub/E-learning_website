@@ -35,12 +35,29 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
-    id: 'payments',
-    title: 'Payments',
+    id: 'courses',
+    title: 'Course Management',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
+        id: 'course-management',
+        title: 'Courses',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/courses',
+        icon: 'ti ti-book',
+        breadcrumbs: false
+      },
+      {
+        id: 'category-management',
+        title: 'Categories',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/categories',
+        icon: 'ti ti-tag',
+        breadcrumbs: false},
+        {
         id: 'main_dashbaord',
         title: 'Main Dashboard',
         type: 'item',
@@ -141,6 +158,30 @@ export const NavigationItems: NavigationItem[] = [
             url: '/guest/register',
             target: true,
             breadcrumbs: false
+          }
+        ]
+      },
+      {
+        id: 'quiz',
+        title: 'Quiz',
+        type: 'collapse', // Make it collapsible
+        icon: 'ti ti-book', // Replace with an appropriate icon
+        children: [
+          {
+            id: 'quiz-list',
+            title: 'Quiz List',
+            type: 'item',
+            url: '/quiz/list', // URL for the quiz list page
+            classes: 'nav-item',
+            breadcrumbs: true
+          },
+          {
+            id: 'create-quiz',
+            title: 'Create Quiz',
+            type: 'item',
+            url: '/quiz/create', // URL for the create quiz page
+            classes: 'nav-item',
+            breadcrumbs: true
           }
         ]
       }

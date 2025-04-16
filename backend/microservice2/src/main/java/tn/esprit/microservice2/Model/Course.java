@@ -27,6 +27,9 @@ public class Course {
     private String description;
 
     private BigDecimal price;
+    
+    @Column(nullable = false)
+    private boolean free = false;
 
     @Column(nullable = false)
     private Integer durationInMonths;
@@ -100,6 +103,14 @@ public class Course {
 
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+    
+    public boolean isFree() {
+        return free;
+    }
+
+    public void setFree(boolean free) {
+        this.free = free;
     }
 
     public Integer getDurationInMonths() {

@@ -28,6 +28,7 @@
     "@angular/router": "^16.2.0",
     "@ng-bootstrap/ng-bootstrap": "^15.1.0",
     "@popperjs/core": "^2.11.8",
+    "@tinymce/tinymce-angular": "^8.0.1",
     "apexcharts": "^3.41.0",
     "bootstrap": "^5.3.3",
     "html2canvas": "^1.4.1",
@@ -38,6 +39,7 @@
     "owl.carousel": "^2.3.4",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.17.2",
+    "tinymce": "^7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },
