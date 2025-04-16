@@ -1,0 +1,29 @@
+<div *ngIf="quiz" class="quiz-take-container">
+    <h1>{{ quiz.title }}</h1>
+    <p>{{ quiz.description }}</p>
+    <p>Time left: {{ formatTime(timeLeft) }}</p>
+  
+    <form (ngSubmit)="submitQuiz()" class="quiz-form">
+      <div *ngFor="let question of quiz.questions" class="question-group">
+        <h3>{{ question.text }}</h3>
+  
+        <div *ngFor="let answer of question.answers" class="answer-group">
+          <label>
+            <input
+              type="radio"
+              [name]="'question-' + question.id"
+              [value]="answer.id"
+              (change)="onAnswerSelected(question.id, answer.id)"
+            >
+            {{ answer.text }}
+          </label>
+        </div>
+      </div>
+  
+      <button type="submit" class="submit-button">Submit Quiz</button>
+    </form>
+  </div>
+  
+  <div *ngIf="!quiz" class="loading-message">
+    Loading quiz...
+  </div>

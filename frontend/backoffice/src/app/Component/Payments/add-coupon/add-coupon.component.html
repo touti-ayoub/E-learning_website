@@ -1,0 +1,175 @@
+<div class="coupon-container">
+  <div class="header">
+    <h2 class="title">Create Discount Coupon</h2>
+    <p class="subtitle">Create a new promotional coupon for a specific course</p>
+    <div class="metadata">
+      <span class="user"><i class="fas fa-user"></i> {{ currentUser }}</span>
+      <span class="date"><i class="fas fa-calendar"></i> {{ currentDate | date:'medium' }}</span>
+    </div>
+  </div>
+
+  <div class="alert alert-info" *ngIf="loading">
+    <i class="fas fa-spinner fa-spin"></i> Loading courses...
+  </div>
+
+  <div class="alert alert-success" *ngIf="success">
+    <i class="fas fa-check-circle"></i> Coupon created successfully!
+  </div>
+
+  <div class="alert alert-danger" *ngIf="error">
+    <i class="fas fa-exclamation-circle"></i> {{ error }}
+  </div>
+
+  <form [formGroup]="couponForm" (ngSubmit)="onSubmit()" class="coupon-form">
+    <!-- Course Selection -->
+    <div class="form-group">
+      <label for="courseId">Select Course <span class="required">*</span></label>
+      <select 
+        id="courseId" 
+        formControlName="courseId" 
+        class="form-control"
+        [class.is-invalid]="hasError('courseId', 'required')"
+      >
+        <option *ngFor="let course of courses" [value]="course.id">
+          {{ course.title }} (${{ course.price }})
+        </option>
+      </select>
+      <div class="invalid-feedback" *ngIf="hasError('courseId', 'required')">
+        Please select a course.
+      </div>
+    </div>
+
+    <!-- Coupon Code -->
+    <div class="form-group">
+      <label for="code">Coupon Code <span class="required">*</span></label>
+      <div class="input-group">
+        <input 
+          type="text" 
+          id="code" 
+          formControlName="code" 
+          class="form-control"
+          [class.is-invalid]="hasError('code', 'required') || hasError('code', 'minlength') || hasError('code', 'maxlength') || hasError('code', 'pattern')"
+          placeholder="e.g. SPRING2025"
+        >
+        <div class="input-group-append">
+          <button 
+            type="button" 
+            class="btn btn-outline-secondary" 
+            (click)="generateRandomCode()"
+          >
+            Generate
+          </button>
+        </div>
+      </div>
+      <div class="invalid-feedback" *ngIf="hasError('code', 'required')">
+        Coupon code is required.
+      </div>
+      <div class="invalid-feedback" *ngIf="hasError('code', 'minlength')">
+        Coupon code must be at least 3 characters.
+      </div>
+      <div class="invalid-feedback" *ngIf="hasError('code', 'maxlength')">
+        Coupon code cannot exceed 20 characters.
+      </div>
+      <div class="invalid-feedback" *ngIf="hasError('code', 'pattern')">
+        Only letters, numbers, hyphens and underscores are allowed.
+      </div>
+      <small class="form-text text-muted">
+        The code customers will enter to apply the discount. Letters will be converted to uppercase.
+      </small>
+    </div>
+
+    <!-- Discount Percentage -->
+    <div class="form-group">
+      <label for="discountPercentage">Discount Percentage <span class="required">*</span></label>
+      <div class="input-group">
+        <input 
+          type="number" 
+          id="discountPercentage" 
+          formControlName="discountPercentage" 
+          class="form-control"
+          [class.is-invalid]="hasError('discountPercentage', 'required') || hasError('discountPercentage', 'min') || hasError('discountPercentage', 'max')"
+          min="1"
+          max="100"
+        >
+        <div class="input-group-append">
+          <span class="input-group-text">%</span>
+        </div>
+      </div>
+      <div class="invalid-feedback" *ngIf="hasError('discountPercentage', 'required')">
+        Discount percentage is required.
+      </div>
+      <div class="invalid-feedback" *ngIf="hasError('discountPercentage', 'min')">
+        Discount must be at least 1%.
+      </div>
+      <div class="invalid-feedback" *ngIf="hasError('discountPercentage', 'max')">
+        Discount cannot exceed 100%.
+      </div>
+      <div class="discount-options">
+        <button 
+          type="button" 
+          *ngFor="let discount of discountOptions"
+          class="btn btn-sm" 
+          [class.btn-primary]="couponForm.get('discountPercentage')?.value === discount"
+          [class.btn-outline-primary]="couponForm.get('discountPercentage')?.value !== discount"
+          (click)="couponForm.get('discountPercentage')?.setValue(discount)"
+        >
+          {{ discount }}%
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Status -->
+    <div class="form-group">
+      <div class="form-check">
+        <input 
+          type="checkbox" 
+          id="active" 
+          formControlName="active" 
+          class="form-check-input"
+        >
+        <label class="form-check-label" for="active">
+          Activate coupon immediately
+        </label>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="form-actions">
+      <button 
+        type="submit" 
+        class="btn btn-primary btn-lg" 
+        [disabled]="submitting || couponForm.invalid"
+      >
+        <i class="fas fa-spinner fa-spin" *ngIf="submitting"></i>
+        {{ submitting ? 'Creating...' : 'Create Coupon' }}
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-outline-secondary" 
+        (click)="resetForm()"
+        [disabled]="submitting"
+      >
+        Reset
+      </button>
+    </div>
+  </form>
+
+  <!-- Coupon Preview -->
+  <div class="coupon-preview" *ngIf="couponForm.valid">
+    <h4>Coupon Preview</h4>
+    <div class="coupon-card">
+      <div class="coupon-header">
+        <div class="coupon-code">{{ couponForm.get('code')?.value || 'CODE' }}</div>
+        <div class="coupon-discount">{{ couponForm.get('discountPercentage')?.value || 0 }}% OFF</div>
+      </div>
+      <div class="coupon-body">
+        <div class="coupon-details">
+          <div class="coupon-course">{{ selectedCourseTitle }}</div>
+          <div class="coupon-status" [class.active]="couponForm.get('active')?.value">
+            {{ couponForm.get('active')?.value ? 'ACTIVE' : 'INACTIVE' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

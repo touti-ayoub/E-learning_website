@@ -1,0 +1,10 @@
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\configurations\AOPConfig.java
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\configurations\SecurityConfig.java
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\controllers\AuthController.java
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\entities\User.java
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\entities\UserDTO.java
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\repositories\UserRepository.java
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\services\auth\CustomUserDetailsService.java
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\services\auth\JwtAuthenticationFilter.java
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\services\auth\JwtUtils.java
+C:\Users\LOQ\Desktop\PIDEV\pi\backend\user-microservice\src\main\java\tn\esprit\tpfoyer17\TpFoyer17Application.java

@@ -1,0 +1,91 @@
+<div class="chatbot-container">
+  <!-- Mobile sidebar toggle button -->
+  <button class="mobile-toggle" (click)="toggleSidebar()">
+    <i class="fa fa-bars"></i>
+  </button>
+
+  <!-- Sidebar with chat sessions -->
+  <div class="sidebar" [class.open]="isSidebarOpen">
+    <div class="sidebar-header">
+      <h3>Chat Sessions</h3>
+      <button class="new-chat-btn" (click)="createNewSession()">
+        <i class="fa fa-plus"></i> New Chat
+      </button>
+    </div>
+    <div class="session-list">
+      <div *ngIf="isLoading && sessions.length === 0" class="loading-spinner">
+        <div class="spinner"></div>
+      </div>
+      <div *ngIf="!isLoading && sessions.length === 0" class="no-sessions">
+        <p>No conversations yet. Start a new one!</p>
+      </div>
+      <div *ngFor="let session of sessions" 
+           class="session-item" 
+           [class.active]="currentSession?.id === session.id"
+           (click)="selectSession(session)">
+        <span class="session-title">{{ session.title }}</span>
+        <span class="session-date">{{ session.updatedAt | date:'short' }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main chat area -->
+  <div class="chat-area">
+    <!-- Error message display -->
+    <div *ngIf="errorMessage" class="error-message">
+      <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+    </div>
+
+    <div *ngIf="!currentSession" class="no-session-selected">
+      <div class="welcome-message">
+        <h2>Welcome to E-Learning Assistant</h2>
+        <p>Ask questions about your courses, get help with assignments, or discuss learning concepts.</p>
+        <button class="start-chat-btn" (click)="createNewSession()">Start a New Conversation</button>
+      </div>
+    </div>
+
+    <div *ngIf="currentSession" class="session-content">
+      <div class="chat-header">
+        <h3>{{ currentSession.title }}</h3>
+      </div>
+      
+      <div class="chat-messages">
+        <div *ngIf="currentSession.messages.length === 0" class="empty-chat">
+          <p>This is the beginning of your conversation with E-Learning Assistant.</p>
+          <p>How can I help you today?</p>
+        </div>
+        
+        <div *ngFor="let msg of currentSession.messages" 
+             class="message" 
+             [class.user-message]="msg.role === 'user'"
+             [class.assistant-message]="msg.role === 'assistant'">
+          <div class="message-content">
+            <span class="message-text">{{ msg.content }}</span>
+            <span class="message-time">{{ msg.timestamp | date:'short' }}</span>
+          </div>
+        </div>
+        
+        <div *ngIf="isLoading" class="typing-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+      
+      <div class="chat-input">
+        <input 
+          type="text" 
+          placeholder="Type your message..." 
+          [(ngModel)]="message" 
+          (keyup.enter)="sendMessage()"
+          [disabled]="isLoading">
+        <button 
+          class="send-btn" 
+          (click)="sendMessage()" 
+          [disabled]="isLoading || !message.trim()">
+          <i class="fa fa-paper-plane"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 
