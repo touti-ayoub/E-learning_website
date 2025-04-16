@@ -1,0 +1,11 @@
+.forum-container {
+  border: 1px solid #ccc;
+  padding: 16px;
+  margin: 8px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.forum-container:hover {
+  background-color: #f0f0f0;
+}

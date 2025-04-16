@@ -14,7 +14,21 @@ import { OurTeamComponent } from './our-team/our-team.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import { NotfoundComponent } from './notfound/notfound.component';
 import { ContactComponent } from './contact/contact.component';
+<<<<<<< Updated upstream
 
+=======
+import {HttpClientModule} from "@angular/common/http";
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import {FormsModule} from "@angular/forms";
+import { SubscriptionComponent } from './mic2/subscription/subscription.component';
+import { ForumListComponent } from './Communications/forum-list.component';
+import { PostListComponent } from './Communications/post-list.component';
+import { ForumService } from './../services/Communications/forum.sevice';
+import { PostService } from './../services/Communications/post.service';
+import { AddPostComponent } from './Communications/add-post/add-post.component';
+import { UpdatePostComponent } from './Communications/UpdatePost/update-post/update-post.component';
+>>>>>>> Stashed changes
 @NgModule({
   declarations: [
     AppComponent,
@@ -27,14 +41,32 @@ import { ContactComponent } from './contact/contact.component';
     OurTeamComponent,
     TestimonialComponent,
     NotfoundComponent,
+<<<<<<< Updated upstream
     ContactComponent
+=======
+    ContactComponent,
+    RegisterComponent,
+    LoginComponent,
+    SubscriptionComponent,
+    ForumListComponent,
+    PostListComponent,
+    AddPostComponent,
+    UpdatePostComponent
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+<<<<<<< Updated upstream
     NgOptimizedImage
+=======
+    NgOptimizedImage,
+    HttpClientModule, // Add this line
+    FormsModule,
+
+>>>>>>> Stashed changes
   ],
-  providers: [],
+  providers: [ForumService, PostService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

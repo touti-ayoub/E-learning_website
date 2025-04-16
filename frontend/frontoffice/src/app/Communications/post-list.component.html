@@ -1,0 +1,25 @@
+<div *ngIf="posts.length > 0; else noPosts" class="container mt-4">
+  <h2 class="text-center mb-4">Posts</h2>
+  <ul class="list-group">
+    <li *ngFor="let post of posts" class="list-group-item d-flex justify-content-between align-items-start">
+      <div class="ms-2 me-auto">
+        <div class="fw-bold">{{ post.content }}</div>
+        <p class="text-muted mb-1">{{ post.datePost | date:'medium' }}</p>
+      </div>
+      <div>
+        <button (click)="onUpdatePost(post)" class="btn btn-warning btn-sm me-2">Update</button>
+        <button (click)="onDeletePost(post.idPost)" class="btn btn-danger btn-sm">Delete</button>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<div class="text-center mt-4">
+  <button (click)="onAddPost()" class="btn btn-primary">Add Post</button>
+</div>
+
+<ng-template #noPosts>
+  <div class="text-center mt-4">
+    <p class="text-muted">No posts available.</p>
+  </div>
+</ng-template>

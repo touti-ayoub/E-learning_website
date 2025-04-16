@@ -1,0 +1,20 @@
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Update Post</h2>
+    <form (ngSubmit)="onSubmit()" #updateForm="ngForm" class="p-4 border rounded shadow-sm bg-light">
+      <div class="form-group mb-3">
+        <label for="content" class="form-label fw-bold">Post Content</label>
+        <textarea
+          id="content"
+          name="content"
+          class="form-control"
+          [(ngModel)]="postContent"
+          rows="5"
+          placeholder="Update your post content here..."
+          required
+        ></textarea>
+      </div>
+      <div class="text-center">
+        <button type="submit" class="btn btn-primary" [disabled]="!updateForm.valid">Update</button>
+      </div>
+    </form>
+  </div>
