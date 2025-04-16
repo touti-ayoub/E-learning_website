@@ -20,12 +20,20 @@ import { QuizCreateComponent } from './assessments/quiz-create/quiz-create.compo
 import { QuizListComponent } from './assessments/quiz-list/quiz-list.component';
 import { QuizTakeComponent } from './assessments/quiz-take/quiz-take.component';
 import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
+import { CourseDetailComponent } from './course-detail/course-detail.component';
+import { CourseAccessGuard } from './guards/course-access.guard';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 
 // Declare routes outside the class
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'courses', component: CoursesComponent },
+  { 
+    path: 'courses/:id', 
+    component: CourseDetailComponent,
+    canActivate: [CourseAccessGuard] // Add course access guard
+  },
   { path: 'team', component: OurTeamComponent },
   { path: 'testemonial', component: TestimonialComponent },
   { path: 'aboutus', component: AboutUsComponent },
@@ -46,6 +54,7 @@ const routes: Routes = [
   { path: 'quizzes/list', component: QuizListComponent },
   { path: 'quiz/:id', component: QuizTakeComponent },
   { path: 'quiz-result/:score/:total', component: QuizResultComponent },
+  { path: 'chatbot', component: ChatbotComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/quizzes/list', pathMatch: 'full' },
 
   { path: '**', component: NotfoundComponent }, // Keep this as the last route

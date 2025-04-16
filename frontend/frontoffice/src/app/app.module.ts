@@ -29,6 +29,7 @@ import { QuizListComponent } from './assessments/quiz-list/quiz-list.component';
 import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
 import { QuizTakeComponent } from './assessments/quiz-take/quiz-take.component';
 import { QuizCreateComponent } from './assessments/quiz-create/quiz-create.component';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { QuizCreateComponent } from './assessments/quiz-create/quiz-create.compo
     QuizListComponent, // Declare your quiz components here
     QuizResultComponent,
     QuizTakeComponent,
-    QuizCreateComponent
+    QuizCreateComponent,
+    ChatbotComponent // Add the chatbot component
   ],
   imports: [
     BrowserModule,

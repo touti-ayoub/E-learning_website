@@ -41,6 +41,18 @@ const routes: Routes = [
         loadComponent: () =>
           import('./Component/event-list/event-list.component').then((m) => m.EventListComponent)
       },
+      // Course management component
+      {
+        path: 'courses',
+        loadComponent: () =>
+          import('./course-management/course-management.component').then((m) => m.CourseManagementComponent)
+      },
+      // Category management component
+      {
+        path: 'categories',
+        loadComponent: () =>
+          import('./category-management/category-management.component').then((m) => m.CategoryManagementComponent)
+      },
       {
         path: 'coupon/create-coupon',
         loadComponent: () =>
