@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import {AuthService} from "../../../services/auth/auth.service";
 import {SubscriptionService} from "../../../services/mic2/subscription.service";
 
 
@@ -31,9 +30,8 @@ export class SubscriptionComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private subscriptionService: SubscriptionService,
-    private authService: AuthService
-  ) {}
+    private subscriptionService: SubscriptionService
+    ) {}
 
   ngOnInit() {
     this.courseId = Number(this.route.snapshot.paramMap.get('courseId'));
