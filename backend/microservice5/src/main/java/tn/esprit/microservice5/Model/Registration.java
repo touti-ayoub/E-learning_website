@@ -29,14 +29,5 @@ public class Registration {
     @NotNull(message = "User is required")
     private User user;
 
-    @Enumerated(EnumType.STRING)
-    @NotNull(message = "Registration status is required")
-    private RegistrationStatus status;
-
-    @NotNull(message = "Registration date is required")
-    private LocalDateTime registrationDate;
-
-    @NotNull(message = "Payment status is required")
-    private boolean paymentStatus;
 
 }

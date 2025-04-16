@@ -5,13 +5,11 @@ import org.springframework.stereotype.Service;
 import tn.esprit.microservice5.DTO.RegistrationDTO;
 import tn.esprit.microservice5.Model.Event;
 import tn.esprit.microservice5.Model.Registration;
-import tn.esprit.microservice5.Model.RegistrationStatus;
 import tn.esprit.microservice5.Model.User;
 import tn.esprit.microservice5.Repo.IEventRepo;
 import tn.esprit.microservice5.Repo.IRegistrationRepo;
 import tn.esprit.microservice5.Repo.IUserRepo;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,10 +21,10 @@ public class RegistrationService {
     private IRegistrationRepo registrationRepository;
 
     @Autowired
-    private IUserRepo userRepository;
+    private IEventRepo eventRepository;
 
     @Autowired
-    private IEventRepo eventRepository;
+    private IUserRepo userRepository;
 
     public List<RegistrationDTO> getAllRegistrations() {
         return registrationRepository.findAll().stream()
@@ -39,86 +37,57 @@ public class RegistrationService {
         return registration.map(RegistrationDTO::fromEntity).orElse(null);
     }
 
-    public List<RegistrationDTO> getRegistrationsByUserId(long userId) {
-        return registrationRepository.findByUserUserId(userId).stream()
+    public RegistrationDTO createRegistration(RegistrationDTO registrationDTO) {
+        Event event = eventRepository.findById(registrationDTO.getEventId())
+                .orElseThrow(() -> new RuntimeException("Event not found with id: " + registrationDTO.getEventId()));
+
+        User user = userRepository.findById(registrationDTO.getUserId())
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + registrationDTO.getUserId()));
+
+        Registration registration = new Registration();
+        registration.setEvent(event);
+        registration.setUser(user);
+
+        registration = registrationRepository.save(registration);
+        return RegistrationDTO.fromEntity(registration);
+    }
+
+    public RegistrationDTO updateRegistration(long id, RegistrationDTO registrationDTO) {
+        Optional<Registration> registrationOptional = registrationRepository.findById(id);
+        if (registrationOptional.isPresent()) {
+            Registration registration = registrationOptional.get();
+
+            if (registrationDTO.getEventId() != null) {
+                Event event = eventRepository.findById(registrationDTO.getEventId())
+                        .orElseThrow(() -> new RuntimeException("Event not found with id: " + registrationDTO.getEventId()));
+                registration.setEvent(event);
+            }
+
+            if (registrationDTO.getUserId() != null) {
+                User user = userRepository.findById(registrationDTO.getUserId())
+                        .orElseThrow(() -> new RuntimeException("User not found with id: " + registrationDTO.getUserId()));
+                registration.setUser(user);
+            }
+
+            registration = registrationRepository.save(registration);
+            return RegistrationDTO.fromEntity(registration);
+        }
+        return null;
+    }
+
+    public void deleteRegistration(long id) {
+        registrationRepository.deleteById(id);
+    }
+
+    public List<RegistrationDTO> getRegistrationsByUserId(Long userId) {
+        return registrationRepository.findByUser_UserId(userId).stream()
                 .map(RegistrationDTO::fromEntity)
                 .collect(Collectors.toList());
     }
 
-    public List<RegistrationDTO> getRegistrationsByEventId(long eventId) {
-        return registrationRepository.findByEventEventId(eventId).stream()
+    public List<RegistrationDTO> getRegistrationsByEventId(Long eventId) {
+        return registrationRepository.findByEvent_EventId(eventId).stream()
                 .map(RegistrationDTO::fromEntity)
                 .collect(Collectors.toList());
-    }
-
-    public RegistrationDTO createRegistration(long userId, long eventId) {
-        Optional<User> userOptional = userRepository.findById(userId);
-        Optional<Event> eventOptional = eventRepository.findById(eventId);
-
-        if (userOptional.isPresent() && eventOptional.isPresent()) {
-            User user = userOptional.get();
-            Event event = eventOptional.get();
-
-            // Check if user is already registered for this event
-            if (registrationRepository.existsByUserUserIdAndEventEventId(userId, eventId)) {
-                return null; // User already registered
-            }
-
-            // Check if event has reached max capacity
-            if (event.getMaxCapacity() != null) {
-                long currentRegistrations = registrationRepository.countByEventEventIdAndStatus(
-                        eventId, RegistrationStatus.CONFIRMED);
-                if (currentRegistrations >= event.getMaxCapacity()) {
-                    return null; // Event is full
-                }
-            }
-
-            Registration registration = new Registration();
-            registration.setUser(user);
-            registration.setEvent(event);
-            registration.setStatus(RegistrationStatus.PENDING);
-            registration.setRegistrationDate(LocalDateTime.now());
-            registration.setPaymentStatus(false);
-
-            Registration savedRegistration = registrationRepository.save(registration);
-            return RegistrationDTO.fromEntity(savedRegistration);
-        }
-        return null;
-    }
-
-    public RegistrationDTO updateRegistrationStatus(long id, RegistrationStatus status) {
-        Optional<Registration> registrationOptional = registrationRepository.findById(id);
-        if (registrationOptional.isPresent()) {
-            Registration registration = registrationOptional.get();
-            registration.setStatus(status);
-            Registration updatedRegistration = registrationRepository.save(registration);
-            return RegistrationDTO.fromEntity(updatedRegistration);
-        }
-        return null;
-    }
-
-    public RegistrationDTO updatePaymentStatus(long id, boolean paymentStatus) {
-        Optional<Registration> registrationOptional = registrationRepository.findById(id);
-        if (registrationOptional.isPresent()) {
-            Registration registration = registrationOptional.get();
-            registration.setPaymentStatus(paymentStatus);
-
-            // If payment is successful, update status to CONFIRMED
-            if (paymentStatus) {
-                registration.setStatus(RegistrationStatus.CONFIRMED);
-            }
-
-            Registration updatedRegistration = registrationRepository.save(registration);
-            return RegistrationDTO.fromEntity(updatedRegistration);
-        }
-        return null;
-    }
-
-    public boolean deleteRegistration(long id) {
-        if (registrationRepository.existsById(id)) {
-            registrationRepository.deleteById(id);
-            return true;
-        }
-        return false;
     }
 }
