@@ -14,6 +14,8 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
 
 import java.util.Arrays;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 public class GatewayApplication {
@@ -45,4 +47,5 @@ public class GatewayApplication {
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
+
 }
