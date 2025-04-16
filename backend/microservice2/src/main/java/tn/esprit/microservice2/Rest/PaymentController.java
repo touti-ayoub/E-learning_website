@@ -14,10 +14,7 @@ import tn.esprit.microservice2.Model.*;
 import tn.esprit.microservice2.repo.IPaymentRepository;
 import tn.esprit.microservice2.repo.IPaymentScheduleRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
-import tn.esprit.microservice2.service.CouponService;
-import tn.esprit.microservice2.service.InvoiceService;
-import tn.esprit.microservice2.service.PaymentService;
-import tn.esprit.microservice2.service.StripePaymentService;
+import tn.esprit.microservice2.service.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -54,6 +51,8 @@ public class PaymentController {
 
     @Autowired
     private CouponService couponService;
+    @Autowired
+    private ScheduledTasks scheduledTasks;
 
     @GetMapping("/{paymentId}")
     public ResponseEntity<PaymentDTO> getPaymentById(@PathVariable Long paymentId) {
@@ -691,4 +690,12 @@ public class PaymentController {
                     .body(Map.of("error", e.getMessage()));
         }
     }
-}
+    @PostMapping("/tasks/{paymentId}/")
+    public boolean tesssst(@PathVariable Long paymentId) {
+        try {
+            boolean test = scheduledTasks.automaticallyProcessOverduePayment(paymentId);
+            return test;
+        } catch (Exception e) {
+            return e.getMessage().isEmpty();
+        }
+    }}
