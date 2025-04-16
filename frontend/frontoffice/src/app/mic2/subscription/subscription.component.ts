@@ -37,7 +37,7 @@ export class SubscriptionComponent implements OnInit {
     { id: 2, title: 'Angular+Spring', instructor: 'John Doe', price: 499 },
     { id: 3, title: 'ISTQB', instructor: 'Alice', price: 180 }
   ];
-  currentDate = new Date('2025-04-09 17:17:59');
+  currentDate = new Date();
 
   constructor(
     private route: ActivatedRoute,

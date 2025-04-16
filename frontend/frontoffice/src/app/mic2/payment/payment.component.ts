@@ -38,7 +38,7 @@ export class PaymentComponent implements OnInit, AfterViewInit, OnDestroy {
   
   // System info
   currentUser = 'iitsMahdi';
-  currentDate = new Date('2025-04-09 21:59:52');
+  currentDate = new Date();
   
   // Component state
   loading = false;
