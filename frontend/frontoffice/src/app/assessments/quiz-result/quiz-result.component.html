@@ -1,8 +1,20 @@
-<div *ngIf="score !== undefined && totalQuestions !== undefined; else invalidResult">
-  <h2>Quiz Result</h2>
-  <p>Your score: {{ score }}/{{ totalQuestions }}</p>
+<div class="quiz-result-container" *ngIf="score !== undefined && totalQuestions !== undefined; else invalidResult">
+  <div class="quiz-result-card">
+    <h2 class="quiz-result-title">Quiz Result</h2>
+    <p class="quiz-result-score">Your score: <span>{{ score }}</span> / <span>{{ totalQuestions }}</span></p>
+    <div class="quiz-result-actions">
+      <a routerLink="/quizzes/list" class="back-to-quizzes-button">Back to Quizzes</a>
+    </div>
+  </div>
 </div>
 
 <ng-template #invalidResult>
-  <p>Invalid quiz result. Please try again.</p>
+  <div class="quiz-result-container">
+    <div class="quiz-result-card invalid">
+      <p class="quiz-result-error">Invalid quiz result. Please try again.</p>
+      <div class="quiz-result-actions">
+        <a routerLink="/quizzes/list" class="back-to-quizzes-button">Back to Quizzes</a>
+      </div>
+    </div>
+  </div>
 </ng-template>
