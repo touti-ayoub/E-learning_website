@@ -37,41 +37,52 @@ public class CourseAccessService {
      * @return true if the user has access, false otherwise
      */
     public boolean hasAccessToCourse(Long userId, Long courseId) {
-        logger.debug("Checking access for user {} to course {}", userId, courseId);
-        
-        // Get the course
-        Optional<Course> courseOpt = courseRepository.findById(courseId);
-        if (courseOpt.isEmpty()) {
-            logger.debug("Course {} not found", courseId);
-            return false; // Course doesn't exist
+        try {
+            logger.debug("Checking access for user {} to course {}", userId, courseId);
+            
+            if (userId == null || courseId == null) {
+                logger.error("Invalid parameters: userId={}, courseId={}", userId, courseId);
+                return false;
+            }
+            
+            // Get the course
+            Optional<Course> courseOpt = courseRepository.findById(courseId);
+            if (courseOpt.isEmpty()) {
+                logger.debug("Course {} not found", courseId);
+                return false; // Course doesn't exist
+            }
+            
+            Course course = courseOpt.get();
+            logger.debug("Course {} found, free: {}", courseId, course.isFree());
+            
+            // If course is free, allow access
+            if (course.isFree()) {
+                logger.debug("Course {} is free, granting access", courseId);
+                return true;
+            }
+            
+            // If course is not free, check if user has an active subscription
+            Optional<User> userOpt = userRepository.findById(userId);
+            if (userOpt.isEmpty()) {
+                logger.debug("User {} not found", userId);
+                return false; // User doesn't exist
+            }
+            
+            User user = userOpt.get();
+            logger.debug("User {} found", userId);
+            
+            // Check if user has an active subscription for this course
+            boolean hasSubscription = subscriptionRepository.findByUserIdAndCourseId(userId, courseId)
+                    .stream()
+                    .anyMatch(sub -> sub != null && sub.isActive());
+            
+            logger.debug("User {} has active subscription for course {}: {}", userId, courseId, hasSubscription);
+            return hasSubscription;
+        } catch (Exception e) {
+            logger.error("Error checking course access for user={}, course={}: {}", 
+                         userId, courseId, e.getMessage(), e);
+            return false; // Default to no access on error
         }
-        
-        Course course = courseOpt.get();
-        logger.debug("Course {} found, free: {}", courseId, course.isFree());
-        
-        // If course is free, allow access
-        if (course.isFree()) {
-            logger.debug("Course {} is free, granting access", courseId);
-            return true;
-        }
-        
-        // If course is not free, check if user has an active subscription
-        Optional<User> userOpt = userRepository.findById(userId);
-        if (userOpt.isEmpty()) {
-            logger.debug("User {} not found", userId);
-            return false; // User doesn't exist
-        }
-        
-        User user = userOpt.get();
-        logger.debug("User {} found", userId);
-        
-        // Check if user has an active subscription for this course
-        boolean hasSubscription = subscriptionRepository.findByUserIdAndCourseId(userId, courseId)
-                .stream()
-                .anyMatch(Subscription::isActive);
-        
-        logger.debug("User {} has active subscription for course {}: {}", userId, courseId, hasSubscription);
-        return hasSubscription;
     }
     
     /**

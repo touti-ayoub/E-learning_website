@@ -81,6 +81,20 @@ createSubscription(request: SubCreatingRequest): Observable<any> {
     return this.http.get<any>(`${this.apiUrl}/getUserByUN/${username}`)
       .pipe(catchError(this.handleError));
   }
+  
+  getUserById(username: string): Observable<any> {
+    console.log(`Getting user by ID (username): ${username}`);
+    return this.http.get<any>(`${this.apiUrl}/getUserById/${username}`)
+      .pipe(
+        tap(response => console.log('User retrieved:', response)),
+        catchError(error => {
+          console.error(`Error getting user by ID (${username}):`, error);
+          // Fall back to getUserByUsername if getUserById fails
+          console.log('Falling back to getUserByUN endpoint');
+          return this.getUserByUsername(username);
+        })
+      );
+  }
 
   cancelSubscription(subscriptionId: number): Observable<void> {
     return this.http.post<void>(`${this.apiUrl}/${subscriptionId}/cancel`, {})

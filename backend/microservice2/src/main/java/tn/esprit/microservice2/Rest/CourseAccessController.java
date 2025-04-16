@@ -12,7 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/course-access")
-@CrossOrigin(originPatterns = "http://localhost:[*]", maxAge = 3600, allowCredentials = "true")
+@CrossOrigin(originPatterns = "http://localhost:*", allowCredentials = "true", exposedHeaders = "Access-Control-Allow-Origin")
 public class CourseAccessController {
 
     private final CourseAccessService courseAccessService;
@@ -29,6 +29,13 @@ public class CourseAccessController {
     @PostMapping("/check")
     public ResponseEntity<CourseAccessResponseDTO> checkCourseAccess(@RequestBody CourseAccessRequestDTO request) {
         try {
+            if (request == null || request.getUserId() == null || request.getCourseId() == null) {
+                CourseAccessResponseDTO errorResponse = new CourseAccessResponseDTO();
+                errorResponse.setHasAccess(false);
+                errorResponse.setMessage("Invalid request parameters: Missing userId or courseId");
+                return ResponseEntity.badRequest().body(errorResponse);
+            }
+            
             boolean hasAccess = courseAccessService.hasAccessToCourse(
                     request.getUserId(), 
                     request.getCourseId()

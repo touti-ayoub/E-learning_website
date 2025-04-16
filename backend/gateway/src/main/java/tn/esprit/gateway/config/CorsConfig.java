@@ -19,8 +19,7 @@ public class CorsConfig {
         CorsConfiguration corsConfig = new CorsConfiguration();
         corsConfig.setAllowCredentials(true);
         
-        // Allow Angular app origins
-        // Using allowedOriginPatterns instead of allowedOrigins to support dynamic ports
+        // Allow Angular app origins with any port
         corsConfig.setAllowedOriginPatterns(Arrays.asList(
             "http://localhost:*"  // Allow any port on localhost
         ));
@@ -28,27 +27,11 @@ public class CorsConfig {
         // Allow all methods
         corsConfig.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
         
-        // Allow specific headers
-        corsConfig.setAllowedHeaders(Arrays.asList(
-            "Origin", 
-            "Content-Type", 
-            "Accept", 
-            "Authorization", 
-            "Access-Control-Allow-Origin", 
-            "Access-Control-Request-Method", 
-            "Access-Control-Request-Headers",
-            "X-Requested-With",
-            "*"  // Allow all headers
-        ));
+        // Allow all headers
+        corsConfig.setAllowedHeaders(Arrays.asList("*"));
         
-        // Expose headers to the client
+        // Expose only necessary headers to avoid duplicates
         corsConfig.setExposedHeaders(Arrays.asList(
-            "Access-Control-Allow-Origin",
-            "Access-Control-Allow-Methods",
-            "Access-Control-Allow-Headers",
-            "Access-Control-Max-Age",
-            "Access-Control-Request-Headers",
-            "Access-Control-Request-Method",
             "Content-Disposition",  // Needed for file downloads
             "Content-Type",
             "Content-Length"

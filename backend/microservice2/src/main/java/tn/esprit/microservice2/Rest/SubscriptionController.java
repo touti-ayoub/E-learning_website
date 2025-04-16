@@ -106,6 +106,16 @@ public class SubscriptionController {
         }
     }
 
+    @GetMapping("/getUserById/{username}")
+    public ResponseEntity<UserDTO> getUserById(@PathVariable String username) {
+        try {
+            UserDTO user = subscriptionService.getUserByUsername(username);
+            return ResponseEntity.ok(user);
+        } catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @GetMapping("/user/username/{username}")
     public ResponseEntity<UserDTO> testGetUserByUsername(@PathVariable String username) {
         try {

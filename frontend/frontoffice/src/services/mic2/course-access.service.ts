@@ -25,7 +25,8 @@ export class CourseAccessService {
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    withCredentials: true
   };
 
   constructor(private http: HttpClient) { }
@@ -39,7 +40,6 @@ export class CourseAccessService {
   checkCourseAccess(userId: number, courseId: number): Observable<CourseAccessResponseDTO> {
     console.log(`Checking access for user ${userId} to course ${courseId}`);
     
-    // PRODUCTION CODE
     const requestBody = { userId, courseId };
     
     return this.http.post<CourseAccessResponseDTO>(
@@ -50,10 +50,20 @@ export class CourseAccessService {
       tap(response => console.log('Course access check result:', response)),
       catchError(error => {
         console.error('Course access check error:', error);
+        
+        // More detailed error logging
+        if (error.status === 0) {
+          console.error('Network error or CORS issue - Status 0');
+        } else if (error.status === 404) {
+          console.error('API endpoint not found - 404');
+        } else if (error.status >= 500) {
+          console.error('Server error:', error.status);
+        }
+        
         // Return a denied access response on error
         return of({
           hasAccess: false,
-          message: "Error checking access, defaulting to denied",
+          message: error.message || "Error checking access, defaulting to denied",
           userId: userId,
           courseId: courseId
         });
