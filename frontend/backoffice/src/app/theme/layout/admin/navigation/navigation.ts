@@ -34,6 +34,46 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
+    id: 'events-management',
+    title: 'Events Management',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'events',
+        title: 'Events',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/events',
+        icon: 'ti ti-calendar-event'
+      },
+      {
+        id: 'materials',
+        title: 'Materials',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/materials',
+        icon: 'ti ti-package'
+      },
+      {
+        id: 'feedbacks',
+        title: 'Feedbacks',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/feedbacks',
+        icon: 'ti ti-messages'
+      },
+      {
+        id: 'registrations',
+        title: 'Registrations',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/registrations',
+        icon: 'ti ti-ticket'
+      }
+    ]
+  },
+  {
     id: 'page',
     title: 'Pages',
     type: 'group',
@@ -62,66 +102,6 @@ export const NavigationItems: NavigationItem[] = [
             breadcrumbs: false
           }
         ]
-      }
-    ]
-  },
-  {
-    id: 'elements',
-    title: 'Elements',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'typography',
-        title: 'Typography',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/typography',
-        icon: 'ti ti-typography'
-      },
-      {
-        id: 'color',
-        title: 'Colors',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/color',
-        icon: 'ti ti-brush'
-      },
-      {
-        id: 'tabler',
-        title: 'Tabler',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://tabler-icons.io/',
-        icon: 'ti ti-plant-2',
-        target: true,
-        external: true
-      }
-    ]
-  },
-  {
-    id: 'other',
-    title: 'Other',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'sample-page',
-        title: 'Sample Page',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'ti ti-brand-chrome'
-      },
-      {
-        id: 'document',
-        title: 'Document',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/berry-angular/',
-        icon: 'ti ti-vocabulary',
-        target: true,
-        external: true
       }
     ]
   }
