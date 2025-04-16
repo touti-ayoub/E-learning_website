@@ -35,12 +35,29 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
-    id: 'payments',
-    title: 'Payments',
+    id: 'courses',
+    title: 'Course Management',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
+        id: 'course-management',
+        title: 'Courses',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/courses',
+        icon: 'ti ti-book',
+        breadcrumbs: false
+      },
+      {
+        id: 'category-management',
+        title: 'Categories',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/categories',
+        icon: 'ti ti-tag',
+        breadcrumbs: false},
+        {
         id: 'main_dashbaord',
         title: 'Main Dashboard',
         type: 'item',

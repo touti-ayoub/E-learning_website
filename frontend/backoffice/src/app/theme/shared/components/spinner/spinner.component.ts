@@ -2,6 +2,7 @@
 import { Component, Input, OnDestroy, Inject, ViewEncapsulation } from '@angular/core';
 import { Router, NavigationStart, NavigationEnd, NavigationCancel, NavigationError } from '@angular/router';
 import { DOCUMENT } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 // project import
 import { Spinkit } from './spinkits';
@@ -11,8 +12,8 @@ import { Spinkit } from './spinkits';
   templateUrl: './spinner.component.html',
   styleUrls: ['./spinner.component.scss', './spinkit-css/sk-line-material.scss'],
   encapsulation: ViewEncapsulation.None,
-  standalone: true,  // Add this line
-
+  standalone: true,
+  imports: [CommonModule]
 })
 export class SpinnerComponent implements OnDestroy {
   // public props

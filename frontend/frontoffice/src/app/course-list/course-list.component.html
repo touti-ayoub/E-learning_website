@@ -1,0 +1,47 @@
+<div class="course-container">
+  <div class="category-filter">
+    <h3>Categories</h3>
+    <ul class="category-list">
+      <li 
+        *ngFor="let category of categories" 
+        [class.active]="selectedCategoryId === category.id"
+        (click)="filterByCategory(category.id!)">
+        {{ category.name }}
+      </li>
+    </ul>
+  </div>
+
+  <div class="courses-section">
+    <h2>Available Courses</h2>
+    
+    <div *ngIf="loading" class="loading">
+      Loading courses...
+    </div>
+    
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+    
+    <div *ngIf="!loading && !error && courses.length === 0" class="empty-state">
+      No courses available.
+    </div>
+    
+    <div class="course-grid">
+      <div class="course-card" *ngFor="let course of courses">
+        <div class="course-image" *ngIf="course.coverImageData">
+          <img [src]="course.coverImageData" [alt]="course.title">
+        </div>
+        <div class="course-image placeholder" *ngIf="!course.coverImageData">
+          <div class="placeholder-text">No Image</div>
+        </div>
+        <div class="course-content">
+          <h3 class="course-title">{{ course.title }}</h3>
+          <p class="course-description" *ngIf="course.description">{{ course.description }}</p>
+          <div *ngIf="course.free" class="course-price free">Free</div>
+          <div *ngIf="!course.free" class="course-price">${{ course.price }}</div>
+          <a class="view-course-btn" (click)="viewCourse(course, $event)" href="#">View Course</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

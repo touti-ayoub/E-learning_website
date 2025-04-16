@@ -1,0 +1,46 @@
+// Basic styles for the category management component
+.table {
+  thead {
+    background-color: #f8f9fa;
+  }
+}
+
+.card {
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+  .card-header {
+    border-bottom: none;
+  }
+}
+
+.image-preview {
+  max-height: 200px;
+  overflow: hidden;
+  border-radius: 4px;
+  
+  img {
+    width: 100%;
+    object-fit: cover;
+  }
+}
+
+.category-image-container {
+  height: 160px;
+  overflow: hidden;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+.category-image-placeholder {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  color: #ccc;
+} 

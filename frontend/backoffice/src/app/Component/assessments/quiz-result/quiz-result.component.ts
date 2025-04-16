@@ -8,7 +8,7 @@ import { QuizResultService } from 'src/service/mic/quiz-result.service';
 @Component({
   selector: 'app-quiz-result',
   templateUrl: './quiz-result.component.html',
-  styleUrls: ['./quiz-result.component.css'],
+  styleUrls: ['./quiz-result.component.scss'],
   standalone: true,
   imports: [CommonModule, FormsModule]
 })
