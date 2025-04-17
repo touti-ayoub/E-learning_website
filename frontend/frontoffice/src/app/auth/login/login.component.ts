@@ -27,6 +27,7 @@ export class LoginComponent {
         // Save the JWT token (e.g., in localStorage or a service)
         localStorage.setItem('token', response.token);
         localStorage.setItem('username', response.username);
+        localStorage.setItem('id', response.id.toString()); // Convert the user's ID to a string
 
         // Redirect to the dashboard or home page
         this.route.navigate(['/home']);

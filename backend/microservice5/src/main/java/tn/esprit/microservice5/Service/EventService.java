@@ -7,7 +7,6 @@ import tn.esprit.microservice5.DTO.FeedbackDTO;
 import tn.esprit.microservice5.Model.*;
 import tn.esprit.microservice5.Repo.IEventRepo;
 import tn.esprit.microservice5.Repo.IFeedbackRepository;
-import tn.esprit.microservice5.Repo.IMaterialRepo;
 import tn.esprit.microservice5.Repo.IRegistrationRepo;
 import tn.esprit.microservice5.Repo.IUserRepo;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,6 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,9 +34,6 @@ public class EventService {
 
     @Autowired
     private IFeedbackRepository feedbackRepository;
-
-    @Autowired
-    private IMaterialRepo materialRepository;
 
     @Autowired
     private IUserRepo userRepository;
@@ -240,16 +235,4 @@ public class EventService {
         return savedFeedback;
     }
 
-    public Material addMaterialToEvent(Long eventId, Material material) {
-        Event event = eventRepository.findById(eventId)
-                .orElseThrow(() -> new RuntimeException("Event not found with id: " + eventId));
-
-        material.setEvent(event);
-        Material savedMaterial = materialRepository.save(material);
-
-        event.getMaterials().add(savedMaterial);
-        eventRepository.save(event);
-
-        return savedMaterial;
-    }
 }

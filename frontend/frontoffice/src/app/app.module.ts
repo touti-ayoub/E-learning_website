@@ -21,6 +21,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { SubscriptionComponent } from './mic2/subscription/subscription.component';
 import { EventListComponent } from './mic5/event-list/event-list.component';
 import { EventDetailsComponent } from './mic5/event-details/event-details.component';
+import {RegistrationService} from "../services/mic5/registration.service";
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { EventDetailsComponent } from './mic5/event-details/event-details.compon
     ReactiveFormsModule,
 
   ],
-  providers: [],
+  providers: [RegistrationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

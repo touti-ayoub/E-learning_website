@@ -2,7 +2,7 @@
   <div class="container">
     <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
       <h6 class="section-title bg-white text-center text-primary px-3">Event Details</h6>
-      <h1 class="mb-5">{{event?.title}}</h1>
+      <h1 class="mb-5">{{ event?.title }}</h1>
     </div>
 
     <div *ngIf="loading" class="text-center">
@@ -54,10 +54,34 @@
               <h4>Description</h4>
               <p class="mb-0">{{ event.description }}</p>
             </div>
-            <div class="col-12 mt-4">
+            <div class="col-12 mt-4 d-flex gap-3">
               <a routerLink="/events" class="btn btn-primary py-2 px-4">
                 <i class="fa fa-arrow-left me-2"></i>Back to Events
               </a>
+
+              <!-- Registration button -->
+              <button
+                class="btn btn-success py-2 px-4"
+                *ngIf="isRegistrableEventType() && !isRegistered && !loading"
+                [disabled]="isRegistering || !userId"
+                (click)="registerForEvent()">
+                <span *ngIf="isRegistering" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                {{ isRegistering ? 'Registering...' : 'Register for this event' }}
+              </button>
+            </div>
+
+            <!-- Registration success message -->
+            <div class="col-12 mt-3" *ngIf="isRegistrableEventType() && isRegistered">
+              <div class="alert alert-success py-2">
+                <i class="fas fa-check-circle me-2"></i> You are registered for this event!
+              </div>
+            </div>
+
+            <!-- Warning message for users who need to login -->
+            <div class="col-12 mt-2" *ngIf="isRegistrableEventType() && !userId">
+              <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i> Please <a [routerLink]="['/login']">login</a> to register for this event.
+              </div>
             </div>
           </div>
         </div>
@@ -86,11 +110,13 @@
           <div class="bg-white p-4 rounded shadow-sm">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <div class="d-flex align-items-center">
-                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3"
+                     style="width: 40px; height: 40px;">
                   <i class="fa fa-user"></i>
                 </div>
                 <div>
-                  <h5 class="mb-0">{{ feedback.user?.username || 'Anonymous' }}</h5>                  <div class="text-warning">
+                  <h5 class="mb-0">{{ feedback.user?.username || 'Anonymous' }}</h5>
+                  <div class="text-warning">
                     <i *ngFor="let star of [1,2,3,4,5]"
                        class="fa"
                        [ngClass]="{'fa-star': star <= feedback.rating, 'fa-star-o': star > feedback.rating}"></i>
@@ -98,10 +124,10 @@
                 </div>
               </div>
               <small class="text-muted">
-                <i class="fa fa-clock-o me-1"></i>{{feedback.submittedAt | date:'medium'}}
+                <i class="fa fa-clock-o me-1"></i>{{ feedback.submittedAt | date:'medium' }}
               </small>
             </div>
-            <p class="card-text mb-0">{{feedback.comments || 'No comments provided.'}}</p>
+            <p class="card-text mb-0">{{ feedback.comments || 'No comments provided.' }}</p>
           </div>
         </div>
       </div>
@@ -118,14 +144,16 @@
               <div class="star-rating d-flex align-items-center">
                 <div class="btn-group" role="group">
                   <ng-container *ngFor="let star of [1,2,3,4,5]">
-                    <input type="radio" class="btn-check" [id]="'rating' + star" [value]="star" formControlName="rating">
+                    <input type="radio" class="btn-check" [id]="'rating' + star" [value]="star"
+                           formControlName="rating">
                     <label class="btn btn-outline-warning" [for]="'rating' + star">
-                      <i class="fa fa-star"></i> {{star}}
+                      <i class="fa fa-star"></i> {{ star }}
                     </label>
                   </ng-container>
                 </div>
               </div>
-              <div *ngIf="feedbackForm.get('rating')?.invalid && feedbackForm.get('rating')?.touched" class="text-danger mt-2">
+              <div *ngIf="feedbackForm.get('rating')?.invalid && feedbackForm.get('rating')?.touched"
+                   class="text-danger mt-2">
                 <i class="fa fa-exclamation-circle"></i> Please select a rating.
               </div>
             </div>
@@ -138,8 +166,9 @@
                 formControlName="comments"
                 rows="4"
                 placeholder="Share your thoughts about this event..."></textarea>
-              <div class="form-text text-end" [class.text-danger]="(feedbackForm.get('comments')?.value || '').length > 450">
-                {{(feedbackForm.get('comments')?.value || '').length}}/500
+              <div class="form-text text-end"
+                   [class.text-danger]="(feedbackForm.get('comments')?.value || '').length > 450">
+                {{ (feedbackForm.get('comments')?.value || '').length }}/500
               </div>
             </div>
 

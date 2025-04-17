@@ -4,9 +4,11 @@ import { ActivatedRoute } from '@angular/router';
 import { EventDTO, EventService } from '../../../services/mic5/event.service';
 import { FeedbackService, FeedbackDTO } from '../../../services/mic5/feedback.service';
 import { UserService, UserDTO } from '../../../services/mic5/user.service';
+import { RegistrationService, RegistrationDTO } from '../../../services/mic5/registration.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { forkJoin, of } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
+import Swal from 'sweetalert2';
 
 interface FeedbackWithUser extends FeedbackDTO {
   user?: UserDTO;
@@ -21,22 +23,32 @@ export class EventDetailsComponent implements OnInit {
   event!: EventDTO;
   loading = true;
   errorMessage: string | null = null;
-
   feedbacks: FeedbackWithUser[] = [];
   feedbackForm: FormGroup;
-  userId = 1; // Replace with actual user ID from auth service
+  userId: number = 0;
+  username: string = '';
+
+  // Registration properties
+  isRegistered = false;
+  isRegistering = false;
 
   constructor(
     private route: ActivatedRoute,
     private eventService: EventService,
     private feedbackService: FeedbackService,
     private userService: UserService,
+    private registrationService: RegistrationService,
     private fb: FormBuilder
   ) {
     this.feedbackForm = this.fb.group({
       rating: [null, [Validators.required, Validators.min(1), Validators.max(5)]],
       comments: ['', Validators.maxLength(500)]
     });
+
+    // Get user information from localStorage
+    const storedId = localStorage.getItem('id');
+    this.userId = storedId ? +storedId : 0;
+    this.username = localStorage.getItem('username') || '';
   }
 
   ngOnInit(): void {
@@ -47,6 +59,11 @@ export class EventDetailsComponent implements OnInit {
           this.event = data;
           this.loading = false;
           this.loadFeedbacks(+id);
+
+          // Check if user is already registered
+          if (this.userId) {
+            this.checkRegistrationStatus(+id);
+          }
         },
         error: (err) => {
           console.error('Error fetching event:', err);
@@ -134,5 +151,57 @@ export class EventDetailsComponent implements OnInit {
       'DEFAULT': 'default.jpg'
     };
     return `assets/img/mic5/events-type/${imageMap[type] || imageMap['DEFAULT']}`;
+  }
+
+  // Registration methods
+  checkRegistrationStatus(eventId: number): void {
+    if (!this.userId) return;
+
+    this.registrationService.getRegistrationsByUserId(this.userId).subscribe({
+      next: (registrations) => {
+        this.isRegistered = registrations.some(reg => reg.eventId === eventId);
+      },
+      error: (err) => {
+        console.error('Error checking registration status:', err);
+      }
+    });
+  }
+
+  registerForEvent(): void {
+    if (!this.userId || this.isRegistered || this.isRegistering) return;
+
+    this.isRegistering = true;
+
+    const registration: RegistrationDTO = {
+      id: 0,
+      eventId: this.event.eventId,
+      userId: this.userId
+    };
+
+    this.registrationService.createRegistration(registration).subscribe({
+      next: () => {
+        this.isRegistered = true;
+        this.isRegistering = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Success!',
+          text: 'You have successfully registered for this event!'
+        });
+      },
+      error: (err) => {
+        console.error('Error registering for event:', err);
+        this.isRegistering = false;
+        Swal.fire({
+          icon: 'error',
+          title: 'Registration Failed',
+          text: 'Could not register for this event. Please try again later.'
+        });
+      }
+    });
+  }
+
+  isRegistrableEventType(): boolean {
+    const registrableTypes = ['WORKSHOP', 'SEMINAR', 'HACKATHON'];
+    return registrableTypes.includes(this.event?.eventType?.toUpperCase() || '');
   }
 }

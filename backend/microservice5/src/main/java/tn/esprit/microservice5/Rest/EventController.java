@@ -9,12 +9,10 @@ import tn.esprit.microservice5.DTO.EventDTO;
 import tn.esprit.microservice5.DTO.FeedbackDTO;
 import tn.esprit.microservice5.Model.Event;
 import tn.esprit.microservice5.Model.Feedback;
-import tn.esprit.microservice5.Model.Material;
 import tn.esprit.microservice5.Model.Registration;
 import tn.esprit.microservice5.Service.EventService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/mic5/event")
@@ -91,19 +89,4 @@ public class EventController {
         }
     }
 
-    /**
-     * Add material to an event
-     */
-    @PostMapping("/{id}/materials")
-    public ResponseEntity<?> addMaterialToEvent(@PathVariable("id") Long eventId,
-                                                @Valid @RequestBody Material material) {
-        try {
-            Material savedMaterial = eventService.addMaterialToEvent(eventId, material);
-            return new ResponseEntity<>(savedMaterial, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>("An unexpected error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 }

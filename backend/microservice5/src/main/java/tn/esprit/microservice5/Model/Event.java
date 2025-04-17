@@ -62,9 +62,6 @@ public class Event {
     private List<Feedback> feedbacks = new ArrayList<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private List<Material> materials = new ArrayList<>();
-
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<Registration> registrations = new ArrayList<>();
 
 

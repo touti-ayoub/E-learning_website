@@ -57,7 +57,6 @@ public class EventDTO {
                 .googleCalendarEventId(event.getGoogleCalendarEventId())
                 .registrationsCount(event.getRegistrations() != null ? event.getRegistrations().size() : 0)
                 .feedbacksCount(event.getFeedbacks() != null ? event.getFeedbacks().size() : 0)
-                .materialsCount(event.getMaterials() != null ? event.getMaterials().size() : 0)
                 .averageRating(avgRating)
                 .build();
     }
