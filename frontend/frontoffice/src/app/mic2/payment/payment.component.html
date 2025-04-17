@@ -1,0 +1,279 @@
+<div class="payment-container">
+  <!-- Header with current info -->
+  <div class="user-info-bar">
+    <div class="user-info">
+      <i class="fas fa-user-circle"></i>
+      <span>{{currentUser}}</span>
+    </div>
+    <div class="date-info">
+      <i class="fas fa-clock"></i>
+      <span>{{currentDate | date:'yyyy-MM-dd HH:mm:ss'}}</span>
+    </div>
+  </div>
+
+  <div class="payment-content">
+    <h1 class="payment-title">
+      <span class="highlight-text">Complete</span> Your Payment
+      <div class="title-underline"></div>
+    </h1>
+
+    <!-- Loading state -->
+    <div *ngIf="loading" class="loading-container">
+      <div class="loader"></div>
+      <p>Loading payment information...</p>
+    </div>
+
+    <!-- Stripe Loading state -->
+    <div *ngIf="!loading && loadingPaymentIntent" class="loading-container">
+      <div class="loader"></div>
+      <p>Preparing secure payment...</p>
+    </div>
+
+    <!-- Error message -->
+    <div *ngIf="error && !loading && !loadingPaymentIntent" class="error-message">
+      <div class="message-icon">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <div class="error-content">
+        <p>{{error}}</p>
+        <button *ngIf="error.includes('payment')" class="btn-retry" (click)="retryPayment()">
+          <i class="fas fa-redo"></i> Retry
+        </button>
+      </div>
+    </div>
+
+    <!-- Success message -->
+    <div *ngIf="success && !loading" class="success-message">
+      <div class="success-checkmark">
+        <div class="check-icon">
+          <span class="icon-line line-tip"></span>
+          <span class="icon-line line-long"></span>
+        </div>
+      </div>
+      <p class="success-title">Payment successful!</p>
+      <p class="success-subtitle">Redirecting to payment confirmation...</p>
+    </div>
+
+    <!-- Payment Form -->
+    <div *ngIf="canShowPaymentForm()" class="payment-form-container">
+      <!-- Payment Summary -->
+      <div *ngIf="hasAppliedDiscount()" class="coupon-highlight-banner">
+        <div class="coupon-icon">
+          <i class="fas fa-ticket-alt"></i>
+        </div>
+        <div class="coupon-details">
+          <div class="coupon-title">Coupon Applied: {{couponCode}}</div>
+          <div class="coupon-savings">You saved {{getDiscountAmount()}} ({{discountPercentage}}% off)</div>
+        </div>
+      </div>
+      <div class="payment-summary">
+        <div class="summary-header">
+          <h2>{{getCourseTitle()}}</h2>
+          
+          <!-- Payment Type Toggle -->
+          <div class="payment-type-toggle">
+            <label class="toggle-option" [class.active]="paymentType === 'FULL'">
+              <input 
+                type="radio" 
+                name="paymentType" 
+                value="FULL"
+                [(ngModel)]="paymentType"
+                (change)="calculateInstallmentAmount()"
+              >
+              <span>Full Payment</span>
+            </label>
+            <label class="toggle-option" [class.active]="paymentType === 'INSTALLMENTS'">
+              <input 
+                type="radio" 
+                name="paymentType" 
+                value="INSTALLMENTS"
+                [(ngModel)]="paymentType"
+                (change)="calculateInstallmentAmount()"
+              >
+              <span>Installments</span>
+            </label>
+          </div>
+          
+          <span class="payment-badge">{{getPaymentDescription()}}</span>
+        </div>
+        
+        <!-- Summary Amount with Discount Display -->
+       <!-- Replace the summary-amount section in your HTML with this improved version -->
+<div class="summary-amount">
+  <!-- Display discount info if applied -->
+  <div *ngIf="hasAppliedDiscount()" class="discount-info">
+    <div class="discount-details">
+      <div class="original-price-label">Original Price:</div>
+      <div class="original-price">{{getOriginalAmount()}}</div>
+    </div>
+    <div class="discount-badge-container">
+      <span class="discount-badge">{{discountPercentage}}% OFF</span>
+    </div>
+  </div>
+  
+  <div class="final-amount" [class.discounted]="hasAppliedDiscount()">
+    {{getDisplayAmount()}}
+  </div>
+  
+  <!-- Show coupon code info if present -->
+  <div *ngIf="couponCode && hasAppliedDiscount()" class="coupon-applied">
+    <i class="fas fa-ticket-alt"></i> Coupon <strong>{{couponCode}}</strong> applied
+    <span class="savings">(You save {{getDiscountAmount()}})</span>
+  </div>
+</div>
+
+
+        <!-- Add this section right after the summary-amount div for more visibility -->
+      </div>
+
+      <!-- Installment Options (if applicable) -->
+      <div *ngIf="paymentType === 'INSTALLMENTS'" class="installment-selector">
+        <div class="select-wrapper">
+          <label for="installmentSelect">Number of Installments:</label>
+          <select 
+            id="installmentSelect"
+            [(ngModel)]="numberOfInstallments" 
+            (change)="onInstallmentChange($event)" 
+            class="installment-select"
+          >
+            <option *ngFor="let option of installmentOptions" [value]="option">
+              {{option === 1 ? 'Pay in full' : option + ' installments'}}
+            </option>
+          </select>
+        </div>
+        
+        <div class="installment-summary">
+          <!-- Original price if discount applied -->
+          <div *ngIf="hasAppliedDiscount()" class="summary-row">
+            <span>Original Amount:</span>
+            <span>{{getOriginalAmount()}}</span>
+          </div>
+          
+          <!-- Discount row if applicable -->
+          <div *ngIf="hasAppliedDiscount()" class="summary-row discount">
+            <span>Discount ({{discountPercentage}}%):</span>
+            <span>-{{getDiscountAmount()}}</span>
+          </div>
+          
+          <div class="summary-row total">
+            <span>Total Amount:</span>
+            <span>{{getTotalAmount()}}</span>
+          </div>
+          
+          <div class="summary-row highlight">
+            <span>Each Installment:</span>
+            <span>{{getDisplayAmount()}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Credit Card Form -->
+      <div class="card-form-container">
+        <!-- Virtual Credit Card -->
+        <div class="credit-card">
+          <div class="card-chip"></div>
+          <div class="card-number">•••• •••• •••• ••••</div>
+          <div class="card-details">
+            <div class="card-holder">
+              <span class="detail-label">Card Holder</span>
+              <span class="detail-value">{{cardDetails.holder || 'YOUR NAME'}}</span>
+            </div>
+            <div class="card-expiry">
+              <span class="detail-label">Expires</span>
+              <span class="detail-value">MM/YY</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stripe not initialized warning -->
+        <div *ngIf="!stripeInitialized" class="stripe-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>Payment system is initializing. Please wait...</p>
+        </div>
+
+        <!-- Actual Form -->
+        <div class="form-fields" *ngIf="stripeInitialized">
+          <!-- Stripe Card Element -->
+          <div class="form-group">
+            <label for="card-element">Card Information</label>
+            <div id="card-element" class="stripe-card-element interactive-element" #stripeCardElement></div>
+            <p class="error-hint" *ngIf="stripeError">
+              {{stripeError}}
+            </p>
+            <!-- Test card info helper -->
+            <div class="test-card-info">
+              <small><strong>Test card:</strong> 4242 4242 4242 4242 | <strong>Exp:</strong> any future date | <strong>CVV:</strong> any 3 digits</small>
+            </div>
+          </div>
+
+          <!-- Card Holder Name -->
+          <div class="form-group" [ngClass]="{'has-error': cardHolderInvalid && cardHolderTouched}">
+            <label for="cardHolder">Card Holder Name</label>
+            <div class="input-icon-wrapper">
+              <i class="far fa-user"></i>
+              <input
+                type="text"
+                id="cardHolder"
+                name="cardHolder"
+                [(ngModel)]="cardDetails.holder"
+                placeholder="John Doe"
+                required
+                autocomplete="cc-name"
+                [disabled]="processing"
+                (blur)="cardHolderTouched = true; validateCardHolder()"
+              >
+            </div>
+            <p class="error-hint" *ngIf="cardHolderInvalid && cardHolderTouched">
+              Please enter the cardholder name.
+            </p>
+          </div>
+
+          <!-- Security Notice -->
+          <div class="security-notice">
+            <i class="fas fa-shield-alt"></i>
+            <div>
+              <span class="notice-title">Secure Payment</span>
+              <p>Your payment information is encrypted and secure. We do not store your card details.</p>
+            </div>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button
+              type="button"
+              class="btn-cancel"
+              [disabled]="processing"
+              (click)="goBack()">
+              <i class="fas fa-arrow-left"></i>
+              Cancel
+            </button>
+
+            <button
+              type="button"
+              class="btn-submit"
+              [disabled]="isSubmitDisabled()"
+              (click)="onSubmit()">
+              <span class="btn-text">{{processing ? 'Processing...' : 'Complete Payment'}}</span>
+              <div *ngIf="processing" class="spinner"></div>
+              <i *ngIf="!processing" class="fas fa-lock"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No payment data state -->
+    <div *ngIf="!loading && !loadingPaymentIntent && !success && error && error.includes('Missing')" class="empty-state">
+      <div class="empty-icon">
+        <i class="far fa-question-circle"></i>
+      </div>
+      <p>No payment information available.</p>
+      <button
+        (click)="goBack()"
+        class="btn-return">
+        <i class="fas fa-home"></i>
+        Return to Dashboard
+      </button>
+    </div>
+  </div>
+</div>

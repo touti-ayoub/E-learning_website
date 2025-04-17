@@ -1,0 +1,274 @@
+<div class="container-fluid p-4">
+  <div class="row">
+    <div class="col-md-12 mb-4">
+      <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h5 class="mb-0">{{ isEditing ? 'Edit Course' : 'Add New Course' }}</h5>
+          <button *ngIf="isEditing" class="btn btn-sm btn-light" (click)="resetForm()">
+            <i class="fas fa-plus"></i> Add New
+          </button>
+        </div>
+        <div class="card-body">
+          <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+          <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+          
+          <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label for="title">Course Title*</label>
+                  <input type="text" id="title" formControlName="title" class="form-control" 
+                         [ngClass]="{'is-invalid': courseForm.get('title')?.invalid && courseForm.get('title')?.touched}">
+                  <div *ngIf="courseForm.get('title')?.invalid && courseForm.get('title')?.touched" class="invalid-feedback">
+                    Course title is required
+                  </div>
+                </div>
+                
+                <div class="form-group mb-3">
+                  <label for="description">Description</label>
+                  <textarea id="description" formControlName="description" class="form-control" rows="4"></textarea>
+                </div>
+                
+                <div class="form-group mb-3">
+                  <label for="price">Price*</label>
+                  <input type="number" id="price" formControlName="price" class="form-control" min="0" step="0.01"
+                         [ngClass]="{'is-invalid': courseForm.get('price')?.invalid && courseForm.get('price')?.touched}">
+                  <div *ngIf="courseForm.get('price')?.invalid && courseForm.get('price')?.touched" class="invalid-feedback">
+                    Price is required and must be a positive number
+                  </div>
+                </div>
+                
+                <div class="form-group mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="isFree" formControlName="free" (change)="onFreeChange()">
+                    <label class="form-check-label" for="isFree">
+                      Mark as free course (price will be set to 0)
+                    </label>
+                  </div>
+                </div>
+                
+                <div class="form-group mb-3">
+                  <label for="categoryId">Category*</label>
+                  <div class="input-group">
+                    <select id="categoryId" formControlName="categoryId" class="form-control"
+                          [ngClass]="{'is-invalid': courseForm.get('categoryId')?.invalid && courseForm.get('categoryId')?.touched}">
+                      <option [ngValue]="null" disabled>Select a category</option>
+                      <option *ngFor="let category of categories; trackBy: trackByCategory" [ngValue]="category.id">{{ category.name }}</option>
+                    </select>
+                    <a class="btn btn-outline-primary" routerLink="/categories">
+                      <i class="fas fa-plus"></i> Manage Categories
+                    </a>
+                  </div>
+                  <div *ngIf="courseForm.get('categoryId')?.invalid && courseForm.get('categoryId')?.touched" class="invalid-feedback">
+                    Category is required
+                  </div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <div class="form-group mb-3">
+                  <label>Course Image</label>
+                  <div class="mb-2">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="imageSource" id="imageUpload" 
+                        [checked]="!useExternalUrl" (change)="toggleImageSource(false)">
+                      <label class="form-check-label" for="imageUpload">Upload Image</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="imageSource" id="imageUrl" 
+                        [checked]="useExternalUrl" (change)="toggleImageSource(true)">
+                      <label class="form-check-label" for="imageUrl">External URL</label>
+                    </div>
+                  </div>
+                  
+                  <!-- Image Upload -->
+                  <div *ngIf="!useExternalUrl">
+                    <input type="file" id="coverImage" class="form-control" accept="image/*" (change)="onImageSelected($event)">
+                    <small class="form-text text-muted">
+                      The current database setup may have limitations on image size. If you encounter errors, 
+                      try using an external image URL instead.
+                    </small>
+                  </div>
+                  
+                  <!-- External URL input -->
+                  <div *ngIf="useExternalUrl">
+                    <input type="text" id="externalImageUrl" class="form-control" 
+                           placeholder="https://example.com/course-image.jpg"
+                           formControlName="externalImageUrl" (change)="onExternalUrlChange()">
+                    <small class="form-text text-muted">
+                      Enter the URL of an image already hosted online (e.g., from Imgur, Cloudinary, or similar services)
+                    </small>
+                  </div>
+                </div>
+                
+                <div *ngIf="courseForm.get('coverImageData')?.value" class="image-preview mb-3">
+                  <img [src]="courseForm.get('coverImageData')?.value" alt="Course cover" class="img-fluid">
+                </div>
+              </div>
+            </div>
+            
+            <!-- Lessons Section -->
+            <div class="mt-4">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0">Lessons</h5>
+                <button type="button" class="btn btn-sm btn-success" (click)="addLesson()">
+                  <i class="fas fa-plus"></i> Add Lesson
+                </button>
+              </div>
+              
+              <div class="alert alert-info" *ngIf="!lessonsArray.length">
+                No lessons added yet. Click "Add Lesson" to create course content.
+              </div>
+              
+              <div formArrayName="lessons" class="lessons-container">
+                <div *ngFor="let lessonForm of lessonsArray.controls; let i = index" [formGroupName]="i" class="card mb-3">
+                  <div class="card-header d-flex justify-content-between align-items-center py-2">
+                    <h6 class="mb-0">Lesson {{ i + 1 }}</h6>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="removeLesson(i)">
+                      <i class="fas fa-trash"></i> Remove
+                    </button>
+                  </div>
+                  <div class="card-body">
+                    <div class="form-group mb-3">
+                      <label for="lessonTitle{{i}}">Title*</label>
+                      <input type="text" [id]="'lessonTitle'+i" formControlName="title" class="form-control" 
+                            [ngClass]="{'is-invalid': lessonForm.get('title')?.invalid && lessonForm.get('title')?.touched}">
+                      <div *ngIf="lessonForm.get('title')?.invalid && lessonForm.get('title')?.touched" class="invalid-feedback">
+                        Lesson title is required
+                      </div>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                      <label for="lessonContent{{i}}">Content</label>
+                      <textarea [id]="'lessonContent'+i" formControlName="content" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                      <label for="lessonVideoType{{i}}">Video Type</label>
+                      <select [id]="'lessonVideoType'+i" formControlName="videoType" class="form-control">
+                        <option value="youtube">YouTube</option>
+                        <option value="vimeo">Vimeo</option>
+                        <option value="url">Other URL</option>
+                      </select>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                      <label for="lessonVideoUrl{{i}}">Video URL</label>
+                      <input type="text" [id]="'lessonVideoUrl'+i" formControlName="videoUrl" class="form-control" 
+                             placeholder="Ex: https://www.youtube.com/watch?v=video_id">
+                      <small class="text-muted">Enter the full URL of the video (e.g., YouTube or Vimeo link)</small>
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                      <label>PDF Attachment</label>
+                      <div class="input-group">
+                        <input type="text" [id]="'pdfUrl'+i" formControlName="pdfUrl" class="form-control" 
+                               placeholder="Enter PDF URL or upload file">
+                        <button class="btn btn-outline-secondary" type="button" (click)="openPdfFileBrowser('pdfUpload'+i)">
+                          <i class="fas fa-upload"></i> Browse
+                        </button>
+                      </div>
+                      <input type="file" [id]="'pdfUpload'+i" style="display: none;" accept="application/pdf" 
+                             (change)="handlePdfUpload($event, i)">
+                      <small class="text-muted mt-1 d-block">
+                        Upload a PDF document (max 5MB) or enter a URL to an existing PDF document (Google Drive, Dropbox, etc.)
+                      </small>
+                      <input type="text" [id]="'pdfName'+i" formControlName="pdfName" 
+                             class="form-control mt-2" placeholder="PDF Display Name (optional)">
+                    </div>
+                    
+                    <div class="form-group mb-3">
+                      <label>Presentation Attachment</label>
+                      <div class="input-group">
+                        <input type="text" [id]="'presentationUrl'+i" formControlName="presentationUrl" class="form-control" 
+                               placeholder="Enter presentation URL or upload file">
+                        <button class="btn btn-outline-secondary" type="button" (click)="openPresentationFileBrowser('presentationUpload'+i)">
+                          <i class="fas fa-upload"></i> Browse
+                        </button>
+                      </div>
+                      <input type="file" [id]="'presentationUpload'+i" style="display: none;" accept=".ppt,.pptx,.odp" 
+                             (change)="handlePresentationUpload($event, i)">
+                      <small class="text-muted mt-1 d-block">
+                        Upload a presentation file (PPT, PPTX, ODP) (max 10MB) or enter a URL to an existing presentation (Google Slides, etc.)
+                      </small>
+                      <input type="text" [id]="'presentationName'+i" formControlName="presentationName" 
+                             class="form-control mt-2" placeholder="Presentation Display Name (optional)">
+                    </div>
+                    
+                    <div class="form-group mb-0">
+                      <label for="lessonOrder{{i}}">Order</label>
+                      <input type="number" [id]="'lessonOrder'+i" formControlName="orderIndex" class="form-control" min="1">
+                      <small class="text-muted">The display order of this lesson within the course</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="d-flex justify-content-between mt-3">
+              <button type="button" class="btn btn-secondary" (click)="resetForm()">Cancel</button>
+              <button type="submit" class="btn btn-primary" [disabled]="courseForm.invalid || loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                {{ isEditing ? 'Update' : 'Create' }} Course
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Course List</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          
+          <div *ngIf="!loading && courses.length === 0" class="alert alert-info">
+            No courses found. Add a new course to get started.
+          </div>
+          
+          <div class="table-responsive" *ngIf="!loading && courses.length > 0">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Lessons</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let course of courses; trackBy: trackByCourse">
+                  <td>{{ course.title }}</td>
+                  <td>{{ getCategoryName(course.categoryId) }}</td>
+                  <td>
+                    <span *ngIf="course.free" class="badge bg-success">Free</span>
+                    <span *ngIf="!course.free">{{ course.price | currency }}</span>
+                  </td>
+                  <td>{{ course.lessons?.length || 0 }}</td>
+                  <td>{{ course.createdAt | date:'short' }}</td>
+                  <td>
+                    <button class="btn btn-sm btn-info me-2" (click)="editCourse(course)">
+                      <i class="fas fa-edit"></i> Edit
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteCourse(course.id || 0)">
+                      <i class="fas fa-trash"></i> Delete
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

@@ -1,10 +1,13 @@
 package tn.esprit.microservice2.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,22 +16,25 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // Change to EAGER loading
     @JoinColumn(name = "subscription_id", nullable = false)
     private Subscription subscription;
 
     @OneToOne(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private Invoice invoice;
 
     @OneToMany(mappedBy = "payment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<PaymentSchedule> paymentSchedules = new ArrayList<>();
 
-    private double amount;
+    private BigDecimal amount;
 
     @Column(length = 3)
     private String currency;
@@ -79,11 +85,11 @@ public class Payment {
         this.paymentSchedules = paymentSchedules;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

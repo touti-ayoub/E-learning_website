@@ -1,0 +1,93 @@
+<div class="quiz-container">
+    <h2>Create a New Quiz</h2>
+  
+    <form (ngSubmit)="createQuiz()" class="quiz-form">
+      <!-- Quiz Title -->
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input
+          type="text"
+          id="title"
+          [(ngModel)]="newQuiz.title"
+          name="title"
+          class="form-control"
+          placeholder="Enter quiz title"
+          required
+        />
+      </div>
+  
+      <!-- Quiz Description -->
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea
+          id="description"
+          [(ngModel)]="newQuiz.description"
+          name="description"
+          class="form-control"
+          placeholder="Enter quiz description"
+          rows="3"
+          required
+        ></textarea>
+      </div>
+  
+      <!-- Questions Section -->
+      <div class="questions-section">
+        <h3>Questions</h3>
+        <div *ngFor="let question of newQuiz.questions; let i = index" class="question-block">
+          <h4>Question {{ i + 1 }}</h4>
+          <div class="form-group">
+            <label for="question-text-{{ i }}">Text:</label>
+            <input
+              type="text"
+              id="question-text-{{ i }}"
+              [(ngModel)]="question.text"
+              name="question-text-{{ i }}"
+              class="form-control"
+              placeholder="Enter question text"
+              required
+            />
+          </div>
+  
+          <!-- Answers Section -->
+          <div class="answers-section">
+            <h5>Answers</h5>
+            <div *ngFor="let answer of question.answers; let j = index" class="answer-block">
+              <div class="form-group">
+                <label for="answer-text-{{ i }}-{{ j }}">Answer {{ j + 1 }}:</label>
+                <input
+                  type="text"
+                  id="answer-text-{{ i }}-{{ j }}"
+                  [(ngModel)]="answer.text"
+                  name="answer-text-{{ i }}-{{ j }}"
+                  class="form-control"
+                  placeholder="Enter answer text"
+                  required
+                />
+              </div>
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  id="answer-correct-{{ i }}-{{ j }}"
+                  [(ngModel)]="answer.correct"
+                  name="answer-correct-{{ i }}-{{ j }}"
+                  class="form-check-input"
+                />
+                <label for="answer-correct-{{ i }}-{{ j }}" class="form-check-label">
+                  Correct
+                </label>
+              </div>
+            </div>
+            <button type="button" (click)="addAnswer(i)" class="btn btn-primary btn-sm">
+              Add Answer
+            </button>
+          </div>
+        </div>
+        <button type="button" (click)="addQuestion()" class="btn btn-success mt-3">
+          Add Question
+        </button>
+      </div>
+  
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary mt-4">Create Quiz</button>
+    </form>
+  </div>
