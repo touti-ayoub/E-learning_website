@@ -6,6 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="adding google calendar api">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/material-list/material-list.component.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/material-list/material-list.component.scss" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/material-list/material-list.component.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/material-list/material-list.component.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/material.service.spec.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/material.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/Models/mic5/event-dto.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-details/event-details.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-details/event-details.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-details/event-details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-details/event-details.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-list/event-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-list/event-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic5/event.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic5/event.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,7 +256,7 @@
       <workItem from="1744406355337" duration="154000" />
       <workItem from="1744819453576" duration="4125000" />
       <workItem from="1744823640088" duration="501000" />
-      <workItem from="1744824175138" duration="9244000" />
+      <workItem from="1744824175138" duration="12132000" />
     </task>
     <task id="LOCAL-00001" summary="setting up event class">
       <option name="closed" value="true" />

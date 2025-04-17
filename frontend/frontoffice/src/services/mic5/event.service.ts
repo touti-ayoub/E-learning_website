@@ -1,7 +1,18 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {catchError, Observable, throwError} from 'rxjs';
-import { EventDTO } from '../../Models/mic5/event-dto';
+
+export interface EventDTO {
+  eventId: number;
+  title: string;
+  description: string;
+  startTime: string;
+  endTime: string;
+  maxCapacity: number;
+  place: string;
+  eventType: string;
+  googleCalendarEventId: string;
+}
 
 @Injectable({
   providedIn: 'root'

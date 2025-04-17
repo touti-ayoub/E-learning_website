@@ -66,4 +66,91 @@
   </div>
 </div>
 
-<app-testimonial *ngIf="!loading && !errorMessage"></app-testimonial>
+<div class="container-xxl py-5 bg-light">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">Event Feedback</h6>
+      <h1 class="mb-5">Share Your Experience</h1>
+    </div>
+
+    <!-- Display existing feedbacks -->
+    <div class="row g-4 justify-content-center wow fadeInUp" data-wow-delay="0.3s">
+      <div class="col-12">
+        <div *ngIf="feedbacks.length === 0" class="text-center p-5 bg-white rounded shadow-sm">
+          <i class="fa fa-comments fa-3x text-primary mb-3"></i>
+          <h4>No feedbacks yet</h4>
+          <p class="text-muted">Be the first to share your experience!</p>
+        </div>
+
+        <div *ngFor="let feedback of feedbacks" class="mb-4">
+          <div class="bg-white p-4 rounded shadow-sm">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <div class="d-flex align-items-center">
+                <div class="rounded-circle bg-primary text-white d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                  <i class="fa fa-user"></i>
+                </div>
+                <div>
+                  <h5 class="mb-0">{{ feedback.user?.username || 'Anonymous' }}</h5>                  <div class="text-warning">
+                    <i *ngFor="let star of [1,2,3,4,5]"
+                       class="fa"
+                       [ngClass]="{'fa-star': star <= feedback.rating, 'fa-star-o': star > feedback.rating}"></i>
+                  </div>
+                </div>
+              </div>
+              <small class="text-muted">
+                <i class="fa fa-clock-o me-1"></i>{{feedback.submittedAt | date:'medium'}}
+              </small>
+            </div>
+            <p class="card-text mb-0">{{feedback.comments || 'No comments provided.'}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Feedback submission form -->
+    <div class="row justify-content-center mt-5 wow fadeInUp" data-wow-delay="0.5s">
+      <div class="col-lg-8">
+        <div class="bg-white p-5 rounded shadow">
+          <h3 class="mb-4 border-bottom pb-3">Leave Your Feedback</h3>
+          <form [formGroup]="feedbackForm" (ngSubmit)="submitFeedback()">
+            <div class="form-group mb-4">
+              <label class="form-label fw-bold">Your Rating</label>
+              <div class="star-rating d-flex align-items-center">
+                <div class="btn-group" role="group">
+                  <ng-container *ngFor="let star of [1,2,3,4,5]">
+                    <input type="radio" class="btn-check" [id]="'rating' + star" [value]="star" formControlName="rating">
+                    <label class="btn btn-outline-warning" [for]="'rating' + star">
+                      <i class="fa fa-star"></i> {{star}}
+                    </label>
+                  </ng-container>
+                </div>
+              </div>
+              <div *ngIf="feedbackForm.get('rating')?.invalid && feedbackForm.get('rating')?.touched" class="text-danger mt-2">
+                <i class="fa fa-exclamation-circle"></i> Please select a rating.
+              </div>
+            </div>
+
+            <div class="form-group mb-4">
+              <label for="comments" class="form-label fw-bold">Your Comments</label>
+              <textarea
+                id="comments"
+                class="form-control"
+                formControlName="comments"
+                rows="4"
+                placeholder="Share your thoughts about this event..."></textarea>
+              <div class="form-text text-end" [class.text-danger]="(feedbackForm.get('comments')?.value || '').length > 450">
+                {{(feedbackForm.get('comments')?.value || '').length}}/500
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary py-2 px-5" [disabled]="feedbackForm.invalid">
+                <i class="fa fa-paper-plane me-2"></i>Submit Feedback
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

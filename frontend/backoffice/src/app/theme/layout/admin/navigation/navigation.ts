@@ -48,14 +48,6 @@ export const NavigationItems: NavigationItem[] = [
         icon: 'ti ti-calendar-event'
       },
       {
-        id: 'materials',
-        title: 'Materials',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/materials',
-        icon: 'ti ti-package'
-      },
-      {
         id: 'feedbacks',
         title: 'Feedbacks',
         type: 'item',

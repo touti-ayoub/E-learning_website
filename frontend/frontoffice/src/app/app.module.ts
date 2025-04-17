@@ -17,7 +17,7 @@ import { ContactComponent } from './contact/contact.component';
 import {HttpClientModule} from "@angular/common/http";
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { SubscriptionComponent } from './mic2/subscription/subscription.component';
 import { EventListComponent } from './mic5/event-list/event-list.component';
 import { EventDetailsComponent } from './mic5/event-details/event-details.component';
@@ -47,6 +47,7 @@ import { EventDetailsComponent } from './mic5/event-details/event-details.compon
     NgOptimizedImage,
     HttpClientModule, // Add this line
     FormsModule,
+    ReactiveFormsModule,
 
   ],
   providers: [],

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventDTO } from '../../../Models/mic5/event-dto';
-import { EventService } from '../../../services/mic5/event.service';
+import {EventDTO, EventService} from '../../../services/mic5/event.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({

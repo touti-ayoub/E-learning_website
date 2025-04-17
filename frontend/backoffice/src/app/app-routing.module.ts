@@ -44,11 +44,6 @@ const routes: Routes = [
           import('./Component/feedback-list/feedback-list.component').then((m) => m.FeedbackListComponent)
       },
       {
-        path: 'materials',
-        loadComponent: () =>
-          import('./Component/material-list/material-list.component').then((m) => m.MaterialListComponent)
-      },
-      {
         path: 'registrations',
         loadComponent: () =>
           import('./Component/registration-list/registration-list.component').then((m) => m.RegistrationListComponent)
