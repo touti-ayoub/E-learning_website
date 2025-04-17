@@ -1,0 +1,30 @@
+GET http://localhost:8088/mic2/admin/dashboard/payments
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2025-04-12T160216.200.json
+
+###
+
+GET http://localhost:8088/mic2/admin/dashboard/summary?period=wI31OYO0
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2025-04-12T160108.200.json
+
+###
+
+GET http://localhost:8082/mic2/subscription
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.3
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2025-02-21T234843.200.json
+
+###
+

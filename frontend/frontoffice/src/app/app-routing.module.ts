@@ -7,17 +7,37 @@ import { OurTeamComponent } from './our-team/our-team.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
 import {AboutUsComponent} from "./about-us/about-us.component";
 import {ContactComponent} from "./contact/contact.component";
-import {SubscriptionComponent} from "./mic2/subscription/subscription.component";
 import {ForumListComponent} from "./Communications/forum-list.component";
 import {PostListComponent} from "./Communications/post-list.component";
 import {AddPostComponent} from "./Communications/add-post/add-post.component";
 import {UpdatePostComponent} from "./Communications/UpdatePost/update-post/update-post.component";
+import {LoginComponent} from "./auth/login/login.component";
+import {RegisterComponent} from "./auth/register/register.component";
+import {SubscriptionComponent} from "./mic2/subscription/subscription.component";
+import {AuthGuard} from "../services/auth/auth.guard";
+import {PaymentComponent} from "./mic2/payment/payment.component";
+import {SubscriptionPlanComponent} from "./mic2/subscription-plan/subscription-plan.component";
+import {PricingComponent} from "./mic2/pricing/pricing.component";
+import {PaymentSuccessComponent} from "./mic2/payment-success/payment-success.component";
+import {PaymentHistComponent} from "./mic2/payment-hist/payment-hist.component";
+import { QuizCreateComponent } from './assessments/quiz-create/quiz-create.component';
+import { QuizListComponent } from './assessments/quiz-list/quiz-list.component';
+import { QuizTakeComponent } from './assessments/quiz-take/quiz-take.component';
+import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
+import { CourseDetailComponent } from './course-detail/course-detail.component';
+import { CourseAccessGuard } from './guards/course-access.guard';
+import { ChatbotComponent } from './components/chatbot/chatbot.component';
 
 // Declare routes outside the class
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'courses', component: CoursesComponent },
+  { 
+    path: 'courses/:id', 
+    component: CourseDetailComponent,
+    canActivate: [CourseAccessGuard] // Add course access guard
+  },
   { path: 'team', component: OurTeamComponent },
   { path: 'testemonial', component: TestimonialComponent },
   { path: 'aboutus', component: AboutUsComponent },
@@ -27,8 +47,27 @@ const routes: Routes = [
   { path: 'add-post', component: AddPostComponent },
 { path: 'update-post', component: UpdatePostComponent },
 
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'subscription/:courseId', component: SubscriptionComponent, canActivate: [AuthGuard] },
+  { path: 'payment',component: PaymentComponent,canActivate: [AuthGuard]},
+  {
+    path: 'payment-success',
+    component: PaymentSuccessComponent,
+    canActivate: [AuthGuard]  // If you're using authentication
+  },
+  { path: 'payment_hist', component: PaymentHistComponent,canActivate: [AuthGuard] },
+  { path: 'subscription-plan/:planId', component: SubscriptionPlanComponent, canActivate: [AuthGuard] },
+  { path: 'pricing', component: PricingComponent },
+  { path: 'quizzes/create', component: QuizCreateComponent },
+  { path: 'quizzes/list', component: QuizListComponent },
+  { path: 'quiz/:id', component: QuizTakeComponent },
+  { path: 'quiz-result/:score/:total', component: QuizResultComponent },
+  { path: 'chatbot', component: ChatbotComponent, canActivate: [AuthGuard] },
+  { path: '', redirectTo: '/quizzes/list', pathMatch: 'full' },
 
   { path: '**', component: NotfoundComponent }, // Keep this as the last route
+  
 ];
 
 @NgModule({

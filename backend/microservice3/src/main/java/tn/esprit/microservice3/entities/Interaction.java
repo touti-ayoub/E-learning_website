@@ -1,10 +1,7 @@
 package tn.esprit.microservice3.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -12,7 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -30,5 +26,9 @@ public class Interaction {
     private LocalDate dateInteraction;
 
     @ManyToOne
+    @JoinColumn(name = "post_id", nullable = false)
     private Post post;
+
+    @Enumerated(EnumType.STRING)
+    private InteractionType typeInteraction; // NEW: Type of interaction (LIKE or DISLIKE)
 }

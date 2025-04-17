@@ -1,0 +1,26 @@
+<div class="forum-list">
+  <h2>Forum List</h2>
+  <div *ngIf="isLoading" class="loading">
+    Loading forums...
+  </div>
+  <div *ngIf="!isLoading && forums.length === 0" class="no-data">
+    No forums available.
+  </div>
+  <ul *ngIf="!isLoading && forums.length > 0" class="forum-items">
+    <li *ngFor="let forum of forums" class="forum-item d-flex align-items-center justify-content-between">
+      <!-- Informations du forum -->
+      <a [routerLink]="['/forum', forum.idForum, 'posts']" class="flex-grow-1">
+        <h3>{{ forum.title }}</h3>
+        <p>{{ forum.description }}</p>
+        <small>Created on: {{ forum.dateCreation | date }}</small>
+        <span>Posts: {{ forum.nbrPosts }}</span>
+      </a>
+      <!-- Boutons Delete et Edit alignés à droite -->
+      <div class="action-buttons">
+        <button (click)="deleteForum(forum.idForum)" class="btn btn-danger btn-sm me-2">Delete</button>
+        <button [routerLink]="['/edit-forum', forum.idForum]" class="btn btn-primary btn-sm">Edit</button>
+      </div>
+    </li>
+  </ul>
+  <a routerLink="/add-forum" class="btn btn-success mt-3">Add New Forum</a>
+</div>

@@ -1,0 +1,96 @@
+/* Container styling */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Post list styling */
+  .list-group-item {
+    margin-bottom: 15px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+  
+  /* Post content */
+  .fw-bold {
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  .text-muted {
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  /* Buttons styling */
+  .btn {
+    font-size: 0.9rem;
+    padding: 5px 10px;
+  }
+  
+  .btn-outline-success {
+    color: #28a745;
+    border-color: #28a745;
+  }
+  
+  .btn-outline-danger {
+    color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .btn-warning {
+    color: #856404;
+    background-color: #ffc107;
+    border-color: #ffc107;
+  }
+  
+  .btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+  }
+  
+  .btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+  }
+  
+  /* Comments section */
+  .list-group {
+    margin-top: 10px;
+  }
+  
+  .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .list-group-item span {
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .list-group-item .btn-sm {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+  
+  /* Textarea styling */
+  textarea.form-control {
+    resize: none;
+    font-size: 0.9rem;
+  }
+  
+  /* No posts message */
+  .text-center p {
+    font-size: 1rem;
+    color: #888;
+  }

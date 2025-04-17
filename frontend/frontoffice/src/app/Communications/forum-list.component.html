@@ -1,11 +1,18 @@
-<div *ngIf="forums.length > 0; else noForums">
+<div *ngIf="forums.length > 0; else noForums" class="forum-list-container">
+  <h2 class="text-center">Forums</h2>
   <div *ngFor="let forum of forums" class="forum-container" [routerLink]="['/forum', forum.idForum, 'posts']">
-    <h3>{{ forum.title }}</h3>
-    <p>{{ forum.description }}</p>
-    <p><strong>Date Created:</strong> {{ forum.dateCreation | date }}</p>
-    <p><strong>Number of Posts:</strong> {{ forum.nbrPosts }}</p>
+    <h3 class="forum-title">{{ forum.title }}</h3>
+    <p class="forum-description">{{ forum.description }}</p>
+    <p class="forum-meta">
+      <strong>Date Created:</strong> {{ forum.dateCreation | date: 'medium' }}
+    </p>
+    <p class="forum-meta">
+      <strong>Number of Posts:</strong> {{ forum.nbrPosts }}
+    </p>
   </div>
 </div>
 <ng-template #noForums>
-  <p>No forums available.</p>
+  <div class="no-forums">
+    <p>No forums available.</p>
+  </div>
 </ng-template>

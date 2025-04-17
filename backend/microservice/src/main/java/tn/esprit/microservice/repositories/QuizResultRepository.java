@@ -6,5 +6,5 @@ import tn.esprit.microservice.entities.QuizResult;
 import java.util.List;
 
 public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
-    List<QuizResult> findByIdUser(Long userId);
+    List<QuizResult> findByQuestionId(Long questionId);
 }

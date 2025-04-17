@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.microservice3.DTO.InteractionDTO;
 import tn.esprit.microservice3.entities.Interaction;
+import tn.esprit.microservice3.entities.InteractionType;
 import tn.esprit.microservice3.repositories.InteractionRepo;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,5 +51,11 @@ public class InteractionService {
         dto.setContentInteraction(interaction.getContentInteraction());
         dto.setPostId(interaction.getPost().getIdPost());
         return dto;
+    }
+    public Interaction addLikeOrDislike(int postId, Interaction interaction, InteractionType type) {
+        interaction.setTypeInteraction(type);
+        interaction.setDateInteraction(LocalDate.now());
+        // Associez le post ici (par exemple, via un PostService)
+        return interactionRepo.save(interaction);
     }
 }

@@ -1,0 +1,14 @@
+<div class="quiz-list-container">
+  <h1 class="quiz-list-title">Available Quizzes</h1>
+  <div *ngFor="let quiz of quizzes" class="quiz-card">
+    <div class="quiz-card-header">
+      <h3 class="quiz-title">{{ quiz.title }}</h3>
+    </div>
+    <div class="quiz-card-body">
+      <p class="quiz-description">{{ quiz.description }}</p>
+    </div>
+    <div class="quiz-card-footer">
+      <a [routerLink]="['/quiz', quiz.id]" class="take-quiz-button">Take Quiz</a>
+    </div>
+  </div>
+</div>

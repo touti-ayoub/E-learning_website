@@ -1,0 +1,15 @@
+<div class="post-list">
+    <h2>Posts</h2>
+    <div *ngIf="isLoading" class="loading">
+      Loading posts...
+    </div>
+    <div *ngIf="!isLoading && posts.length === 0" class="no-data">
+      No posts available for this forum.
+    </div>
+    <ul *ngIf="!isLoading && posts.length > 0" class="post-items">
+      <li *ngFor="let post of posts" class="post-item">
+        <p>{{ post.content }}</p>
+        <small>Posted on: {{ post.datePost | date }}</small>
+      </li>
+    </ul>
+  </div>

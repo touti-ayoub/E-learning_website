@@ -1,0 +1,82 @@
+<div class="auth-wrapper">
+  <div class="auth-illustration">
+    <img src="assets/img/about.jpg" alt="Online Learning">
+    <div class="illustration-text">
+      <h1>Unlock Your Potential</h1>
+      <p>Join thousands of learners mastering new skills daily</p>
+    </div>
+  </div>
+
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="brand-logo">
+        <img src="./assets/img/about.jpg" alt="E-Learning Platform">
+      </div>
+      <h2>Welcome Back! 👋</h2>
+      <p class="auth-subtext">Continue your learning journey</p>
+
+      <form (ngSubmit)="onSubmit()" class="auth-form">
+        <!-- Email Input with Icon -->
+        <div class="form-group with-icon">
+          <input
+            type="text"
+            id="username"
+            [(ngModel)]="credentials.username"
+            name="username"
+            placeholder=" "
+            required
+          >
+          <label for="username">&nbsp;&nbsp;&nbsp;&nbsp;Username</label>
+          <i class="icon fas fa-user"></i>
+        </div>
+
+        <!-- Password Input with Icon and Toggle -->
+        <div class="form-group with-icon">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            [(ngModel)]="credentials.password"
+            name="password"
+            placeholder=" "
+            required
+          >
+          <label for="password">&nbsp;&nbsp;&nbsp;Password</label>
+          <i class="icon fas fa-lock"></i>
+          <i
+            class="password-toggle fas"
+            [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+            (click)="showPassword = !showPassword"
+          ></i>
+        </div>
+
+        <div class="form-options">
+
+          <a href="#" class="forgot-password">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="auth-button">
+          <span *ngIf="!loading">Sign In</span>
+          <div *ngIf="loading" class="spinner"></div>
+        </button>
+<!--
+        <div class="social-auth">
+          <p>Or continue with</p>
+          <div class="social-buttons">
+            <button type="button" class="google-btn">
+              <img src="assets/google-icon.svg" alt="Google">
+              Google
+            </button>
+            <button type="button" class="microsoft-btn">
+              <img src="assets/microsoft-icon.svg" alt="Microsoft">
+              Microsoft
+            </button>
+          </div>
+        </div>-->
+      </form>
+
+      <p class="auth-footer">
+        New to SkillUp? <a routerLink="/register">Create an account</a>
+      </p>
+    </div>
+  </div>
+</div>

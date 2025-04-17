@@ -1,0 +1,57 @@
+.post-list {
+  padding: 20px;
+  background-color: #f8f9fa; // Couleur de fond claire pour le back-office
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #343a40; // Couleur sombre pour le texte
+    margin-bottom: 20px;
+  }
+
+  .loading,
+  .no-data {
+    font-size: 1rem;
+    color: #6c757d; // Couleur grise pour les messages d'état
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .post-items {
+    list-style: none;
+    padding: 0;
+
+    .post-item {
+      padding: 15px;
+      margin-bottom: 10px;
+      background-color: #ffffff; // Fond blanc pour les éléments
+      border: 1px solid #dee2e6; // Bordure légère
+      border-radius: 5px;
+      transition: box-shadow 0.3s ease;
+
+      &:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      p {
+        font-size: 1rem;
+        color: #495057; // Couleur grise pour le contenu des posts
+        margin: 0 0 10px;
+      }
+
+      small {
+        display: block;
+        font-size: 0.875rem;
+        color: #6c757d; // Couleur grise pour les dates
+      }
+
+      .post-meta {
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: #28a745; // Couleur verte pour les informations supplémentaires
+      }
+    }
+  }
+}

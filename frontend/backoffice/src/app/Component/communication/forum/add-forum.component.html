@@ -1,0 +1,35 @@
+<div class="add-forum">
+  <h2>Add New Forum</h2>
+  <form [formGroup]="forumForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input
+        id="title"
+        type="text"
+        formControlName="title"
+        class="form-control"
+        [class.is-invalid]="forumForm.get('title')?.invalid && forumForm.get('title')?.touched"
+      />
+      <div *ngIf="forumForm.get('title')?.invalid && forumForm.get('title')?.touched" class="invalid-feedback">
+        Title is required and must be at least 3 characters long.
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+        [class.is-invalid]="forumForm.get('description')?.invalid && forumForm.get('description')?.touched"
+      ></textarea>
+      <div *ngIf="forumForm.get('description')?.invalid && forumForm.get('description')?.touched" class="invalid-feedback">
+        Description is required and must be at least 10 characters long.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="isSubmitting || forumForm.invalid">
+      {{ isSubmitting ? 'Submitting...' : 'Add Forum' }}
+    </button>
+  </form>
+</div>

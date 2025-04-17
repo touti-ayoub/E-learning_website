@@ -1,0 +1,19 @@
+<div class="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-3xl">
+  <h2 class="text-2xl font-bold text-center text-blue-600">Subscription Plan Details</h2>
+  <div class="p-4 space-y-4">
+    <div class="bg-gray-100 p-3 rounded-md">
+      <strong>📘 Plan:</strong> {{ plan?.name }}
+    </div>
+    <div class="bg-green-100 p-3 rounded-md">
+      <strong>💰 Price:</strong> ${{ plan?.price }}
+    </div>
+    <div class="bg-purple-100 p-3 rounded-md">
+      <strong>🕒 Duration:</strong> {{ plan?.duration }}
+    </div>
+    <div class="text-center">
+      <button class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-800 transition" (click)="proceedToPayment()">
+        Proceed to Payment
+      </button>
+    </div>
+  </div>
+</div>
