@@ -6,4 +6,5 @@ export interface Forum {
   dateCreation: any;
   nbrPosts: number;
   posts: Post[];
+  
 }

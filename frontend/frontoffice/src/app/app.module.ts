@@ -39,6 +39,7 @@ import { ChatbotComponent } from './components/chatbot/chatbot.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -68,6 +69,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     QuizResultComponent,
     QuizTakeComponent,
     QuizCreateComponent,
+    
     ChatbotComponent // Add the chatbot component
   ],
   imports: [

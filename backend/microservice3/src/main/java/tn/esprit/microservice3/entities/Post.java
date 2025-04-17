@@ -38,7 +38,15 @@ public class Post {
     public void prePersist() {
         this.datePost = LocalDate.now(); // Définit la date actuelle du système
     }
+    private String translatedContent;
 
+    public String getTranslatedContent() {
+        return translatedContent;
+    }
+
+    public void setTranslatedContent(String translatedContent) {
+        this.translatedContent = translatedContent;
+    }
 
 
 }

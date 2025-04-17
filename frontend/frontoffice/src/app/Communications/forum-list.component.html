@@ -1,5 +1,5 @@
 <div *ngIf="forums.length > 0; else noForums" class="forum-list-container">
-  <h2 class="text-center">Forums</h2>
+  <h2 class="text-center mb-4">Forums</h2>
   <div *ngFor="let forum of forums" class="forum-container" [routerLink]="['/forum', forum.idForum, 'posts']">
     <h3 class="forum-title">{{ forum.title }}</h3>
     <p class="forum-description">{{ forum.description }}</p>
@@ -11,8 +11,9 @@
     </p>
   </div>
 </div>
+
 <ng-template #noForums>
-  <div class="no-forums">
+  <div class="no-forums text-center">
     <p>No forums available.</p>
   </div>
 </ng-template>

@@ -11,4 +11,5 @@ public class PostDTO {
     private String content;
     private LocalDate datePost;
     private int forumId; // ID of the associated forum
+
 }

@@ -113,7 +113,7 @@ public class InteractionController {
             "fuck", "shit", "bitch", "asshole", "bastard", "dick", "pussy", "cunt", "fucker", "motherfucker", "slut", "whore", "jerk", "idiot", "retard", "douchebag",
 
             // Tunisien (écriture latine courante)
-            "zebi", "kahba", "mouch normal", "barcha", "sabb", "5ouya", "3ayesh", "ta7t l7zem", "nik", "ommek", "walek", "la3an", "yhez", "tabzena", "kalb", "7aywan", "miskin", "3asba", "fakk", "7achtek",
+            "zah",
 
             // Variantes phonétiques et SMS
             "f*ck", "sh*t", "n1que", "niq", "fck", "b!tch", "s@lope", "p*te", "m3rde"

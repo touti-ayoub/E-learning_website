@@ -47,4 +47,5 @@ public class ForumController {
     public ForumDTO getForumById(@PathVariable int idForum) {
         return forumService.getForumById(idForum);
     }
+
 }

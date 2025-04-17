@@ -51,4 +51,13 @@ public class PostController {
     public List<PostDTO> getPostsByForum(@PathVariable int forumId) {
         return postService.getPostsByForum(forumId);
     }
+
+    @PostMapping("/translate/{postId}")
+    public Post translatePost(@PathVariable int postId, @RequestParam String targetLang) {
+        try {
+            return postService.translatePostContent(postId, targetLang);
+        } catch (Exception e) {
+            throw new RuntimeException("Error translating post: " + e.getMessage());
+        }
+    }
 }

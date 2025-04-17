@@ -21,7 +21,7 @@ export class PostService {
   // Récupérer un post par ID
   getPostById(idPost: number): Observable<Post> {
     return this.http.get<Post>(`${this.apiUrl}/${idPost}`);
-  }
+  } 
    // Mettre à jour un post
    updatePost(idPost: number, post: Post): Observable<Post> {
     return this.http.put<Post>(`${this.apiUrl}/update/${idPost}`, post);
@@ -29,5 +29,9 @@ export class PostService {
   // Supprimer un post par ID
   deletePost(idPost: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/delete/${idPost}`);
+  }
+  // Méthode pour traduire un post
+  translatePost(postId: number, targetLang: string): Observable<Post> {
+    return this.http.post<Post>(`${this.apiUrl}/translate/${postId}?targetLang=${targetLang}`, {});
   }
 }

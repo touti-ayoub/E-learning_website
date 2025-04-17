@@ -1,6 +1,14 @@
 package tn.esprit.microservice3.services;
 
+import com.google.auth.oauth2.ServiceAccountCredentials;
+import com.google.cloud.translate.Translate;
+import com.google.cloud.translate.TranslateOptions;
+import com.google.cloud.translate.Translation;
 import lombok.RequiredArgsConstructor;
+
+import java.io.FileInputStream;
+import java.util.logging.Logger;
+
 import org.springframework.stereotype.Service;
 import tn.esprit.microservice3.DTO.PostDTO;
 import tn.esprit.microservice3.entities.Forum;
@@ -9,7 +17,7 @@ import tn.esprit.microservice3.repositories.ForumRepo;
 import tn.esprit.microservice3.repositories.PostRepo;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,5 +75,34 @@ public class PostService {
         return postRepo.findByForum_IdForum(forumId).stream()
                 .map(this::mapToDTO)
                 .collect(Collectors.toList());
+    }
+
+
+
+    private static final Logger logger = Logger.getLogger(PostService.class.getName());
+
+    public Post translatePostContent(int postId, String targetLang) {
+        try {
+            logger.info("Fetching post with ID: " + postId);
+            Post post = postRepo.findById(postId)
+                    .orElseThrow(() -> new RuntimeException("Post not found"));
+
+            logger.info("Translating post content to language: " + targetLang);
+            Translate translate = TranslateOptions.newBuilder()
+                    .setApiKey("6167463a66407a2d069685a0cc7bca7666064390") // Remplacez par votre API key
+                    .build()
+                    .getService();
+            Translation translation = translate.translate(
+                    post.getContent(),
+                    Translate.TranslateOption.targetLanguage(targetLang)
+            );
+
+            logger.info("Translation successful. Saving translated content.");
+            post.setTranslatedContent(translation.getTranslatedText());
+            return postRepo.save(post);
+        } catch (Exception e) {
+            logger.severe("Error translating post: " + e.getMessage());
+            throw new RuntimeException("Translation failed", e);
+        }
     }
 }

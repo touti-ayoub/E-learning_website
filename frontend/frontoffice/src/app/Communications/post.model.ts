@@ -8,4 +8,5 @@ export interface Post {
   dislikeCount: number;
   newComment?: string; // Champ temporaire pour le commentaire
   comments: Interaction[]; // Liste des commentaires associés
+  translatedContent?: string; // Contenu traduit du post
 }

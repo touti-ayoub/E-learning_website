@@ -1,5 +1,6 @@
 package tn.esprit.microservice3.services;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.microservice3.DTO.ForumDTO;
@@ -59,4 +60,6 @@ public class ForumService {
         dto.setNbrPosts(forum.getNbrPosts());
         return dto;
     }
+
+
 }

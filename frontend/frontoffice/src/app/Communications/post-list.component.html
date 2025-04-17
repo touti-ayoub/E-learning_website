@@ -19,7 +19,11 @@
           <fa-icon [icon]="faThumbsDown"></fa-icon> {{ post.dislikeCount || 0 }}
         </button>
         <button (click)="onUpdatePost(post)" class="btn btn-warning btn-sm me-2">Update</button>
-        <button (click)="onDeletePost(post.idPost)" class="btn btn-danger btn-sm">Delete</button>
+        <button (click)="onDeletePost(post.idPost)" class="btn btn-danger btn-sm me-2">Delete</button>
+        <!-- Bouton pour traduire le post -->
+        <button (click)="onTranslatePost(post.idPost, 'fr')" class="btn btn-primary btn-sm">
+          Translate to French
+        </button>
       </div>
 
       <!-- Add Comment -->
@@ -61,7 +65,9 @@
     </li>
   </ul>
 </div>
-
+<div class="text-center mt-4">
+  <button (click)="onAddPost()" class="btn btn-primary">Add Post</button>
+</div>
 <!-- No Posts Template -->
 <ng-template #noPosts>
   <div class="text-center mt-4">

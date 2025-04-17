@@ -148,4 +148,18 @@ onDeleteComment(postId: number, commentId: number): void {
     });
   }
 }
+// Méthode pour traduire un post
+onTranslatePost(postId: number, targetLang: string): void {
+  this.http.post(`http://localhost:8088/mic3/posts/translate/${postId}?targetLang=${targetLang}`, {})
+    .subscribe({
+      next: (response) => {
+        console.log('Post translated successfully:', response);
+        this.loadPosts(); // Reload posts to reflect the translated content
+      },
+      error: (error) => {
+        console.error('Error translating post:', error);
+        alert('Failed to translate the post. Please try again.');
+      }
+    });
+}
 }

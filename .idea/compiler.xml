@@ -18,6 +18,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="microservice2" />
         <module name="tpFoyer-17" />
+        <module name="microservice3" />
       </profile>
       <profile name="Annotation profile for microservice5" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
