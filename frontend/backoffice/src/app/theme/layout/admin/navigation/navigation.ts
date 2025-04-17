@@ -194,6 +194,14 @@ export const NavigationItems: NavigationItem[] = [
             url: '/quizzes', // URL for the create quiz page
             classes: 'nav-item',
             breadcrumbs: true
+          },
+          {
+            id: 'trivia-quiz',
+            title: 'Create Quiz With AI',
+            type: 'item',
+            url: '/trivia-quiz', // URL for the AI quiz creation page
+            classes: 'nav-item',
+            breadcrumbs: true
           }
         ]
       }

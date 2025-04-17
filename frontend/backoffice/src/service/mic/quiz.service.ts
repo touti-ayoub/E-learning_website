@@ -38,4 +38,10 @@ export class QuizService {
   updateQuiz(quiz: Quiz): Observable<Quiz> {
     return this.http.put<Quiz>(`${this.baseUrl}/${quiz.id}/update`, quiz); // Add '/update' to match the backend endpoint
   }
+   // Generate a trivia quiz
+   generateTriviaQuiz(category: string, numberOfQuestions: number): Observable<Quiz> {
+    return this.http.post<Quiz>(`${this.baseUrl}/generate-trivia`, null, {
+      params: { category, numberOfQuestions: numberOfQuestions.toString() }
+    });
+  }
 }
