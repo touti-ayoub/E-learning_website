@@ -38,6 +38,13 @@ public class AuthController {
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
     }
+    @PostMapping("/register/admin")
+    public ResponseEntity<String> registerAdmin(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("admin");
+        userRepository.save(user);
+        return ResponseEntity.ok("User registered successfully");
+    }
 
     @PostMapping("/login")
     public ResponseEntity<UserDTO> authenticate(@RequestBody User user) {

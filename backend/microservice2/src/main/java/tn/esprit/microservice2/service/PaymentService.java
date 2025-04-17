@@ -5,6 +5,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.esprit.microservice2.DTO.PaymentDTO;
@@ -20,6 +23,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,6 +50,14 @@ public class PaymentService {
 
     @Value("${app.tax.rate:0.19}")
     private BigDecimal taxRate;
+
+    public List<PaymentDTO> getAllPayments() {
+        List<Payment> payments = paymentRepository.findAll();
+        return payments.stream()
+                .map(PaymentDTO::fromEntity)
+                .collect(Collectors.toList());
+    }
+
 
     // Create full payment for a new subscription
     @Transactional
@@ -554,4 +566,77 @@ public class PaymentService {
             throw new RuntimeException("Failed to generate invoice PDF", e);
         }
     }
+
+    /**
+     * Get all payments with pagination and sorting
+     * @param pageable Pagination and sorting information
+     * @return Page of payment DTOs
+     */
+    public Page<PaymentDTO> getAllPaymentsPaged(Pageable pageable) {
+        Page<Payment> paymentPage = paymentRepository.findAll(pageable);
+
+        List<PaymentDTO> paymentDTOs = paymentPage.getContent().stream()
+                .map(PaymentDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(
+                paymentDTOs,
+                pageable,
+                paymentPage.getTotalElements()
+        );
+    }
+
+    /**
+     * Get all payments with optional status filter
+     * @param status Optional payment status filter
+     * @param pageable Pagination and sorting information
+     * @return Page of payment DTOs
+     */
+    public Page<PaymentDTO> getPaymentsByStatus(PaymentStatus status, Pageable pageable) {
+        Page<Payment> paymentPage;
+
+        if (status != null) {
+            paymentPage = paymentRepository.findByStatus(status, pageable);
+        } else {
+            paymentPage = paymentRepository.findAll(pageable);
+        }
+
+        List<PaymentDTO> paymentDTOs = paymentPage.getContent().stream()
+                .map(PaymentDTO::fromEntity)
+                .collect(Collectors.toList());
+
+        return new PageImpl<>(
+                paymentDTOs,
+                pageable,
+                paymentPage.getTotalElements()
+        );
+    }
+
+    /**
+     * Get payment by ID
+     * @param id Payment ID
+     * @return Optional PaymentDTO
+     */
+
+
+    /**
+     * Update payment status
+     * @param id Payment ID
+     * @param status New payment status
+     * @return Updated PaymentDTO or empty if payment not found
+     */
+    public Optional<PaymentDTO> updatePaymentStatus(Long id, PaymentStatus status) {
+        Optional<Payment> paymentOpt = paymentRepository.findById(id);
+
+        if (paymentOpt.isPresent()) {
+            Payment payment = paymentOpt.get();
+            payment.setStatus(status);
+            payment = paymentRepository.save(payment);
+            return Optional.of(PaymentDTO.fromEntity(payment));
+        }
+
+        return Optional.empty();
+    }
+
+
 }

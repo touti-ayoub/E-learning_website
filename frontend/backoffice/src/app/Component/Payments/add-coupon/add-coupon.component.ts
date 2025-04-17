@@ -145,7 +145,7 @@ export class AddCouponComponent implements OnInit {
           console.warn(response);
           this.success = true;
           this.resetForm();
-          this.router.navigate(['/']);
+          this.router.navigate(['/default']);
           // Reset success message after a delay
           setTimeout(() => {
             this.success = false;
