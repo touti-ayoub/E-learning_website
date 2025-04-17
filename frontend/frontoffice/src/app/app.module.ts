@@ -19,6 +19,9 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { SubscriptionComponent } from './mic2/subscription/subscription.component';
+import { EventListComponent } from './mic5/event-list/event-list.component';
+import { EventDetailsComponent } from './mic5/event-details/event-details.component';
+import {RegistrationService} from "../services/mic5/registration.service";
 import { PaymentComponent } from './mic2/payment/payment.component';
 import { PricingComponent } from './mic2/pricing/pricing.component';
 import { SubscriptionPlanComponent } from './mic2/subscription-plan/subscription-plan.component';
@@ -47,6 +50,8 @@ import { QuizResultComponent } from './assessments/quiz-result/quiz-result.compo
     RegisterComponent,
     LoginComponent,
     SubscriptionComponent,
+    EventListComponent,
+    EventDetailsComponent,
     PaymentComponent,
     PricingComponent,
     SubscriptionPlanComponent,
@@ -67,7 +72,7 @@ import { QuizResultComponent } from './assessments/quiz-result/quiz-result.compo
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [RegistrationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

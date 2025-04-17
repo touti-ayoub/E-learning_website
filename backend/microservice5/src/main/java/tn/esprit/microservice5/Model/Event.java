@@ -10,6 +10,8 @@ import jakarta.validation.constraints.Max;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.ArrayList;
 
 @Entity
 @Setter
@@ -17,9 +19,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long eventId;
+    private long eventId;
 
     @NotBlank(message = "Title is required")
     @Size(min = 3, max = 100, message = "Title must be between 3 and 100 characters")
@@ -47,5 +50,24 @@ public class Event {
     @NotBlank(message = "Place is required")
     @Size(min = 2, max = 200, message = "Place must be between 2 and 200 characters")
     private String place;
+
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "Event type is required")
+    private EventType eventType;
+
+    private String meetingLink;
+
+
+    // -------------- New field to store the Google Calendar event ID --------------
+    private String googleCalendarEventId;
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Feedback> feedbacks = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<Registration> registrations = new ArrayList<>();
+
+
+
 
 }

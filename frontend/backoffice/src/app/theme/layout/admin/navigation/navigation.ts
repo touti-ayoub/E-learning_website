@@ -16,7 +16,6 @@ export interface NavigationItem {
 }
 
 export const NavigationItems: NavigationItem[] = [
-
   {
     id: 'dashboard',
     title: 'Dashboard',
@@ -35,30 +34,91 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
-    id: 'courses',
-    title: 'Course Management',
+    id: 'events-management',
+    title: 'Events Management',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'course-management',
-        title: 'Courses',
+        id: 'events',
+        title: 'Events',
         type: 'item',
         classes: 'nav-item',
-        url: '/courses',
-        icon: 'ti ti-book',
-        breadcrumbs: false
+        url: '/events',
+        icon: 'ti ti-calendar-event'
       },
       {
-        id: 'category-management',
-        title: 'Categories',
+        id: 'feedbacks',
+        title: 'Feedbacks',
         type: 'item',
         classes: 'nav-item',
-        url: '/categories',
-        icon: 'ti ti-tag',
-        breadcrumbs: false},
+        url: '/feedbacks',
+        icon: 'ti ti-messages'
+      },
+      {
+        id: 'registrations',
+        title: 'Registrations',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/registrations',
+        icon: 'ti ti-ticket'
+      },
+      {
+        id: 'calendar',
+        title: 'Calendar',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/calendar',
+        icon: 'ti ti-calendar'
+      }
     ]
   },
+  {
+    id: 'page',
+    title: 'Pages',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'Authentication',
+        title: 'Authentication',
+        type: 'collapse',
+        icon: 'ti ti-key',
+        children: [
+          {
+            id: 'login',
+            title: 'Login',
+            type: 'item',
+            url: '/guest/login',
+          },
+        ],
+      },
+        {
+          id: 'courses',
+          title: 'Course Management',
+          type: 'group',
+          icon: 'icon-navigation',
+          children: [
+            {
+              id: 'course-management',
+              title: 'Courses',
+              type: 'item',
+              classes: 'nav-item',
+              url: '/courses',
+              icon: 'ti ti-book',
+              breadcrumbs: false
+            },
+            {
+              id: 'category-management',
+              title: 'Categories',
+              type: 'item',
+              classes: 'nav-item',
+              url: '/categories',
+              icon: 'ti ti-tag',
+              breadcrumbs: false},
+          ]
+        },
+      
 
   //MIC2
   {
@@ -173,7 +233,9 @@ export const NavigationItems: NavigationItem[] = [
            }
          ]
        },*/
-      {
+    ],
+  },
+       {
         id: 'quiz',
         title: 'Quiz',
         type: 'collapse', // Make it collapsible

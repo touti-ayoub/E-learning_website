@@ -81,6 +81,53 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        <!-- Gmail Maven Dependency-->
+        <dependency>
+            <groupId>com.google.apis</groupId>
+            <artifactId>google-api-services-gmail</artifactId>
+            <version>v1-rev65-1.18.0-rc</version>
+        </dependency>
+            <!-- Core Google API Client Library (for HTTP transport, JSON, OAuth, etc.) -->
+            <!-- 1) Core HTTP/JSON/OAuth support -->
+            <dependency>
+                <groupId>com.google.api-client</groupId>
+                <artifactId>google-api-client</artifactId>
+                <version>2.7.2</version>
+            </dependency>
+            <!-- 2) Jackson2 JSON parser -->
+            <dependency>
+                <groupId>com.google.api-client</groupId>
+                <artifactId>google-api-client-jackson2</artifactId>
+                <version>2.7.2</version>
+            </dependency>
+            <!-- 3) OAuth2 “installed‑app” flow with Jetty receiver -->
+            <dependency>
+                <groupId>com.google.oauth-client</groupId>
+                <artifactId>google-oauth-client-jetty</artifactId>
+                <version>1.39.0</version>
+            </dependency>
+            <!-- 4) Strongly‑typed Calendar API bindings -->
+            <dependency>
+                <groupId>com.google.apis</groupId>
+                <artifactId>google-api-services-calendar</artifactId>
+                <version>v3-rev20250115-2.0.0</version>
+            </dependency>
+
+        <dependency>
+            <groupId>com.google.http-client</groupId>
+            <artifactId>google-http-client-gson</artifactId>
+            <version>1.41.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>

@@ -1,0 +1,39 @@
+<!-- src/app/Component/registration-list/registration-list.component.html -->
+<div class="card">
+  <div class="card-header">
+    <h5>Event Registrations</h5>
+  </div>
+  <div class="card-body">
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Registration ID</th>
+          <th>Event</th>
+          <th>User</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let registration of registrations">
+          <td>{{ registration.id }}</td>
+          <td>{{ registration.eventTitle }}</td>
+          <td>{{ registration.userName }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="deleteRegistration(registration)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="registrations.length === 0">
+          <td colspan="4" class="text-center">No registrations found</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

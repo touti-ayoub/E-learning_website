@@ -5,12 +5,14 @@ import { NotfoundComponent } from './notfound/notfound.component';
 import { CoursesComponent } from './courses/courses.component';
 import { OurTeamComponent } from './our-team/our-team.component';
 import { TestimonialComponent } from './testimonial/testimonial.component';
-import { AboutUsComponent } from './about-us/about-us.component';
-import { ContactComponent } from './contact/contact.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { SubscriptionComponent } from './mic2/subscription/subscription.component';
-import { AuthGuard } from '../services/auth/auth.guard';
+import {AboutUsComponent} from "./about-us/about-us.component";
+import {ContactComponent} from "./contact/contact.component";
+import {LoginComponent} from "./auth/login/login.component";
+import {RegisterComponent} from "./auth/register/register.component";
+import {SubscriptionComponent} from "./mic2/subscription/subscription.component";
+import {AuthGuard} from "../services/auth/auth.guard";
+import {EventListComponent} from "./mic5/event-list/event-list.component";
+import {EventDetailsComponent}  from "./mic5/event-details/event-details.component";
 import { PaymentComponent } from './mic2/payment/payment.component';
 import { SubscriptionPlanComponent } from './mic2/subscription-plan/subscription-plan.component';
 import { PricingComponent } from './mic2/pricing/pricing.component';
@@ -40,6 +42,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'subscription/:courseId', component: SubscriptionComponent, canActivate: [AuthGuard] },
+  { path: 'events', component: EventListComponent },
+  { path: 'events/:id', component: EventDetailsComponent },
+
   { path: 'payment', component: PaymentComponent, canActivate: [AuthGuard] },
   {
     path: 'payment-success',

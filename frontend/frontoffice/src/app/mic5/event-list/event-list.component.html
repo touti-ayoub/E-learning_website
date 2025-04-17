@@ -1,0 +1,78 @@
+<!-- Event List Start -->
+<div class="container-xxl py-5">
+  <div class="container">
+    <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+      <h6 class="section-title bg-white text-center text-primary px-3">Events</h6>
+      <h1 class="mb-5">Upcoming Events</h1>
+    </div>
+
+    <div *ngIf="errorMessage" class="alert alert-danger text-center wow fadeInUp">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Toggle Buttons -->
+    <div class="view-toggle-container wow fadeInUp mb-4">
+      <button class="view-toggle-btn" [ngClass]="{'active': viewMode === 'list'}" (click)="setViewMode('list')">
+        <i class="fa fa-list"></i> List View
+      </button>
+      <button class="view-toggle-btn" [ngClass]="{'active': viewMode === 'calendar'}" (click)="setViewMode('calendar')">
+        <i class="fa fa-calendar"></i> Calendar View
+      </button>
+    </div>
+
+    <!-- List View -->
+    <div *ngIf="viewMode === 'list'" class="row g-4 justify-content-center">
+      <ng-container *ngIf="events.length > 0; else noEvents">
+        <div class="col-lg-4 col-md-6 wow fadeInUp" *ngFor="let event of events" data-wow-delay="0.1s">
+          <div class="course-item bg-light">
+            <div class="position-relative overflow-hidden">
+              <img class="img-fluid" [src]="getEventImage(event.eventType)" [alt]="event.eventType + ' image'">
+              <div class="w-100 d-flex justify-content-center position-absolute bottom-0 start-0 mb-4">
+                <a [routerLink]="['/events', event.eventId]"
+                   class="flex-shrink-0 btn btn-sm btn-primary px-3 border-end"
+                   style="border-radius: 30px 0 0 30px;">
+                  Read More
+                </a>
+                <a href="#" class="flex-shrink-0 btn btn-sm btn-primary px-3"
+                   style="border-radius: 0 30px 30px 0;">Register</a>
+              </div>
+            </div>
+            <div class="text-center p-4 pb-0">
+              <h3 class="mb-4">{{ event.title }}</h3>
+              <div class="mb-3">
+                <small class="fa fa-calendar-alt text-primary me-2"></small>
+                <small>{{ event.startTime | date:'mediumDate' }}</small>
+              </div>
+              <p class="mb-4">{{ event.description | slice:0:100 }}{{ event.description.length > 100 ? '...' : '' }}</p>
+            </div>
+            <div class="d-flex border-top">
+              <small class="flex-fill text-center border-end py-2">
+                <i class="fa fa-map-marker-alt text-primary me-2"></i>{{ event.place }}
+              </small>
+              <small class="flex-fill text-center border-end py-2">
+                <i class="fa fa-users text-primary me-2"></i>{{ event.eventType }}
+              </small>
+              <small class="flex-fill text-center py-2">
+                <i class="fa fa-chair text-primary me-2"></i>{{ event.maxCapacity }} Seats
+              </small>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #noEvents>
+        <div class="col-12 text-center wow fadeInUp">
+          <div class="alert alert-info py-4">
+            No upcoming events found
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+    <!-- Calendar View -->
+    <div *ngIf="viewMode === 'calendar'" class="calendar-container wow fadeInUp">
+      <iframe [src]="calendarUrl" style="border: 0" width="100%" height="600" frameborder="0" scrolling="no"></iframe>
+    </div>
+  </div>
+</div>
+<!-- Event List End -->
