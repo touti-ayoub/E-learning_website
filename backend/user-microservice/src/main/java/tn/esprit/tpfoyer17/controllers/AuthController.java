@@ -38,15 +38,35 @@ public class AuthController {
         userRepository.save(user);
         return ResponseEntity.ok("User registered successfully");
     }
+    @PostMapping("/register/admin")
+    public ResponseEntity<String> registerAdmin(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("admin");
+        userRepository.save(user);
+        return ResponseEntity.ok("User registered successfully");
+    }
 
     @PostMapping("/login")
     public ResponseEntity<UserDTO> authenticate(@RequestBody User user) {
+        // Authenticate the user
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+        // Generate the JWT token
         String token = JwtUtils.generateToken(user.getUsername());
+
+        // Retrieve the user from the database to get the ID
+        User authenticatedUser = userRepository.findByUsername(user.getUsername());
+        if (authenticatedUser == null) {
+            return ResponseEntity.badRequest().build(); // Handle case where user is not found
+        }
+
+        // Create the UserDTO object
         UserDTO userDTO = new UserDTO();
-        userDTO.setUsername(user.getUsername());
+        userDTO.setId(authenticatedUser.getId()); // Include the user's ID
+        userDTO.setUsername(authenticatedUser.getUsername());
+        userDTO.setRole(authenticatedUser.getRole());
         userDTO.setToken(token);
-        userDTO.setRole(user.getRole());
+
         return ResponseEntity.ok(userDTO);
     }
 

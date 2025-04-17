@@ -5,10 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/httpRequests/2025-02-21T234843.200.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/clients/UserClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/services/QuizEvaluationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/services/TriviaService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/utils/TriviaCategoryMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/config/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/config/OpenRouterConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/config/WebConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/config/WebMvcConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/controllers/CategoryController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/controllers/ChatBotController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/controllers/CourseController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/controllers/LessonController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/controllers/PresentationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/dto/ChatMessageDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/dto/ChatSessionDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/dto/UserDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/dto/openrouter/OpenRouterMessageDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/dto/openrouter/OpenRouterRequestDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/dto/openrouter/OpenRouterResponseDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/entities/Category.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/entities/ChatMessage.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/entities/ChatSession.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/entities/Course.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/entities/Lesson.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/entities/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/repositories/CategoryRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/repositories/ChatMessageRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/repositories/ChatSessionRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/repositories/CourseRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/repositories/LessonRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/repositories/UserRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/CategoryService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/ChatBotService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/CourseAccessClientService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/CourseService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/LessonService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/PresentationConversionService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/UserClientService.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/microservice1/target/classes/application.properties" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/Microservice1Application.class" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/microservice1/target/classes/tn/esprit/microservice1/config/GlobalExceptionHandler.class" afterDir="false" />
@@ -54,8 +89,131 @@
       <change afterPath="$PROJECT_DIR$/microservice1/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/microservice1/target/microservice1-0.0.1-SNAPSHOT.jar" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/microservice1/target/microservice1-0.0.1-SNAPSHOT.jar.original" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/CourseAccessRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/CourseAccessResponseDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/PaymentConfirmationRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/PaymentDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/PaymentIntentRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/PaymentIntentResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/PaymentReminderDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/PaymentScheduleDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/SubscriptionPlanDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/UpdatePaymentStatusRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/ChartDataDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/CouponChartItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/CouponMetricsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/DashboardSummaryDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/PaymentMetricsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/RevenueChartItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/RevenueMetricsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/SubscriptionChartItemDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/MetricsDTO/SubscriptionMetricsDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Coupon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/SubscriptionPlan.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/CouponController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/CourseAccessController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/DashboardController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/PaymentReminderController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionPlanController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/aspect/CourseAccessAspect.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/comm/CourseClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/comm/CourseClientFallbackFactory.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/comm/UserClient.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/comm/UserClientFallbackFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/config/WebConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/CouponRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IInvoiceRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionPlanRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/CouponService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/CourseAccessService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/DashboardService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/EmailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/InvoiceService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/ReminderService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/ScheduledTasks.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/StripePaymentService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionPlanService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/TemplateEmailService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice2/src/main/resources/templates/payment-reminder-template.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740689396989.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740781139485.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740782072974.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740784764434.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740784879485.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740786759528.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740787185064.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740791247615.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740792573524.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740793576134.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740793820867.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740793841854.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794094837.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794147301.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794239802.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794605065.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794622208.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794727784.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794737879.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794759385.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794774681.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740794801861.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740795504530.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740795602677.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740795665872.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740795768417.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740796287232.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740796333962.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740796717961.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740797048245.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740797122614.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740797674658.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740797715069.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740797864403.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740797864771.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740798488474.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740798988167.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740799047588.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740799047689.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740799148291.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740799190520.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740799190585.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740803022978.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740930855203.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740932251630.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740933465317.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740955115406.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1740955962779.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1741021968355.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1741045008337.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1741049481532.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1741049583437.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1741049709159.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/assets/invoices/invoice_INV-1741052728456.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/.idea/fileColors.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/add-coupon/add-coupon.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/add-coupon/add-coupon.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/add-coupon/add-coupon.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/add-coupon/add-coupon.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/coupon-list/coupon-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/coupon-list/coupon-list.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/coupon-list/coupon-list.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/coupon-list/coupon-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/dashboard-summary/dashboard-summary.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/dashboard-summary/dashboard-summary.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/dashboard-summary/dashboard-summary.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/dashboard-summary/dashboard-summary.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/payment-list/payment-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/payment-list/payment-list.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/payment-list/payment-list.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/payment-list/payment-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/subscription-list/subscription-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/subscription-list/subscription-list.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/subscription-list/subscription-list.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/Payments/subscription-list/subscription-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz-list/quiz-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz-list/quiz-list.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz-list/quiz-list.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz-list/quiz-list.component.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz-question/quiz-question.component.html" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz-question/quiz-question.component.scss" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz-question/quiz-question.component.spec.ts" afterDir="false" />
@@ -68,58 +226,219 @@
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz/quiz.component.scss" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz/quiz.component.spec.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/quiz/quiz.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/trivia-quiz/trivia-quiz.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/trivia-quiz/trivia-quiz.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/trivia-quiz/trivia-quiz.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/assessments/trivia-quiz/trivia-quiz.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/category-management/category-management.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/category-management/category-management.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/category-management/category-management.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/course-management/course-management.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/course-management/course-management.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/course-management/course-management.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/coupon-usage-chart/coupon-usage-chart.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/coupon-usage-chart/coupon-usage-chart.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/coupon-usage-chart/coupon-usage-chart.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/coupon-usage-chart/coupon-usage-chart.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/revenue-chart/revenue-chart.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/revenue-chart/revenue-chart.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/revenue-chart/revenue-chart.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/revenue-chart/revenue-chart.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/subscription-growth-chart/subscription-growth-chart.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/subscription-growth-chart/subscription-growth-chart.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/subscription-growth-chart/subscription-growth-chart.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/chart_mic2/subscription-growth-chart/subscription-growth-chart.component.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic/quiz-question.model.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic/quiz-result.model.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic/quiz.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic1/course.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic5/event-dto.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic5/event-service.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic5/event-service.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/auth/auth.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/auth/auth.service.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic/quiz-question.service.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic/quiz-result.service.ts" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic/quiz.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic1/course.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/coupon.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/coupon.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/dashboard.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/dashboard.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/payment.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/payment.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/subscription.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/subscription.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/toast.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic2/toast.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/event-service.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/event-service.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/setup-pptxjs.ps1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/setup-pptxjs.sh" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-create/quiz-create.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-create/quiz-create.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-create/quiz-create.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-create/quiz-create.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-list/quiz-list.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-list/quiz-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-list/quiz-list.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-list/quiz-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-result/quiz-result.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-result/quiz-result.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-result/quiz-result.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-result/quiz-result.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-take/quiz-take.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-take/quiz-take.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-take/quiz-take.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/assessments/quiz-take/quiz-take.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/chatbot/chatbot.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/chatbot/chatbot.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/chatbot/chatbot.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/course-access/course-access.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/course-detail/course-detail.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/course-detail/course-detail.component.scss" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/course-detail/course-detail.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/course-list/course-list.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/course-list/course-list.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/course-list/course-list.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/guards/course-access.guard.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-hist/payment-hist.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-hist/payment-hist.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-hist/payment-hist.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-hist/payment-hist.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-success/payment-success.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-success/payment-success.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-success/payment-success.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment-success/payment-success.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment/payment.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment/payment.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment/payment.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/payment/payment.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/pricing/pricing.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/pricing/pricing.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/pricing/pricing.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/pricing/pricing.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription-plan/subscription-plan.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription-plan/subscription-plan.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription-plan/subscription-plan.component.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription-plan/subscription-plan.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/models/chat.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/models/quiz.model.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/auth.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/chatbot.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/quiz.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/quiz.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/shared/components/pptx-viewer/pptx-viewer.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/shared/pipes/safe-url.pipe.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/shared/utils/video-utils.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/jquery/jquery.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/pptxjs/d3.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/pptxjs/divs2slides.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/pptxjs/filereader.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/pptxjs/jquery.fullscreen-min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/pptxjs/jszip.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/pptxjs/nv.d3.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/pptxjs/pptxjs.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/assets/pptxjs/pptxjs.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/environments/environment.prod.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/environments/environment.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic1/course.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic1/models.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/coupon.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/coupon.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/course-access.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/payment.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/payment.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/stripe.service.spec.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/stripe.service.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/types/pptxjs.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/config/OpenRouterConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/config/OpenRouterConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/controllers/ChatBotController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/controllers/ChatBotController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/controllers/LessonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/controllers/LessonController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/entities/Lesson.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/entities/Lesson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/ChatBotService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/ChatBotService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/PresentationConversionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/services/PresentationConversionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/MicroserviceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/MicroserviceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/controllers/QuizController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/controllers/QuizController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/controllers/QuizQuestionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/controllers/QuizQuestionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/controllers/QuizResultController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/controllers/QuizResultController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/entities/Quiz.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/entities/Quiz.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/entities/QuizQuestion.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/entities/QuizQuestion.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/entities/QuizResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/entities/QuizResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/repositories/QuizQuestionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/repositories/QuizQuestionRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/repositories/QuizRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/repositories/QuizRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/repositories/QuizResultRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/repositories/QuizResultRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/services/QuizQuestionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/services/QuizQuestionService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/services/QuizResultService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/services/QuizResultService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/services/QuizService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/java/tn/esprit/microservice/services/QuizService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice1/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/Microservice1Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/java/tn/esprit/microservice1/Microservice1Application.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice1/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice1/src/main/resources/application.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/CourseDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/DTO/CourseDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Microservice2Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Microservice2Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Course.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Invoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Invoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Payment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/PaymentSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/PaymentSchedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/PaymentStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/PaymentStatus.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Subscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Subscription.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/PaymentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IFactureRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentScheduleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentScheduleRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/CourseAccessService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/CourseAccessService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/ScheduledTasks.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/ScheduledTasks.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/PaymentService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice2/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/configurations/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/configurations/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/UserDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/AuthController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/UserDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/UserDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/surefire-reports/TEST-tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/surefire-reports/TEST-tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/surefire-reports/tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/surefire-reports/tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/backoffice/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/backoffice/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/event-form/event-form.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/event-form/event-form.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/event-list/event-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/Component/event-list/event-list.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/login/login.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/login/login.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/demo/pages/authentication/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-content.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/nav-content/nav-content.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/shared/components/spinner/spinner.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/event.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic5/event.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/backoffice/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/about-us/about-us.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/about-us/about-us.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/chatbot/chatbot.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/chatbot/chatbot.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/chatbot/chatbot.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/chatbot/chatbot.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/chatbot/chatbot.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/chatbot/chatbot.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/guards/course-access.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/guards/course-access.guard.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/models/chat.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/models/chat.model.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/chatbot.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/chatbot.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/course-access.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/course-access.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/courses/courses.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/subscription.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/subscription.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.app.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/tsconfig.app.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -129,12 +448,18 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -146,13 +471,12 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/touti-ayoub/E-learning_website.git&quot;,
-    &quot;accountId&quot;: &quot;99960faa-173e-4a98-8292-19f4149adc12&quot;
+    &quot;accountId&quot;: &quot;54f640ae-01bc-4061-837f-520686531603&quot;
   }
 }</component>
-  <component name="KubernetesApiPersistence">{}</component>
-  <component name="KubernetesApiProvider">{
-  &quot;isMigrated&quot;: true
-}</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
     &quot;associatedIndex&quot;: 3
     }</component>
@@ -179,6 +503,11 @@
     "Maven.microservice2 [install].executor": "Run",
     "Maven.microservice5 [clean].executor": "Run",
     "Maven.microservice5 [install].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor": "Run",
+    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
+    "Notification.DoNotAsk-Database detector": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -188,27 +517,36 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.EurekaApplication.executor": "Run",
     "Spring Boot.GatewayApplication.executor": "Run",
-    "Spring Boot.Microservice1Application.executor": "Run",
     "Spring Boot.Microservice2Application.executor": "Run",
     "Spring Boot.Microservice5Application.executor": "Run",
-    "Spring Boot.MicroserviceApplication.executor": "Run",
     "Spring Boot.TpFoyer17Application.executor": "Run",
-    "git-widget-placeholder": "Merging CourseFinal",
+    "git-widget-placeholder": "Merging events",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
     "run.configurations.included.in.services": "true",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.repository.indices",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="tn.esprit.microservice2.Model" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources" />
+      <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources\credentials" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="tn.esprit.tpfoyer17.configurations" />
@@ -247,10 +585,10 @@
     <configuration name="generated-requests | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="3" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="8" requestIdentifier="#8" runType="Run single request">
+    <configuration name="generated-requests | #8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="8" runType="Run single request">
       <method v="2" />
     </configuration>
-    <configuration name="generated-requests | #9" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="9" requestIdentifier="#9" runType="Run single request">
+    <configuration name="generated-requests | #9" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="9" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="EurekaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
@@ -263,6 +601,14 @@
     <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.gateway.GatewayApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Microservice1Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="microservice1" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.microservice1.Microservice1Application" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -309,6 +655,7 @@
       <item itemvalue="HTTP Request.generated-requests | #8" />
       <item itemvalue="HTTP Request.generated-requests | #9" />
       <item itemvalue="HTTP Request.generated-requests | #3" />
+      <item itemvalue="Spring Boot.Microservice1Application" />
       <item itemvalue="Spring Boot.MicroserviceApplication" />
       <item itemvalue="Spring Boot.Microservice5Application" />
       <item itemvalue="Spring Boot.EurekaApplication" />
@@ -329,8 +676,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
       </set>
     </attachedChunks>
   </component>
@@ -359,19 +706,76 @@
       <workItem from="1741107771072" duration="25231000" />
       <workItem from="1741015896530" duration="1025000" />
       <workItem from="1741018774772" duration="88000" />
-      <workItem from="1741044535547" duration="3515000" />
-      <workItem from="1741260434630" duration="734000" />
-      <workItem from="1744121678367" duration="8871000" />
-      <workItem from="1744465734597" duration="6765000" />
-      <workItem from="1744675027914" duration="1309000" />
-      <workItem from="1744754363899" duration="13550000" />
+      <workItem from="1741044535547" duration="4834000" />
+      <workItem from="1741129198607" duration="9728000" />
+      <workItem from="1741643806318" duration="369000" />
+      <workItem from="1741644270422" duration="6736000" />
+      <workItem from="1741795910888" duration="796000" />
+      <workItem from="1741829726925" duration="1846000" />
+      <workItem from="1743701984093" duration="1746000" />
+      <workItem from="1743717755599" duration="5068000" />
+      <workItem from="1743727889720" duration="2511000" />
+      <workItem from="1743734129359" duration="1199000" />
+      <workItem from="1743807685480" duration="14643000" />
+      <workItem from="1743862491065" duration="5411000" />
+      <workItem from="1743876642358" duration="6226000" />
+      <workItem from="1743890133395" duration="7559000" />
+      <workItem from="1743966510471" duration="1110000" />
+      <workItem from="1743967644827" duration="17000" />
+      <workItem from="1743967671056" duration="4281000" />
+      <workItem from="1743975014199" duration="9891000" />
+      <workItem from="1744074021886" duration="604000" />
+      <workItem from="1744161243470" duration="7162000" />
+      <workItem from="1744280460220" duration="1466000" />
+      <workItem from="1744400710160" duration="4072000" />
+      <workItem from="1744406355337" duration="154000" />
+      <workItem from="1744819453576" duration="4125000" />
+      <workItem from="1744823640088" duration="501000" />
+      <workItem from="1744824175138" duration="13028000" />
+      <workItem from="1744849399073" duration="616000" />
+      <workItem from="1744850273508" duration="3884000" />
+      <workItem from="1744859431729" duration="15680000" />
+      <workItem from="1744896780234" duration="349000" />
     </task>
+    <task id="LOCAL-00001" summary="setting up event class">
+      <option name="closed" value="true" />
+      <created>1741048261489</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741048261489</updated>
+    </task>
+    <task id="LOCAL-00002" summary="setting up user class">
+      <option name="closed" value="true" />
+      <created>1741129825272</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1741129825272</updated>
+    </task>
+    <task id="LOCAL-00003" summary="adding google calendar api">
+      <option name="closed" value="true" />
+      <created>1743820380055</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743820380055</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
-    <option name="LAST_COMMIT_MESSAGE" value="" />
+    <MESSAGE value="setting up event class" />
+    <MESSAGE value="setting up user class" />
+    <MESSAGE value="fix backend" />
+    <MESSAGE value="adding google calendar api" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding google calendar api" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

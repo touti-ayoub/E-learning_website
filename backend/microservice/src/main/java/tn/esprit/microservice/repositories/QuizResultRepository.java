@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface QuizResultRepository extends JpaRepository<QuizResult, Long> {
     List<QuizResult> findByQuestionId(Long questionId);
+
+    // Add this method to resolve the issue
+    List<QuizResult> findByQuizIdAndUserId(Long quizId, Long userId);
 }

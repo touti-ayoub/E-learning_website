@@ -1,64 +1,61 @@
+/* Container for the quiz results */
 .quiz-result-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    background-color: #f9f9f9;
+    max-width: 800px;
+    margin: 0 auto;
     padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
-  .quiz-result-card {
-    background-color: #ffffff;
+  /* Title of the quiz */
+  .quiz-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Individual question card */
+  .question-card {
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    padding: 20px;
-    max-width: 400px;
-    text-align: center;
+    padding: 15px;
+    margin-bottom: 15px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  .quiz-result-title {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 15px;
+  /* Question text styling */
+  .question-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #444;
   }
   
-  .quiz-result-score {
-    font-size: 1.5rem;
-    color: #007bff;
-    margin-bottom: 20px;
+  /* Section for answers */
+  .answer-section {
+    font-size: 16px;
+    color: #555;
   }
   
-  .quiz-result-score span {
+  /* Styling for correct answers */
+  .correct-answer {
+    color: green;
     font-weight: bold;
   }
   
-  .quiz-result-actions {
-    margin-top: 20px;
+  /* Styling for wrong answers */
+  .wrong-answer {
+    color: red;
+    font-weight: bold;
   }
   
-  .back-to-quizzes-button {
-    display: inline-block;
-    padding: 10px 20px;
-    font-size: 1rem;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: background-color 0.2s;
-  }
-  
-  .back-to-quizzes-button:hover {
-    background-color: #0056b3;
-  }
-  
-  .invalid {
-    border-color: #ff4d4d;
-  }
-  
-  .quiz-result-error {
-    font-size: 1.2rem;
-    color: #ff4d4d;
-    margin-bottom: 20px;
+  /* Styling for the correct answer text */
+  .correct-answer-text {
+    color: green;
+    font-style: italic;
+    margin-top: 5px;
   }

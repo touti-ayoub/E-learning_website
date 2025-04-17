@@ -3,11 +3,11 @@ package tn.esprit.microservice2.Rest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.microservice2.DTO.SubCreatingRequest;
-import tn.esprit.microservice2.DTO.SubscriptionDTO;
-import tn.esprit.microservice2.DTO.UserDTO;
+import tn.esprit.microservice2.DTO.*;
 import tn.esprit.microservice2.Model.*;
+import tn.esprit.microservice2.comm.CourseClient;
 import tn.esprit.microservice2.comm.UserClient;
+import tn.esprit.microservice2.service.CourseAccessService;
 import tn.esprit.microservice2.service.SubscriptionService;
 
 import java.util.HashMap;
@@ -18,7 +18,13 @@ import java.util.Map;
 @RequestMapping("/mic2/subscription")
 public class SubscriptionController {
     @Autowired
+    private  CourseAccessService courseAccessService;
+
+
+    @Autowired
     private UserClient userClient;
+    @Autowired
+    private CourseClient courseClient;
 
     @Autowired
     private SubscriptionService subscriptionService;
@@ -118,4 +124,49 @@ public class SubscriptionController {
             return ResponseEntity.status(500).build();
         }
     }
+    @GetMapping("/courses")
+    public ResponseEntity<List<CourseDTO>> testGetAllCourses() {
+        try {
+            List<CourseDTO> courses = courseClient.getAllCourses();
+            return ResponseEntity.ok(courses);
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
+
+    @PostMapping("/check")
+    public ResponseEntity<CourseAccessResponseDTO> checkCourseAccess(@RequestBody CourseAccessRequestDTO request) {
+        try {
+            boolean hasAccess = courseAccessService.hasAccessToCourse(
+                    request.getUserId(),
+                    request.getCourseId()
+            );
+
+            CourseAccessResponseDTO response = new CourseAccessResponseDTO();
+            response.setHasAccess(hasAccess);
+            response.setCourseId(request.getCourseId());
+            response.setUserId(request.getUserId());
+
+            if (hasAccess) {
+                response.setMessage("You have access to this course");
+            } else {
+                response.setMessage("You need to purchase this course to access its content");
+            }
+
+            // Always return 200 OK with the access status
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            CourseAccessResponseDTO response = new CourseAccessResponseDTO();
+            response.setHasAccess(false);
+            response.setCourseId(request.getCourseId());
+            response.setUserId(request.getUserId());
+            response.setMessage("Error checking course access: " + e.getMessage());
+
+            // Still return 200 OK for the frontend to handle
+            return ResponseEntity.ok(response);
+        }
+    }
+
+
 }

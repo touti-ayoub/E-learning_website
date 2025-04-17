@@ -6,9 +6,17 @@
     </div>
     <div class="quiz-card-body">
       <p class="quiz-description">{{ quiz.description }}</p>
+      <!-- Show the user's score if the quiz has been taken -->
+      <p *ngIf="quiz.result !== undefined" class="quiz-result">Your Score: {{ quiz.result }}</p>
     </div>
     <div class="quiz-card-footer">
-      <a [routerLink]="['/quiz', quiz.id]" class="take-quiz-button">Take Quiz</a>
+      <!-- Button for taking or viewing quiz -->
+      <button 
+        (click)="takeQuiz(quiz.id)" 
+        class="quiz-action-button"
+        [ngClass]="{ 'view-details-button': hasTakenQuiz(quiz.id), 'take-quiz-button': !hasTakenQuiz(quiz.id) }">
+        {{ hasTakenQuiz(quiz.id) ? 'View Quiz Details' : 'Take Quiz' }}
+      </button>
     </div>
   </div>
 </div>

@@ -25,6 +25,9 @@ import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { SubscriptionComponent } from './mic2/subscription/subscription.component';
+import { EventListComponent } from './mic5/event-list/event-list.component';
+import { EventDetailsComponent } from './mic5/event-details/event-details.component';
+import {RegistrationService} from "../services/mic5/registration.service";
 import { PaymentComponent } from './mic2/payment/payment.component';
 import { PricingComponent } from './mic2/pricing/pricing.component';
 import { SubscriptionPlanComponent } from './mic2/subscription-plan/subscription-plan.component';
@@ -32,13 +35,13 @@ import { PaymentSuccessComponent } from './mic2/payment-success/payment-success.
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { PaymentHistComponent } from './mic2/payment-hist/payment-hist.component';
 import { QuizListComponent } from './assessments/quiz-list/quiz-list.component';
-import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
 import { QuizTakeComponent } from './assessments/quiz-take/quiz-take.component';
 import { QuizCreateComponent } from './assessments/quiz-create/quiz-create.component';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 
+import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +63,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     RegisterComponent,
     LoginComponent,
     SubscriptionComponent,
+    EventListComponent,
+    EventDetailsComponent,
     PaymentComponent,
     PricingComponent,
     SubscriptionPlanComponent,
@@ -69,8 +74,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     QuizResultComponent,
     QuizTakeComponent,
     QuizCreateComponent,
-    
-    ChatbotComponent // Add the chatbot component
+    ChatbotComponent, // Add the chatbot component
   ],
   imports: [
     BrowserModule,
@@ -82,7 +86,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     ReactiveFormsModule,
     FontAwesomeModule
   ],
-  providers: [ForumService, PostService],
+  providers: [ForumService, PostService,RegistrationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

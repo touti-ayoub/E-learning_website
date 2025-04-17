@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { EventDTO } from '../../../model/mic5/event-dto';
-import { EventService } from '../../../service/mic5/event.service';
+import { EventDTO, EventService } from '../../../service/mic5/event.service';
 import { MatIconModule } from '@angular/material/icon';
 import { EventFormComponent } from '../event-form/event-form.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';

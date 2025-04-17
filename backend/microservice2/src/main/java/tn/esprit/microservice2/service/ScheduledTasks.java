@@ -1,5 +1,6 @@
 package tn.esprit.microservice2.service;
 
+import com.stripe.model.PaymentMethodCollection;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -8,13 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import tn.esprit.microservice2.DTO.PaymentIntentRequest;
+import tn.esprit.microservice2.DTO.PaymentIntentResponse;
 import tn.esprit.microservice2.Model.*;
 import tn.esprit.microservice2.repo.IPaymentScheduleRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 
 @Component
 @Slf4j
@@ -37,6 +43,8 @@ public class ScheduledTasks {
     @Autowired
     private ReminderService reminderService;
 
+    @Autowired
+    private StripePaymentService stripePaymentService;
 
     @PostConstruct
     public void runOnStartup() {
@@ -430,5 +438,202 @@ public class ScheduledTasks {
         }
 
         logger.info("Completed comprehensive late payment checks");
+    }
+
+
+    /**
+     * Automatically processes an overdue payment schedule using saved payment methods
+     * and reactivates the subscription after successful payment.
+     *
+     * This method should be called after the penalty period (Day 5+) when the system
+     * decides to automatically charge the customer rather than suspending their account.
+     *
+     * @param scheduleId ID of the overdue payment schedule to process
+     * @return true if payment was successfully processed, false otherwise
+     */
+    @Transactional
+    public boolean automaticallyProcessOverduePayment(Long scheduleId) {
+        logger.info("Starting automatic payment processing for schedule ID: {}", scheduleId);
+
+        try {
+            // 1. Get the overdue payment schedule
+            PaymentSchedule schedule = paymentScheduleRepository.findById(scheduleId)
+                    .orElseThrow(() -> new RuntimeException("Payment schedule not found: " + scheduleId));
+
+            // Verify the schedule is actually overdue
+            if (schedule.getStatus() != PaymentScheduleStatus.OVERDUE) {
+                logger.warn("Cannot automatically process schedule {} as it is not overdue. Current status: {}",
+                        scheduleId, schedule.getStatus());
+                return false;
+            }
+
+            // 2. Get related data
+            Payment payment = schedule.getPayment();
+            Subscription subscription = payment.getSubscription();
+            User user = subscription.getUser();
+
+            // 3. Get the amount to charge (with penalty already included)
+            double amountToCharge = schedule.getAmount();
+            String currency = payment.getCurrency();
+
+            // 4. Notify the user that automatic payment will be processed
+            try {
+                emailService.sendEmail(
+                        user.getEmail(),
+                        "IMPORTANT: Your account will be automatically charged",
+                        String.format(
+                                "<html><body>" +
+                                        "<h1>Automatic Payment Processing</h1>" +
+                                        "<p>Dear %s,</p>" +
+                                        "<p>This is to inform you that your overdue payment of <strong>%.2f %s</strong> " +
+                                        "for the course <strong>\"%s\"</strong> will be automatically charged to your " +
+                                        "saved payment method.</p>" +
+                                        "<p>This automatic charge is being processed in accordance with our payment terms " +
+                                        "to maintain your access to the course.</p>" +
+                                        "<p>Payment details:</p>" +
+                                        "<ul>" +
+                                        "<li>Course: %s</li>" +
+                                        "<li>Installment: %d of %d</li>" +
+                                        "<li>Original due date: %s</li>" +
+                                        "<li>Amount (including %s penalty): %.2f %s</li>" +
+                                        "</ul>" +
+                                        "<p>If you have any questions, please contact our support team immediately.</p>" +
+                                        "<p>Best regards,<br/>The eLEARNING Team</p>" +
+                                        "</body></html>",
+                                user.getUsername(),
+                                amountToCharge,
+                                currency,
+                                subscription.getCourse().getTitle(),
+                                subscription.getCourse().getTitle(),
+                                schedule.getInstallmentNumber(),
+                                payment.getPaymentSchedules().size(),
+                                schedule.getDueDate(),
+                                schedule.getPenaltyAmount() > 0 ? "5%" : "0%",
+                                amountToCharge,
+                                currency
+                        )
+                );
+                logger.info("Sent automatic payment notification email to {}", user.getEmail());
+            } catch (Exception e) {
+                // Log but continue with payment processing
+                logger.error("Failed to send automatic payment notification email: {}", e.getMessage(), e);
+            }
+
+
+
+            // 6. Create a payment intent with the selected payment method
+            PaymentIntentRequest intentRequest = new PaymentIntentRequest();
+            intentRequest.setAmount(BigDecimal.valueOf(amountToCharge));
+            intentRequest.setCurrency(currency);
+            intentRequest.setPaymentScheduleId(schedule.getId());
+            intentRequest.setPaymentId(payment.getId());
+
+            PaymentIntentResponse intentResponse;
+            try {
+                intentResponse = stripePaymentService.createPaymentIntent(intentRequest);
+                logger.info("Created payment intent {} for automatic payment of schedule {}",
+                        intentResponse.getPaymentIntentId(), schedule.getId());
+            } catch (Exception e) {
+                logger.error("Failed to create payment intent for automatic payment: {}", e.getMessage(), e);
+                notifyAutomaticPaymentFailure(user, subscription, amountToCharge, currency, "Payment setup failed");
+                return false;
+            }
+
+            // 7. Confirm the payment intent
+            try {
+                Map<String, Object> confirmationResult = stripePaymentService.confirmPayment(
+                        intentResponse.getPaymentIntentId(),
+                        null, // No payment ID for installments
+                        schedule.getId());
+
+                boolean paymentSuccess = (boolean) confirmationResult.getOrDefault("success", false);
+
+                if (!paymentSuccess) {
+                    logger.error("Automatic payment confirmation failed for schedule {}", schedule.getId());
+                    notifyAutomaticPaymentFailure(user, subscription, amountToCharge, currency, "Payment confirmation failed");
+                    return false;
+                }
+
+                // Payment was successful
+                logger.info("Successfully processed automatic payment for schedule {}", schedule.getId());
+
+                // 8. Restore subscription if it was suspended
+                if (subscription.getStatus() == SubscriptionStatus.SUSPENDED) {
+                    subscription.setStatus(SubscriptionStatus.ACTIVE);
+                    subscription.setUpdatedAt(LocalDateTime.now());
+                    subscriptionRepository.save(subscription);
+                    logger.info("Reactivated suspended subscription {} after automatic payment", subscription.getId());
+
+                    // Send reactivation notification
+                    try {
+                        emailService.sendEmail(
+                                user.getEmail(),
+                                "Your course access has been restored",
+                                String.format(
+                                        "<html><body>" +
+                                                "<h1>Course Access Restored</h1>" +
+                                                "<p>Dear %s,</p>" +
+                                                "<p>We're pleased to inform you that your access to the course <strong>\"%s\"</strong> " +
+                                                "has been restored following the successful processing of your payment.</p>" +
+                                                "<p>Thank you for your payment of <strong>%.2f %s</strong>.</p>" +
+                                                "<p>You can now continue with your learning journey.</p>" +
+                                                "<p>Best regards,<br/>The eLEARNING Team</p>" +
+                                                "</body></html>",
+                                        user.getUsername(),
+                                        subscription.getCourse().getTitle(),
+                                        amountToCharge,
+                                        currency
+                                )
+                        );
+                    } catch (Exception e) {
+                        // Just log, don't affect transaction
+                        logger.error("Failed to send subscription reactivation email: {}", e.getMessage());
+                    }
+                }
+
+                return true;
+
+            } catch (Exception e) {
+                logger.error("Failed to confirm automatic payment: {}", e.getMessage(), e);
+                notifyAutomaticPaymentFailure(user, subscription, amountToCharge, currency, "Payment processing failed");
+                return false;
+            }
+        } catch (Exception e) {
+            logger.error("Unexpected error during automatic payment processing: {}", e.getMessage(), e);
+            return false;
+        }
+    }
+
+    /**
+     * Notifies the user about automatic payment failure
+     */
+    private void notifyAutomaticPaymentFailure(User user, Subscription subscription,
+                                               double amount, String currency, String reason) {
+        try {
+            emailService.sendEmail(
+                    user.getEmail(),
+                    "Important: Automatic payment processing failed",
+                    String.format(
+                            "<html><body>" +
+                                    "<h1>Automatic Payment Failed</h1>" +
+                                    "<p>Dear %s,</p>" +
+                                    "<p>We attempted to process an automatic payment of <strong>%.2f %s</strong> " +
+                                    "for the course <strong>\"%s\"</strong>, but the payment was unsuccessful.</p>" +
+                                    "<p>Reason: %s</p>" +
+                                    "<p>Please log in to your account to update your payment method and make the payment " +
+                                    "manually to avoid any interruption in your course access.</p>" +
+                                    "<p>If you need assistance, please contact our support team.</p>" +
+                                    "<p>Best regards,<br/>The eLEARNING Team</p>" +
+                                    "</body></html>",
+                            user.getUsername(),
+                            amount,
+                            currency,
+                            subscription.getCourse().getTitle(),
+                            reason
+                    )
+            );
+        } catch (Exception e) {
+            logger.error("Failed to send payment failure notification: {}", e.getMessage());
+        }
     }
 }

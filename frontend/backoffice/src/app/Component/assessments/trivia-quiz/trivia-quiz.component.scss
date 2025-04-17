@@ -1,0 +1,103 @@
+/* filepath: c:\Users\LOQ\Desktop\PIDEV\pi\frontend\backoffice\src\app\Component\assessments\trivia-quiz\trivia-quiz.component.scss */
+
+.trivia-quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #333;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .generate-btn {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  
+  .generate-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .quiz-preview {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+  }
+  
+  .quiz-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .quiz-description {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: #666;
+  }
+  
+  .question-list {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .question-item {
+    margin-bottom: 15px;
+  }
+  
+  .answer-list {
+    list-style: none;
+    padding-left: 20px;
+  }
+  
+  .answer-item {
+    margin-bottom: 5px;
+  }
+  
+  .answer-status {
+    font-weight: bold;
+  }
+  
+  .answer-status.correct {
+    color: green;
+  }
+  
+  .answer-status.incorrect {
+    color: red;
+  }

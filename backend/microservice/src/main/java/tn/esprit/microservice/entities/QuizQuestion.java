@@ -25,4 +25,8 @@ public class QuizQuestion {
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<QuizResult> answers = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "correct_answer_id")
+    private QuizResult correctAnswer; // Add this field
 }

@@ -16,7 +16,6 @@ export interface NavigationItem {
 }
 
 export const NavigationItems: NavigationItem[] = [
-  
   {
     id: 'dashboard',
     title: 'Dashboard',
@@ -35,34 +34,105 @@ export const NavigationItems: NavigationItem[] = [
     ]
   },
   {
-    id: 'courses',
-    title: 'Course Management',
+    id: 'events-management',
+    title: 'Events Management',
     type: 'group',
     icon: 'icon-navigation',
     children: [
       {
-        id: 'course-management',
-        title: 'Courses',
+        id: 'events',
+        title: 'Events',
         type: 'item',
         classes: 'nav-item',
-        url: '/courses',
-        icon: 'ti ti-book',
-        breadcrumbs: false
+        url: '/events',
+        icon: 'ti ti-calendar-event'
       },
       {
-        id: 'category-management',
-        title: 'Categories',
+        id: 'feedbacks',
+        title: 'Feedbacks',
         type: 'item',
         classes: 'nav-item',
-        url: '/categories',
-        icon: 'ti ti-tag',
-        breadcrumbs: false},
+        url: '/feedbacks',
+        icon: 'ti ti-messages'
+      },
+      {
+        id: 'registrations',
+        title: 'Registrations',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/registrations',
+        icon: 'ti ti-ticket'
+      },
+      {
+        id: 'calendar',
+        title: 'Calendar',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/calendar',
+        icon: 'ti ti-calendar'
+      }
+    ]
+  },
+  {
+    id: 'page',
+    title: 'Pages',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'Authentication',
+        title: 'Authentication',
+        type: 'collapse',
+        icon: 'ti ti-key',
+        children: [
+          {
+            id: 'login',
+            title: 'Login',
+            type: 'item',
+            url: '/guest/login',
+          },
+        ],
+      },
         {
+          id: 'courses',
+          title: 'Course Management',
+          type: 'group',
+          icon: 'icon-navigation',
+          children: [
+            {
+              id: 'course-management',
+              title: 'Courses',
+              type: 'item',
+              classes: 'nav-item',
+              url: '/courses',
+              icon: 'ti ti-book',
+              breadcrumbs: false
+            },
+            {
+              id: 'category-management',
+              title: 'Categories',
+              type: 'item',
+              classes: 'nav-item',
+              url: '/categories',
+              icon: 'ti ti-tag',
+              breadcrumbs: false},
+          ]
+        },
+      
+
+  //MIC2
+  {
+    id: 'subPaym',
+    title: 'Payment & Subscription',
+    type: 'group',
+    children: [
+      {
         id: 'main_dashbaord',
         title: 'Main Dashboard',
         type: 'item',
-        url: 'admin/pay_dashboard',
-        target: true,
+        classes: 'nav-item',
+        url: '/admin/pay_dashboard',
+        icon: 'ti ti-dashboard',
         breadcrumbs: false
       },
       {
@@ -75,7 +145,7 @@ export const NavigationItems: NavigationItem[] = [
             id: 'subscription_list',
             title: 'Subscription List',
             type: 'item',
-            url: '/Sub/list',
+            url: '/subs/list',
             target: true,
             breadcrumbs: false
           },
@@ -95,7 +165,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'collapse',
         icon: 'ti ti-key',
         children: [
-          {//to change
+          {
             id: 'create-coupon',
             title: 'Create Coupon',
             type: 'item',
@@ -123,7 +193,7 @@ export const NavigationItems: NavigationItem[] = [
             id: 'Payment_list',
             title: 'Payment List',
             type: 'item',
-            url: '/Payment/list',
+            url: '/pay/list',
             target: true,
             breadcrumbs: false
           }
@@ -131,37 +201,41 @@ export const NavigationItems: NavigationItem[] = [
       }
     ]
   },
+
+  //*EndMic2
   {
     id: 'page',
     title: 'Pages',
     type: 'group',
     icon: 'icon-navigation',
     children: [
-      {
-        id: 'Authentication',
-        title: 'Authentication',
-        type: 'collapse',
-        icon: 'ti ti-key',
-        children: [
-          {
-            id: 'login',
-            title: 'Login',
-            type: 'item',
-            url: '/guest/login',
-            target: true,
-            breadcrumbs: false
-          },
-          {
-            id: 'register',
-            title: 'Register',
-            type: 'item',
-            url: '/guest/register',
-            target: true,
-            breadcrumbs: false
-          }
-        ]
-      },
-      {
+      /* {
+         id: 'Authentication',
+         title: 'Authentication',
+         type: 'collapse',
+         icon: 'ti ti-key',
+         children: [
+           {
+             id: 'login',
+             title: 'Login',
+             type: 'item',
+             url: '/guest/login',
+             target: true,
+             breadcrumbs: false
+           },
+           {
+             id: 'register',
+             title: 'Register',
+             type: 'item',
+             url: '/guest/register',
+             target: true,
+             breadcrumbs: false
+           }
+         ]
+       },*/
+    ],
+  },
+       {
         id: 'quiz',
         title: 'Quiz',
         type: 'collapse', // Make it collapsible
@@ -182,6 +256,14 @@ export const NavigationItems: NavigationItem[] = [
             url: '/quizzes', // URL for the create quiz page
             classes: 'nav-item',
             breadcrumbs: true
+          },
+          {
+            id: 'trivia-quiz',
+            title: 'Create Quiz With AI',
+            type: 'item',
+            url: '/trivia-quiz', // URL for the AI quiz creation page
+            classes: 'nav-item',
+            breadcrumbs: true
           }
         ]
       },
@@ -196,64 +278,4 @@ export const NavigationItems: NavigationItem[] = [
       }
     ]
   },
-  {
-    id: 'elements',
-    title: 'Elements',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'typography',
-        title: 'Typography',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/typography',
-        icon: 'ti ti-typography'
-      },
-      {
-        id: 'color',
-        title: 'Colors',
-        type: 'item',
-        classes: 'nav-item',
-        url: '/color',
-        icon: 'ti ti-brush'
-      },
-      {
-        id: 'tabler',
-        title: 'Tabler',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://tabler-icons.io/',
-        icon: 'ti ti-plant-2',
-        target: true,
-        external: true
-      }
-    ]
-  },
-  {
-    id: 'other',
-    title: 'Other',
-    type: 'group',
-    icon: 'icon-navigation',
-    children: [
-      {
-        id: 'sample-page',
-        title: 'Sample Page',
-        type: 'item',
-        url: '/sample-page',
-        classes: 'nav-item',
-        icon: 'ti ti-brand-chrome'
-      },
-      {
-        id: 'document',
-        title: 'Document',
-        type: 'item',
-        classes: 'nav-item',
-        url: 'https://codedthemes.gitbook.io/berry-angular/',
-        icon: 'ti ti-vocabulary',
-        target: true,
-        external: true
-      }
-    ]
-  }
 ];

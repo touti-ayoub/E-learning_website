@@ -19,9 +19,9 @@ export interface CourseAccessResponseDTO {
   providedIn: 'root'
 })
 export class CourseAccessService {
-  private apiUrl = 'http://localhost:8088/mic2/api/course-access';
-  
-  // Basic headers for JSON
+  // Fix the API URL to match your backend controller mapping
+  private apiUrl = 'http://localhost:8088/mic2/subscription';
+
   private httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -32,18 +32,14 @@ export class CourseAccessService {
 
   /**
    * Check if a user has access to a specific course
-   * @param userId The ID of the user
-   * @param courseId The ID of the course
-   * @returns Observable with access information
    */
   checkCourseAccess(userId: number, courseId: number): Observable<CourseAccessResponseDTO> {
     console.log(`Checking access for user ${userId} to course ${courseId}`);
-    
-    // PRODUCTION CODE
+
     const requestBody = { userId, courseId };
-    
+
     return this.http.post<CourseAccessResponseDTO>(
-      `${this.apiUrl}/check`, 
+      `${this.apiUrl}/check`,
       requestBody,
       this.httpOptions
     ).pipe(
@@ -66,9 +62,9 @@ export class CourseAccessService {
    */
   requestCourseAccess(userId: number, courseId: number): Observable<CourseAccessResponseDTO> {
     const requestBody = { userId, courseId };
-    
+
     return this.http.post<CourseAccessResponseDTO>(
-      `${this.apiUrl}/request-access`, 
+      `${this.apiUrl}/request-access`,
       requestBody,
       this.httpOptions
     ).pipe(
@@ -84,4 +80,4 @@ export class CourseAccessService {
       })
     );
   }
-} 
+}

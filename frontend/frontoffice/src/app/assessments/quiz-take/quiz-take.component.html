@@ -1,29 +1,60 @@
-<div *ngIf="quiz" class="quiz-take-container">
-    <h1>{{ quiz.title }}</h1>
-    <p>{{ quiz.description }}</p>
-    <p>Time left: {{ formatTime(timeLeft) }}</p>
-  
-    <form (ngSubmit)="submitQuiz()" class="quiz-form">
-      <div *ngFor="let question of quiz.questions" class="question-group">
-        <h3>{{ question.text }}</h3>
-  
-        <div *ngFor="let answer of question.answers" class="answer-group">
-          <label>
-            <input
-              type="radio"
-              [name]="'question-' + question.id"
-              [value]="answer.id"
-              (change)="onAnswerSelected(question.id, answer.id)"
-            >
-            {{ answer.text }}
-          </label>
-        </div>
+<div class="quiz-take-container" *ngIf="quiz">
+  <h1>{{ quiz.title }}</h1>
+  <p>{{ quiz.description }}</p>
+
+  <!-- Timer -->
+  <p [class.timer-red]="isTimerRed" class="timer">Time left: {{ formatTime(timeLeft) }}</p>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar-container">
+    <div class="progress-bar" [style.width.%]="progress"></div>
+  </div>
+  <p class="progress-text">Progress: {{ progress }}%</p>
+
+  <!-- Quiz Questions -->
+  <form (ngSubmit)="submitQuiz()" class="quiz-form">
+    <div *ngFor="let question of quiz.questions" class="question-group">
+      <h3>{{ question.text }}</h3>
+
+      <div *ngFor="let answer of question.answers" class="answer-group">
+        <label>
+          <input
+            type="radio"
+            [name]="'question-' + question.id"
+            [value]="answer.id"
+            [checked]="userAnswers.get(question.id) === answer.id"
+            (change)="onAnswerSelected(question.id, answer.id)"
+          >
+          {{ answer.text }}
+        </label>
       </div>
-  
-      <button type="submit" class="submit-button">Submit Quiz</button>
-    </form>
+    </div>
+
+    <button type="submit" class="submit-button">Submit Quiz</button>
+    <button type="button" class="review-button" (click)="openReviewModal()">Review Answers</button>
+  </form>
+</div>
+
+<div *ngIf="!quiz" class="loading-message">
+  Loading quiz...
+</div>
+
+<!-- Review Modal -->
+<div class="review-modal" *ngIf="isReviewModalOpen">
+  <div class="review-modal-content">
+    <h2>Review Your Answers</h2>
+    <div *ngFor="let question of quiz?.questions">
+      <h3>{{ question.text }}</h3>
+      <p>
+        Your Answer:
+        <span *ngIf="userAnswers.get(question.id); else unanswered">
+          {{ getAnswerText(question.id) }}
+        </span>
+        <ng-template #unanswered>
+          <span class="unanswered">Unanswered</span>
+        </ng-template>
+      </p>
+    </div>
+    <button (click)="closeReviewModal()">Close</button>
   </div>
-  
-  <div *ngIf="!quiz" class="loading-message">
-    Loading quiz...
-  </div>
+</div>

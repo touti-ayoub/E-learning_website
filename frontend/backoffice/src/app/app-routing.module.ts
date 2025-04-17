@@ -6,13 +6,13 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'guest/login',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: AdminComponent,
     children: [
-      {
-        path: '',
-        redirectTo: 'default',
-        pathMatch: 'full'
-      },
       {
         path: 'default',
         loadComponent: () =>
@@ -33,21 +33,31 @@ const routes: Routes = [
         loadComponent: () =>
           import('./demo/other/sample-page/sample-page.component')
       },
-      // --------------------------------------------
-      // STEP 3: Nest the "events" route under Admin
-      // --------------------------------------------
       {
         path: 'events',
         loadComponent: () =>
           import('./Component/event-list/event-list.component').then((m) => m.EventListComponent)
       },
-      // Course management component
+      {
+        path: 'feedbacks',
+        loadComponent: () =>
+          import('./Component/feedback-list/feedback-list.component').then((m) => m.FeedbackListComponent)
+      },
+      {
+        path: 'registrations',
+        loadComponent: () =>
+          import('./Component/registration-list/registration-list.component').then((m) => m.RegistrationListComponent)
+      },
+      {
+        path: 'calendar',
+        loadComponent: () =>
+          import('./Component/calendar/calendar.component').then((m) => m.CalendarComponent)
+      },
       {
         path: 'courses',
         loadComponent: () =>
           import('./course-management/course-management.component').then((m) => m.CourseManagementComponent)
       },
-      // Category management component
       {
         path: 'categories',
         loadComponent: () =>
@@ -73,7 +83,7 @@ const routes: Routes = [
       {
         path: 'quiz/list',
         loadComponent: () =>
-          import('./Component/assessments/quiz-list/quiz-list.component').then((m) => m.QuizListComponent) // Standalone route
+          import('./Component/assessments/quiz-list/quiz-list.component').then((m) => m.QuizListComponent)
       },
       {
         path: 'coupon/create-coupon',
@@ -81,9 +91,28 @@ const routes: Routes = [
           import('./Component/Payments/add-coupon/add-coupon.component').then((m) => m.AddCouponComponent)
       },
       {
+        path: 'coupon/list',
+        loadComponent: () =>
+          import('./Component/Payments/coupon-list/coupon-list.component').then((m) => m.CouponListComponent)
+      },
+      {
+        path: 'subs/list',
+        loadComponent: () =>
+          import('./Component/Payments/subscription-list/subscription-list.component').then((m) => m.SubscriptionListComponent)
+      },{
+        path: 'pay/list',
+        loadComponent: () =>
+          import('./Component/Payments/payment-list/payment-list.component').then((m) => m.PaymentListComponent)
+      },
+      {
         path: 'admin/pay_dashboard',
         loadComponent: () =>
           import('./Component/Payments/dashboard-summary/dashboard-summary.component').then((m) => m.DashboardSummaryComponent)
+      },
+      {
+        path: 'trivia-quiz',
+        loadComponent: () =>
+          import('./Component/assessments/trivia-quiz/trivia-quiz.component').then((m) => m.TriviaQuizComponent) // Add TriviaQuizComponent route
       }
     ]
   },

@@ -24,10 +24,19 @@ public interface ISubscriptionRepository extends JpaRepository<Subscription, Lon
     Optional<Subscription> findByIdWithDetails(@Param("id") Long id);
 
     // Add these methods to your SubscriptionRepository
-    long countByStatusAndEndDateAfter(SubscriptionStatus status, LocalDateTime date);
+    long countByStatusAndEndDateGreaterThanEqual(SubscriptionStatus status, LocalDateTime date);
     long countByCreatedAtBetween(LocalDateTime start, LocalDateTime end);
     long countByStatusAndCreatedAtBetween(SubscriptionStatus status, LocalDateTime start, LocalDateTime end);
     long countByStatusAndUpdatedAtBetweenAndStartDateLessThan(SubscriptionStatus status, LocalDateTime start, LocalDateTime end, LocalDateTime date);
     long countByStatusAndEndDateBetween(SubscriptionStatus status, LocalDateTime start, LocalDateTime end);
     long countByStatusAndUpdatedAtBetween(SubscriptionStatus status, LocalDateTime start, LocalDateTime end);
+
+    // In ISubscriptionRepository.java
+    @Query("SELECT COUNT(s) FROM Subscription s WHERE " +
+            "(s.status = :status) AND " +
+            "((s.endDate IS NULL) OR (s.endDate >= :currentDate))")
+    long countActiveSubscriptions(
+            @Param("status") SubscriptionStatus status,
+            @Param("currentDate") LocalDateTime currentDate);
+
 }

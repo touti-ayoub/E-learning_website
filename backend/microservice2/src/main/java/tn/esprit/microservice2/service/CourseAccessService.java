@@ -11,6 +11,8 @@ import tn.esprit.microservice2.repo.ICourseRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
 import tn.esprit.microservice2.repo.UserRepository;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +31,7 @@ public class CourseAccessService {
         this.subscriptionRepository = subscriptionRepository;
         this.userRepository = userRepository;
     }
-    
+
     /**
      * Check if a user has access to a course
      * @param userId The user's ID
@@ -38,40 +40,66 @@ public class CourseAccessService {
      */
     public boolean hasAccessToCourse(Long userId, Long courseId) {
         logger.debug("Checking access for user {} to course {}", userId, courseId);
-        
+
+        // Validate inputs
+        if (userId == null || courseId == null) {
+            logger.warn("Invalid input: userId or courseId is null");
+            return false;
+        }
+
         // Get the course
         Optional<Course> courseOpt = courseRepository.findById(courseId);
         if (courseOpt.isEmpty()) {
             logger.debug("Course {} not found", courseId);
             return false; // Course doesn't exist
         }
-        
+
         Course course = courseOpt.get();
         logger.debug("Course {} found, free: {}", courseId, course.isFree());
-        
+
         // If course is free, allow access
         if (course.isFree()) {
             logger.debug("Course {} is free, granting access", courseId);
             return true;
         }
-        
+
         // If course is not free, check if user has an active subscription
         Optional<User> userOpt = userRepository.findById(userId);
         if (userOpt.isEmpty()) {
             logger.debug("User {} not found", userId);
             return false; // User doesn't exist
         }
-        
+
         User user = userOpt.get();
         logger.debug("User {} found", userId);
-        
+
+        // Get all subscriptions for this user and course
+        List<Subscription> subscriptions = subscriptionRepository.findByUserIdAndCourseId(userId, courseId);
+
+        if (subscriptions.isEmpty()) {
+            logger.debug("No subscription found for user {} and course {}", userId, courseId);
+            return false;
+        }
+
         // Check if user has an active subscription for this course
-        boolean hasSubscription = subscriptionRepository.findByUserIdAndCourseId(userId, courseId)
-                .stream()
-                .anyMatch(Subscription::isActive);
-        
-        logger.debug("User {} has active subscription for course {}: {}", userId, courseId, hasSubscription);
-        return hasSubscription;
+        LocalDate today = LocalDate.now();
+
+        boolean hasValidSubscription = subscriptions.stream()
+                .anyMatch(subscription -> {
+                    // Check subscription status is ACTIVE
+                    boolean isStatusActive = subscription.getStatus() == SubscriptionStatus.ACTIVE;
+
+
+
+
+
+                    return isStatusActive;
+                });
+
+        logger.debug("User {} has valid active subscription for course {}: {}",
+                userId, courseId, hasValidSubscription);
+
+        return hasValidSubscription;
     }
     
     /**

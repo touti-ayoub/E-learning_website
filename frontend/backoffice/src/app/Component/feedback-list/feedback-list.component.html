@@ -1,0 +1,43 @@
+<!-- src/app/Component/feedback-list/feedback-list.component.html -->
+<div class="card">
+  <div class="card-header">
+    <h5>Event Feedbacks</h5>
+  </div>
+  <div class="card-body">
+    <div *ngIf="errorMessage" class="alert alert-danger">
+      {{ errorMessage }}
+    </div>
+
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>Event title</th>
+          <th>Username</th>
+          <th>Rating</th>
+          <th>Comments</th>
+          <th>Submitted At</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let feedback of feedbacks">
+          <td>{{ feedback.eventName }}</td>
+          <td>{{ feedback.userName }}</td>
+          <td>{{ feedback.rating }}/5</td>
+          <td>{{ feedback.comments }}</td>
+          <td>{{ feedback.submittedAt | date:'medium' }}</td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="deleteFeedback(feedback)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="feedbacks.length === 0">
+          <td colspan="7" class="text-center">No feedbacks found</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

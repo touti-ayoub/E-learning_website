@@ -1,18 +1,17 @@
 package tn.esprit.microservice2.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import tn.esprit.microservice2.DTO.CourseDTO;
 import tn.esprit.microservice2.DTO.SubCreatingRequest;
 import tn.esprit.microservice2.DTO.SubscriptionDTO;
 import tn.esprit.microservice2.DTO.UserDTO;
 import tn.esprit.microservice2.Model.*;
+import tn.esprit.microservice2.comm.CourseClient;
 import tn.esprit.microservice2.comm.UserClient;
-import tn.esprit.microservice2.repo.ICourseRepository;
 import tn.esprit.microservice2.repo.ISubscriptionRepository;
-import tn.esprit.microservice2.repo.UserRepository;
 import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
@@ -30,15 +29,16 @@ public class SubscriptionService {
     @Autowired
     private ISubscriptionRepository subscriptionRepository;
 
-    // Replace UserRepository with UserClient
+    // User microservice client
     @Autowired
     private UserClient userClient;
 
+    // Course microservice client
     @Autowired
-    private PaymentService paymentService;
+    private CourseClient courseClient;
 
     @Autowired
-    private ICourseRepository courseRepository;
+    private PaymentService paymentService;
 
     @Transactional
     public SubscriptionDTO createSubscription(SubCreatingRequest subRequest) {
@@ -52,11 +52,18 @@ public class SubscriptionService {
                 throw new RuntimeException("User not found with id: " + subRequest.getUserId());
             }
 
-            // Map UserDTO to User entity or use the DTO directly depending on your model
+            // Map UserDTO to User entity
             User user = mapUserDtoToEntity(userDTO, subRequest.getUserId());
 
-            Course course = courseRepository.findById(subRequest.getCourseId())
-                    .orElseThrow(() -> new RuntimeException("Course not found with id: " + subRequest.getCourseId()));
+            // Fetch course from course microservice
+            CourseDTO courseDTO = courseClient.getCourseById(subRequest.getCourseId());
+
+            if (courseDTO == null || courseDTO.getId() == null) {
+                throw new RuntimeException("Course not found with id: " + subRequest.getCourseId());
+            }
+
+            // Map CourseDTO to Course entity
+            Course course = mapCourseDtoToEntity(courseDTO);
 
             boolean hasActiveSubscription = subscriptionRepository
                     .findByUserAndCourseAndStatus(user, course, SubscriptionStatus.ACTIVE)
@@ -74,7 +81,6 @@ public class SubscriptionService {
             subscription.setPaymentType(subRequest.getPaymentType());
             subscription.setStatus(SubscriptionStatus.PENDING);
             subscription.setStartDate(now);
-            subscription.setEndDate(now.plusMonths(course.getDurationInMonths()));
             subscription.setAutoRenew(subRequest.isAutoRenew());
             subscription.setCreatedAt(now);
             subscription.setUpdatedAt(now);
@@ -125,9 +131,20 @@ public class SubscriptionService {
         user.setId(userId);
         user.setUsername(userDTO.getUsername());
         // Set other fields as needed from the UserDTO
-        // Note: This is a simplified mapping, adjust based on your actual User entity properties
 
         return user;
+    }
+
+    /**
+     * Maps a CourseDTO from the course microservice to a Course entity for the subscription service
+     */
+    private Course mapCourseDtoToEntity(CourseDTO courseDTO) {
+        Course course = new Course();
+        course.setId(courseDTO.getId());
+        course.setTitle(courseDTO.getTitle());
+        course.setPrice(courseDTO.getPrice());
+
+        return course;
     }
 
     @Transactional(readOnly = true)
@@ -206,8 +223,12 @@ public class SubscriptionService {
             throw new RuntimeException("Auto-renewal is not enabled for this subscription");
         }
 
+        // Refresh course data from microservice to get most up-to-date information
+        CourseDTO courseDTO = courseClient.getCourseById(subscription.getCourse().getId());
+        Course updatedCourse = mapCourseDtoToEntity(courseDTO);
+
         LocalDateTime newEndDate = subscription.getEndDate()
-                .plusMonths(subscription.getCourse().getDurationInMonths());
+                .plusMonths(updatedCourse.getDurationInMonths());
         subscription.setEndDate(newEndDate);
         subscription.setStatus(SubscriptionStatus.ACTIVE);
         subscription.setUpdatedAt(LocalDateTime.now());
@@ -219,6 +240,18 @@ public class SubscriptionService {
     @Transactional(readOnly = true)
     public boolean isSubscriptionActive(Long userId, Long courseId) {
         log.debug("Checking active subscription for user: {} and course: {}", userId, courseId);
+
+        // Verify user exists
+        UserDTO userDTO = userClient.getUserById(userId);
+        if (userDTO == null || userDTO.getId() == null) {
+            throw new RuntimeException("User not found with id: " + userId);
+        }
+
+        // Verify course exists
+        CourseDTO courseDTO = courseClient.getCourseById(courseId);
+        if (courseDTO == null || courseDTO.getId() == null) {
+            throw new RuntimeException("Course not found with id: " + courseId);
+        }
 
         return subscriptionRepository
                 .findByUserIdAndCourseIdAndStatus(userId, courseId, SubscriptionStatus.ACTIVE)
@@ -240,6 +273,7 @@ public class SubscriptionService {
         subscriptionRepository.deleteById(id);
         log.debug("Subscription deleted successfully: {}", id);
     }
+
     @Transactional(readOnly = true)
     public SubscriptionDTO getSubscriptionById(Long id) {
         log.debug("Fetching subscription with id: {}", id);
@@ -247,6 +281,17 @@ public class SubscriptionService {
         try {
             Subscription subscription = subscriptionRepository.findByIdWithDetails(id)
                     .orElseThrow(() -> new RuntimeException("Subscription not found with id: " + id));
+
+            // Refresh user and course data from microservices
+            UserDTO userDTO = userClient.getUserById(subscription.getUser().getId());
+            CourseDTO courseDTO = courseClient.getCourseById(subscription.getCourse().getId());
+
+            // Update entities with latest data
+            User user = mapUserDtoToEntity(userDTO, subscription.getUser().getId());
+            Course course = mapCourseDtoToEntity(courseDTO);
+
+            subscription.setUser(user);
+            subscription.setCourse(course);
 
             SubscriptionDTO dto = SubscriptionDTO.fromEntity(subscription);
 
@@ -268,5 +313,15 @@ public class SubscriptionService {
     @Transactional
     public UserDTO getUserByUsername(String username) {
         return userClient.getUserByUsername(username);
+    }
+
+    @Transactional
+    public CourseDTO getCourseById(Long courseId) {
+        return courseClient.getCourseById(courseId);
+    }
+
+    @Transactional
+    public List<CourseDTO> getAllCourses() {
+        return courseClient.getAllCourses();
     }
 }
