@@ -6,13 +6,13 @@ import { GuestComponent } from './theme/layout/guest/guest.component';
 const routes: Routes = [
   {
     path: '',
+    redirectTo: 'guest/login',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: AdminComponent,
     children: [
-      {
-        path: '',
-        redirectTo: 'default',
-        pathMatch: 'full'
-      },
       {
         path: 'default',
         loadComponent: () =>
@@ -79,6 +79,20 @@ const routes: Routes = [
         path: 'coupon/create-coupon',
         loadComponent: () =>
           import('./Component/Payments/add-coupon/add-coupon.component').then((m) => m.AddCouponComponent)
+      },
+      {
+        path: 'coupon/list',
+        loadComponent: () =>
+          import('./Component/Payments/coupon-list/coupon-list.component').then((m) => m.CouponListComponent)
+      },
+      {
+        path: 'subs/list',
+        loadComponent: () =>
+          import('./Component/Payments/subscription-list/subscription-list.component').then((m) => m.SubscriptionListComponent)
+      },{
+        path: 'pay/list',
+        loadComponent: () =>
+          import('./Component/Payments/payment-list/payment-list.component').then((m) => m.PaymentListComponent)
       },
       {
         path: 'admin/pay_dashboard',

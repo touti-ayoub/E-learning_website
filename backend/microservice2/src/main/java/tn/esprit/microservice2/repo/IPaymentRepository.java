@@ -1,5 +1,7 @@
 package tn.esprit.microservice2.repo;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -37,4 +39,6 @@ public interface IPaymentRepository extends JpaRepository<Payment, Long> {
 
     // Add these methods to your PaymentRepository
     List<Payment> findByStatusAndPaymentDateBetween(PaymentStatus status, LocalDateTime start, LocalDateTime end);
+
+    Page<Payment> findByStatus(PaymentStatus status, Pageable pageable);
 }

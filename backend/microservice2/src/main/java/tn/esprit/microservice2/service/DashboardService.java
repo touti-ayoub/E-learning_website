@@ -111,33 +111,35 @@ public class DashboardService {
      * Get subscription metrics (active, new, growth percentage)
      */
     public SubscriptionMetricsDTO getSubscriptionMetrics() {
+        // Add the diagnostic logging from Step 1 here
+
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime thirtyDaysAgo = now.minusDays(30);
         LocalDateTime sixtyDaysAgo = now.minusDays(60);
 
-        // Count active subscriptions
-        long activeSubscriptionsCount = subscriptionRepository.countByStatusAndEndDateAfter(
+        // Use our new custom method
+        long activeSubscriptionsCount = subscriptionRepository.countActiveSubscriptions(
                 SubscriptionStatus.ACTIVE,
-                now);
+                now.toLocalDate().atStartOfDay());
 
-        // Count new subscriptions in last 30 days
+        System.out.println("DASHBOARD DEBUG - Active subscription count from query: " + activeSubscriptionsCount);
+
+
+        // Rest of the method remains the same
         long newSubscriptionsLast30Days = subscriptionRepository.countByCreatedAtBetween(
                 thirtyDaysAgo,
                 now);
 
-        // Count new subscriptions in previous 30 days (for growth calculation)
         long newSubscriptionsPrevious30Days = subscriptionRepository.countByCreatedAtBetween(
                 sixtyDaysAgo,
                 thirtyDaysAgo);
 
-        // Calculate growth percentage
         double growthPercentage = 0.0;
         if (newSubscriptionsPrevious30Days > 0) {
             growthPercentage = ((double)(newSubscriptionsLast30Days - newSubscriptionsPrevious30Days) /
                     newSubscriptionsPrevious30Days) * 100.0;
         }
 
-        // Create and return metrics object
         SubscriptionMetricsDTO metrics = new SubscriptionMetricsDTO();
         metrics.setActive(activeSubscriptionsCount);
         metrics.setNewLast30Days(newSubscriptionsLast30Days);
@@ -145,7 +147,6 @@ public class DashboardService {
 
         return metrics;
     }
-
     /**
      * Get payment metrics (pending, overdue)
      */

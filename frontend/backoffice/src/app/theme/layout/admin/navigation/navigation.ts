@@ -85,7 +85,7 @@ export const NavigationItems: NavigationItem[] = [
             id: 'subscription_list',
             title: 'Subscription List',
             type: 'item',
-            url: '/Sub/list',
+            url: '/subs/list',
             target: true,
             breadcrumbs: false
           },
@@ -133,7 +133,7 @@ export const NavigationItems: NavigationItem[] = [
             id: 'Payment_list',
             title: 'Payment List',
             type: 'item',
-            url: '/Payment/list',
+            url: '/pay/list',
             target: true,
             breadcrumbs: false
           }
