@@ -1,21 +1,17 @@
-<div class="quiz-result-container" *ngIf="score !== undefined && totalQuestions !== undefined; else invalidResult">
-  <div class="quiz-result-card">
-    <h2 class="quiz-result-title">Quiz Result</h2>
-    <p class="quiz-result-username" *ngIf="username">Hello, <span>{{ username }}</span>!</p>
-    <p class="quiz-result-score">Your score: <span>{{ score }}</span> / <span>{{ totalQuestions }}</span></p>
-    <div class="quiz-result-actions">
-      <a routerLink="/quizzes/list" class="back-to-quizzes-button">Back to Quizzes</a>
+<div *ngIf="quizResults" class="quiz-result-container">
+  <h2 class="quiz-title">{{ quizResults.quizTitle }}</h2>
+  <div *ngFor="let question of quizResults.questions" class="question-card">
+    <h3 class="question-text">{{ question.questionText }}</h3>
+    <div class="answer-section">
+      <p>
+        <strong>Your Answer:</strong>
+        <span [ngClass]="{ 'correct-answer': question.isCorrect, 'wrong-answer': !question.isCorrect }">
+          {{ question.userAnswer || 'No Answer' }}
+        </span>
+      </p>
+      <p *ngIf="!question.isCorrect" class="correct-answer-text">
+        <strong>Correct Answer:</strong> {{ question.correctAnswer }}
+      </p>
     </div>
   </div>
 </div>
-
-<ng-template #invalidResult>
-  <div class="quiz-result-container">
-    <div class="quiz-result-card invalid">
-      <p class="quiz-result-error">Invalid quiz result. Please try again.</p>
-      <div class="quiz-result-actions">
-        <a routerLink="/quizzes/list" class="back-to-quizzes-button">Back to Quizzes</a>
-      </div>
-    </div>
-  </div>
-</ng-template>

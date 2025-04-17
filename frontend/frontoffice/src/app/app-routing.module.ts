@@ -52,7 +52,7 @@ const routes: Routes = [
   { path: 'quizzes/create', component: QuizCreateComponent, canActivate: [AuthGuard] }, // Restrict quiz creation
   { path: 'quizzes/list', component: QuizListComponent },
   { path: 'quiz-take/:id', component: QuizTakeComponent, canActivate: [AuthGuard] }, // Restrict quiz-taking
-  { path: 'quiz-result/:score/:total', component: QuizResultComponent, canActivate: [AuthGuard] }, // Restrict quiz results
+  { path: 'quiz-results/:quizId', component: QuizResultComponent },
   { path: 'chatbot', component: ChatbotComponent, canActivate: [AuthGuard] },
   { path: '**', component: NotfoundComponent }, // Keep this as the last route
 ];

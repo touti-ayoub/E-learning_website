@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { QuizService } from '../../services/quiz.service';
-import { AuthService } from '../../services/auth.service'; // Import AuthService
+import { AuthService } from '../../services/auth.service';
 import { Quiz } from '../../models/quiz.model';
 
 @Component({
@@ -17,12 +17,13 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
   progress: number = 0; // Progress percentage
   isTimerRed: boolean = false; // Track if the timer should be red
   isReviewModalOpen: boolean = false; // Track if the review modal is open
+  tabSwitchCount: number = 0; // Track how many times the user switches tabs
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private quizService: QuizService,
-    private authService: AuthService // Inject AuthService
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -44,6 +45,7 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
         this.timeLeft = state.timeLeft;
         this.progress = state.progress;
         this.startTimer();
+        this.addEventListeners(); // Add event listeners for tab switching
         return; // Exit early to avoid fetching and randomizing the quiz again
       }
     }
@@ -61,6 +63,7 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
           question.answers = this.shuffleArray(question.answers);
         });
         this.startTimer();
+        this.addEventListeners(); // Add event listeners for tab switching
       },
       (error) => {
         console.error('Error fetching quiz:', error);
@@ -74,6 +77,7 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
       clearInterval(this.interval);
     }
     this.saveState(); // Save state on destroy
+    this.removeEventListeners(); // Remove event listeners
   }
 
   startTimer(): void {
@@ -153,9 +157,9 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
     return true;
   }
 
-  submitQuiz(): void {
-    if (!this.validateAnswers()) {
-      return;
+  submitQuiz(validate: boolean = true): void {
+    if (validate && !this.validateAnswers()) {
+      return; // Stop submission if there are unanswered questions and validation is required
     }
   
     if (!this.quiz) {
@@ -183,16 +187,48 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
     console.log('Submitting quiz with answers:', userAnswersObject);
   
     this.quizService.evaluateQuiz(quizId, userAnswersObject, parseInt(userId, 10)).subscribe(
-      (score) => {
-        console.log('Received score from backend:', score); // Debugging statement
+      () => {
+        console.log('Quiz submitted successfully'); // Debugging statement
         this.clearState(); // Clear saved state after submission
-        this.router.navigate(['/quiz-result', score, this.quiz!.questions.length]); // Pass score and total questions
+        this.router.navigate(['/quiz-results', quizId]); // Redirect to /quiz-results/{id}
       },
       (error) => {
         console.error('Error evaluating quiz:', error);
         alert('Error evaluating quiz. Please try again.');
       }
     );
+  }
+
+  addEventListeners(): void {
+    document.addEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+    window.addEventListener('blur', this.handleTabSwitch.bind(this));
+    window.addEventListener('focus', this.handleTabFocus.bind(this));
+  }
+
+  removeEventListeners(): void {
+    document.removeEventListener('visibilitychange', this.handleVisibilityChange.bind(this));
+    window.removeEventListener('blur', this.handleTabSwitch.bind(this));
+    window.removeEventListener('focus', this.handleTabFocus.bind(this));
+  }
+
+  handleVisibilityChange(): void {
+    if (document.hidden) {
+      console.warn('User switched tabs or minimized the browser');
+      this.handleTabSwitch();
+    }
+  }
+
+  handleTabSwitch(): void {
+    this.tabSwitchCount++;
+    console.warn(`Tab switch detected! Count: ${this.tabSwitchCount}`);
+    if (this.tabSwitchCount > 2) {
+      alert('You have switched tabs too many times. The quiz will now be submitted.');
+      this.submitQuiz(false); // Bypass validation when submitting due to tab switching
+    }
+  }
+
+  handleTabFocus(): void {
+    console.log('User returned to the quiz tab');
   }
 
   openReviewModal(): void {

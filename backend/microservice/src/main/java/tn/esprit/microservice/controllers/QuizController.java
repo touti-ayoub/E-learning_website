@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/quizzes")
+@RequestMapping("")
 public class QuizController {
 
     @Autowired

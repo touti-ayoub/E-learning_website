@@ -26,10 +26,10 @@ import { PaymentSuccessComponent } from './mic2/payment-success/payment-success.
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { PaymentHistComponent } from './mic2/payment-hist/payment-hist.component';
 import { QuizListComponent } from './assessments/quiz-list/quiz-list.component';
-import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
 import { QuizTakeComponent } from './assessments/quiz-take/quiz-take.component';
 import { QuizCreateComponent } from './assessments/quiz-create/quiz-create.component';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
 
 @NgModule({
   declarations: [
