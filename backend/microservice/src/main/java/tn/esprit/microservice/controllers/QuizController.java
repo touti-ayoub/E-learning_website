@@ -6,6 +6,7 @@ import tn.esprit.microservice.entities.Quiz;
 import tn.esprit.microservice.services.QuizService;
 import tn.esprit.microservice.services.QuizEvaluationService;
 import org.springframework.web.client.RestTemplate;
+import tn.esprit.microservice.services.TriviaService;
 
 
 import java.util.List;
@@ -19,6 +20,9 @@ public class QuizController {
     private QuizService quizService;
     @Autowired
     private QuizEvaluationService quizEvaluationService;
+    @Autowired
+    private TriviaService triviaService;
+
 
     // Create a new quiz
     @PostMapping("/create")
@@ -72,5 +76,10 @@ public class QuizController {
     @DeleteMapping("/{id}/delete")
     public void deleteQuiz(@PathVariable Long id) {
         quizService.deleteQuiz(id);
+    }
+    @PostMapping("/generate-trivia")
+    public Quiz generateTriviaQuiz(@RequestParam String category, @RequestParam int numberOfQuestions) {
+        Quiz triviaQuiz = triviaService.generateTriviaQuiz(category, numberOfQuestions);
+        return quizService.createQuiz(triviaQuiz); // Save the generated quiz to the database
     }
 }

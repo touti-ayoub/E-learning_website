@@ -33,21 +33,16 @@ const routes: Routes = [
         loadComponent: () =>
           import('./demo/other/sample-page/sample-page.component')
       },
-      // --------------------------------------------
-      // STEP 3: Nest the "events" route under Admin
-      // --------------------------------------------
       {
         path: 'events',
         loadComponent: () =>
           import('./Component/event-list/event-list.component').then((m) => m.EventListComponent)
       },
-      // Course management component
       {
         path: 'courses',
         loadComponent: () =>
           import('./course-management/course-management.component').then((m) => m.CourseManagementComponent)
       },
-      // Category management component
       {
         path: 'categories',
         loadComponent: () =>
@@ -73,7 +68,7 @@ const routes: Routes = [
       {
         path: 'quiz/list',
         loadComponent: () =>
-          import('./Component/assessments/quiz-list/quiz-list.component').then((m) => m.QuizListComponent) // Standalone route
+          import('./Component/assessments/quiz-list/quiz-list.component').then((m) => m.QuizListComponent)
       },
       {
         path: 'coupon/create-coupon',
@@ -84,10 +79,14 @@ const routes: Routes = [
         path: 'admin/pay_dashboard',
         loadComponent: () =>
           import('./Component/Payments/dashboard-summary/dashboard-summary.component').then((m) => m.DashboardSummaryComponent)
+      },
+      {
+        path: 'trivia-quiz',
+        loadComponent: () =>
+          import('./Component/assessments/trivia-quiz/trivia-quiz.component').then((m) => m.TriviaQuizComponent) // Add TriviaQuizComponent route
       }
     ]
   },
-
   {
     path: '',
     component: GuestComponent,

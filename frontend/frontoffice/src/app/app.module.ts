@@ -56,7 +56,7 @@ import { ChatbotComponent } from './components/chatbot/chatbot.component';
     QuizResultComponent,
     QuizTakeComponent,
     QuizCreateComponent,
-    ChatbotComponent // Add the chatbot component
+    ChatbotComponent, // Add the chatbot component
   ],
   imports: [
     BrowserModule,

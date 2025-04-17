@@ -1,0 +1,32 @@
+<div>
+    <h2>Generate Trivia Quiz</h2>
+    <div>
+      <label for="category">Category:</label>
+      <input id="category" [(ngModel)]="category" placeholder="Enter category" />
+    </div>
+    <div>
+      <label for="numberOfQuestions">Number of Questions:</label>
+      <input
+        id="numberOfQuestions"
+        [(ngModel)]="numberOfQuestions"
+        type="number"
+        placeholder="Number of questions"
+      />
+    </div>
+    <button (click)="generateQuiz()">Generate Quiz</button>
+  
+    <div *ngIf="generatedQuiz">
+      <h3>{{ generatedQuiz.title }}</h3>
+      <p>{{ generatedQuiz.description }}</p>
+      <ul>
+        <li *ngFor="let question of generatedQuiz.questions">
+          <strong>{{ question.text }}</strong>
+          <ul>
+            <li *ngFor="let answer of question.answers">
+              {{ answer.text }} ({{ answer.correct ? 'Correct' : 'Incorrect' }})
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
