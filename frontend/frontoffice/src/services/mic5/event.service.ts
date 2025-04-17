@@ -11,7 +11,7 @@ export interface EventDTO {
   maxCapacity: number;
   place: string;
   eventType: string;
-  googleCalendarEventId: string;
+  meetingLink: string;
 }
 
 @Injectable({

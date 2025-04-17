@@ -6,49 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="adding google calendar api">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice5/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/DTO/EventDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/DTO/EventDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/DTO/MaterialDTO.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Model/Material.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Repo/IMaterialRepo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Rest/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Rest/EventController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Rest/MaterialController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/EventService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/EventService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/MaterialService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/TpFoyer17Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/TpFoyer17Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/configurations/AOPConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/configurations/AOPConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/configurations/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/configurations/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/controllers/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/entities/UserDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/repositories/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/repositories/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/services/auth/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/services/auth/CustomUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/services/auth/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/services/auth/JwtAuthenticationFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/services/auth/JwtUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/java/tn/esprit/tpfoyer17/services/auth/JwtUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/src/test/java/tn/esprit/tpfoyer17/TpFoyer17ApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/src/test/java/tn/esprit/tpfoyer17/TpFoyer17ApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/AuthController.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/AuthController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/UserDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/UserDTO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/surefire-reports/TEST-tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.xml" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/surefire-reports/TEST-tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/surefire-reports/tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.txt" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/surefire-reports/tn.esprit.tpfoyer17.TpFoyer17ApplicationTests.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/auth/login/login.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-details/event-details.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-details/event-details.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/GoogleCalendarService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/java/tn/esprit/microservice5/Service/GoogleCalendarService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice5/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice5/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-list/event-list.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic5/event-list/event-list.component.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +94,7 @@
     &quot;git-widget-placeholder&quot;: &quot;events&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources/credentials&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -149,6 +113,7 @@
       <recent name="tn.esprit.microservice2.Model" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources" />
       <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources\credentials" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -287,7 +252,8 @@
       <workItem from="1744823640088" duration="501000" />
       <workItem from="1744824175138" duration="13028000" />
       <workItem from="1744849399073" duration="616000" />
-      <workItem from="1744850273508" duration="2467000" />
+      <workItem from="1744850273508" duration="3884000" />
+      <workItem from="1744859431729" duration="15680000" />
     </task>
     <task id="LOCAL-00001" summary="setting up event class">
       <option name="closed" value="true" />

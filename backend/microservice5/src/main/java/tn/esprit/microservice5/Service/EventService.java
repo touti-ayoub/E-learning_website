@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.microservice5.DTO.EventDTO;
 import tn.esprit.microservice5.DTO.FeedbackDTO;
+import tn.esprit.microservice5.DTO.GoogleCalendarResponse;
 import tn.esprit.microservice5.Model.*;
 import tn.esprit.microservice5.Repo.IEventRepo;
 import tn.esprit.microservice5.Repo.IFeedbackRepository;
@@ -79,15 +80,21 @@ public class EventService {
             // Now pass fully qualified date strings (e.g. "2025-05-01T10:00:00-04:00")
             String calendarId = "db5783463b512af762897b63c4d31b3ddbc6a07a52169598009f21ec6f5543e2@group.calendar.google.com";
 
-            String createdEventId = googleCalendarService.createEvent(
+            GoogleCalendarResponse calendarResponse = googleCalendarService.createEvent(
                     calendarId,
                     eventDTO.getTitle(),
                     eventDTO.getDescription(),
                     startIso,
-                    endIso
+                    endIso,
+                    eventDTO.getEventType().toString() // Pass event type
             );
 
-            event.setGoogleCalendarEventId(createdEventId);
+            // Save both event ID and meeting link (if available)
+            event.setGoogleCalendarEventId(calendarResponse.getEventId());
+            if (calendarResponse.getMeetingLink() != null) {
+                event.setMeetingLink(calendarResponse.getMeetingLink());
+            }
+
             eventRepository.save(event);
 
         } catch (GeneralSecurityException | IOException e) {

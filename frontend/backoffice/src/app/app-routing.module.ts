@@ -47,6 +47,11 @@ const routes: Routes = [
         path: 'registrations',
         loadComponent: () =>
           import('./Component/registration-list/registration-list.component').then((m) => m.RegistrationListComponent)
+      },
+      {
+        path: 'calendar',
+        loadComponent: () =>
+          import('./Component/calendar/calendar.component').then((m) => m.CalendarComponent)
       }
     ]
   },

@@ -55,6 +55,9 @@ public class Event {
     @NotNull(message = "Event type is required")
     private EventType eventType;
 
+    private String meetingLink;
+
+
     // -------------- New field to store the Google Calendar event ID --------------
     private String googleCalendarEventId;
 

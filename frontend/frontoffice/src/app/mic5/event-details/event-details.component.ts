@@ -204,4 +204,9 @@ export class EventDetailsComponent implements OnInit {
     const registrableTypes = ['WORKSHOP', 'SEMINAR', 'HACKATHON'];
     return registrableTypes.includes(this.event?.eventType?.toUpperCase() || '');
   }
+
+  isWebinarEvent(): boolean {
+    return this.event?.eventType?.toUpperCase() === 'WEBINAR';
+  }
+
 }

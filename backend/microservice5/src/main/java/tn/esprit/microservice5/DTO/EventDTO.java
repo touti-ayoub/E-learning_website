@@ -27,6 +27,8 @@ public class EventDTO {
     private int feedbacksCount;
     private int materialsCount;
     private double averageRating;
+    private String meetingLink;
+
 
     /**
      * Convert from Event entity to EventDTO
@@ -58,6 +60,7 @@ public class EventDTO {
                 .registrationsCount(event.getRegistrations() != null ? event.getRegistrations().size() : 0)
                 .feedbacksCount(event.getFeedbacks() != null ? event.getFeedbacks().size() : 0)
                 .averageRating(avgRating)
+                .meetingLink(event.getMeetingLink())
                 .build();
     }
 }

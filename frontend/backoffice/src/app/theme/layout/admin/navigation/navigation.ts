@@ -62,6 +62,14 @@ export const NavigationItems: NavigationItem[] = [
         classes: 'nav-item',
         url: '/registrations',
         icon: 'ti ti-ticket'
+      },
+      {
+        id: 'calendar',
+        title: 'Calendar',
+        type: 'item',
+        classes: 'nav-item',
+        url: '/calendar',
+        icon: 'ti ti-calendar'
       }
     ]
   },
