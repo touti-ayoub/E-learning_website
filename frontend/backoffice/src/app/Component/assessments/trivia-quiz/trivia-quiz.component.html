@@ -1,29 +1,45 @@
-<div>
-    <h2>Generate Trivia Quiz</h2>
-    <div>
-      <label for="category">Category:</label>
-      <input id="category" [(ngModel)]="category" placeholder="Enter category" />
+<div class="trivia-quiz-container">
+    <h2 class="title">Generate Trivia Quiz</h2>
+  
+    <div class="form-group">
+      <label for="category" class="form-label">Category:</label>
+      <input
+        id="category"
+        [(ngModel)]="category"
+        class="form-control"
+        placeholder="Enter category"
+      />
     </div>
-    <div>
-      <label for="numberOfQuestions">Number of Questions:</label>
+  
+    <div class="form-group">
+      <label for="numberOfQuestions" class="form-label">Number of Questions:</label>
       <input
         id="numberOfQuestions"
         [(ngModel)]="numberOfQuestions"
         type="number"
+        class="form-control"
         placeholder="Number of questions"
       />
     </div>
-    <button (click)="generateQuiz()">Generate Quiz</button>
   
-    <div *ngIf="generatedQuiz">
-      <h3>{{ generatedQuiz.title }}</h3>
-      <p>{{ generatedQuiz.description }}</p>
-      <ul>
-        <li *ngFor="let question of generatedQuiz.questions">
+    <button (click)="generateQuiz()" class="btn btn-primary generate-btn">Generate Quiz</button>
+  
+    <div *ngIf="generatedQuiz" class="quiz-preview">
+      <h3 class="quiz-title">{{ generatedQuiz.title }}</h3>
+      <p class="quiz-description">{{ generatedQuiz.description }}</p>
+      <ul class="question-list">
+        <li *ngFor="let question of generatedQuiz.questions" class="question-item">
           <strong>{{ question.text }}</strong>
-          <ul>
-            <li *ngFor="let answer of question.answers">
-              {{ answer.text }} ({{ answer.correct ? 'Correct' : 'Incorrect' }})
+          <ul class="answer-list">
+            <li *ngFor="let answer of question.answers" class="answer-item">
+              {{ answer.text }}
+              <span
+                class="answer-status"
+                [class.correct]="answer.correct"
+                [class.incorrect]="!answer.correct"
+              >
+                ({{ answer.correct ? 'Correct' : 'Incorrect' }})
+              </span>
             </li>
           </ul>
         </li>

@@ -10,11 +10,11 @@
       <p *ngIf="quiz.result !== undefined" class="quiz-result">Your Score: {{ quiz.result }}</p>
     </div>
     <div class="quiz-card-footer">
-      <!-- Disable the "Take Quiz" button if the user has already taken the quiz -->
+      <!-- Styled button for taking or viewing quiz -->
       <button 
-        [disabled]="hasTakenQuiz(quiz.id)" 
         (click)="takeQuiz(quiz.id)" 
-        class="quiz-action-button">
+        class="quiz-action-button"
+        [ngClass]="{ 'view-details-button': hasTakenQuiz(quiz.id), 'take-quiz-button': !hasTakenQuiz(quiz.id) }">
         {{ hasTakenQuiz(quiz.id) ? 'View Quiz Details' : 'Take Quiz' }}
       </button>
     </div>
