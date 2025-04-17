@@ -113,7 +113,8 @@ import { Router } from '@angular/router';
 export class CourseAccessComponent implements OnInit {
   @Input() courseId!: number;
 
-  userId: number = 1; // This should be retrieved from an auth service in a real app
+  // FIXED: No more hardcoded user ID
+  userId: number | null = null;
   hasAccess: boolean = false;
   checkComplete: boolean = false;
   accessMessage: string = '';
@@ -128,7 +129,37 @@ export class CourseAccessComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.getUserId();
     this.checkAccess();
+  }
+
+  // ADDED: Dedicated method to get user ID from storage
+  getUserId(): void {
+    // First check direct ID in localStorage (preferred)
+    const directId = localStorage.getItem('id');
+    if (directId && !isNaN(Number(directId))) {
+      this.userId = Number(directId);
+      console.log(`CourseAccessComponent: Using user ID ${this.userId} from localStorage 'id'`);
+      return;
+    }
+
+    // Fallback to currentUser object if direct ID not found
+    try {
+      const storedUser = localStorage.getItem('currentUser');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        if (user && user.id) {
+          this.userId = Number(user.id);
+          console.log(`CourseAccessComponent: Using user ID ${this.userId} from currentUser object`);
+          return;
+        }
+      }
+    } catch (error) {
+      console.error('CourseAccessComponent: Error parsing currentUser from localStorage', error);
+    }
+
+    console.warn('CourseAccessComponent: No user ID found in localStorage');
+    this.userId = null;
   }
 
   checkAccess(): void {
@@ -138,13 +169,22 @@ export class CourseAccessComponent implements OnInit {
       return;
     }
 
+    if (!this.userId) {
+      this.accessMessage = 'Please log in to access this course';
+      this.checkComplete = true;
+      return;
+    }
+
+    console.log(`CourseAccessComponent: Checking access for user ${this.userId} to course ${this.courseId}`);
+
     this.courseAccessService
       .checkCourseAccess(this.userId, this.courseId)
       .subscribe({
         next: (response) => {
           this.hasAccess = response.hasAccess;
-          this.accessMessage = response.message;
+          this.accessMessage = response.message || 'You need to purchase this course to access its content.';
           this.checkComplete = true;
+          console.log('CourseAccessComponent: Access check result:', response);
         },
         error: (error) => {
           console.error('Error checking course access:', error);
@@ -156,6 +196,14 @@ export class CourseAccessComponent implements OnInit {
   }
 
   requestAccess(): void {
+    if (!this.userId) {
+      // Redirect to login if user is not authenticated
+      this.router.navigate(['/login'], {
+        queryParams: { returnUrl: this.router.url }
+      });
+      return;
+    }
+
     this.requestingAccess = true;
     this.requestComplete = false;
 
@@ -165,7 +213,7 @@ export class CourseAccessComponent implements OnInit {
         next: (response) => {
           this.requestComplete = true;
           this.requestingAccess = false;
-          this.requestMessage = response.message;
+          this.requestMessage = response.message || 'Access request submitted successfully.';
 
           // If access was granted immediately
           if (response.hasAccess) {

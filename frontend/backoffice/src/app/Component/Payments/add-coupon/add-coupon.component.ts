@@ -26,7 +26,7 @@ export class AddCouponComponent implements OnInit {
   discountOptions = [5, 10, 15, 20, 25, 30, 40, 50, 70];
 
   // Current date/time (used for display)
-  currentDate = new Date('2025-04-12 14:14:13');
+  currentDate = new Date();
   currentUser = 'iitsMahdi';
 
   // Selected course for preview

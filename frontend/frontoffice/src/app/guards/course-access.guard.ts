@@ -20,44 +20,53 @@ export class CourseAccessGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean> {
     const courseId = Number(route.paramMap.get('id'));
-    
+
     // Check if the user is logged in
     if (!this.authService.isLoggedIn()) {
       console.warn('CourseAccessGuard: No authenticated user, redirecting to login');
       this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return of(false);
     }
-    
+
     if (!courseId) {
       console.warn('CourseAccessGuard: No course ID found in route');
       this.router.navigate(['/courses']);
       return of(false);
     }
-    
-    // Get user ID from local storage
-    const token = localStorage.getItem('token');
-    const username = localStorage.getItem('username');
-    let userId = 0;
-    
-    try {
-      // Try to get userId from currentUser if available
-      const storedUser = localStorage.getItem('currentUser');
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        userId = user.id;
-      } else {
-        // Fallback to a default test user ID if we can't get it otherwise
-        // This is temporary and should be replaced with proper user identification
-        userId = 1;
+
+    // Get user ID from local storage - FIXED USER ID RETRIEVAL LOGIC
+    let userId: number | null = null;
+
+    // First try to get userId directly from 'id' in localStorage (preferred method)
+    const directId = localStorage.getItem('id');
+    if (directId && !isNaN(Number(directId))) {
+      userId = Number(directId);
+      console.log(`CourseAccessGuard: Using user ID ${userId} from localStorage 'id'`);
+    } else {
+      // Fallback to currentUser object if direct ID not found
+      try {
+        const storedUser = localStorage.getItem('currentUser');
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          if (user && user.id) {
+            userId = Number(user.id);
+            console.log(`CourseAccessGuard: Using user ID ${userId} from currentUser object`);
+          }
+        }
+      } catch (error) {
+        console.error('CourseAccessGuard: Error parsing currentUser from localStorage', error);
       }
-    } catch (error) {
-      console.error('CourseAccessGuard: Error getting user ID', error);
-      this.router.navigate(['/login']);
+    }
+
+    // If we still don't have a valid user ID, redirect to login
+    if (!userId) {
+      console.error('CourseAccessGuard: Could not determine user ID, redirecting to login');
+      this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
       return of(false);
     }
-    
+
     console.log(`CourseAccessGuard: Checking access for user ${userId} to course ${courseId}`);
-    
+
     return this.courseAccessService.checkCourseAccess(userId, courseId).pipe(
       tap(response => console.log('CourseAccessGuard: Access response', response)),
       map(response => {
@@ -79,4 +88,4 @@ export class CourseAccessGuard implements CanActivate {
       })
     );
   }
-} 
+}
