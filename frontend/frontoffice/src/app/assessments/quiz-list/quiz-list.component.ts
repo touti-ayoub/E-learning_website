@@ -51,12 +51,14 @@ export class QuizListComponent implements OnInit {
   hasTakenQuiz(quizId: number): boolean {
     return this.takenQuizzes.includes(quizId);
   }
-
+  
   takeQuiz(quizId: number): void {
     if (this.hasTakenQuiz(quizId)) {
-      alert('You have already taken this quiz.');
-      return;
+      // Navigate to the quiz result page
+      this.router.navigate(['/quiz-results', quizId]);
+    } else {
+      // Navigate to the quiz-taking page
+      this.router.navigate(['/quiz-take', quizId]);
     }
-    this.router.navigate(['/quiz-take', quizId]); // Navigate to the quiz-taking page
   }
 }

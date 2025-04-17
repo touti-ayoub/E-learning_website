@@ -155,7 +155,7 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
 
   submitQuiz(): void {
     if (!this.validateAnswers()) {
-      return;
+      return; // Stop submission if there are unanswered questions
     }
   
     if (!this.quiz) {
@@ -183,10 +183,10 @@ export class QuizTakeComponent implements OnInit, OnDestroy {
     console.log('Submitting quiz with answers:', userAnswersObject);
   
     this.quizService.evaluateQuiz(quizId, userAnswersObject, parseInt(userId, 10)).subscribe(
-      (score) => {
-        console.log('Received score from backend:', score); // Debugging statement
+      () => {
+        console.log('Quiz submitted successfully'); // Debugging statement
         this.clearState(); // Clear saved state after submission
-        this.router.navigate(['/quiz-result', score, this.quiz!.questions.length]); // Pass score and total questions
+        this.router.navigate(['/quiz-results', quizId]); // Redirect to /quiz-results/{id}
       },
       (error) => {
         console.error('Error evaluating quiz:', error);

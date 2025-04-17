@@ -31,7 +31,9 @@ export class QuizService {
     const headers = new HttpHeaders().set('userId', userId.toString()); // Add userId to the request header
     return this.http.post<number>(`${this.apiUrl}/quizzes/${quizId}/evaluate`, answers, { headers });
   }
-  getUserQuizResults(userId: number): Observable<{ quizId: number; score: number }[]> {
-    return this.http.get<{ quizId: number; score: number }[]>(`${this.apiUrl}/quizzes/results/${userId}`);
+  getQuizResults(quizId: number, userId: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/quizzes/answers/results/${quizId}`, {
+      headers: { userId: userId.toString() }
+    });
   }
 }
