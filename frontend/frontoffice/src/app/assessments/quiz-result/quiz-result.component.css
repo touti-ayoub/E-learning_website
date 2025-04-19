@@ -1,0 +1,61 @@
+/* Container for the quiz results */
+.quiz-result-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Title of the quiz */
+  .quiz-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Individual question card */
+  .question-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Question text styling */
+  .question-text {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #444;
+  }
+  
+  /* Section for answers */
+  .answer-section {
+    font-size: 16px;
+    color: #555;
+  }
+  
+  /* Styling for correct answers */
+  .correct-answer {
+    color: green;
+    font-weight: bold;
+  }
+  
+  /* Styling for wrong answers */
+  .wrong-answer {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Styling for the correct answer text */
+  .correct-answer-text {
+    color: green;
+    font-style: italic;
+    margin-top: 5px;
+  }

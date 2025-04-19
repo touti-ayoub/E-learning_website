@@ -3,6 +3,8 @@ package tn.esprit.microservice2.DTO;
 import lombok.*;
 import tn.esprit.microservice2.Model.Course;
 
+import java.math.BigDecimal;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -10,15 +12,13 @@ import tn.esprit.microservice2.Model.Course;
 public class CourseDTO {
     private Long id;
     private String title;
-    private Double price;
-    private Integer durationInMonths;
+    private BigDecimal price;
 
     public CourseDTO(Course course) {
         if (course != null) {
             this.id = course.getId();
             this.title = course.getTitle();
             this.price = course.getPrice();
-            this.durationInMonths = course.getDurationInMonths();
         }
     }
 

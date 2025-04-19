@@ -6,35 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Course.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Course.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Facture.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Invoice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Payment.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Payment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/PaymentStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/PaymentStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Subscription.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/Subscription.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/SubscriptionStatus.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/SubscriptionStatus.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/PaymentController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/Rest/SubscriptionController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IFactureRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IFactureRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentScheduleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/IPaymentScheduleRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/repo/ISubscriptionRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/PaymentService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice2/src/main/java/tn/esprit/microservice2/service/SubscriptionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/TpFoyer17Application.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/AOPConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/AuthController.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/UserDTO.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/repositories/UserRepository.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/services/auth/CustomUserDetailsService.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/services/auth/JwtAuthenticationFilter.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/services/auth/JwtUtils.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/mic2/subscription/subscription.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/auth/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/subscription.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/services/mic2/subscription.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tokens/StoredCredential" beforeDir="false" afterPath="$PROJECT_DIR$/tokens/StoredCredential" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,12 +16,18 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Enum" />
         <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/.." value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -61,12 +39,15 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/touti-ayoub/E-learning_website.git&quot;,
-    &quot;accountId&quot;: &quot;99960faa-173e-4a98-8292-19f4149adc12&quot;
+    &quot;accountId&quot;: &quot;54f640ae-01bc-4061-837f-520686531603&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 3
-}</component>
+    &quot;associatedIndex&quot;: 3
+    }</component>
   <component name="ProjectId" id="2szCwL5dXd7MmQDjU6GvmNHcTrs" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -77,37 +58,63 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Application.EurekaApplication.executor&quot;: &quot;Run&quot;,
     &quot;Application.Microservice2Application.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #3.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #8.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #9.executor&quot;: &quot;Run&quot;,
     &quot;Maven.eureka [clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.eureka [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.gateway [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.gateway [install].executor&quot;: &quot;Run&quot;,
     &quot;Maven.microservice2 [clean].executor&quot;: &quot;Run&quot;,
     &quot;Maven.microservice2 [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.microservice5 [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.microservice5 [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.microservice5 [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor&quot;: &quot;Run&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
+    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
     &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
     &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
     &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
     &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;Spring Boot.EurekaApplication.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.GatewayApplication.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.Microservice2Application.executor&quot;: &quot;Run&quot;,
+    &quot;Spring Boot.Microservice5Application.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.TpFoyer17Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;payment-Abonnement&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;events&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="tn.esprit.microservice2.Model" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources" />
+      <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources\credentials" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Ayoub\Desktop\E-learning_website\backend\microservice5\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="tn.esprit.tpfoyer17.configurations" />
@@ -129,13 +136,13 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.TpFoyer17Application">
-    <configuration name="Microservice2Application" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="tn.esprit.microservice2.Microservice2Application" />
-      <module name="microservice2" />
+  <component name="RunManager" selected="Spring Boot.Microservice2Application">
+    <configuration name="EurekaApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="esprit.eureka.EurekaApplication" />
+      <module name="eureka" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="tn.esprit.microservice2.*" />
+          <option name="PATTERN" value="esprit.eureka.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -143,7 +150,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="generated-requests | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="3" requestIdentifier="#3" runType="Run single request">
+    <configuration name="generated-requests | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="3" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="8" runType="Run single request">
+      <method v="2" />
+    </configuration>
+    <configuration name="generated-requests | #9" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="9" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="EurekaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
@@ -160,10 +173,39 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Microservice2Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <configuration name="Microservice1Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="microservice1" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.microservice1.Microservice1Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Microservice2Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="microservice2" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.microservice2.Microservice2Application" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tn.esprit.microservice2.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Microservice5Application" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
+      <module name="microservice5" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.microservice5.Microservice5Application" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MicroserviceApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="microservice" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="tn.esprit.microservice.MicroserviceApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -176,18 +218,34 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.EurekaApplication" />
+      <item itemvalue="HTTP Request.generated-requests | #8" />
+      <item itemvalue="HTTP Request.generated-requests | #9" />
+      <item itemvalue="HTTP Request.generated-requests | #3" />
+      <item itemvalue="Spring Boot.Microservice1Application" />
+      <item itemvalue="Spring Boot.MicroserviceApplication" />
+      <item itemvalue="Spring Boot.Microservice5Application" />
+      <item itemvalue="Spring Boot.EurekaApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.TpFoyer17Application" />
+      <item itemvalue="Spring Boot.Microservice2Application" />
+    </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.Microservice2Application" />
+        <item itemvalue="Application.EurekaApplication" />
+        <item itemvalue="HTTP Request.generated-requests | #9" />
+        <item itemvalue="HTTP Request.generated-requests | #8" />
         <item itemvalue="HTTP Request.generated-requests | #3" />
-        <item itemvalue="Application.Microservice2Application" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
-        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
       </set>
     </attachedChunks>
   </component>
@@ -205,10 +263,88 @@
       <workItem from="1740306046904" duration="8794000" />
       <workItem from="1740315373782" duration="8769000" />
       <workItem from="1740324713561" duration="2090000" />
+      <workItem from="1740344008011" duration="3084000" />
+      <workItem from="1740598515684" duration="1297000" />
+      <workItem from="1740656266159" duration="24072000" />
+      <workItem from="1740779900907" duration="20545000" />
+      <workItem from="1740930458463" duration="4540000" />
+      <workItem from="1740935047127" duration="701000" />
+      <workItem from="1740954576862" duration="763000" />
+      <workItem from="1741021819416" duration="12599000" />
+      <workItem from="1741107771072" duration="25231000" />
+      <workItem from="1741015896530" duration="1025000" />
+      <workItem from="1741018774772" duration="88000" />
+      <workItem from="1741044535547" duration="4834000" />
+      <workItem from="1741129198607" duration="9728000" />
+      <workItem from="1741643806318" duration="369000" />
+      <workItem from="1741644270422" duration="6736000" />
+      <workItem from="1741795910888" duration="796000" />
+      <workItem from="1741829726925" duration="1846000" />
+      <workItem from="1743701984093" duration="1746000" />
+      <workItem from="1743717755599" duration="5068000" />
+      <workItem from="1743727889720" duration="2511000" />
+      <workItem from="1743734129359" duration="1199000" />
+      <workItem from="1743807685480" duration="14643000" />
+      <workItem from="1743862491065" duration="5411000" />
+      <workItem from="1743876642358" duration="6226000" />
+      <workItem from="1743890133395" duration="7559000" />
+      <workItem from="1743966510471" duration="1110000" />
+      <workItem from="1743967644827" duration="17000" />
+      <workItem from="1743967671056" duration="4281000" />
+      <workItem from="1743975014199" duration="9891000" />
+      <workItem from="1744074021886" duration="604000" />
+      <workItem from="1744161243470" duration="7162000" />
+      <workItem from="1744280460220" duration="1466000" />
+      <workItem from="1744400710160" duration="4072000" />
+      <workItem from="1744406355337" duration="154000" />
+      <workItem from="1744819453576" duration="4125000" />
+      <workItem from="1744823640088" duration="501000" />
+      <workItem from="1744824175138" duration="13028000" />
+      <workItem from="1744849399073" duration="616000" />
+      <workItem from="1744850273508" duration="3884000" />
+      <workItem from="1744859431729" duration="15680000" />
+      <workItem from="1744896780234" duration="1153000" />
+      <workItem from="1744901081725" duration="1395000" />
     </task>
+    <task id="LOCAL-00001" summary="setting up event class">
+      <option name="closed" value="true" />
+      <created>1741048261489</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1741048261489</updated>
+    </task>
+    <task id="LOCAL-00002" summary="setting up user class">
+      <option name="closed" value="true" />
+      <created>1741129825272</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1741129825272</updated>
+    </task>
+    <task id="LOCAL-00003" summary="adding google calendar api">
+      <option name="closed" value="true" />
+      <created>1743820380055</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1743820380055</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="setting up event class" />
+    <MESSAGE value="setting up user class" />
+    <MESSAGE value="fix backend" />
+    <MESSAGE value="adding google calendar api" />
+    <option name="LAST_COMMIT_MESSAGE" value="adding google calendar api" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

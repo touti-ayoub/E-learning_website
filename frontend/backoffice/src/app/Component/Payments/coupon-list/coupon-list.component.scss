@@ -1,0 +1,115 @@
+// Coupon card styling
+.card {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 30px;
+}
+
+// Search box styling
+.search-box {
+  position: relative;
+  .form-control:focus {
+    box-shadow: none;
+    border-color: var(--bs-primary);
+  }
+}
+
+// Table styling
+table {
+  th {
+    font-weight: 600;
+    background-color: #f8f9fa;
+    cursor: pointer;
+    user-select: none;
+
+    &:hover {
+      background-color: #f1f3f5;
+    }
+
+    .ti {
+      font-size: 14px;
+      vertical-align: middle;
+      margin-left: 4px;
+    }
+  }
+
+  td {
+    vertical-align: middle;
+  }
+}
+
+// Coupon code badge
+.coupon-code-badge {
+  background-color: #f7f7f7;
+  border: 1px dashed #ccc;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-family: monospace;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 1px;
+  display: inline-block;
+}
+
+// Discount badge styling
+.discount-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 14px;
+
+  &.high-discount {
+    background-color: rgba(220, 53, 69, 0.15);
+    color: #dc3545;
+  }
+
+  &.medium-discount {
+    background-color: rgba(255, 193, 7, 0.15);
+    color: #fd7e14;
+  }
+
+  &.low-discount {
+    background-color: rgba(13, 202, 240, 0.15);
+    color: #0dcaf0;
+  }
+}
+
+// Button styling
+.btn-icon {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+// Empty state styling
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+}
+
+// Pagination styling
+.pagination {
+  .page-link {
+    border-radius: 4px;
+    margin: 0 2px;
+  }
+}
+
+// Animation for row hover
+tr {
+  transition: background-color 0.2s ease;
+}

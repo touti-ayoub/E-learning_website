@@ -1,0 +1,117 @@
+.quiz-list-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.quiz-list-title {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.quiz-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.quiz-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.quiz-card-header {
+  margin-bottom: 10px;
+}
+
+.quiz-title {
+  font-size: 1.5rem;
+  color: #007bff;
+  margin: 0;
+}
+
+.quiz-card-body {
+  margin-bottom: 15px;
+}
+
+.quiz-description {
+  font-size: 1rem;
+  color: #555;
+}
+
+.quiz-card-footer {
+  text-align: right;
+}
+
+/* General button styling */
+.quiz-action-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Styling for "Take Quiz" button */
+.take-quiz-button {
+  background-color: #4caf50; /* Green */
+  color: white;
+}
+
+.take-quiz-button:hover {
+  background-color: #45a049;
+  transform: scale(1.05);
+}
+
+/* Styling for "View Quiz Details" button */
+.view-details-button {
+  background-color: #2196f3; /* Blue */
+  color: white;
+}
+
+.view-details-button:hover {
+  background-color: #1e88e5;
+  transform: scale(1.05);
+}
+
+/* Quiz card container styling */
+.quiz-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-card-header {
+  margin-bottom: 10px;
+}
+
+.quiz-title {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.quiz-description {
+  font-size: 16px;
+  color: #555;
+}
+
+.quiz-result {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.quiz-card-footer {
+  margin-top: 10px;
+  text-align: right;
+}

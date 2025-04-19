@@ -1,0 +1,8 @@
+<div *ngIf="isSpinnerVisible" id="http-loader">
+  <div class="loader-bg">
+    <!-- material-line -->
+    <div *ngIf="spinner === Spinkit.skLine" class="sk-line-material" [class.colored]="!backgroundColor">
+      <div class="sk-child sk-bounce1" [style.background-color]="backgroundColor"></div>
+    </div>
+  </div>
+</div>

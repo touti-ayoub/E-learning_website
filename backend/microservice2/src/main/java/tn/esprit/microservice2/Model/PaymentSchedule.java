@@ -1,5 +1,6 @@
 package tn.esprit.microservice2.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,9 +26,15 @@ public class PaymentSchedule {
 
     @ManyToOne
     @JoinColumn(name = "payment_id", nullable = false)
+    @JsonIgnoreProperties({"schedules", "subscription"}) // This prevents circular references
     private Payment payment;
 
-    private double penaltyAmount;;
+    private double penaltyAmount;
+    @Column(name = "penalty_applied")
+    private Boolean penaltyApplied = false;
+
+    @Column(name = "late_notice_sent")
+    private Boolean lateNoticeSent = false;
     private LocalDateTime createdAt = LocalDateTime.now();
 
     public Long getId() {
@@ -78,6 +85,13 @@ public class PaymentSchedule {
         this.payment = payment;
     }
 
+    public double getPenaltyAmount() {
+        return penaltyAmount;
+    }
+
+    public void setPenaltyAmount(double penaltyAmount) {
+        this.penaltyAmount = penaltyAmount;
+    }
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
@@ -87,11 +101,19 @@ public class PaymentSchedule {
         this.createdAt = createdAt;
     }
 
-    public double getPenaltyAmount() {
-        return penaltyAmount;
+    public Boolean getPenaltyApplied() {
+        return penaltyApplied;
     }
 
-    public void setPenaltyAmount(double penaltyAmount) {
-        this.penaltyAmount = penaltyAmount;
+    public void setPenaltyApplied(Boolean penaltyApplied) {
+        this.penaltyApplied = penaltyApplied;
+    }
+
+    public Boolean getLateNoticeSent() {
+        return lateNoticeSent;
+    }
+
+    public void setLateNoticeSent(Boolean lateNoticeSent) {
+        this.lateNoticeSent = lateNoticeSent;
     }
 }

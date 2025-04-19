@@ -1,0 +1,339 @@
+<div class="dashboard-container">
+  <!-- Dashboard Header -->
+  <div class="dashboard-header">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="header-left">
+          <h2 class="dashboard-title">
+            <i class="ti ti-chart-pie-2 title-icon"></i>
+            Payment & Subscription Dashboard
+          </h2>
+          <p class="dashboard-subtitle">
+            Overview of financial metrics and subscription data
+            <span class="dashboard-datetime">
+              <i class="ti ti-calendar me-1"></i>{{ currentDate | date:'medium' }}
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="header-actions d-flex justify-content-md-end">
+          <div class="btn-group custom-dropdown me-2" ngbDropdown>
+            <button class="btn btn-outline-primary dropdown-toggle" ngbDropdownToggle>
+              <i class="ti ti-calendar-event me-1"></i>
+              {{ selectedTimePeriodLabel }}
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+              <li *ngFor="let period of timePeriods">
+                <button class="dropdown-item" (click)="changeTimePeriod(period.value)" ngbDropdownItem>
+                  {{ period.label }}
+                </button>
+              </li>
+            </ul>
+          </div>
+          <button class="btn btn-primary refresh-btn" (click)="refreshData()">
+            <i class="ti ti-refresh me-1"></i>Refresh
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Alert messages -->
+  <div class="alert alert-info fade-in" *ngIf="loading">
+    <div class="alert-content">
+      <i class="ti ti-loader-2 fa-spin alert-icon"></i>
+      <span>Loading dashboard data...</span>
+    </div>
+  </div>
+
+  <div class="alert alert-danger fade-in" *ngIf="error">
+    <div class="alert-content">
+      <i class="ti ti-alert-triangle alert-icon"></i>
+      <span>{{ error }}</span>
+    </div>
+  </div>
+
+  <!-- Revenue Cards Row -->
+  <div class="row metrics-row g-3">
+    <!-- Current Month Revenue -->
+    <div class="col-xl-4 col-md-6">
+      <div class="card revenue-card primary-gradient h-100">
+        <div class="card-body">
+          <div class="card-header-row">
+            <div class="metric-icon">
+              <i class="ti ti-report-money"></i>
+            </div>
+            <div class="btn-group card-actions" ngbDropdown>
+              <a class="dropdown-toggle card-action-btn" ngbDropdownToggle>
+                <i class="ti ti-dots"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                <li><button class="dropdown-item" type="button">View Details</button></li>
+                <li><button class="dropdown-item" type="button">Export Report</button></li>
+              </ul>
+            </div>
+          </div>
+          <div class="metric-value">
+            {{ formatCurrency(currentMonthRevenue) }}
+            <span [class]="'growth-indicator ' + getGrowthClass(getMonthOverMonthChange())">
+              <i [class]="getGrowthIcon(getMonthOverMonthChange())"></i>
+              {{ getMonthOverMonthChange().toFixed(1) }}%
+            </span>
+          </div>
+          <div class="metric-label">Current Month Revenue</div>
+          <div class="card-shapes">
+            <span class="shape shape-1"></span>
+            <span class="shape shape-2"></span>
+            <span class="shape shape-3"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Year to Date Revenue -->
+    <div class="col-xl-4 col-md-6">
+      <div class="card revenue-card secondary-gradient h-100">
+        <div class="card-body">
+          <div class="card-header-row">
+            <div class="metric-icon">
+              <i class="ti ti-calendar-stats"></i>
+            </div>
+            <div class="btn-group card-actions" ngbDropdown>
+              <a class="dropdown-toggle card-action-btn" ngbDropdownToggle>
+                <i class="ti ti-dots"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                <li><button class="dropdown-item" type="button">View Details</button></li>
+                <li><button class="dropdown-item" type="button">Export Report</button></li>
+              </ul>
+            </div>
+          </div>
+          <div class="metric-value">
+            {{ formatCurrency(yearToDateRevenue) }}
+          </div>
+          <div class="metric-label">Year to Date Revenue</div>
+          <div class="card-shapes">
+            <span class="shape shape-1"></span>
+            <span class="shape shape-2"></span>
+            <span class="shape shape-3"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stacked Cards -->
+    <div class="col-xl-4 col-md-12">
+      <div class="d-flex flex-column h-100">
+        <div class="card revenue-card success-gradient mb-3">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="metric-icon small">
+                <i class="ti ti-chart-pie"></i>
+              </div>
+              <div class="ms-3">
+                <div class="metric-value-sm">{{ formatCurrency(previousMonthRevenue) }}</div>
+                <div class="metric-label-sm">Previous Month Revenue</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Subscriptions -->
+        <div class="card revenue-card warning-gradient">
+          <div class="card-body">
+            <div class="d-flex align-items-center">
+              <div class="metric-icon small">
+                <i class="ti ti-users"></i>
+              </div>
+              <div class="ms-3">
+                <div class="metric-value-sm">{{ activeSubscriptions | number }}</div>
+                <div class="metric-label-sm">Active Subscriptions</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subscription and Payments Row -->
+  <div class="row metrics-small-row g-3">
+    <!-- New Subscriptions -->
+    <div class="col-xl-3 col-md-6">
+      <div class="card metric-card h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-3">
+            <div class="metric-icon-round success">
+              <i class="ti ti-users-plus"></i>
+            </div>
+            <div>
+              <div class="metric-value-md">{{ newSubscriptionsLast30Days | number }}</div>
+              <div class="metric-label-md">New Subscriptions (30d)</div>
+            </div>
+          </div>
+          <div class="metric-footer">
+            <span class="growth-badge" [class.positive]="subscriptionGrowthPercentage >= 0" [class.negative]="subscriptionGrowthPercentage < 0">
+              <i [class]="getGrowthIcon(subscriptionGrowthPercentage)"></i>
+              {{ subscriptionGrowthPercentage.toFixed(1) }}%
+            </span>
+            <span class="comparison-period">vs previous period</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Payments -->
+    <div class="col-xl-3 col-md-6">
+      <div class="card metric-card h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-3">
+            <div class="metric-icon-round warning">
+              <i class="ti ti-clock-pause"></i>
+            </div>
+            <div>
+              <div class="metric-value-md">{{ pendingPaymentsCount | number }}</div>
+              <div class="metric-label-md">Pending Payments</div>
+            </div>
+          </div>
+          <div class="metric-footer">
+            <a href="/pay/list" class="action-link warning">
+              View All <i class="ti ti-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Overdue Payments -->
+    <div class="col-xl-3 col-md-6">
+      <div class="card metric-card h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-3">
+            <div class="metric-icon-round danger">
+              <i class="ti ti-alert-triangle"></i>
+            </div>
+            <div>
+              <div class="metric-value-md">{{ overduePaymentsCount | number }}</div>
+              <div class="metric-label-md">Overdue Payments</div>
+            </div>
+          </div>
+          <div class="metric-footer">
+            <a href="pay/list" class="action-link danger">
+              View All <i class="ti ti-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coupon Usage -->
+    <div class="col-xl-3 col-md-6">
+      <div class="card metric-card h-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center gap-3">
+            <div class="metric-icon-round primary">
+              <i class="ti ti-discount-2"></i>
+            </div>
+            <div>
+              <div class="metric-value-md">{{ couponRedemptionRate.toFixed(1) }}%</div>
+              <div class="metric-label-md">Coupon Redemption Rate</div>
+            </div>
+          </div>
+          <div class="metric-footer coupon-badges">
+            <span class="metric-badge">{{ totalCouponsRedeemed | number }} Redeemed</span>
+            <span class="metric-badge">{{ totalCouponsIssued | number }} Issued</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div class="row charts-row g-3">
+    <!-- Revenue Chart -->
+    <div class="col-xl-8 col-md-12">
+      <div class="card chart-card h-100">
+        <div class="card-header">
+          <h5 class="card-title">
+            <i class="ti ti-chart-line card-title-icon"></i>
+            Revenue Trends
+          </h5>
+          <div class="card-actions">
+            <div class="btn-group chart-period-selector" ngbDropdown>
+              <button class="btn btn-sm btn-outline-primary dropdown-toggle" ngbDropdownToggle>
+                {{ selectedTimePeriod === 'month' ? 'Monthly' : 'Weekly' }}
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" ngbDropdownMenu>
+                <li><button class="dropdown-item" (click)="changeTimePeriod('week')" ngbDropdownItem>Weekly</button></li>
+                <li><button class="dropdown-item" (click)="changeTimePeriod('month')" ngbDropdownItem>Monthly</button></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="card-body chart-container">
+          <app-revenue-chart
+            [chartData]="revenueChartData"
+            [timePeriod]="selectedTimePeriod"
+            [isLoading]="loading"
+          ></app-revenue-chart>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coupon Usage Stats -->
+    <div class="col-xl-4 col-md-12">
+      <div class="card chart-card h-100">
+        <div class="card-header">
+          <h5 class="card-title">
+            <i class="ti ti-discount card-title-icon"></i>
+            Coupon Usage
+          </h5>
+        </div>
+        <div class="card-body">
+          <app-coupon-usage-chart
+            [chartData]="couponUsageData"
+            [isLoading]="loading"
+          ></app-coupon-usage-chart>
+
+          <div class="chart-subheader">
+            <h6>Top Performing Coupons</h6>
+          </div>
+
+          <ul class="coupon-list">
+            <li class="coupon-list-item">
+              <div class="coupon-code success">SPRING2025</div>
+              <div class="coupon-stat">
+                <span class="coupon-value">52% redemption</span>
+              </div>
+            </li>
+            <li class="coupon-list-item">
+              <div class="coupon-code info">WELCOME20</div>
+              <div class="coupon-stat">
+                <span class="coupon-value">48% redemption</span>
+              </div>
+            </li>
+            <li class="coupon-list-item">
+              <div class="coupon-code warning">NEWUSER15</div>
+              <div class="coupon-stat">
+                <span class="coupon-value">41% redemption</span>
+              </div>
+            </li>
+          </ul>
+          <ng-template #noCoupons>
+            <div class="empty-coupon-state">
+              <i class="ti ti-discount-off fs-3 text-muted"></i>
+              <p>No coupon data available</p>
+            </div>
+          </ng-template>
+
+          <div class="action-container mt-3">
+            <a href="/coupon/list" class="btn btn-primary btn-block">
+              <i class="ti ti-settings me-1"></i> Manage Coupons
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

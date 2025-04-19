@@ -1,0 +1,190 @@
+<div class="container mt-5" *ngIf="loadingCourse">
+  <div class="d-flex justify-content-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5" *ngIf="error && !loadingCourse">
+  <div class="alert alert-danger">
+    {{ error }}
+    <div *ngIf="errorDetails" class="mt-2 small text-muted">
+      {{ errorDetails }}
+    </div>
+  </div>
+</div>
+
+<!-- Course Content -->
+<div class="container mt-4" *ngIf="course && !loadingCourse">
+  <div class="row">
+    <!-- Course Information -->
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h2 class="card-title">{{ course.title }}</h2>
+          <p class="card-text">{{ course.description }}</p>
+
+          <div class="course-details">
+            <p><strong>Price:</strong> {{ course.free ? 'Free' : ('$' + course.price) }}</p>
+            <p><strong>Duration:</strong> Variable</p>
+            <p><strong>Level:</strong> All Levels</p>
+          </div>
+
+          <!-- Replace the existing CourseAccessComponent usage with this -->
+          <app-course-access
+            *ngIf="!hasAccess && !checkingAccess && !course?.free"
+            [courseId]="courseId"
+            >
+          </app-course-access>
+
+          <!-- Lessons List -->
+          <div *ngIf="hasAccess || course.free">
+            <h4 class="mt-4 mb-3">Lessons</h4>
+            <div class="list-group">
+              <a href="javascript:void(0)"
+                 *ngFor="let lesson of course.lessons"
+                 class="list-group-item list-group-item-action"
+                 [class.active]="selectedLesson?.id === lesson.id"
+                 (click)="selectLesson(lesson)">
+                {{ lesson.title }}
+                <span class="badge bg-info float-end" *ngIf="hasPdf(lesson)" title="PDF Available">PDF</span>
+                <span class="badge bg-success float-end me-1" *ngIf="hasPresentation(lesson)" title="Presentation Available">PPT</span>
+                <span class="badge bg-primary float-end me-1" *ngIf="hasVideo(lesson)" title="Video Available">Video</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lesson Content -->
+    <div class="col-md-8">
+      <!-- Loading overlay for resource operations -->
+      <div class="position-relative" *ngIf="loadingResource">
+        <div class="position-absolute w-100 h-100 d-flex justify-content-center align-items-center" style="background: rgba(255,255,255,0.7); z-index: 1000;">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading resource...</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" *ngIf="selectedLesson && (hasAccess || course.free)">
+        <div class="card-body">
+          <h3 class="card-title">{{ selectedLesson.title }}</h3>
+
+          <div class="mb-4" *ngIf="!viewingPdf && !viewingPresentation">
+            <!-- Video Content -->
+            <div *ngIf="hasVideo(selectedLesson)" class="ratio ratio-16x9 mb-4">
+              <iframe [src]="getVideoEmbedUrl(selectedLesson) | safeUrl"
+                      allowfullscreen></iframe>
+            </div>
+
+            <!-- Lesson Content -->
+            <div class="lesson-content" [innerHTML]="selectedLesson.content"></div>
+
+            <!-- Resource Buttons -->
+            <div class="mt-4 d-flex flex-wrap gap-2">
+              <!-- PDF Button if available -->
+              <button *ngIf="hasPdf(selectedLesson)"
+                      class="btn btn-outline-primary"
+                      (click)="viewPdf(selectedLesson)">
+                <i class="fas fa-file-pdf me-2"></i>
+                View {{ getPdfName(selectedLesson) }}
+              </button>
+
+              <!-- Presentation Button if available -->
+              <button *ngIf="hasPresentation(selectedLesson)"
+                      class="btn btn-outline-success"
+                      (click)="viewPresentation(selectedLesson)">
+                <i class="fas fa-file-powerpoint me-2"></i>
+                View {{ getPresentationName(selectedLesson) }}
+              </button>
+
+              <!-- Download Button for Presentation -->
+              <button *ngIf="hasPresentation(selectedLesson)"
+                      class="btn btn-outline-secondary"
+                      (click)="downloadPresentation(selectedLesson)">
+                <i class="fas fa-download me-2"></i>
+                Download Presentation
+              </button>
+            </div>
+          </div>
+
+          <!-- PDF Viewer -->
+          <div *ngIf="viewingPdf && viewingPdfLessonId === selectedLesson.id">
+            <div class="d-flex justify-content-between mb-3">
+              <h4>{{ getPdfName(selectedLesson) }}</h4>
+              <button class="btn btn-sm btn-outline-secondary" (click)="resetMediaViewers()">
+                <i class="fas fa-times"></i> Back to Lesson
+              </button>
+            </div>
+
+            <!-- PDF Embed -->
+            <div class="pdf-container">
+              <!-- For Base64 PDFs -->
+              <iframe *ngIf="isBase64Pdf(selectedLesson)"
+                      [src]="selectedLesson.pdfUrl | safeUrl"
+                      width="100%"
+                      height="600px"
+                      class="pdf-frame"></iframe>
+
+              <!-- For URL PDFs -->
+              <iframe *ngIf="!isBase64Pdf(selectedLesson) && selectedLesson.pdfUrl"
+                      [src]="selectedLesson.pdfUrl | safeUrl"
+                      width="100%"
+                      height="600px"
+                      class="pdf-frame"></iframe>
+            </div>
+          </div>
+
+          <!-- Presentation Viewer -->
+          <div *ngIf="viewingPresentation && viewingPresentationLessonId === selectedLesson.id">
+            <div class="d-flex justify-content-between mb-3">
+              <h4>{{ getPresentationName(selectedLesson) }}</h4>
+              <button class="btn btn-sm btn-outline-secondary" (click)="resetMediaViewers()">
+                <i class="fas fa-times"></i> Back to Lesson
+              </button>
+            </div>
+
+            <!-- Presentation Embed -->
+            <div class="presentation-container">
+              <!-- Use the PPTX Viewer component for both base64 and URL presentations -->
+              <app-pptx-viewer
+                [presentationUrl]="selectedLesson.presentationUrl || ''"
+                [isBase64]="isBase64Presentation(selectedLesson)"
+                [lessonId]="selectedLesson.id">
+              </app-pptx-viewer>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Access Restricted Placeholder -->
+      <div class="card" *ngIf="!hasAccess && !course?.free && !checkingAccess">
+        <div class="card-body text-center py-5">
+          <div class="mb-4">
+            <i class="fas fa-lock fa-4x text-secondary"></i>
+          </div>
+          <h3>Premium Content</h3>
+          <p class="lead">This content is available to paid subscribers only.</p>
+          <button class="btn btn-primary btn-lg mt-3" (click)="purchaseCourse()">
+            Purchase Course
+          </button>
+        </div>
+      </div>
+
+      <!-- Checking Access Indicator -->
+      <div class="card" *ngIf="checkingAccess">
+        <div class="card-body text-center py-5">
+          <div class="mb-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Checking access...</span>
+            </div>
+          </div>
+          <p>Verifying your access to this course...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="container-fluid p-4">
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Add New Category</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+          <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+          
+          <form [formGroup]="categoryForm" (ngSubmit)="onSubmit()">
+            <div class="form-group mb-3">
+              <label for="name">Category Name*</label>
+              <input type="text" id="name" formControlName="name" class="form-control" 
+                     [ngClass]="{'is-invalid': categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched}">
+              <div *ngIf="categoryForm.get('name')?.invalid && categoryForm.get('name')?.touched" class="invalid-feedback">
+                Category name is required
+              </div>
+            </div>
+            
+            <div class="form-group mb-3">
+              <label>Category Image</label>
+              <input type="file" id="coverImage" class="form-control" accept="image/*" (change)="onImageSelected($event)">
+            </div>
+            
+            <div *ngIf="categoryForm.get('coverImageData')?.value" class="image-preview mb-3">
+              <img [src]="categoryForm.get('coverImageData')?.value" alt="Category cover" class="img-fluid rounded">
+            </div>
+            
+            <div class="d-flex justify-content-between mt-3">
+              <button type="button" class="btn btn-secondary" (click)="resetForm()">Cancel</button>
+              <button type="submit" class="btn btn-primary" [disabled]="categoryForm.invalid || loading">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+                Create Category
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Category List</h5>
+        </div>
+        <div class="card-body">
+          <div *ngIf="loading" class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          
+          <div *ngIf="!loading && categories.length === 0" class="alert alert-info">
+            No categories found. Add a new category to get started.
+          </div>
+          
+          <div class="row" *ngIf="!loading && categories.length > 0">
+            <div class="col-md-6 col-lg-4 mb-4" *ngFor="let category of categories">
+              <div class="card h-100">
+                <div class="category-image-container">
+                  <img *ngIf="category.coverImageData" [src]="category.coverImageData" class="card-img-top" alt="{{ category.name }}">
+                  <div *ngIf="!category.coverImageData" class="category-image-placeholder">
+                    <i class="fas fa-folder fa-3x"></i>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">{{ category.name }}</h5>
+                  <p class="card-text text-muted">ID: {{ category.id }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

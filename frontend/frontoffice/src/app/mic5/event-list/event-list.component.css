@@ -1,0 +1,68 @@
+.course-item {
+  border-radius: 15px;
+  transition: all 0.3s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+
+  .img-fluid {
+    height: 250px;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0;
+  }
+
+  .btn-primary {
+    background-color: #1d42d9;
+    border-color: #1d42d9;
+  }
+}
+
+.section-title {
+  font-size: 1.1rem;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.wow {
+  visibility: visible;
+}
+
+.view-toggle-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.view-toggle-btn {
+  padding: 10px 20px;
+  border: 1px solid #1d42d9;
+  background-color: white;
+  color: #1d42d9;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-toggle-btn:hover {
+  background-color: #e8eeff;
+}
+
+.view-toggle-btn.active {
+  background-color: #1d42d9;
+  color: white;
+}
+
+.calendar-container {
+  width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.08);
+}

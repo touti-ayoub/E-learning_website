@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+/backend/microservice5/src/main/resources/service-account.json

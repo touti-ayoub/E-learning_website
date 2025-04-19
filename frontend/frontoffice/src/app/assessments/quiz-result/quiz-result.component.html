@@ -1,0 +1,17 @@
+<div *ngIf="quizResults" class="quiz-result-container">
+  <h2 class="quiz-title">{{ quizResults.quizTitle }}</h2>
+  <div *ngFor="let question of quizResults.questions" class="question-card">
+    <h3 class="question-text">{{ question.questionText }}</h3>
+    <div class="answer-section">
+      <p>
+        <strong>Your Answer:</strong>
+        <span [ngClass]="{ 'correct-answer': question.isCorrect, 'wrong-answer': !question.isCorrect }">
+          {{ question.userAnswer || 'No Answer' }}
+        </span>
+      </p>
+      <p *ngIf="!question.isCorrect" class="correct-answer-text">
+        <strong>Correct Answer:</strong> {{ question.correctAnswer }}
+      </p>
+    </div>
+  </div>
+</div>
