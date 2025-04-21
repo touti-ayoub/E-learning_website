@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ExamService, Exam } from '../../services/exam.service';
-import { saveAs } from 'file-saver';
+import { ExamService } from '../../services/exam.service';
+import { Exam } from '../../models/Exam.model';
 
 @Component({
   selector: 'app-exam-submit',
@@ -10,9 +10,10 @@ import { saveAs } from 'file-saver';
 })
 export class ExamSubmitComponent implements OnInit {
   exam: Exam | null = null;
-  loading = true;
-  error: string | null = null;
   selectedFile: File | null = null;
+  loading = false;
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -20,20 +21,21 @@ export class ExamSubmitComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const examId = this.route.snapshot.paramMap.get('id');
-    if (examId) {
-      this.loadExam(parseInt(examId, 10));
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadExam(id);
     }
   }
 
-  loadExam(id: number): void {
+  loadExam(id: string): void {
+    this.loading = true;
     this.examService.getExamById(id).subscribe({
       next: (exam) => {
         this.exam = exam;
         this.loading = false;
       },
-      error: (err) => {
-        this.error = 'Erreur lors du chargement de l\'examen';
+      error: (error) => {
+        this.errorMessage = 'Erreur lors du chargement de l\'examen';
         this.loading = false;
       }
     });
@@ -48,19 +50,22 @@ export class ExamSubmitComponent implements OnInit {
 
   submitExam(): void {
     if (!this.exam || !this.selectedFile) {
-      this.error = 'Veuillez sélectionner un fichier à soumettre';
+      this.errorMessage = 'Veuillez sélectionner un fichier';
       return;
     }
 
     this.loading = true;
+    this.errorMessage = null;
+    this.successMessage = null;
+
     this.examService.submitExam(this.exam.id, this.selectedFile).subscribe({
-      next: (updatedExam) => {
-        this.exam = updatedExam;
+      next: () => {
+        this.successMessage = 'Examen soumis avec succès';
         this.loading = false;
-        this.selectedFile = null;
+        this.loadExam(this.exam!.id);
       },
-      error: (err) => {
-        this.error = 'Erreur lors de la soumission de l\'examen';
+      error: (error) => {
+        this.errorMessage = 'Erreur lors de la soumission de l\'examen';
         this.loading = false;
       }
     });
@@ -70,12 +75,34 @@ export class ExamSubmitComponent implements OnInit {
     if (this.exam?.examFileUrl) {
       this.examService.downloadExamFile(this.exam.examFileUrl).subscribe({
         next: (blob) => {
-          saveAs(blob, `${this.exam?.title}.pdf`);
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `examen-${this.exam?.title}.pdf`;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(url);
+          document.body.removeChild(a);
         },
-        error: (err) => {
-          this.error = 'Erreur lors du téléchargement du fichier';
+        error: (error) => {
+          this.errorMessage = 'Erreur lors du téléchargement du fichier';
         }
       });
+    }
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'CREATED':
+        return 'badge bg-primary';
+      case 'SUBMITTED':
+        return 'badge bg-warning';
+      case 'PASSED':
+        return 'badge bg-success';
+      case 'FAILED':
+        return 'badge bg-danger';
+      default:
+        return 'badge bg-secondary';
     }
   }
 } 

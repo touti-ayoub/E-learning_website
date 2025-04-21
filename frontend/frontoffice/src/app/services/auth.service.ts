@@ -20,9 +20,25 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     // Check for user in localStorage on service initialization
-    const storedUser = localStorage.getItem('currentUser');
-    if (storedUser) {
-      this.currentUserSubject.next(JSON.parse(storedUser));
+    this.initializeUserFromLocalStorage();
+  }
+
+  private initializeUserFromLocalStorage(): void {
+    const id = localStorage.getItem('id');
+    const username = localStorage.getItem('username');
+    const token = localStorage.getItem('token');
+
+    if (id && username) {
+      const user: User = {
+        id: parseInt(id, 10),
+        username: username,
+        role: 'STUDENT', // Valeur par défaut
+        token: token || undefined
+      };
+      console.log('Utilisateur reconstruit depuis le localStorage:', user);
+      this.currentUserSubject.next(user);
+      // Stocker l'objet complet pour une utilisation future
+      localStorage.setItem('currentUser', JSON.stringify(user));
     }
   }
 
@@ -31,27 +47,42 @@ export class AuthService {
   }
 
   getCurrentUserValue(): User | null {
-    return this.currentUserSubject.value;
+    const user = this.currentUserSubject.value;
+    if (!user) {
+      this.initializeUserFromLocalStorage();
+      return this.currentUserSubject.value;
+    }
+    return user;
   }
 
   login(username: string, password: string): Observable<User> {
-    console.log(`Attempting login for user: ${username}`);
+    console.log(`Tentative de connexion pour l'utilisateur: ${username}`);
     return this.http.post<User>(`${this.apiUrl}/auth/login`, { username, password })
       .pipe(
         tap(user => {
-          console.log('Login successful, received user data:', user);
-          // Store user details, token, and username in local storage
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          localStorage.setItem('username', username); 
+          console.log('Connexion réussie, données utilisateur reçues:', user);
           
+          // Stocker les données individuelles
+          localStorage.setItem('id', user.id.toString());
+          localStorage.setItem('username', username);
           if (user.token) {
             localStorage.setItem('token', user.token);
           }
           
-          this.currentUserSubject.next(user);
+          // Construire et stocker l'objet utilisateur complet
+          const completeUser: User = {
+            id: user.id,
+            username: username,
+            role: user.role || 'STUDENT',
+            token: user.token
+          };
+          
+          localStorage.setItem('currentUser', JSON.stringify(completeUser));
+          this.currentUserSubject.next(completeUser);
+          console.log('Utilisateur stocké dans le localStorage:', completeUser);
         }),
         catchError(error => {
-          console.error('Login error:', error);
+          console.error('Erreur de connexion:', error);
           return throwError(() => error);
         })
       );

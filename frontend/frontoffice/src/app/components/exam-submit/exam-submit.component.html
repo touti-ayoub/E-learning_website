@@ -1,51 +1,74 @@
-<div class="exam-submit-container">
-  <div *ngIf="loading" class="loading">
-    <p>Chargement de l'examen...</p>
+<div class="container mt-4">
+  <h2>Soumission d'Examen</h2>
+
+  <!-- Messages d'erreur et de succès -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success">
+    {{ successMessage }}
   </div>
 
-  <div *ngIf="error" class="error">
-    <p>{{ error }}</p>
+  <!-- Indicateur de chargement -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
   </div>
 
-  <div *ngIf="exam && !loading" class="exam-details">
-    <h2>{{ exam.title }}</h2>
-    
-    <div class="exam-info">
-      <p><strong>Description:</strong> {{ exam.description }}</p>
-      <p><strong>Date de l'examen:</strong> {{ exam.examDate | date:'dd/MM/yyyy' }}</p>
-      <p><strong>Statut:</strong> {{ exam.status }}</p>
-      <p *ngIf="exam.score"><strong>Note:</strong> {{ exam.score }}/20</p>
+  <!-- Détails de l'examen -->
+  <div *ngIf="exam && !loading" class="card mb-4">
+    <div class="card-header">
+      <h5 class="card-title">{{ exam.title }}</h5>
     </div>
-
-    <div class="exam-actions">
-      <button (click)="downloadExamFile()" class="btn-download">
-        Télécharger le sujet
-      </button>
-    </div>
-
-    <div class="submit-section" *ngIf="exam.status === 'PENDING'">
-      <h3>Soumettre votre travail</h3>
+    <div class="card-body">
+      <p class="card-text">{{ exam.description }}</p>
+      <p class="card-text">
+        <small class="text-muted">Date: {{ exam.examDate | date:'medium' }}</small>
+      </p>
+      <p class="card-text">
+        <strong>Statut:</strong> 
+        <span [class]="getStatusClass(exam.status)">{{ exam.status }}</span>
+      </p>
       
-      <div class="file-upload">
-        <input type="file" 
-               (change)="onFileSelected($event)" 
-               accept=".pdf"
-               class="file-input">
-        <p *ngIf="selectedFile">Fichier sélectionné: {{ selectedFile.name }}</p>
+      <!-- Score affiché si disponible -->
+      <div *ngIf="exam.score !== undefined" class="mb-3">
+        <strong>Score:</strong> {{ exam.score }}
       </div>
 
-      <button (click)="submitExam()" 
-              [disabled]="!selectedFile || loading"
-              class="btn-submit">
-        Soumettre
-      </button>
-    </div>
+      <!-- Bouton de téléchargement du sujet -->
+      <div *ngIf="exam.examFileUrl" class="mb-3">
+        <button class="btn btn-primary" (click)="downloadExamFile()">
+          <i class="fas fa-download"></i> Télécharger le sujet
+        </button>
+      </div>
 
-    <div *ngIf="exam.submittedFileUrl" class="submitted-file">
-      <h3>Votre travail soumis</h3>
-      <button (click)="downloadExamFile()" class="btn-download">
-        Voir le rendu
-      </button>
+      <!-- Formulaire de soumission -->
+      <div *ngIf="exam.status === 'CREATED'" class="mt-3">
+        <form (ngSubmit)="submitExam()">
+          <div class="mb-3">
+            <label for="file" class="form-label">Soumettre votre travail</label>
+            <input type="file" 
+                   class="form-control" 
+                   id="file" 
+                   (change)="onFileSelected($event)" 
+                   accept=".pdf">
+          </div>
+          <button type="submit" 
+                  class="btn btn-success" 
+                  [disabled]="!selectedFile || loading">
+            <i class="fas fa-upload"></i> Soumettre
+          </button>
+        </form>
+      </div>
+
+      <!-- Fichier soumis -->
+      <div *ngIf="exam.submittedFileUrl" class="mt-3">
+        <div class="alert alert-info">
+          <h6>Fichier soumis</h6>
+          <p>Vous avez déjà soumis un fichier pour cet examen.</p>
+        </div>
+      </div>
     </div>
   </div>
 </div> 

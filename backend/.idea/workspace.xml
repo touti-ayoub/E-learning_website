@@ -5,59 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/client/UserClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/config/CorsConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/ExamController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/dto/CertificateDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/dto/ExamDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/dto/ScoreDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Certificate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Exam.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/CertificateRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/ExamRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/CertificateService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/ExamService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/FileStorageService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/MailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/Microservice4Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/Microservice4Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/BadgeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/ChallengeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/PointController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/UserChallengeController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Badge.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Challenge.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Point.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/UserChallenge.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/UserDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/BadgeRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/ChallengeRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/PointRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/UserChallengeRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/BadgeService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/ChallengeService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/PointService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/UserChallengeService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic4/empty.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic4/empty.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/yarn.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/ExamController.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/ExamController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/ExamService.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/ExamService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/exam-list/exam-list.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/exam-list/exam-list.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/exam-list/exam-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/exam-list/exam-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/exam-submit/exam-submit.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/exam-submit/exam-submit.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/exam-submit/exam-submit.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/exam-submit/exam-submit.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/student-exams/student-exams.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/student-exams/student-exams.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/student-exams/student-exams.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/components/student-exams/student-exams.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/examCertif/certificate-view/certificate-view.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/examCertif/certificate-view/certificate-view.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/examCertif/certificate-view/certificate-view.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/examCertif/certificate-view/certificate-view.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/examCertif/exam-detail/exam-detail.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/examCertif/exam-detail/exam-detail.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/examCertif/exam-detail/exam-detail.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/examCertif/exam-detail/exam-detail.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/header/header.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/models/Exam.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/models/Exam.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/exam.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/services/exam.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/environments/environment.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -112,56 +75,56 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.EurekaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Microservice2Application.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #27.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #3.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #8.executor&quot;: &quot;Run&quot;,
-    &quot;HTTP Request.generated-requests | #9.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.eureka [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.eureka [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.gateway [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.gateway [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice2 [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice2 [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor&quot;: &quot;Run&quot;,
-    &quot;Notification.DisplayName-DoNotAsk-Database detector&quot;: &quot;Database detector&quot;,
-    &quot;Notification.DoNotAsk-Database detector&quot;: &quot;true&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Spring Boot.EurekaApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.GatewayApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.Microservice2Application.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.Microservice5Application.executor&quot;: &quot;Run&quot;,
-    &quot;Spring Boot.TpFoyer17Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;run.configurations.included.in.services&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.EurekaApplication.executor": "Run",
+    "Application.Microservice2Application.executor": "Run",
+    "HTTP Request.generated-requests | #27.executor": "Run",
+    "HTTP Request.generated-requests | #3.executor": "Run",
+    "HTTP Request.generated-requests | #8.executor": "Run",
+    "HTTP Request.generated-requests | #9.executor": "Run",
+    "Maven.eureka [clean].executor": "Run",
+    "Maven.eureka [install].executor": "Run",
+    "Maven.gateway [clean].executor": "Run",
+    "Maven.gateway [install].executor": "Run",
+    "Maven.microservice2 [clean].executor": "Run",
+    "Maven.microservice2 [install].executor": "Run",
+    "Maven.microservice5 [clean].executor": "Run",
+    "Maven.microservice5 [install].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-clean-plugin:3.4.0:clean].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:help].executor": "Run",
+    "Maven.microservice5 [org.apache.maven.plugins:maven-install-plugin:3.1.3:install].executor": "Run",
+    "Notification.DisplayName-DoNotAsk-Database detector": "Database detector",
+    "Notification.DoNotAsk-Database detector": "true",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Spring Boot.EurekaApplication.executor": "Run",
+    "Spring Boot.GatewayApplication.executor": "Run",
+    "Spring Boot.Microservice2Application.executor": "Run",
+    "Spring Boot.Microservice5Application.executor": "Run",
+    "Spring Boot.TpFoyer17Application.executor": "Run",
+    "git-widget-placeholder": "exam-certif-nessim",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.configurations.included.in.services": "true",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="tn.esprit.microservice2.Model" />
@@ -193,7 +156,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.TpFoyer17Application">
+  <component name="RunManager" selected="Spring Boot.EurekaApplication">
     <configuration name="EurekaApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="esprit.eureka.EurekaApplication" />
       <module name="eureka" />
@@ -280,10 +243,10 @@
       <item itemvalue="HTTP Request.generated-requests | #27" />
       <item itemvalue="HTTP Request.generated-requests | #8" />
       <item itemvalue="HTTP Request.generated-requests | #9" />
+      <item itemvalue="Spring Boot.EurekaApplication" />
       <item itemvalue="Spring Boot.Microservice1Application" />
       <item itemvalue="Spring Boot.MicroserviceApplication" />
       <item itemvalue="Spring Boot.Microservice5Application" />
-      <item itemvalue="Spring Boot.EurekaApplication" />
       <item itemvalue="Spring Boot.GatewayApplication" />
       <item itemvalue="Spring Boot.TpFoyer17Application" />
       <item itemvalue="Spring Boot.Microservice2Application" />
@@ -367,6 +330,7 @@
       <workItem from="1745146582434" duration="1876000" />
       <workItem from="1745231561296" duration="305000" />
       <workItem from="1745239705003" duration="1580000" />
+      <workItem from="1745264489574" duration="2743000" />
     </task>
     <task id="LOCAL-00001" summary="setting up event class">
       <option name="closed" value="true" />

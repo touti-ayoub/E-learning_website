@@ -1,58 +1,46 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import { ExamDTO, ScoreDTO } from '../models/Exam.model';
-
-export interface Certificate {
-  id: number;
-  certificateUrl: string;
-  issuedDate: Date;
-}
-
-export interface Exam {
-  id: number;
-  title: string;
-  description: string;
-  examDate: Date;
-  date: Date;
-  userId: number;
-  examFileUrl: string;
-  submittedFileUrl?: string;
-  status: 'PENDING' | 'SUBMITTED' | 'PASSED' | 'FAILED';
-  score?: number;
-  certificate?: Certificate;
-  passed?: boolean;
-}
+import { Exam, Certificate, ExamDTO, ScoreDTO } from '../models/Exam.model';
+import { tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExamService {
-  private apiUrl = `${environment.apiUrl}/api/exams`;
+  private apiUrl = `${environment.apiBaseUrl}/api/exams`;
 
   constructor(private http: HttpClient) { }
 
-  getExams(): Observable<Exam[]> {
-    return this.http.get<Exam[]>(`${this.apiUrl}`);
+  getAllExams(): Observable<Exam[]> {
+    return this.http.get<Exam[]>(this.apiUrl);
   }
 
-  getExamsByUser(userId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`);
+  getExamsByUser(userId: string): Observable<any[]> {
+    console.log('Appel API pour les examens de l\'utilisateur:', userId);
+    console.log('URL complète:', `${this.apiUrl}/user/${userId}`);
+    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`).pipe(
+      tap(response => console.log('Réponse de l\'API:', response)),
+      catchError(error => {
+        console.error('Erreur API:', error);
+        throw error;
+      })
+    );
   }
 
-  getExamById(id: number): Observable<Exam> {
-    return this.http.get<Exam>(`${this.apiUrl}/${id}`);
+  getExamById(examId: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${examId}`);
   }
 
   createExam(exam: ExamDTO, file: File): Observable<Exam> {
     const formData = new FormData();
     formData.append('exam', JSON.stringify(exam));
     formData.append('file', file);
-    return this.http.post<Exam>(`${this.apiUrl}`, formData);
+    return this.http.post<Exam>(this.apiUrl, formData);
   }
 
-  submitExam(examId: number, file: File): Observable<any> {
+  submitExam(examId: string, file: File): Observable<any> {
     const formData = new FormData();
     formData.append('file', file);
     return this.http.post(`${this.apiUrl}/${examId}/submit`, formData);
@@ -63,8 +51,6 @@ export class ExamService {
   }
 
   downloadExamFile(filename: string): Observable<Blob> {
-    return this.http.get(`${this.apiUrl}/download/${filename}`, {
-      responseType: 'blob'
-    });
+    return this.http.get(`${this.apiUrl}/download/${filename}`, { responseType: 'blob' });
   }
 }

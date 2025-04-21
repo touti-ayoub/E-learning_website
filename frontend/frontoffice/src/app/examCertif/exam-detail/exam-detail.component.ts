@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ExamService, Exam } from '../../services/exam.service';
-import { saveAs } from 'file-saver';
+import { ExamService } from '../../services/exam.service';
+import { Exam } from '../../models/Exam.model';
 
 @Component({
   selector: 'app-exam-detail',
@@ -10,7 +10,8 @@ import { saveAs } from 'file-saver';
 })
 export class ExamDetailComponent implements OnInit {
   exam: Exam | null = null;
-  loading = true;
+  selectedFile: File | null = null;
+  loading = false;
   error: string | null = null;
 
   constructor(
@@ -20,58 +21,92 @@ export class ExamDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const examId = this.route.snapshot.paramMap.get('id');
-    if (examId) {
-      this.loadExam(parseInt(examId, 10));
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.loadExam(id);
     }
   }
 
-  loadExam(id: number): void {
+  loadExam(id: string): void {
+    this.loading = true;
+    this.error = null;
+
     this.examService.getExamById(id).subscribe({
-      next: (exam: Exam) => {
+      next: (exam) => {
         this.exam = exam;
         this.loading = false;
       },
-      error: (err: any) => {
+      error: (error) => {
         this.error = 'Erreur lors du chargement de l\'examen';
         this.loading = false;
       }
     });
   }
 
-  downloadExamFile(url: string, filename: string): void {
-    this.examService.downloadExamFile(url).subscribe({
-      next: (blob: Blob) => {
-        saveAs(blob, filename);
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+    }
+  }
+
+  submitExam(): void {
+    if (!this.exam || !this.selectedFile) {
+      this.error = 'Veuillez sélectionner un fichier';
+      return;
+    }
+
+    this.loading = true;
+    this.error = null;
+
+    this.examService.submitExam(this.exam.id, this.selectedFile).subscribe({
+      next: () => {
+        this.loading = false;
+        this.loadExam(this.exam!.id);
       },
-      error: (err: any) => {
-        this.error = 'Erreur lors du téléchargement du fichier';
+      error: (error) => {
+        this.error = 'Erreur lors de la soumission de l\'examen';
+        this.loading = false;
       }
     });
   }
 
-  goToSubmit(): void {
-    if (this.exam) {
-      this.router.navigate(['/exams', this.exam.id, 'submit']);
+  downloadExamFile(url: string, filename: string): void {
+    if (url) {
+      this.examService.downloadExamFile(url).subscribe({
+        next: (blob) => {
+          const downloadUrl = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = downloadUrl;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          window.URL.revokeObjectURL(downloadUrl);
+          document.body.removeChild(a);
+        },
+        error: (error) => {
+          this.error = 'Erreur lors du téléchargement du fichier';
+        }
+      });
+    }
+  }
+
+  getStatusClass(status: string): string {
+    switch (status) {
+      case 'CREATED':
+        return 'badge bg-primary';
+      case 'SUBMITTED':
+        return 'badge bg-warning';
+      case 'PASSED':
+        return 'badge bg-success';
+      case 'FAILED':
+        return 'badge bg-danger';
+      default:
+        return 'badge bg-secondary';
     }
   }
 
   goBackToList(): void {
     this.router.navigate(['/exams']);
-  }
-
-  getStatusClass(status: string): string {
-    switch (status) {
-      case 'PENDING':
-        return 'status-pending';
-      case 'SUBMITTED':
-        return 'status-submitted';
-      case 'PASSED':
-        return 'status-passed';
-      case 'FAILED':
-        return 'status-failed';
-      default:
-        return '';
-    }
   }
 }

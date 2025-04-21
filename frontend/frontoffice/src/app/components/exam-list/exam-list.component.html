@@ -1,41 +1,55 @@
-<div class="exam-list-container">
-  <h2>Mes Examens</h2>
+<div class="container mt-4">
+  <h2>Liste des Examens</h2>
 
-  <div *ngIf="loading" class="loading">
-    <p>Chargement des examens...</p>
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
   </div>
 
-  <div *ngIf="error" class="error">
-    <p>{{ error }}</p>
+  <!-- Indicateur de chargement -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
   </div>
 
-  <div *ngIf="!loading && !error" class="exams-grid">
-    <div *ngFor="let exam of exams" class="exam-card">
-      <div class="exam-header">
-        <h3>{{ exam.title }}</h3>
-        <span class="status-badge" [ngClass]="getStatusClass(exam.status)">
-          {{ exam.status }}
-        </span>
-      </div>
+  <!-- Liste des examens -->
+  <div *ngIf="!loading && !errorMessage" class="row">
+    <div *ngFor="let exam of exams" class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">{{ exam.title }}</h5>
+          <span [class]="getStatusClass(exam.status)">{{ exam.status }}</span>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ exam.description }}</p>
+          <p class="card-text">
+            <small class="text-muted">Date: {{ exam.examDate | date:'medium' }}</small>
+          </p>
+          
+          <!-- Score affiché si disponible -->
+          <div *ngIf="exam.score !== undefined" class="mb-3">
+            <strong>Score:</strong> {{ exam.score }}
+          </div>
 
-      <div class="exam-content">
-        <p>{{ exam.description }}</p>
-        <p><strong>Date de l'examen:</strong> {{ exam.examDate | date:'dd/MM/yyyy' }}</p>
-        <p *ngIf="exam.score"><strong>Note:</strong> {{ exam.score }}/20</p>
-      </div>
+          <!-- Bouton de téléchargement du sujet -->
+          <div *ngIf="exam.examFileUrl" class="mb-3">
+            <button class="btn btn-primary" (click)="downloadExamFile(exam.examFileUrl, exam.title)">
+              <i class="fas fa-download"></i> Télécharger le sujet
+            </button>
+          </div>
 
-      <div class="exam-actions">
-        <button *ngIf="exam.examFileUrl" 
-                (click)="downloadExamFile(exam.examFileUrl, exam.title + '.pdf')"
-                class="btn-download">
-          Télécharger le sujet
-        </button>
-        
-        <button *ngIf="exam.submittedFileUrl" 
-                (click)="downloadExamFile(exam.submittedFileUrl, exam.title + '_rendu.pdf')"
-                class="btn-download">
-          Voir le rendu
-        </button>
+          <!-- Affichage du certificat -->
+          <div *ngIf="exam.certificate" class="mt-3">
+            <div class="alert alert-info">
+              <h6>Certificat disponible</h6>
+              <p>Date d'obtention: {{ exam.certificate.issuedDate | date:'medium' }}</p>
+              <a [href]="exam.certificate.certificateUrl" target="_blank" class="btn btn-info">
+                <i class="fas fa-certificate"></i> Voir le certificat
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

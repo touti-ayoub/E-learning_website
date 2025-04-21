@@ -95,6 +95,24 @@ public class ExamController {
         }
     }
 
+    @GetMapping("/{examId}")
+    public ResponseEntity<?> getExamById(@PathVariable Long examId) {
+        try {
+            System.out.println("Tentative de récupération de l'examen avec l'ID: " + examId);
+            Exam exam = examService.getExamById(examId);
+            System.out.println("Examen trouvé: " + exam);
+            return ResponseEntity.ok(exam);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Examen non trouvé: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Examen non trouvé avec l'ID: " + examId);
+        } catch (Exception e) {
+            System.out.println("Erreur lors de la récupération de l'examen: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erreur lors de la récupération de l'examen: " + e.getMessage());
+        }
+    }
+
     @GetMapping("/download/{filename:.+}")
     public ResponseEntity<?> downloadFile(@PathVariable String filename) {
         try {

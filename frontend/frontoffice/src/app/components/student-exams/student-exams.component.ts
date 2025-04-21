@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ExamService } from '../../services/exam.service';
 import { AuthService } from '../../services/auth.service';
+import { Exam } from '../../models/Exam.model';
 
 @Component({
   selector: 'app-student-exams',
@@ -8,84 +9,95 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./student-exams.component.css']
 })
 export class StudentExamsComponent implements OnInit {
-  exams: any[] = [];
+  exams: Exam[] = [];
   selectedFile: File | null = null;
-  selectedExamId: number | null = null;
+  selectedExamId: string | null = null;
   loading = false;
-  error = '';
-  success = '';
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   constructor(
     private examService: ExamService,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadExams();
   }
 
   loadExams(): void {
-    const userId = this.authService.getCurrentUser()?.id;
-    if (userId) {
-      this.examService.getExamsByUser(userId).subscribe({
+    this.loading = true;
+    console.log('Début du chargement des examens');
+    
+    const user = this.authService.getCurrentUserValue();
+    console.log('Utilisateur connecté:', user);
+    
+    if (user && user.id) {
+      console.log('ID de l\'utilisateur:', user.id);
+      this.examService.getExamsByUser(user.id.toString()).subscribe({
         next: (exams) => {
+          console.log('Examens récupérés:', exams);
           this.exams = exams;
+          this.loading = false;
         },
-        error: (err) => {
-          this.error = 'Erreur lors du chargement des examens';
-          console.error(err);
+        error: (error) => {
+          console.error('Erreur lors du chargement des examens:', error);
+          this.errorMessage = 'Erreur lors du chargement des examens';
+          this.loading = false;
         }
       });
+    } else {
+      console.log('Aucun utilisateur connecté ou ID manquant');
+      this.errorMessage = 'Vous devez être connecté pour voir vos examens';
+      this.loading = false;
     }
   }
 
-  onFileSelected(event: any, examId: number): void {
-    this.selectedFile = event.target.files[0];
-    this.selectedExamId = examId;
+  onFileSelected(event: Event, examId: string): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.selectedExamId = examId;
+    }
   }
 
-  submitExam(): void {
-    if (!this.selectedFile || !this.selectedExamId) {
-      this.error = 'Veuillez sélectionner un fichier';
+  submitExam(examId: string): void {
+    if (!this.selectedFile) {
+      this.errorMessage = 'Veuillez sélectionner un fichier';
       return;
     }
 
     this.loading = true;
-    this.error = '';
-    this.success = '';
+    this.errorMessage = null;
+    this.successMessage = null;
 
-    this.examService.submitExam(this.selectedExamId, this.selectedFile).subscribe({
+    this.examService.submitExam(examId, this.selectedFile).subscribe({
       next: () => {
-        this.success = 'Examen soumis avec succès';
+        this.successMessage = 'Examen soumis avec succès';
+        this.loading = false;
         this.loadExams();
-        this.selectedFile = null;
-        this.selectedExamId = null;
       },
-      error: (err) => {
-        this.error = 'Erreur lors de la soumission de l\'examen';
-        console.error(err);
-      },
-      complete: () => {
+      error: (error) => {
+        this.errorMessage = 'Erreur lors de la soumission de l\'examen';
         this.loading = false;
       }
     });
   }
 
-  downloadExamFile(filename: string): void {
-    this.examService.downloadExamFile(filename).subscribe({
+  downloadExamFile(url: string, filename: string): void {
+    this.examService.downloadExamFile(url).subscribe({
       next: (blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        window.URL.revokeObjectURL(url);
-        document.body.removeChild(a);
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        window.URL.revokeObjectURL(downloadUrl);
+        document.body.removeChild(link);
       },
-      error: (err) => {
-        this.error = 'Erreur lors du téléchargement du fichier';
-        console.error(err);
+      error: (error) => {
+        this.errorMessage = 'Erreur lors du téléchargement du fichier';
       }
     });
   }
@@ -93,15 +105,15 @@ export class StudentExamsComponent implements OnInit {
   getStatusClass(status: string): string {
     switch (status) {
       case 'CREATED':
-        return 'status-created';
+        return 'badge bg-primary';
       case 'SUBMITTED':
-        return 'status-submitted';
+        return 'badge bg-warning';
       case 'PASSED':
-        return 'status-passed';
+        return 'badge bg-success';
       case 'FAILED':
-        return 'status-failed';
+        return 'badge bg-danger';
       default:
-        return '';
+        return 'badge bg-secondary';
     }
   }
 } 

@@ -14,7 +14,7 @@ import { LoadingSpinnerComponent } from '../components/loading-spinner.component
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule, DatePipe, LoadingSpinnerComponent]
 })
 export class ExamGradeComponent implements OnInit {
-  examId!: number;
+  examId!: string;
   exam: Exam | null = null;
   score: number | null = null;
   errorMessage: string | null = null;
@@ -28,7 +28,7 @@ export class ExamGradeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.examId = +this.route.snapshot.paramMap.get('id')!;
+    this.examId = this.route.snapshot.paramMap.get('id')!;
     this.loadExam();
   }
 
@@ -36,12 +36,9 @@ export class ExamGradeComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = null;
 
-    this.examService.getAllExams().subscribe(
-      (exams) => {
-        this.exam = exams.find(exam => exam.id === this.examId) || null;
-        if (!this.exam) {
-          this.errorMessage = 'Examen non trouvé';
-        }
+    this.examService.getExamById(this.examId).subscribe(
+      (exam) => {
+        this.exam = exam;
         this.isLoading = false;
       },
       (error) => {

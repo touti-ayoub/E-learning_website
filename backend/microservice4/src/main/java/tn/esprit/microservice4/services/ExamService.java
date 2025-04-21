@@ -103,6 +103,17 @@ public class ExamService {
         }
     }
 
+    public Exam getExamById(Long examId) {
+        System.out.println("Recherche de l'examen avec l'ID: " + examId);
+        Exam exam = examRepo.findById(examId)
+                .orElseThrow(() -> {
+                    System.out.println("Examen non trouvé avec l'ID: " + examId);
+                    return new IllegalArgumentException("Examen non trouvé");
+                });
+        System.out.println("Examen trouvé: " + exam);
+        return exam;
+    }
+
     public List<Exam> getExamsByUser(Long userId) {
         return examRepo.findByUserId(userId);
     }
