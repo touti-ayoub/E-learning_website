@@ -1,5 +1,6 @@
 package tn.esprit.microservice4.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -12,7 +13,10 @@ public class Certificate {
     private String certificateUrl;
     private LocalDateTime issuedDate;
 
+
     @OneToOne
+    @JoinColumn(name = "exam_id")
+    @JsonBackReference
     private Exam exam;
 
     // Getters and Setters

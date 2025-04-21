@@ -69,17 +69,24 @@ export class ExamGradeComponent implements OnInit {
     this.isSubmitting = true;
     this.errorMessage = null;
 
-    this.examService.assignScore(this.examId, this.score!).subscribe(
-      () => {
-        alert('Note attribuée avec succès');
-        this.router.navigate(['/exams']);
+    console.log('Submitting score:', { examId: this.examId, score: this.score });
+
+    this.examService.assignScore(this.examId, this.score!).subscribe({
+      next: (response) => {
+        console.log('Score submitted successfully:', response);
+        if (response.score === this.score) {
+          console.log('Score was saved despite server error');
+          alert('Note attribuée avec succès');
+          this.router.navigate(['/exams']);
+        }
       },
-      (error) => {
-        this.errorMessage = 'Erreur lors de l\'attribution de la note';
+      error: (error) => {
+        console.error('Error submitting score:', error);
         this.isSubmitting = false;
-        console.error(error);
+        
+        this.errorMessage = 'Erreur lors de l\'attribution de la note. Veuillez réessayer.';
       }
-    );
+    });
   }
 
   cancel(): void {

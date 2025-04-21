@@ -1,5 +1,6 @@
 package tn.esprit.microservice4.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -33,6 +34,7 @@ public class Exam {
     private String certificateUrl;
 
     @OneToOne(mappedBy = "exam", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Certificate certificate;
 
     // Getters and Setters

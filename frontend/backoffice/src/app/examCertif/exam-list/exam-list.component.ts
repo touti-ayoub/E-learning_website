@@ -1,7 +1,7 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { Exam } from 'src/model/mic4/exam.model';
 import { ExamService } from 'src/service/mic4/exam.service';
 import { LoadingSpinnerComponent } from '../components/loading-spinner.component';
@@ -18,7 +18,10 @@ export class ExamListComponent implements OnInit {
   errorMessage: string | null = null;
   isLoading: boolean = true;
 
-  constructor(private examService: ExamService) {}
+  constructor(
+    private examService: ExamService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadExams();
@@ -27,21 +30,43 @@ export class ExamListComponent implements OnInit {
   loadExams(): void {
     this.isLoading = true;
     this.errorMessage = null;
-
-    this.examService.getAllExams().subscribe(
-      (data) => {
-        this.exams = data.map(exam => ({
-          ...exam,
-          status: this.determineStatus(exam)
-        }));
-        this.isLoading = false;
+    
+    this.examService.getAllExams().subscribe({
+      next: (data) => {
+        console.log('Received exam data:', data);
+        try {
+          // Ensure all required fields are present and properly formatted
+          this.exams = data.map(exam => {
+            if (!exam || typeof exam !== 'object') {
+              throw new Error('Invalid exam data received');
+            }
+            
+            return {
+              id: exam.id,
+              title: exam.title || 'Untitled Exam',
+              description: exam.description || '',
+              examFileUrl: exam.examFileUrl || null,
+              submittedFileUrl: exam.submittedFileUrl || null,
+              score: exam.score || null,
+              certificate: exam.certificate || null,
+              date: exam.date || new Date(),
+              userId: exam.userId || null,
+              status: this.determineStatus(exam)
+            };
+          });
+          this.isLoading = false;
+        } catch (error) {
+          console.error('Error processing exam data:', error);
+          this.errorMessage = 'Erreur lors du traitement des données des examens: ' + error.message;
+          this.isLoading = false;
+        }
       },
-      (error) => {
-        this.errorMessage = 'Erreur lors de la récupération des examens';
+      error: (error) => {
+        console.error('Error loading exams:', error);
+        this.errorMessage = error.message || 'Erreur lors de la récupération des examens';
         this.isLoading = false;
-        console.error(error);
       }
-    );
+    });
   }
 
   determineStatus(exam: Exam): 'pending' | 'submitted' | 'graded' {
