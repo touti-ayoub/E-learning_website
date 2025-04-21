@@ -1,0 +1,31 @@
+<div class="certificate-container">
+  <div *ngIf="loading" class="loading">
+    <p>Chargement du certificat...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="exam && certificateUrl && !loading" class="certificate-content">
+    <div class="certificate-header">
+      <h2>Certificat de Réussite</h2>
+      <p>Délivré à l'étudiant pour avoir réussi l'examen</p>
+    </div>
+
+    <div class="certificate-info">
+      <h3>{{ exam.title }}</h3>
+      <p>Note obtenue: {{ exam.score }}/20</p>
+      <p>Date d'obtention: {{ exam.certificate?.issuedDate | date:'longDate' }}</p>
+    </div>
+
+    <div class="certificate-actions">
+      <button (click)="printCertificate()" class="btn-print">
+        Imprimer le certificat
+      </button>
+      <a [href]="certificateUrl" target="_blank" class="btn-download">
+        Télécharger le certificat
+      </a>
+    </div>
+  </div>
+</div>

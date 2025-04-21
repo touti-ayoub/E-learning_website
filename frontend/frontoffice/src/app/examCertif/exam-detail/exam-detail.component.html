@@ -1,0 +1,64 @@
+<div class="exam-detail-container">
+  <div *ngIf="loading" class="loading">
+    <p>Chargement de l'examen...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="exam && !loading" class="exam-details">
+    <div class="exam-header">
+      <h2>{{ exam.title }}</h2>
+      <span class="status-badge" [ngClass]="getStatusClass(exam.status)">
+        {{ exam.status }}
+      </span>
+    </div>
+
+    <div class="exam-content">
+      <p class="description">{{ exam.description }}</p>
+      
+      <div class="exam-info">
+        <p><strong>Date de l'examen:</strong> {{ exam.examDate | date:'dd/MM/yyyy' }}</p>
+        <div *ngIf="exam.score !== undefined" class="score-info">
+          <p><strong>Note:</strong> {{ exam.score }}/20</p>
+          <p *ngIf="exam.status === 'PASSED' || exam.status === 'FAILED'">
+            {{ exam.status === 'PASSED' ? 'Réussi' : 'Échoué' }}
+          </p>
+        </div>
+      </div>
+
+      <div class="exam-files">
+        <div class="file-section">
+          <h3>Sujet de l'examen</h3>
+          <button (click)="downloadExamFile(exam.examFileUrl, exam.title + '.pdf')" 
+                  class="btn-download"
+                  [disabled]="!exam.examFileUrl">
+            Télécharger le sujet
+          </button>
+        </div>
+
+        <div *ngIf="exam.submittedFileUrl" class="file-section">
+          <h3>Votre rendu</h3>
+          <button (click)="downloadExamFile(exam.submittedFileUrl, exam.title + '_rendu.pdf')" 
+                  class="btn-download">
+            Voir le rendu
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="exam-actions">
+      <button *ngIf="exam.status === 'PENDING'" 
+              (click)="goToSubmit()" 
+              class="btn-submit">
+        Soumettre votre travail
+      </button>
+      
+      <button (click)="goBackToList()" 
+              class="btn-back">
+        Retour à la liste
+      </button>
+    </div>
+  </div>
+</div>

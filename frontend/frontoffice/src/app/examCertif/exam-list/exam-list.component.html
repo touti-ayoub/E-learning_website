@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-12">
+      <h2>Mes Examens</h2>
+      
+      <div *ngIf="loading" class="text-center">
+        <div class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+  
+      <div *ngIf="!loading && exams.length === 0" class="alert alert-info">
+        Aucun examen disponible pour le moment.
+      </div>
+  
+      <div class="list-group">
+        <a *ngFor="let exam of exams" 
+           [routerLink]="['/exams', exam.id]" 
+           class="list-group-item list-group-item-action flex-column align-items-start">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">{{ exam.title }}</h5>
+            <small>{{ exam.date | date:'mediumDate' }}</small>
+          </div>
+          <p class="mb-1">{{ exam.description }}</p>
+          <small *ngIf="exam.score !== undefined">
+            Note: {{ exam.score }} / 20
+            <span *ngIf="hasPassedExam(exam)" class="badge badge-success ml-2">Réussi</span>
+            <span *ngIf="!hasPassedExam(exam) && exam.score !== undefined" class="badge badge-danger ml-2">Échoué</span>
+          </small>
+          <small *ngIf="exam.score === undefined" class="text-muted">En attente de correction</small>
+        </a>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,89 @@
+.card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.badge {
+  padding: 0.5em 1em;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.status-created {
+  background-color: #ffc107;
+  color: #000;
+}
+
+.status-submitted {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+.status-passed {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.status-failed {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn {
+  margin-right: 0.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.alert {
+  margin-bottom: 1rem;
+}
+
+.spinner-border {
+  margin-right: 0.5rem;
+}
+
+/* Style pour le bouton de téléchargement */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}
+
+/* Style pour le bouton de soumission */
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  border-color: #218838;
+}
+
+/* Style pour le bouton du certificat */
+.btn-info {
+  background-color: #17a2b8;
+  border-color: #17a2b8;
+}
+
+.btn-info:hover {
+  background-color: #138496;
+  border-color: #138496;
+} 

@@ -1,0 +1,94 @@
+.certificate-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .certificate-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    text-align: center;
+  }
+  
+  .certificate-header {
+    margin-bottom: 30px;
+  }
+  
+  .certificate-header h2 {
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .certificate-info {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+  }
+  
+  .certificate-info h3 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  .certificate-info p {
+    margin: 10px 0;
+    color: #666;
+  }
+  
+  .certificate-actions {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 30px;
+  }
+  
+  .btn-print, .btn-download {
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    text-decoration: none;
+    border: none;
+  }
+  
+  .btn-print {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .btn-download {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .btn-print:hover {
+    background-color: #0056b3;
+  }
+  
+  .btn-download:hover {
+    background-color: #218838;
+  }
+  
+  .loading, .error {
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2em;
+  }
+  
+  .error {
+    color: #ff4500;
+  }
+  
+  @media print {
+    .certificate-actions {
+      display: none;
+    }
+    
+    .certificate-content {
+      box-shadow: none;
+      border: 1px solid #ddd;
+    }
+  }

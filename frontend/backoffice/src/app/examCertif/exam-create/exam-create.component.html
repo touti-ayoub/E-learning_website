@@ -1,0 +1,82 @@
+<div class="exam-create-container">
+  <div class="card">
+    <h2 class="card-title">Créer un Examen</h2>
+    <form (ngSubmit)="createExam()" class="exam-form">
+      <div class="form-group">
+        <label for="title">Titre *</label>
+        <input
+          id="title"
+          type="text"
+          [(ngModel)]="exam.title"
+          name="title"
+          required
+          placeholder="Entrez le titre de l'examen"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          [(ngModel)]="exam.description"
+          name="description"
+          placeholder="Entrez la description de l'examen"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="date">Date de l'examen *</label>
+        <input
+          id="date"
+          type="date"
+          [(ngModel)]="exam.date"
+          name="date"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="userId">ID Utilisateur *</label>
+        <input
+          id="userId"
+          type="number"
+          [(ngModel)]="exam.userId"
+          name="userId"
+          required
+          placeholder="Entrez l'ID de l'utilisateur"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="file">Fichier PDF de l'examen *</label>
+        <div class="file-upload">
+          <input
+            id="file"
+            type="file"
+            (change)="onFileSelected($event)"
+            accept=".pdf"
+            required
+            class="file-input"
+          />
+          <div class="file-info" *ngIf="selectedFile">
+            <span class="file-name">{{ selectedFile.name }}</span>
+            <span class="file-size">{{ selectedFile.size | fileSize }}</span>
+          </div>
+        </div>
+        <small class="file-hint">Format accepté: PDF (max 10MB)</small>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()">Annuler</button>
+        <button type="submit" class="btn-submit" [disabled]="!isFormValid()">
+          Créer l'examen
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </div>
+</div>

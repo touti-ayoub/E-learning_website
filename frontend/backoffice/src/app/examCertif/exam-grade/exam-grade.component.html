@@ -1,0 +1,74 @@
+<div class="exam-grade-container">
+  <div class="card">
+    <h2 class="card-title">Attribution de la Note</h2>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <app-loading-spinner
+      [isLoading]="isLoading"
+      message="Chargement des informations de l'examen..."
+    ></app-loading-spinner>
+
+    <div *ngIf="!isLoading && exam" class="exam-info">
+      <h3>{{ exam.title }}</h3>
+      <p class="description">{{ exam.description }}</p>
+
+      <div class="exam-details">
+        <div class="detail">
+          <span class="label">Date de l'examen:</span>
+          <span class="value">{{ exam.date | date:'mediumDate' }}</span>
+        </div>
+        <div class="detail">
+          <span class="label">ID Utilisateur:</span>
+          <span class="value">{{ exam.userId }}</span>
+        </div>
+      </div>
+
+      <div class="file-links">
+        <a [href]="exam.examFileUrl" target="_blank" class="btn-download" *ngIf="exam.examFileUrl">
+          Télécharger le sujet
+        </a>
+        <a [href]="exam.submittedFileUrl" target="_blank" class="btn-download" *ngIf="exam.submittedFileUrl">
+          Voir le rendu
+        </a>
+      </div>
+    </div>
+
+    <form (ngSubmit)="submitScore()" class="grade-form" *ngIf="!isLoading && exam">
+      <div class="form-group">
+        <label for="score">Note (sur 20) *</label>
+        <input
+          type="number"
+          id="score"
+          [(ngModel)]="score"
+          name="score"
+          min="0"
+          max="20"
+          step="0.5"
+          required
+          [class.error]="isScoreInvalid()"
+          [disabled]="isSubmitting"
+        />
+        <small *ngIf="isScoreInvalid()" class="error-text">
+          La note doit être comprise entre 0 et 20
+        </small>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-cancel" (click)="cancel()" [disabled]="isSubmitting">
+          Annuler
+        </button>
+        <button type="submit" class="btn-submit" [disabled]="!isFormValid()">
+          <app-loading-spinner
+            [isLoading]="isSubmitting"
+            message="Enregistrement..."
+            *ngIf="isSubmitting"
+          ></app-loading-spinner>
+          <span *ngIf="!isSubmitting">Attribuer la note</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

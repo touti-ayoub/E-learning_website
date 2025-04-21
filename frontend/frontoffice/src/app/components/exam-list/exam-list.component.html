@@ -1,0 +1,42 @@
+<div class="exam-list-container">
+  <h2>Mes Examens</h2>
+
+  <div *ngIf="loading" class="loading">
+    <p>Chargement des examens...</p>
+  </div>
+
+  <div *ngIf="error" class="error">
+    <p>{{ error }}</p>
+  </div>
+
+  <div *ngIf="!loading && !error" class="exams-grid">
+    <div *ngFor="let exam of exams" class="exam-card">
+      <div class="exam-header">
+        <h3>{{ exam.title }}</h3>
+        <span class="status-badge" [ngClass]="getStatusClass(exam.status)">
+          {{ exam.status }}
+        </span>
+      </div>
+
+      <div class="exam-content">
+        <p>{{ exam.description }}</p>
+        <p><strong>Date de l'examen:</strong> {{ exam.examDate | date:'dd/MM/yyyy' }}</p>
+        <p *ngIf="exam.score"><strong>Note:</strong> {{ exam.score }}/20</p>
+      </div>
+
+      <div class="exam-actions">
+        <button *ngIf="exam.examFileUrl" 
+                (click)="downloadExamFile(exam.examFileUrl, exam.title + '.pdf')"
+                class="btn-download">
+          Télécharger le sujet
+        </button>
+        
+        <button *ngIf="exam.submittedFileUrl" 
+                (click)="downloadExamFile(exam.submittedFileUrl, exam.title + '_rendu.pdf')"
+                class="btn-download">
+          Voir le rendu
+        </button>
+      </div>
+    </div>
+  </div>
+</div> 

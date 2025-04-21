@@ -5,8 +5,60 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/client/UserClient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/config/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/ExamController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/dto/CertificateDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/dto/ExamDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/dto/ScoreDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Certificate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Exam.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/CertificateRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/ExamRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/CertificateService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/ExamService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/FileStorageService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/MailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-client.cookies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/httpRequests/http-requests-log.http" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tokens/StoredCredential" beforeDir="false" afterPath="$PROJECT_DIR$/tokens/StoredCredential" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/tn/esprit/gateway/GatewayApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/Microservice4Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/Microservice4Application.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/BadgeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/ChallengeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/PointController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/controllers/UserChallengeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Badge.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Challenge.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Point.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/UserChallenge.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/UserDTO.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/BadgeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/ChallengeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/PointRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/repositories/UserChallengeRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/BadgeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/ChallengeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/PointService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/services/UserChallengeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/microservice4/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/configurations/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/controllers/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/user-microservice/target/classes/tn/esprit/tpfoyer17/entities/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/theme/layout/admin/navigation/navigation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/environments/environment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/model/mic4/empty.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/service/mic4/empty.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/yarn.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app-routing.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/frontoffice/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/frontoffice/src/environments/environment.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +94,10 @@
     &quot;accountId&quot;: &quot;54f640ae-01bc-4061-837f-520686531603&quot;
   }
 }</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -60,6 +116,7 @@
   &quot;keyToString&quot;: {
     &quot;Application.EurekaApplication.executor&quot;: &quot;Run&quot;,
     &quot;Application.Microservice2Application.executor&quot;: &quot;Run&quot;,
+    &quot;HTTP Request.generated-requests | #27.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #3.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #8.executor&quot;: &quot;Run&quot;,
     &quot;HTTP Request.generated-requests | #9.executor&quot;: &quot;Run&quot;,
@@ -88,7 +145,7 @@
     &quot;Spring Boot.Microservice2Application.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.Microservice5Application.executor&quot;: &quot;Run&quot;,
     &quot;Spring Boot.TpFoyer17Application.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;events&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/Ayoub/Desktop/E-learning_website/backend/microservice5/src/main/resources&quot;,
@@ -136,7 +193,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.Microservice2Application">
+  <component name="RunManager" selected="Spring Boot.TpFoyer17Application">
     <configuration name="EurekaApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="esprit.eureka.EurekaApplication" />
       <module name="eureka" />
@@ -150,7 +207,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="generated-requests | #3" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="3" runType="Run single request">
+    <configuration name="generated-requests | #27" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#27" index="27" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="generated-requests | #8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="8" runType="Run single request">
@@ -220,9 +277,9 @@
     </configuration>
     <list>
       <item itemvalue="Application.EurekaApplication" />
+      <item itemvalue="HTTP Request.generated-requests | #27" />
       <item itemvalue="HTTP Request.generated-requests | #8" />
       <item itemvalue="HTTP Request.generated-requests | #9" />
-      <item itemvalue="HTTP Request.generated-requests | #3" />
       <item itemvalue="Spring Boot.Microservice1Application" />
       <item itemvalue="Spring Boot.MicroserviceApplication" />
       <item itemvalue="Spring Boot.Microservice5Application" />
@@ -233,19 +290,19 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="HTTP Request.generated-requests | #27" />
         <item itemvalue="Spring Boot.Microservice2Application" />
         <item itemvalue="Application.EurekaApplication" />
         <item itemvalue="HTTP Request.generated-requests | #9" />
         <item itemvalue="HTTP Request.generated-requests | #8" />
-        <item itemvalue="HTTP Request.generated-requests | #3" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26053.27" />
-        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26053.27" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.22562.218" />
+        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-IU-243.22562.218" />
       </set>
     </attachedChunks>
   </component>
@@ -305,6 +362,11 @@
       <workItem from="1744859431729" duration="15680000" />
       <workItem from="1744896780234" duration="1153000" />
       <workItem from="1744901081725" duration="1395000" />
+      <workItem from="1745069282627" duration="2235000" />
+      <workItem from="1745107113805" duration="6019000" />
+      <workItem from="1745146582434" duration="1876000" />
+      <workItem from="1745231561296" duration="305000" />
+      <workItem from="1745239705003" duration="1580000" />
     </task>
     <task id="LOCAL-00001" summary="setting up event class">
       <option name="closed" value="true" />

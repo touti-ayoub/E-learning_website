@@ -1,0 +1,71 @@
+<div class="container mt-4">
+  <h2>Mes Examens</h2>
+
+  <!-- Messages d'erreur et de succès -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+  <div *ngIf="success" class="alert alert-success">
+    {{ success }}
+  </div>
+
+  <!-- Liste des examens -->
+  <div class="row">
+    <div class="col-md-6" *ngFor="let exam of exams">
+      <div class="card mb-4">
+        <div class="card-header">
+          <h5 class="card-title">{{ exam.title }}</h5>
+          <span class="badge" [ngClass]="getStatusClass(exam.status)">
+            {{ exam.status }}
+          </span>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ exam.description }}</p>
+          <p><strong>Date:</strong> {{ exam.date | date:'medium' }}</p>
+          
+          <!-- Affichage du score si disponible -->
+          <div *ngIf="exam.score !== null">
+            <p><strong>Score:</strong> {{ exam.score }}/20</p>
+          </div>
+
+          <!-- Bouton de téléchargement du sujet -->
+          <button *ngIf="exam.examFileUrl" 
+                  class="btn btn-primary mb-2"
+                  (click)="downloadExamFile(exam.examFileUrl)">
+            Télécharger le sujet
+          </button>
+
+          <!-- Formulaire de soumission -->
+          <div *ngIf="exam.status === 'CREATED'" class="mt-3">
+            <div class="form-group">
+              <label for="file">Soumettre votre travail (PDF)</label>
+              <input type="file" 
+                     id="file" 
+                     class="form-control"
+                     accept=".pdf"
+                     (change)="onFileSelected($event, exam.id)">
+            </div>
+            <button class="btn btn-success mt-2"
+                    [disabled]="!selectedFile || loading"
+                    (click)="submitExam()">
+              <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
+              Soumettre
+            </button>
+          </div>
+
+          <!-- Affichage du certificat si disponible -->
+          <div *ngIf="exam.certificateGenerated && exam.certificateUrl" class="mt-3">
+            <div class="alert alert-success">
+              <h6>Certificat disponible</h6>
+              <a [href]="exam.certificateUrl" 
+                 target="_blank" 
+                 class="btn btn-info">
+                Voir le certificat
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

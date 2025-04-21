@@ -93,34 +93,34 @@ export const NavigationItems: NavigationItem[] = [
           },
         ],
       },
-        {
-          id: 'courses',
-          title: 'Course Management',
-          type: 'group',
-          icon: 'icon-navigation',
-          children: [
-            {
-              id: 'course-management',
-              title: 'Courses',
-              type: 'item',
-              classes: 'nav-item',
-              url: '/courses',
-              icon: 'ti ti-book',
-              breadcrumbs: false
-            },
-            {
-              id: 'category-management',
-              title: 'Categories',
-              type: 'item',
-              classes: 'nav-item',
-              url: '/categories',
-              icon: 'ti ti-tag',
-              breadcrumbs: false},
-          ]
-        },
-      
-
-  //MIC2
+      {
+        id: 'courses',
+        title: 'Course Management',
+        type: 'group',
+        icon: 'icon-navigation',
+        children: [
+          {
+            id: 'course-management',
+            title: 'Courses',
+            type: 'item',
+            classes: 'nav-item',
+            url: '/courses',
+            icon: 'ti ti-book',
+            breadcrumbs: false
+          },
+          {
+            id: 'category-management',
+            title: 'Categories',
+            type: 'item',
+            classes: 'nav-item',
+            url: '/categories',
+            icon: 'ti ti-tag',
+            breadcrumbs: false
+          },
+        ]
+      }
+    ]
+  },
   {
     id: 'subPaym',
     title: 'Payment & Subscription',
@@ -141,7 +141,7 @@ export const NavigationItems: NavigationItem[] = [
         type: 'collapse',
         icon: 'ti ti-key',
         children: [
-          {//to change
+          {
             id: 'subscription_list',
             title: 'Subscription List',
             type: 'item',
@@ -150,8 +150,8 @@ export const NavigationItems: NavigationItem[] = [
             breadcrumbs: false
           },
           {
-            id: '******',
-            title: '*****',
+            id: 'register',
+            title: 'Register',
             type: 'item',
             url: '/guest/register',
             target: true,
@@ -201,72 +201,71 @@ export const NavigationItems: NavigationItem[] = [
       }
     ]
   },
-
-  //*EndMic2
   {
-    id: 'page',
-    title: 'Pages',
-    type: 'group',
-    icon: 'icon-navigation',
+    id: 'quiz',
+    title: 'Quiz',
+    type: 'collapse',
+    icon: 'ti ti-book',
     children: [
-      /* {
-         id: 'Authentication',
-         title: 'Authentication',
-         type: 'collapse',
-         icon: 'ti ti-key',
-         children: [
-           {
-             id: 'login',
-             title: 'Login',
-             type: 'item',
-             url: '/guest/login',
-             target: true,
-             breadcrumbs: false
-           },
-           {
-             id: 'register',
-             title: 'Register',
-             type: 'item',
-             url: '/guest/register',
-             target: true,
-             breadcrumbs: false
-           }
-         ]
-       },*/
-    ],
-  },
-       {
-        id: 'quiz',
-        title: 'Quiz',
-        type: 'collapse', // Make it collapsible
-        icon: 'ti ti-book', // Replace with an appropriate icon
-        children: [
-          {
-            id: 'quiz-list',
-            title: 'Quiz List',
-            type: 'item',
-            url: '/quiz/list', // URL for the quiz list page
-            classes: 'nav-item',
-            breadcrumbs: true
-          },
-          {
-            id: 'create-quiz',
-            title: 'Create Quiz',
-            type: 'item',
-            url: '/quizzes', // URL for the create quiz page
-            classes: 'nav-item',
-            breadcrumbs: true
-          },
-          {
-            id: 'trivia-quiz',
-            title: 'Create Quiz With AI',
-            type: 'item',
-            url: '/trivia-quiz', // URL for the AI quiz creation page
-            classes: 'nav-item',
-            breadcrumbs: true
-          }
-        ]
+      {
+        id: 'quiz-list',
+        title: 'Quiz List',
+        type: 'item',
+        url: '/quiz/list',
+        classes: 'nav-item',
+        breadcrumbs: true
+      },
+      {
+        id: 'create-quiz',
+        title: 'Create Quiz',
+        type: 'item',
+        url: '/quizzes',
+        classes: 'nav-item',
+        breadcrumbs: true
+      },
+      {
+        id: 'trivia-quiz',
+        title: 'Create Quiz With AI',
+        type: 'item',
+        url: '/trivia-quiz',
+        classes: 'nav-item',
+        breadcrumbs: true
       }
     ]
   },
+  {
+    id: 'exam-management',
+    title: 'Exam Management',
+    type: 'group',
+    icon: 'icon-navigation',
+    children: [
+      {
+        id: 'exam-list',
+        title: 'Exams',
+        type: 'item',
+        url: '/exams',
+        icon: 'ti ti-book',
+        classes: 'nav-item',
+        breadcrumbs: true
+      },
+      {
+        id: 'exam-create',
+        title: 'Create Exam',
+        type: 'item',
+        url: '/exams/create',
+        icon: 'ti ti-file-plus',
+        classes: 'nav-item',
+        breadcrumbs: true
+      },
+      {
+        id: 'exam-grade',
+        title: 'Grade Exam',
+        type: 'item',
+        url: '/exams/grade/:id',
+        icon: 'ti ti-pencil',
+        classes: 'nav-item',
+        breadcrumbs: true
+      }
+    ]
+  }
 ];
