@@ -6,8 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="afd91bf4-2328-4c66-b57b-11519fad4bc9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Certificate.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Certificate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Exam.java" beforeDir="false" afterPath="$PROJECT_DIR$/microservice4/src/main/java/tn/esprit/microservice4/entities/Exam.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/examCertif/exam-list/exam-list.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/examCertif/exam-list/exam-list.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/backoffice/src/app/services/mic4/exam.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/backoffice/src/app/services/mic4/exam.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

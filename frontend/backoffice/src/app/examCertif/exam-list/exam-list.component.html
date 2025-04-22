@@ -45,13 +45,13 @@
         </div>
 
         <div class="exam-actions">
-          <a [href]="exam.examFileUrl" target="_blank" class="btn-download" *ngIf="exam.examFileUrl">
+          <button class="btn-download" *ngIf="exam.examFileUrl" (click)="downloadFile(exam.examFileUrl, exam.title + '_sujet.pdf')">
             Télécharger le sujet
-          </a>
-          <a [href]="exam.submittedFileUrl" target="_blank" class="btn-download" *ngIf="exam.submittedFileUrl">
+          </button>
+          <button class="btn-download" *ngIf="exam.submittedFileUrl" (click)="downloadFile(exam.submittedFileUrl, exam.title + '_rendu.pdf')">
             Voir le rendu
-          </a>
-          <button class="btn-grade" [routerLink]="['/grade', exam.id]" *ngIf="!exam.score">
+          </button>
+          <button class="btn-grade" [routerLink]="['/exams/grade', exam.id]" *ngIf="!exam.score">
             Attribuer une note
           </button>
         </div>

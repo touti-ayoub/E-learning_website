@@ -158,4 +158,65 @@ export class ExamService {
       })
     );
   }
+
+  downloadFile(fileUrl: string): Observable<Blob> {
+    if (!fileUrl) {
+      console.error('No file URL provided to downloadFile');
+      return throwError(() => new Error('URL du fichier manquante'));
+    }
+
+    // Nettoyer l'URL du fichier
+    let cleanFileUrl = fileUrl.trim();
+    
+    // Si c'est un chemin Windows, extraire juste le nom du fichier
+    if (cleanFileUrl.includes('\\')) {
+      const parts = cleanFileUrl.split('\\');
+      cleanFileUrl = parts[parts.length - 1];
+    }
+    
+    // Nettoyer le nom du fichier des caractères invalides
+    cleanFileUrl = cleanFileUrl.replace(/[\[\]]/g, '');
+    
+    // Utiliser l'endpoint de téléchargement
+    const downloadUrl = `${environment.apiUrl}/api/exams/download/${cleanFileUrl}`;
+    console.log('Attempting to download file from URL:', downloadUrl);
+    
+    return this.http.get(downloadUrl, {
+      responseType: 'blob',
+      headers: {
+        'Accept': 'application/octet-stream'
+      },
+      observe: 'response'
+    }).pipe(
+      map(response => {
+        if (!response.body) {
+          throw new Error('Réponse vide du serveur');
+        }
+        return response.body;
+      }),
+      catchError((error: any) => {
+        console.error('Detailed error in downloadFile:', {
+          error,
+          status: error?.status,
+          statusText: error?.statusText,
+          url: error?.url || downloadUrl,
+          message: error?.message,
+          errorText: error?.error instanceof Blob ? 'Blob error' : error?.error
+        });
+
+        let errorMessage = 'Erreur lors du téléchargement du fichier';
+        if (error?.status === 404) {
+          errorMessage = `Fichier non trouvé sur le serveur. URL: ${downloadUrl}`;
+        } else if (error?.status === 403) {
+          errorMessage = 'Accès non autorisé au fichier';
+        } else if (error?.status === 500) {
+          errorMessage = 'Erreur serveur lors du téléchargement';
+        } else if (error?.status === 0) {
+          errorMessage = 'Erreur CORS ou connexion impossible au serveur';
+        }
+
+        return throwError(() => new Error(errorMessage));
+      })
+    );
+  }
 } 
