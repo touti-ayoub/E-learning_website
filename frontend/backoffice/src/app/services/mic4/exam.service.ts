@@ -139,4 +139,23 @@ export class ExamService {
       })
     );
   }
+
+  getExamById(id: number): Observable<Exam> {
+    console.log('Fetching exam by ID:', id);
+    return this.http.get<Exam>(`${this.apiUrl}/${id}`, {
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).pipe(
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error fetching exam:', {
+          status: error.status,
+          statusText: error.statusText,
+          url: error.url,
+          error: error.error
+        });
+        return throwError(() => new Error(error.error?.message || 'Failed to fetch exam'));
+      })
+    );
+  }
 } 

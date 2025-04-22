@@ -1,9 +1,9 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { Exam } from 'src/model/mic4/exam.model';
-import { ExamService } from 'src/service/mic4/exam.service';
+import { Exam } from '../../../model/mic4/exam.model';
+import { ExamService } from '../../services/mic4/exam.service';
 import { LoadingSpinnerComponent } from '../components/loading-spinner.component';
 
 @Component({
@@ -23,7 +23,7 @@ export class ExamGradeComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private examService: ExamService,
+    @Inject(ExamService) private examService: ExamService,
     private router: Router
   ) {}
 
@@ -36,20 +36,31 @@ export class ExamGradeComponent implements OnInit {
     this.isLoading = true;
     this.errorMessage = null;
 
-    this.examService.getAllExams().subscribe(
-      (exams) => {
-        this.exam = exams.find(exam => exam.id === this.examId) || null;
-        if (!this.exam) {
+    console.log('Loading exam with ID:', this.examId);
+
+    this.examService.getExamById(this.examId).subscribe({
+      next: (exam) => {
+        console.log('Exam loaded successfully:', exam);
+        if (!exam) {
           this.errorMessage = 'Examen non trouvé';
+          this.isLoading = false;
+          return;
         }
+        this.exam = exam;
+        console.log('Exam details:', {
+          title: exam.title,
+          description: exam.description,
+          submittedFileUrl: exam.submittedFileUrl,
+          examFileUrl: exam.examFileUrl
+        });
         this.isLoading = false;
       },
-      (error) => {
-        this.errorMessage = 'Erreur lors de la récupération de l\'examen';
+      error: (error) => {
+        console.error('Error loading exam:', error);
+        this.errorMessage = 'Erreur lors du chargement de l\'examen';
         this.isLoading = false;
-        console.error(error);
       }
-    );
+    });
   }
 
   isScoreInvalid(): boolean {

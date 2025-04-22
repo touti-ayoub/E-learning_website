@@ -33,6 +33,9 @@
         <a [href]="exam.submittedFileUrl" target="_blank" class="btn-download" *ngIf="exam.submittedFileUrl">
           Voir le rendu
         </a>
+        <div *ngIf="!exam.submittedFileUrl" class="no-submission">
+          Aucun rendu n'a été soumis pour cet examen.
+        </div>
       </div>
     </div>
 
