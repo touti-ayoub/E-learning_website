@@ -152,7 +152,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="generated-requests | #27" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" executionIdentifier="#27" index="27" runType="Run single request">
+    <configuration name="generated-requests | #27" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="27" runType="Run single request">
       <method v="2" />
     </configuration>
     <configuration name="generated-requests | #8" type="HttpClient.HttpRequestRunConfigurationType" factoryName="HTTP Request" temporary="true" nameIsGenerated="true" path="$APPLICATION_CONFIG_DIR$/scratches/generated-requests.http" index="8" runType="Run single request">
@@ -226,10 +226,10 @@
       <item itemvalue="HTTP Request.generated-requests | #8" />
       <item itemvalue="HTTP Request.generated-requests | #9" />
       <item itemvalue="Spring Boot.EurekaApplication" />
-      <item itemvalue="Spring Boot.Microservice1Application" />
-      <item itemvalue="Spring Boot.MicroserviceApplication" />
-      <item itemvalue="Spring Boot.Microservice5Application" />
       <item itemvalue="Spring Boot.GatewayApplication" />
+      <item itemvalue="Spring Boot.Microservice1Application" />
+      <item itemvalue="Spring Boot.Microservice5Application" />
+      <item itemvalue="Spring Boot.MicroserviceApplication" />
       <item itemvalue="Spring Boot.TpFoyer17Application" />
       <item itemvalue="Spring Boot.Microservice2Application" />
     </list>
@@ -313,6 +313,8 @@
       <workItem from="1745231561296" duration="305000" />
       <workItem from="1745239705003" duration="1580000" />
       <workItem from="1745264489574" duration="2743000" />
+      <workItem from="1745343996576" duration="3105000" />
+      <workItem from="1745371600807" duration="3784000" />
     </task>
     <task id="LOCAL-00001" summary="setting up event class">
       <option name="closed" value="true" />

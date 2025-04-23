@@ -38,6 +38,7 @@ import { ExamSubmitComponent } from './components/exam-submit/exam-submit.compon
 import { ExamDetailComponent } from './examCertif/exam-detail/exam-detail.component';
 import { CertificateViewComponent } from './examCertif/certificate-view/certificate-view.component';
 import { StudentExamsComponent } from './components/student-exams/student-exams.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [

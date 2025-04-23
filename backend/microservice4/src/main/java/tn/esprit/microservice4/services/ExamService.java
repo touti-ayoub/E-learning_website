@@ -1,124 +1,137 @@
 package tn.esprit.microservice4.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import tn.esprit.microservice4.dto.ExamDTO;
 import tn.esprit.microservice4.entities.Certificate;
 import tn.esprit.microservice4.entities.Exam;
+import tn.esprit.microservice4.entities.Exam.ExamStatus;
 import tn.esprit.microservice4.repositories.ExamRepository;
 
+import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ExamService {
+    private static final Logger logger = LoggerFactory.getLogger(ExamService.class);
 
-    private final ExamRepository examRepo;
-    private final CertificateService certificateService;
-    private final MailService mailService;
+    private final ExamRepository examRepository;
     private final FileStorageService fileStorageService;
+    private final ObjectMapper objectMapper;
+    private final CertificateService certificateService;
 
-    public ExamService(ExamRepository examRepo,
-                       CertificateService certificateService,
-                       MailService mailService,
-                       FileStorageService fileStorageService) {
-        this.examRepo = examRepo;
-        this.certificateService = certificateService;
-        this.mailService = mailService;
+    @Autowired
+    public ExamService(
+            ExamRepository examRepository,
+            FileStorageService fileStorageService,
+            ObjectMapper objectMapper,
+            CertificateService certificateService) {
+        this.examRepository = examRepository;
         this.fileStorageService = fileStorageService;
+        this.objectMapper = objectMapper;
+        this.certificateService = certificateService;
     }
 
-    public Exam createExam(ExamDTO dto, MultipartFile file) {
+    public Exam createExam(String examJson, MultipartFile file) throws Exception {
         try {
-            if (file == null || file.isEmpty()) {
-                throw new IllegalArgumentException("Le fichier de l'examen est requis");
-            }
+            logger.info("Creating new exam");
+            // Parse the exam JSON
+            Exam exam = objectMapper.readValue(examJson, Exam.class);
 
-            Exam exam = new Exam();
-            exam.setTitle(dto.getTitle());
-            exam.setDescription(dto.getDescription());
-            exam.setDate(dto.getExamDate());
-            exam.setUserId(dto.getUserId());
-            exam.setStatus(Exam.ExamStatus.CREATED);
-
+            // Store the file and get its URL
             String fileUrl = fileStorageService.saveFile(file);
+
+            // Set the file URL and other properties
             exam.setExamFileUrl(fileUrl);
+            exam.setDate(LocalDateTime.now());
+            exam.setStatus(ExamStatus.CREATED);
 
-            return examRepo.save(exam);
+            // Save the exam
+            Exam savedExam = examRepository.save(exam);
+            logger.info("Created exam with ID: {}", savedExam.getId());
+            return savedExam;
         } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de la création de l'examen: " + e.getMessage(), e);
+            logger.error("Error creating exam: {}", e.getMessage(), e);
+            throw new Exception("Error creating exam: " + e.getMessage());
         }
     }
 
-    public Exam submitExam(Long examId, MultipartFile file) {
+    public Exam submitExam(Long examId, MultipartFile file) throws Exception {
+        logger.info("Submitting exam with ID: {}", examId);
+        Exam exam = examRepository.findById(examId)
+                .orElseThrow(() -> new Exception("Exam not found"));
+
+        if (exam.getStatus() != ExamStatus.CREATED) {
+            throw new Exception("Exam cannot be submitted at this stage");
+        }
+
+        String fileUrl = fileStorageService.saveFile(file);
+        exam.setSubmittedFileUrl(fileUrl);
+        exam.setStatus(ExamStatus.SUBMITTED);
+        Exam savedExam = examRepository.save(exam);
+        logger.info("Successfully submitted exam with ID: {}", examId);
+        return savedExam;
+    }
+
+    public Exam gradeExam(Long examId, Double score) throws Exception {
+        logger.info("Grading exam with ID: {}, score: {}", examId, score);
+        Exam exam = examRepository.findById(examId)
+                .orElseThrow(() -> new Exception("Exam not found"));
+
+        if (exam.getStatus() != ExamStatus.SUBMITTED) {
+            throw new Exception("Exam must be submitted before grading");
+        }
+
+        exam.setScore(score);
+        boolean passed = score >= 70.0;
+        exam.setPassed(passed);
+        exam.setStatus(passed ? ExamStatus.PASSED : ExamStatus.FAILED);
+
+        Exam savedExam = examRepository.save(exam);
+
+        // Generate certificate if exam is passed
+        if (passed) {
+            try {
+                logger.info("Generating certificate for passed exam ID: {}", examId);
+                certificateService.generateCertificate(examId);
+            } catch (Exception e) {
+                logger.error("Error generating certificate: {}", e.getMessage(), e);
+                // Don't fail the grading process if certificate generation fails
+            }
+        }
+
+        logger.info("Successfully graded exam with ID: {}", examId);
+        return savedExam;
+    }
+
+    public byte[] getCertificateFile(Long examId) throws Exception {
         try {
-            if (file == null || file.isEmpty()) {
-                throw new IllegalArgumentException("Le fichier de rendu est requis");
-            }
-
-            Exam exam = examRepo.findById(examId)
-                    .orElseThrow(() -> new IllegalArgumentException("Examen non trouvé"));
-
-            if (exam.getStatus() != Exam.ExamStatus.CREATED) {
-                throw new IllegalStateException("L'examen a déjà été soumis ou noté");
-            }
-
-            String fileUrl = fileStorageService.saveFile(file);
-            exam.setSubmittedFileUrl(fileUrl);
-            exam.setStatus(Exam.ExamStatus.SUBMITTED);
-
-            return examRepo.save(exam);
+            logger.info("Getting certificate file for exam ID: {}", examId);
+            return certificateService.getCertificateByExamId(examId);
         } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de la soumission de l'examen: " + e.getMessage(), e);
+            logger.error("Error getting certificate file: {}", e.getMessage(), e);
+            throw new Exception("Error getting certificate file: " + e.getMessage());
         }
     }
 
-    public Exam assignScore(Long examId, Double score) {
-        try {
-            if (score == null || score < 0 || score > 20) {
-                throw new IllegalArgumentException("La note doit être comprise entre 0 et 20");
-            }
-
-            Exam exam = examRepo.findById(examId)
-                    .orElseThrow(() -> new IllegalArgumentException("Examen non trouvé"));
-
-            if (exam.getStatus() != Exam.ExamStatus.SUBMITTED) {
-                throw new IllegalStateException("L'examen doit être soumis avant d'être noté");
-            }
-
-            exam.setScore(score);
-            exam.setPassed(score >= 10.0);
-            exam.setStatus(score >= 10.0 ? Exam.ExamStatus.PASSED : Exam.ExamStatus.FAILED);
-
-            if (exam.getPassed()) {
-                Certificate cert = certificateService.generateCertificate(exam);
-                exam.setCertificate(cert);
-                exam.setCertificateGenerated(true);
-                exam.setCertificateUrl(cert.getCertificateUrl());
-                mailService.sendCertificateNotification(exam.getUserId(), cert);
-            }
-
-            return examRepo.save(exam);
-        } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de l'attribution de la note: " + e.getMessage(), e);
-        }
+    public Optional<Exam> getExamById(Long id) {
+        return examRepository.findById(id);
     }
 
-    public Exam getExamById(Long examId) {
-        System.out.println("Recherche de l'examen avec l'ID: " + examId);
-        Exam exam = examRepo.findById(examId)
-                .orElseThrow(() -> {
-                    System.out.println("Examen non trouvé avec l'ID: " + examId);
-                    return new IllegalArgumentException("Examen non trouvé");
-                });
-        System.out.println("Examen trouvé: " + exam);
-        return exam;
-    }
-
-    public List<Exam> getExamsByUser(Long userId) {
-        return examRepo.findByUserId(userId);
+    public List<Exam> getExamsByUserId(Long userId) {
+        return examRepository.findByUserId(userId);
     }
 
     public List<Exam> getAllExams() {
-        return examRepo.findAll();
+        return examRepository.findAll();
+    }
+
+    public void deleteExam(Long id) {
+        examRepository.deleteById(id);
     }
 }

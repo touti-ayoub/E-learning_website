@@ -15,7 +15,9 @@ import tn.esprit.tpfoyer17.repositories.UserRepository;
 import tn.esprit.tpfoyer17.services.auth.CustomUserDetailsService;
 import tn.esprit.tpfoyer17.services.auth.JwtUtils;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
@@ -113,6 +115,21 @@ public class AuthController {
         userDTO.setRole(user.getRole());
         // Add any other fields needed but exclude sensitive data like password
         return ResponseEntity.ok(userDTO);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDTO>> getAllUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserDTO> userDTOs = users.stream()
+            .map(user -> {
+                UserDTO userDTO = new UserDTO();
+                userDTO.setId(user.getId());
+                userDTO.setUsername(user.getUsername());
+                userDTO.setRole(user.getRole());
+                return userDTO;
+            })
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(userDTOs);
     }
 }
 

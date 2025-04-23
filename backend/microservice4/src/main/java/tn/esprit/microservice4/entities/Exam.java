@@ -3,6 +3,7 @@ package tn.esprit.microservice4.entities;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Exam {
@@ -25,82 +26,44 @@ public class Exam {
     private Double score;
     private Boolean passed;
 
-    @Enumerated(EnumType.STRING)
-    private ExamStatus status = ExamStatus.CREATED;
-
     private String examFileUrl;
     private String submittedFileUrl;
-    private boolean certificateGenerated = false;
-    private String certificateUrl;
+
+    @Enumerated(EnumType.STRING)
+    private ExamStatus status = ExamStatus.CREATED;
 
     @OneToOne(mappedBy = "exam", cascade = CascadeType.ALL)
     @JsonManagedReference
     private Certificate certificate;
 
+    // Certificate related fields
+    private boolean certificateGenerated;
+    private String certificateUrl;
+
     // Getters and Setters
-    public Long getId() {
-        return id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public LocalDateTime getDate() { return date; }
+    public void setDate(LocalDateTime date) { this.date = date; }
 
-    public String getDescription() {
-        return description;
-    }
+    public Long getUserId() { return userId; }
+    public void setUserId(Long userId) { this.userId = userId; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public Double getScore() { return score; }
+    public void setScore(Double score) { this.score = score; }
 
-    public LocalDateTime getDate() {
-        return date;
-    }
+    public Boolean getPassed() { return passed; }
+    public void setPassed(Boolean passed) { this.passed = passed; }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public Double getScore() {
-        return score;
-    }
-
-    public void setScore(Double score) {
-        this.score = score;
-    }
-
-    public Boolean getPassed() {
-        return passed;
-    }
-
-    public void setPassed(Boolean passed) {
-        this.passed = passed;
-    }
-
-    public ExamStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ExamStatus status) {
-        this.status = status;
-    }
+    public String getSubmittedFileUrl() { return submittedFileUrl; }
+    public void setSubmittedFileUrl(String submittedFileUrl) { this.submittedFileUrl = submittedFileUrl; }
 
     public String getExamFileUrl() {
         return examFileUrl;
@@ -110,35 +73,15 @@ public class Exam {
         this.examFileUrl = examFileUrl;
     }
 
-    public String getSubmittedFileUrl() {
-        return submittedFileUrl;
-    }
+    public ExamStatus getStatus() { return status; }
+    public void setStatus(ExamStatus status) { this.status = status; }
 
-    public void setSubmittedFileUrl(String submittedFileUrl) {
-        this.submittedFileUrl = submittedFileUrl;
-    }
+    public Certificate getCertificate() { return certificate; }
+    public void setCertificate(Certificate certificate) { this.certificate = certificate; }
 
-    public boolean isCertificateGenerated() {
-        return certificateGenerated;
-    }
+    public boolean isCertificateGenerated() { return certificateGenerated; }
+    public void setCertificateGenerated(boolean certificateGenerated) { this.certificateGenerated = certificateGenerated; }
 
-    public void setCertificateGenerated(boolean certificateGenerated) {
-        this.certificateGenerated = certificateGenerated;
-    }
-
-    public String getCertificateUrl() {
-        return certificateUrl;
-    }
-
-    public void setCertificateUrl(String certificateUrl) {
-        this.certificateUrl = certificateUrl;
-    }
-
-    public Certificate getCertificate() {
-        return certificate;
-    }
-
-    public void setCertificate(Certificate certificate) {
-        this.certificate = certificate;
-    }
+    public String getCertificateUrl() { return certificateUrl; }
+    public void setCertificateUrl(String certificateUrl) { this.certificateUrl = certificateUrl; }
 }

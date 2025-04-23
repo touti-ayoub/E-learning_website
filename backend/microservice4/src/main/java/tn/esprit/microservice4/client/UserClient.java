@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import tn.esprit.microservice4.dto.UserDTO;
 
-
+import java.util.List;
 
 @FeignClient(name = "user-microservice")
 public interface UserClient {
@@ -15,4 +15,7 @@ public interface UserClient {
 
     @GetMapping("/auth/username/{email}")
     UserDTO getUserByUsername(@PathVariable("email") String email);
+
+    @GetMapping("/auth/all")
+    List<UserDTO> getAllUsers();
 }

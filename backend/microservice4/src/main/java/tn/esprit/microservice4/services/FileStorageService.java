@@ -41,7 +41,7 @@ public class FileStorageService {
             logger.info("Tentative de téléchargement du fichier: {}", path.toString());
 
             Resource resource = new UrlResource(path.toUri());
-            
+
             if (resource.exists() && resource.isReadable()) {
                 logger.info("Fichier trouvé et accessible: {}", path.toString());
                 return resource;

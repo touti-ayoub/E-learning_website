@@ -1,7 +1,9 @@
 export interface Certificate {
-  id: string;
-  certificateUrl: string;
-  issuedDate: Date;
+  id: number;
+  examId: number;
+  url: string;
+  issueDate: Date;
+  expiryDate?: Date;
 }
 
 export interface Exam {
@@ -14,6 +16,7 @@ export interface Exam {
   examFileUrl?: string;
   submittedFileUrl?: string;
   userId: string;
+  certificateGenerated:any
   certificate?: Certificate;
 }
 

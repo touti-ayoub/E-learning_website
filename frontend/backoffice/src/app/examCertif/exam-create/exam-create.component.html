@@ -37,15 +37,19 @@
       </div>
 
       <div class="form-group">
-        <label for="userId">ID Utilisateur *</label>
-        <input
+        <label for="userId">Utilisateur *</label>
+        <select
           id="userId"
-          type="number"
           [(ngModel)]="exam.userId"
           name="userId"
           required
-          placeholder="Entrez l'ID de l'utilisateur"
-        />
+          class="form-control"
+        >
+          <option value="" disabled selected>Sélectionnez un utilisateur</option>
+          <option *ngFor="let user of users" [value]="user.id">
+            {{ user.username }} ({{ user.role }})
+          </option>
+        </select>
       </div>
 
       <div class="form-group">

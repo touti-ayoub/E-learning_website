@@ -71,6 +71,7 @@ export class ExamSubmitComponent implements OnInit {
     });
   }
 
+ 
   downloadExamFile(): void {
     if (this.exam?.examFileUrl) {
       this.examService.downloadExamFile(this.exam.examFileUrl).subscribe({
@@ -90,7 +91,6 @@ export class ExamSubmitComponent implements OnInit {
       });
     }
   }
-
   getStatusClass(status: string): string {
     switch (status) {
       case 'CREATED':

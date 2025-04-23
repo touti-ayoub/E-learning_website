@@ -64,7 +64,7 @@ export class ExamGradeComponent implements OnInit {
   }
 
   isScoreInvalid(): boolean {
-    return this.score !== null && (this.score < 0 || this.score > 20);
+    return this.score !== null && (this.score < 0 || this.score > 100);
   }
 
   isFormValid(): boolean {

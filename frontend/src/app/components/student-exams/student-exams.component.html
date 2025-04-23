@@ -1,0 +1,53 @@
+<div class="container mt-4">
+  <h2>Mes Examens</h2>
+
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger" role="alert">
+    {{ error }}
+  </div>
+
+  <div class="row">
+    <div *ngFor="let exam of exams" class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ exam.title }}</h5>
+          <p class="card-text">{{ exam.description }}</p>
+          
+          <div class="mb-3">
+            <strong>Date:</strong> {{ exam.date | date:'medium' }}
+          </div>
+
+          <div class="mb-3">
+            <strong>Statut:</strong>
+            <span [ngClass]="getStatusClass(exam.status)">
+              {{ exam.status }}
+            </span>
+          </div>
+
+          <div *ngIf="exam.score !== undefined" class="mb-3">
+            <strong>Score:</strong> {{ exam.score }}%
+          </div>
+
+          <div class="d-flex gap-2">
+            <button *ngIf="exam.status === 'CREATED'" 
+                    class="btn btn-primary"
+                    (click)="submitExam(exam.id!, 85)">
+              Soumettre l'examen
+            </button>
+
+            <button *ngIf="exam.certificate" 
+                    class="btn btn-success"
+                    (click)="downloadCertificate(exam.certificate.certificateUrl)">
+              Télécharger le certificat
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> 

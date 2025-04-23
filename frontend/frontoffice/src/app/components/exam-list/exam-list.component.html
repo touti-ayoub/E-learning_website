@@ -43,8 +43,8 @@
           <div *ngIf="exam.certificate" class="mt-3">
             <div class="alert alert-info">
               <h6>Certificat disponible</h6>
-              <p>Date d'obtention: {{ exam.certificate.issuedDate | date:'medium' }}</p>
-              <a [href]="exam.certificate.certificateUrl" target="_blank" class="btn btn-info">
+              <p>Date d'obtention: {{ exam.certificate.issueDate | date:'medium' }}</p>
+              <a [href]="exam.certificate.url" target="_blank" class="btn btn-info">
                 <i class="fas fa-certificate"></i> Voir le certificat
               </a>
             </div>

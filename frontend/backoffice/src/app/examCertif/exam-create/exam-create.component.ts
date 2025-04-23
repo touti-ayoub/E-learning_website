@@ -1,9 +1,15 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { ExamService } from 'src/service/mic4/exam.service';
 import { FileSizePipe } from '../pipes/file-size.pipe';
+
+interface User {
+  id: number;
+  username: string;
+  role: string;
+}
 
 @Component({
   selector: 'app-exam-create',
@@ -12,7 +18,7 @@ import { FileSizePipe } from '../pipes/file-size.pipe';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule, FileSizePipe]
 })
-export class ExamCreateComponent {
+export class ExamCreateComponent implements OnInit {
   exam = {
     title: '',
     description: '',
@@ -22,8 +28,25 @@ export class ExamCreateComponent {
   selectedFile: File | null = null;
   errorMessage: string | null = null;
   maxFileSize = 10 * 1024 * 1024; // 10MB
+  users: User[] = [];
 
   constructor(private examService: ExamService, private router: Router) {}
+
+  ngOnInit(): void {
+    this.loadUsers();
+  }
+
+  loadUsers(): void {
+    this.examService.getAllUsers().subscribe(
+      (users) => {
+        this.users = users;
+      },
+      (error) => {
+        console.error('Error loading users:', error);
+        this.errorMessage = 'Failed to load users';
+      }
+    );
+  }
 
   onFileSelected(event: any): void {
     const file = event.target.files[0];
