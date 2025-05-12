@@ -1,0 +1,44 @@
+<div class="container mt-4">
+  <h2>Mes Certificats</h2>
+
+  <!-- Messages d'erreur -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Indicateur de chargement -->
+  <div *ngIf="loading" class="text-center">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+
+  <!-- Liste des certificats -->
+  <div *ngIf="!loading && !error" class="row">
+    <div *ngFor="let exam of exams" class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">{{ exam.title }}</h5>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ exam.description }}</p>
+          <p class="card-text">
+            <small class="text-muted">Date de l'examen: {{ exam.examDate | date:'medium' }}</small>
+          </p>
+          <p class="card-text">
+            <strong>Score:</strong> {{ exam.score }}
+          </p>
+          <div *ngIf="exam.certificate" class="mt-3">
+            <div class="alert alert-success">
+              <h6>Certificat obtenu</h6>
+              <p>Date d'obtention: {{ exam.certificate.issueDate | date:'medium' }}</p>
+              <a [href]="exam.certificate.url" target="_blank" class="btn btn-info">
+                <i class="fas fa-certificate"></i> Voir le certificat
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+<div class="exam-list-container">
+  <div class="header">
+    <h2>Liste des Examens</h2>
+    <button class="btn-create" routerLink="/exams/create">Créer un Examen</button>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <app-loading-spinner
+    [isLoading]="isLoading"
+    message="Chargement des examens..."
+  ></app-loading-spinner>
+
+  <div *ngIf="!isLoading && exams.length === 0" class="no-exams">
+    <p>Aucun examen disponible.</p>
+  </div>
+
+  <div *ngIf="!isLoading && exams.length > 0" class="exams-grid">
+    <div *ngFor="let exam of exams" class="exam-card">
+      <div class="exam-header">
+        <h3>{{ exam.title }}</h3>
+        <span class="status" [ngClass]="getStatusClass(exam.status)">
+          {{ exam.status }}
+        </span>
+      </div>
+
+      <div class="exam-content">
+        <p class="description">{{ exam.description }}</p>
+        
+        <div class="exam-details">
+          <div class="detail">
+            <span class="label">Date:</span>
+            <span class="value">{{ exam.date | date:'mediumDate' }}</span>
+          </div>
+          <div class="detail">
+            <span class="label">ID Utilisateur:</span>
+            <span class="value">{{ exam.userId }}</span>
+          </div>
+          <div class="detail" *ngIf="exam.score">
+            <span class="label">Note:</span>
+            <span class="value">{{ exam.score }}/20</span>
+          </div>
+        </div>
+
+        <div class="exam-actions">
+          <button class="btn-download" *ngIf="exam.examFileUrl" (click)="downloadFile(exam.examFileUrl, exam.title + '_sujet.pdf')">
+            Télécharger le sujet
+          </button>
+          <button class="btn-download" *ngIf="exam.submittedFileUrl" (click)="downloadFile(exam.submittedFileUrl, exam.title + '_rendu.pdf')">
+            Voir le rendu
+          </button>
+          <button class="btn-grade" [routerLink]="['/exams/grade', exam.id]" *ngIf="!exam.score">
+            Attribuer une note
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

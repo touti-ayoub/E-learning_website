@@ -33,6 +33,12 @@ import { QuizTakeComponent } from './assessments/quiz-take/quiz-take.component';
 import { QuizCreateComponent } from './assessments/quiz-create/quiz-create.component';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
 import { QuizResultComponent } from './assessments/quiz-result/quiz-result.component';
+import { ExamListComponent } from './components/exam-list/exam-list.component';
+import { ExamSubmitComponent } from './components/exam-submit/exam-submit.component';
+import { ExamDetailComponent } from './examCertif/exam-detail/exam-detail.component';
+import { CertificateViewComponent } from './examCertif/certificate-view/certificate-view.component';
+import { StudentExamsComponent } from './components/student-exams/student-exams.component';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -57,11 +63,16 @@ import { QuizResultComponent } from './assessments/quiz-result/quiz-result.compo
     SubscriptionPlanComponent,
     PaymentSuccessComponent,
     PaymentHistComponent,
-    QuizListComponent, // Declare your quiz components here
+    QuizListComponent,
     QuizResultComponent,
     QuizTakeComponent,
     QuizCreateComponent,
-    ChatbotComponent, // Add the chatbot component
+    ChatbotComponent,
+    ExamListComponent,
+    ExamSubmitComponent,
+    ExamDetailComponent,
+    CertificateViewComponent,
+    StudentExamsComponent
   ],
   imports: [
     BrowserModule,

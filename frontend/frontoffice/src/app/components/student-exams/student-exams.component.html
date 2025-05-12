@@ -1,0 +1,170 @@
+<div class="container mt-4">
+  <h2>Mes Examens</h2>
+
+  <!-- Messages d'erreur et de succès -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show">
+    {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = null"></button>
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show">
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="successMessage = null"></button>
+  </div>
+
+  <!-- Indicateur de chargement -->
+  <div *ngIf="loading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+  </div>
+
+  <!-- Message si aucun examen -->
+  <div *ngIf="!loading && exams.length === 0" class="alert alert-info">
+    Vous n'avez pas encore d'examens assignés.
+  </div>
+
+  <!-- Liste des examens -->
+  <div *ngIf="!loading && exams.length > 0" class="row">
+    <div *ngFor="let exam of exams" class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h5 class="card-title mb-0">{{ exam.title }}</h5>
+          <span [class]="getStatusClass(exam.status)" data-bs-toggle="tooltip" [title]="getStatusText(exam.status)">
+            {{ getStatusText(exam.status) }}
+          </span>
+        </div>
+        <div class="card-body">
+          <p class="card-text">{{ exam.description }}</p>
+          <p class="card-text">
+            <small class="text-muted">Date: {{ currentDate | date:'medium' }}</small>
+          </p>
+          
+          <!-- Score affiché si disponible -->
+          <div *ngIf="exam.score !== undefined && exam.score !== null" class="mb-3">
+            <strong>Score:</strong> {{ exam.score }}%
+            <div class="progress mt-2">
+              <div class="progress-bar" 
+                   [ngClass]="{'bg-success': exam.score >= 70, 'bg-danger': exam.score < 70}"
+                   [style.width.%]="exam.score"></div>
+            </div>
+          </div>
+
+        <!-- Bouton de téléchargement du sujet -->
+        <div *ngIf="exam.examFileUrl" class="mb-3">
+          <button (click)="downloadExamFile(exam.examFileUrl!, exam.title + '.pdf')" 
+                  class="btn btn-primary">
+            <i class="fas fa-download"></i> Télécharger le sujet
+          </button>
+        </div>
+         <!-- Formulaire de soumission -->
+          <div *ngIf="exam.status === 'CREATED'" class="mb-3">
+            <form (ngSubmit)="submitExam(exam.id)">
+              <div class="mb-3">
+                <label for="file" class="form-label">Soumettre votre travail</label>
+                <input type="file" 
+                       class="form-control" 
+                       id="file" 
+                       (change)="onFileSelected($event, exam.id)" 
+                       accept=".pdf">
+              </div>
+              <button type="submit" 
+                      class="btn btn-success" 
+                      [disabled]="!selectedFile || loading">
+                <i class="fas fa-upload"></i> Soumettre
+              </button>
+            </form>
+          </div>
+
+          <!-- Fichier soumis -->
+          <div *ngIf="exam.status !== 'CREATED' && exam.submittedFileUrl" class="mt-3 mb-3">
+            <div class="alert alert-info">
+              <h6><i class="fas fa-file-pdf"></i> Fichier soumis</h6>
+              <p class="mb-1">Vous avez déjà soumis un fichier pour cet examen.</p>
+              <button (click)="downloadExamFile(exam.submittedFileUrl, 'submission_' + exam.id + '.pdf')" 
+                      class="btn btn-outline-primary btn-sm mt-2">
+                <i class="fas fa-download"></i> Télécharger ma soumission
+              </button>
+            </div>
+          </div>
+
+          <!-- Certificat -->
+          <div *ngIf="isCertificateAvailable(exam)" class="mt-3 mb-3">
+            <div class="alert alert-success">
+              <h6><i class="fas fa-certificate"></i> Certificat disponible</h6>
+              <p class="mb-1">Félicitations! Vous avez réussi cet examen.</p>
+              <div class="d-flex gap-2 mt-2">
+                <button (click)="downloadCertificate(exam)" 
+                        class="btn btn-success btn-sm" 
+                        [disabled]="loading">
+                  <i class="fas fa-download"></i> Télécharger
+                </button>
+                <button (click)="openEmailCertificateModal(exam)"
+                        class="btn btn-primary btn-sm"
+                        [disabled]="loading">
+                  <i class="fas fa-envelope"></i> Recevoir par email
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bouton pour voir les détails -->
+          <div class="mt-3">
+            <button [routerLink]="['/exams', exam.id]" 
+                    class="btn btn-outline-primary">
+              <i class="fas fa-info-circle"></i> Voir les détails
+            </button>
+          </div>
+        </div>
+        <div class="card-footer text-muted">
+          Statut: {{ getStatusText(exam.status) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Custom Email Modal -->
+<div *ngIf="showEmailModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h5 class="modal-title">Recevoir le certificat par email</h5>
+      <button type="button" class="btn-close" aria-label="Close" (click)="closeEmailModal()"></button>
+    </div>
+    <div class="modal-body">
+      <p>Veuillez saisir votre adresse email pour recevoir votre certificat de réussite pour l'examen "{{ selectedExamForEmail?.title }}".</p>
+      
+      <!-- Email form -->
+      <form (ngSubmit)="sendCertificateByEmail()">
+        <div class="mb-3">
+          <label for="emailForCertificate" class="form-label">Adresse email</label>
+          <input type="email" 
+                 class="form-control" 
+                 id="emailForCertificate" 
+                 [(ngModel)]="emailForCertificate" 
+                 [ngModelOptions]="{standalone: true}"
+                 placeholder="votre.email@exemple.com" 
+                 required>
+          <div class="form-text">Nous ne partagerons jamais votre email avec des tiers.</div>
+        </div>
+        
+        <!-- Error message -->
+        <div *ngIf="emailErrorMessage" class="alert alert-danger">
+          {{ emailErrorMessage }}
+        </div>
+        
+        <!-- Success message -->
+        <div *ngIf="emailSuccessMessage" class="alert alert-success">
+          {{ emailSuccessMessage }}
+        </div>
+        
+        <div class="d-flex justify-content-end">
+          <button type="button" class="btn btn-secondary me-2" (click)="closeEmailModal()">Annuler</button>
+          <button type="submit" class="btn btn-primary" [disabled]="sendingEmail || !emailForCertificate">
+            <span *ngIf="sendingEmail" class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+            Envoyer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

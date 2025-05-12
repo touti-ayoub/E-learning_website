@@ -34,6 +34,7 @@ public class GatewayApplication {
 				.route("user-microservice", r -> r.path("/auth/**").uri("lb://user-microservice"))
 				.route("microservice", r -> r.path("/quizzes/**").uri("lb://microservice"))
 				.route("microservice5", r -> r.path("/mic5/**").uri("lb://microservice5"))
+				.route("microservice4", r -> r.path("/api/exams/**").uri("lb://microservice4"))
 				.build();
 	}
 

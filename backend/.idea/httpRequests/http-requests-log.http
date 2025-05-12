@@ -1,3 +1,170 @@
+POST http://localhost:8088/auth/register
+Content-Length: 74
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=222311F57EA3338669B7455BD2CCA024
+
+{
+  "username": "nessimayadi1",
+  "password": "123456789",
+  "role": ""
+
+}
+
+###
+
+POST http://localhost:8088/auth/register
+Content-Length: 73
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=222311F57EA3338669B7455BD2CCA024
+
+{
+  "username": "nessimayadi",
+  "password": "123456789",
+  "role": ""
+
+}
+
+###
+
+POST http://localhost:8088/auth/register
+Content-Type: application/json
+Content-Length: 73
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=222311F57EA3338669B7455BD2CCA024
+
+{
+  "username": "nessimayadi",
+  "password": "123456789",
+  "role": ""
+
+}
+
+###
+
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+Content-Length: 73
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=222311F57EA3338669B7455BD2CCA024
+
+{
+  "username": "nessimayadi",
+  "password": "123456789",
+  "role": ""
+
+}
+
+###
+
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+Content-Length: 73
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=222311F57EA3338669B7455BD2CCA024
+
+{
+  "username": "nessimayadi",
+  "password": "123456789",
+  "role": ""
+
+}
+
+###
+
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+Content-Length: 78
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=222311F57EA3338669B7455BD2CCA024
+
+{
+  "username": "nessimayadi",
+  "password": "123456789",
+  "role": "admin"
+
+}
+
+###
+
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+Content-Length: 80
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=222311F57EA3338669B7455BD2CCA024
+
+{
+  "username": "nessimayadi",
+  "password": "123456789",
+  "role": "admin"
+
+}
+
+###
+
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+Content-Length: 81
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=222311F57EA3338669B7455BD2CCA024
+
+{
+  "username": "nessimayadi",
+  "password": "123456789",
+  "role": "admin",
+
+}
+
+###
+
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+Content-Length: 81
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+Cookie: JSESSIONID=222311F57EA3338669B7455BD2CCA024
+
+{
+  "username": "nessimayadi",
+  "password": "123456789",
+  "role": "admin",
+
+}
+
+###
+
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+Content-Length: 94
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.1.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "username": "nessimayadi",
+  "password": "123456789",
+  "role": "admin",
+  "quizIds": []
+}
+
+###
+
 GET http://localhost:8088/mic2/admin/dashboard/payments
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.2.3
 Accept-Encoding: br, deflate, gzip, x-gzip

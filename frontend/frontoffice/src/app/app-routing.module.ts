@@ -25,6 +25,11 @@ import { QuizResultComponent } from './assessments/quiz-result/quiz-result.compo
 import { CourseDetailComponent } from './course-detail/course-detail.component';
 import { CourseAccessGuard } from './guards/course-access.guard';
 import { ChatbotComponent } from './components/chatbot/chatbot.component';
+import { ExamListComponent } from './components/exam-list/exam-list.component';
+import { ExamSubmitComponent } from './components/exam-submit/exam-submit.component';
+import { CertificateViewComponent } from './examCertif/certificate-view/certificate-view.component';
+import { ExamDetailComponent } from './examCertif/exam-detail/exam-detail.component';
+import { StudentExamsComponent } from './components/student-exams/student-exams.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -59,6 +64,15 @@ const routes: Routes = [
   { path: 'quiz-take/:id', component: QuizTakeComponent, canActivate: [AuthGuard] }, // Restrict quiz-taking
   { path: 'quiz-results/:quizId', component: QuizResultComponent },
   { path: 'chatbot', component: ChatbotComponent, canActivate: [AuthGuard] },
+
+   // Exams-related routes
+   { path: 'exams', component: ExamListComponent },
+   { path: 'exams/:id', component: ExamDetailComponent },
+   { path: 'exams/:id/submit', component: ExamSubmitComponent },
+   { path: 'certificates/:id', component: CertificateViewComponent },
+   { path: 'student/exams', component: StudentExamsComponent },
+ 
+ 
   { path: '**', component: NotfoundComponent }, // Keep this as the last route
 ];
 

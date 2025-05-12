@@ -21,6 +21,15 @@
         </div>
       </div>
       <a href="/contact" class="nav-item nav-link">Contact</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+          Examens
+        </a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" routerLink="student/exams" routerLinkActive="active">Mes Examens</a></li>
+          <li><a class="dropdown-item" routerLink="/certificates" routerLinkActive="active">Mes Certificats</a></li>
+        </ul>
+      </li>
     </div>
 
     <div *ngIf="isLoggedIn; else joinNowBlock" class="user-profile-container">
