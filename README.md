@@ -1,151 +1,108 @@
 
-# 📝 Exam and Certificate Microservice
+# 🎓 E-Learning Website
 
-This microservice is part of a larger microservice-based system. It manages the full lifecycle of exams including creation, submission, grading, PDF certificate generation, and email delivery.
+## 📖 Overview
 
----
+The E-Learning Website is a comprehensive platform designed to facilitate online education.
+It allows instructors to create and manage courses, while students can enroll, learn, and track their progress.
+The platform is built using PHP and MySQL, ensuring a robust and scalable solution for educational needs.
+
+## 🛠️ Technologies Used
+
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Backend**: PHP
+- **Database**: MySQL
+- **Styling Framework**: Bootstrap
+- **Version Control**: Git
 
 ## 🚀 Features
 
-- 📄 Create exams with PDF attachments
-- 📤 Submit exam responses
-- 🧮 Grade exams and mark as passed/failed
-- 📜 Generate PDF certificates for passed exams
-- 📧 Send certificates via email
-- 🔍 Retrieve exams by user
+- User Authentication: Secure login and registration for students and instructors.
+- Course Management: Instructors can create, update, and delete courses.
+- Enrollment System: Students can enroll in courses and access materials.
+- Progress Tracking: Monitor course completion status.
+- Responsive Design: Accessible on various devices.
 
----
-
-## 🛠️ Tech Stack
-
-- **Java 17**
-- **Spring Boot 3+**
-- **Spring Data JPA**
-- **RESTful APIs**
-- **Feign Client** (for User Microservice)
-- **JavaMailSender** for email services
-- **Angular** (for front-end integration)
-- **PDF files only** (uploads limited to 10MB)
-
----
-
-## 🗂️ Project Structure
+## 📁 Project Structure
 
 ```
-src/
-├── controllers        # REST endpoints
-├── services           # Business logic
-├── entities           # JPA entities
-├── repositories       # Spring Data JPA
-├── dto                # Data transfer objects
-├── client             # Feign client for User microservice
+E-learning_website/
+├── assets/
+│   ├── css/
+│   ├── js/
+│   └── images/
+├── includes/
+├── pages/
+├── database/
+│   └── elearning_db.sql
+├── index.php
+├── config.php
+└── README.md
 ```
 
----
+## ⚙️ Installation
 
-## 📡 REST API Endpoints
+1. **Clone the Repository**
 
-### 🎓 Exam Endpoints `/api/exams`
+   ```bash
+   git clone https://github.com/touti-ayoub/E-learning_website.git
+   ```
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST   | `/` | Create a new exam with a PDF file |
-| POST   | `/{id}/submit` | Submit exam response file |
-| POST   | `/{id}/grade?score=X` | Grade an exam |
-| GET    | `/{id}` | Get exam by ID |
-| GET    | `/user/{userId}` | Get all exams by user ID |
-| GET    | `/{id}/certificate` | Download certificate for an exam |
-| GET    | `/download/{filename}` | Download a file (exam or submission) |
-| DELETE | `/{id}` | Delete an exam |
+2. **Set Up the Database**
 
-### 📜 Certificate Endpoints `/api/certificates`
+   - Create a MySQL database named `elearning_db`.
+   - Import the `elearning_db.sql` file located in the `database/` directory.
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET    | `/generate/{examId}` | Generate certificate for a passed exam |
-| GET    | `/download/{examId}` | Download the generated certificate |
-| POST   | `/send/{examId}` | Send certificate by email (requires email body) |
+3. **Configure the Application**
 
----
+   - Open `config.php` and update the database credentials:
 
-## 🧾 Entity Overview
+     ```php
+     define('DB_SERVER', 'localhost');
+     define('DB_USERNAME', 'your_username');
+     define('DB_PASSWORD', 'your_password');
+     define('DB_NAME', 'elearning_db');
+     ```
 
-### `Exam`
-- `id`, `title`, `description`, `date`, `userId`
-- `examFileUrl`, `submittedFileUrl`
-- `score`, `passed`, `status` (CREATED, SUBMITTED, GRADED, PASSED, FAILED)
-- `certificateGenerated`, `certificateUrl`
+4. **Run the Application**
 
-### `Certificate`
-- `id`, `certificateUrl`, `issuedDate`
-- One-to-one link with `Exam`
+   - Start your local server (e.g., XAMPP, WAMP).
+   - Navigate to `http://localhost/E-learning_website/` in your web browser.
 
----
+## 🧑‍💼 User Roles
 
-## 📦 File Upload
+- **Student**
+  - Browse available courses.
+  - Enroll in courses.
+  - Access course materials and track progress.
 
-- Only `.pdf` files allowed
-- Max file size: **10MB**
-- Files are renamed using UUIDs
-- Stored locally in the `/uploads` directory
+- **Instructor**
+  - Create and manage courses.
+  - Upload course content.
+  - Monitor student enrollments.
 
----
+## 📸 Screenshots
 
-## 📬 Email Notification
+*Include relevant screenshots of the homepage, course page, and dashboard here.*
 
-- Certificates are sent as attachments using `JavaMailSender`
-- Email configuration must be provided in `application.properties`
-- Example SMTP setup:
-```properties
-spring.mail.host=smtp.example.com
-spring.mail.port=587
-spring.mail.username=your-email@example.com
-spring.mail.password=your-password
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
-```
+## 🤝 Contributing
 
----
+Contributions are welcome! Please follow these steps:
 
-## 🌍 Front-End Integration
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature/YourFeature`
+3. Commit your changes: `git commit -m 'Add your feature'`
+4. Push to the branch: `git push origin feature/YourFeature`
+5. Open a pull request.
 
-### Angular Components (Examples):
-- **Create Exam Form**: with file upload
-- **Grade Exam Page**: assign scores and auto-trigger certificate generation
-- **Certificate Download Button**: appears if exam is passed
+## 📄 License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## 📬 Contact
+
+For any inquiries or feedback, please contact [your email address].
 
 ---
 
-## 🧪 Example API Usage
-
-```bash
-curl -X POST http://localhost:8080/api/exams \
-  -F "exam={\"title\":\"Spring Boot Test\",\"userId\":42}" \
-  -F "file=@/path/to/exam.pdf"
-```
-
----
-
-## 👥 Feign Client - User Microservice
-
-Used to fetch user details:
-- `GET /auth/{id}`
-- `GET /auth/username/{email}`
-- `GET /auth/all`
-
----
-
-## 📌 Notes
-
-- The backend ensures validations for file type and size
-- Logging and error handling is done using SLF4J
-- Grading automatically determines pass/fail based on score ≥ 70%
-- Certificate generation is resilient to errors (doesn’t block grading)
-
----
-
-## 📎 Authors
-
-- Developed by: **Nessim Ayadi**
-- Microservice: **Exam & Certificate Service**
-- Part of: **Microservice-based Educational Platform**
+*Happy Learning!*
