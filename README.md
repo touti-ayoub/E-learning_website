@@ -1,151 +1,131 @@
+# 📄 Exam Management & Certificate Microservice
 
-# 📝 Exam and Certificate Microservice
+## 📌 Description
 
-This microservice is part of a larger microservice-based system. It manages the full lifecycle of exams including creation, submission, grading, PDF certificate generation, and email delivery.
+This microservice is part of a distributed system for **managing exams** and **generating certificates**. It is integrated with:
 
----
+- 🎓 `Frontoffice` for students
+- 👨‍🏫 `Backoffice` for teachers
+- 🔍 **Eureka** for service discovery
+- 🌐 **API Gateway** for routing and security
+
+## 🛠️ Technologies Used
+
+- Java 17 & Spring Boot 3
+- Spring Data JPA & Hibernate
+- Spring Cloud Eureka (Client/Server)
+- Spring Cloud Gateway
+- Spring Mail (Gmail SMTP)
+- Feign Client (User Service)
+- MySQL
+- Angular (Front & Backoffice)
+- PDF Generation
+
+## 🧩 Project Structure
+
+```
+exam-microservice/
+├── controllers/
+├── entities/
+├── services/
+├── repositories/
+├── client/
+├── dto/
+├── uploads/                # PDF storage
+├── resources/
+│   └── application.properties
+├── frontend/
+│   ├── frontoffice/        # Student interface (Angular)
+│   └── backoffice/         # Teacher interface (Angular)
+```
 
 ## 🚀 Features
 
-- 📄 Create exams with PDF attachments
-- 📤 Submit exam responses
-- 🧮 Grade exams and mark as passed/failed
-- 📜 Generate PDF certificates for passed exams
-- 📧 Send certificates via email
-- 🔍 Retrieve exams by user
+- 📝 Create, submit, and grade exams.
+- 🧮 Auto-detect pass/fail status.
+- 🏆 Generate PDF certificate for passed exams.
+- 📩 Send certificates by email.
+- 📂 File upload and secure download.
+- 🌐 Access endpoints via API Gateway.
 
----
+## 💻 User Interfaces
 
-## 🛠️ Tech Stack
+### 🎓 Frontoffice (Student)
+- Upload exam submission as PDF.
+- View exam results and statuses.
+- Download or receive certificate by email.
 
-- **Java 17**
-- **Spring Boot 3+**
-- **Spring Data JPA**
-- **RESTful APIs**
-- **Feign Client** (for User Microservice)
-- **JavaMailSender** for email services
-- **Angular** (for front-end integration)
-- **PDF files only** (uploads limited to 10MB)
+### 👨‍🏫 Backoffice (Teacher)
+- View submitted exams.
+- Assign grades and trigger certificate generation.
+- Download and email certificates.
 
----
+## 🧠 Eureka & Gateway Integration
 
-## 🗂️ Project Structure
+### `application.properties`
 
-```
-src/
-├── controllers        # REST endpoints
-├── services           # Business logic
-├── entities           # JPA entities
-├── repositories       # Spring Data JPA
-├── dto                # Data transfer objects
-├── client             # Feign client for User microservice
-```
-
----
-
-## 📡 REST API Endpoints
-
-### 🎓 Exam Endpoints `/api/exams`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST   | `/` | Create a new exam with a PDF file |
-| POST   | `/{id}/submit` | Submit exam response file |
-| POST   | `/{id}/grade?score=X` | Grade an exam |
-| GET    | `/{id}` | Get exam by ID |
-| GET    | `/user/{userId}` | Get all exams by user ID |
-| GET    | `/{id}/certificate` | Download certificate for an exam |
-| GET    | `/download/{filename}` | Download a file (exam or submission) |
-| DELETE | `/{id}` | Delete an exam |
-
-### 📜 Certificate Endpoints `/api/certificates`
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET    | `/generate/{examId}` | Generate certificate for a passed exam |
-| GET    | `/download/{examId}` | Download the generated certificate |
-| POST   | `/send/{examId}` | Send certificate by email (requires email body) |
-
----
-
-## 🧾 Entity Overview
-
-### `Exam`
-- `id`, `title`, `description`, `date`, `userId`
-- `examFileUrl`, `submittedFileUrl`
-- `score`, `passed`, `status` (CREATED, SUBMITTED, GRADED, PASSED, FAILED)
-- `certificateGenerated`, `certificateUrl`
-
-### `Certificate`
-- `id`, `certificateUrl`, `issuedDate`
-- One-to-one link with `Exam`
-
----
-
-## 📦 File Upload
-
-- Only `.pdf` files allowed
-- Max file size: **10MB**
-- Files are renamed using UUIDs
-- Stored locally in the `/uploads` directory
-
----
-
-## 📬 Email Notification
-
-- Certificates are sent as attachments using `JavaMailSender`
-- Email configuration must be provided in `application.properties`
-- Example SMTP setup:
 ```properties
-spring.mail.host=smtp.example.com
+spring.application.name=microservice4
+server.port=8050
+
+# Eureka Configuration
+eureka.client.service-url.defaultZone=http://localhost:8761/eureka
+eureka.client.register-with-eureka=true
+
+# MySQL Configuration
+spring.datasource.url=jdbc:mysql://localhost:3306/user?createDatabaseIfNotExist=true&serverTimezone=UTC
+spring.datasource.username=root
+spring.datasource.password=
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
+
+# Email Configuration (use environment variables in production!)
+spring.mail.host=smtp.gmail.com
 spring.mail.port=587
-spring.mail.username=your-email@example.com
-spring.mail.password=your-password
+spring.mail.username=nessimayadi4@gmail.com
+spring.mail.password=YOUR_APP_PASSWORD_HERE
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
+
+# File Upload Limits
+file.upload-dir=uploads/exams
+file.certificate-dir=certificates
+spring.servlet.multipart.max-file-size=10MB
+spring.servlet.multipart.max-request-size=10MB
 ```
 
----
+⚠️ **Security Tip**: Never hardcode credentials. Use environment variables or external config.
 
-## 🌍 Front-End Integration
+## 📡 API Endpoints (via Gateway)
 
-### Angular Components (Examples):
-- **Create Exam Form**: with file upload
-- **Grade Exam Page**: assign scores and auto-trigger certificate generation
-- **Certificate Download Button**: appears if exam is passed
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST   | `/api/exams` | Create a new exam |
+| POST   | `/api/exams/{id}/submit` | Submit an exam |
+| POST   | `/api/exams/{id}/grade` | Grade an exam |
+| GET    | `/api/exams/user/{userId}` | Get exams for a student |
+| GET    | `/api/exams/{id}/certificate` | Download certificate |
+| GET    | `/api/certificates/generate/{id}` | Generate certificate manually |
+| POST   | `/api/certificates/send/{id}` | Send certificate by email |
+| GET    | `/api/exams/download/{filename}` | Download PDF file |
 
----
-
-## 🧪 Example API Usage
+## 📥 Example Request
 
 ```bash
-curl -X POST http://localhost:8080/api/exams \
-  -F "exam={\"title\":\"Spring Boot Test\",\"userId\":42}" \
-  -F "file=@/path/to/exam.pdf"
+curl -X POST http://localhost:8080/api/exams -F "exam={\"title\":\"Java Basics\",\"description\":\"Intro exam\",\"userId\":2}" -F "file=@/path/to/exam.pdf"
 ```
 
----
+## 🔒 Validation Rules
 
-## 👥 Feign Client - User Microservice
+- ✅ Only `.pdf` files allowed
+- ⛔ Max file size: 10MB
+- 🧠 State validation before grading or submission
+- 🔐 Path cleaning & secure downloads
 
-Used to fetch user details:
-- `GET /auth/{id}`
-- `GET /auth/username/{email}`
-- `GET /auth/all`
+## 📁 File Storage
 
----
+All PDFs (exam and certificate) are stored locally in `uploads/` and `certificates/` folders. Ensure these exist and are writable.
 
-## 📌 Notes
+## 📝 License
 
-- The backend ensures validations for file type and size
-- Logging and error handling is done using SLF4J
-- Grading automatically determines pass/fail based on score ≥ 70%
-- Certificate generation is resilient to errors (doesn’t block grading)
-
----
-
-## 📎 Authors
-
-- Developed by: **Nessim Ayadi**
-- Microservice: **Exam & Certificate Service**
-- Part of: **Microservice-based Educational Platform**
+Open-source under MIT License.
