@@ -1,6 +1,5 @@
 # E-Learning Website
 
-![Project Banner](https://via.placeholder.com/1200x300?text=E-Learning+Platform)
 
 A comprehensive E-learning platform designed to provide an interactive and engaging educational experience for students and instructors.
 
