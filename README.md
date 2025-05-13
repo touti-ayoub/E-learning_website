@@ -185,13 +185,6 @@ Our RESTful API provides endpoints for all platform functionalities. The detaile
 ![Course Page](https://via.placeholder.com/800x400?text=Course+Page)
 ![Discussion Forum](https://via.placeholder.com/800x400?text=Discussion+Forum)
 
-## 🗺️ Roadmap
-
-- **Phase 1**: Core platform functionality (user authentication, course management)
-- **Phase 2**: Advanced features (live sessions, interactive assessments)
-- **Phase 3**: Mobile application development
-- **Phase 4**: AI-powered learning recommendations
-- **Phase 5**: Integration with third-party learning tools
 
 ## 🤝 Contributing
 
