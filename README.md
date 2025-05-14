@@ -2,6 +2,8 @@
 
 
 A comprehensive E-learning platform designed to provide an interactive and engaging educational experience for students and instructors.
+![infinity 2](https://github.com/user-attachments/assets/ac4b24f1-0297-4f43-991a-abab79a78aa2)
+
 
 ## 📋 Table of Contents
 
@@ -180,10 +182,8 @@ Our RESTful API provides endpoints for all platform functionalities. The detaile
 - `/api/payments` - Payment processing
 
 ## 📸 Screenshots
+![3](https://github.com/user-attachments/assets/0d23e786-a07e-4340-ae67-2fbf10a6e191)
 
-![Dashboard](https://via.placeholder.com/800x400?text=Dashboard)
-![Course Page](https://via.placeholder.com/800x400?text=Course+Page)
-![Discussion Forum](https://via.placeholder.com/800x400?text=Discussion+Forum)
 
 
 ## 🤝 Contributing
